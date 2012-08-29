@@ -3,8 +3,16 @@
  */
 package models;
 
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.TypedQuery;
+
+import play.data.validation.Constraints.Required;
+import play.db.jpa.JPA;
 
 /**
  * Le Java Bean contenant les informations génériques du Workshop.
@@ -12,93 +20,46 @@ import java.util.Queue;
  * @author cachavezley
  * @see WorkshopSession
  */
+@Entity
 public class Workshop {
+
+	/**
+	 * serialVersionUID
+	 */
+	private static final long serialVersionUID = 4522289643447732357L;
+
+	/**
+	 * L'identifiant
+	 */
+	@Id
+    @GeneratedValue
+	public Long id;
 
 	/**
 	 * Le sujet du workshop.
 	 */
-	private String subject;
+	@Required
+	public String subject;
 	
 	/**
 	 * La description du contenu du workshop.
 	 */
-	private String description;
+	public String description;
 	
 	/**
 	 * L'url de l'image à utiliser.
 	 */
-	private String image;
+	public String image;
 	
 	/**
 	 * Le speaker proposé du workshop
 	 */
-	private Queue<User> speakers = new LinkedList<>();
+	//public Queue<User> speakers = new LinkedList<>();
 	
 	/**
 	 * Constructeur par défaut
 	 */
 	public Workshop() {
 	}
-
-	/**
-	 * @return the subject
-	 */
-	public String getSubject() {
-		return subject;
-	}
-
-	/**
-	 * @param subject the subject to set
-	 */
-	public void setSubject(String subject) {
-		this.subject = subject;
-	}
-
-	/**
-	 * @return the description
-	 */
-	public String getDescription() {
-		return description;
-	}
-
-	/**
-	 * @param description the description to set
-	 */
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	/**
-	 * @return the image
-	 */
-	public String getImage() {
-		return image;
-	}
-
-	/**
-	 * @param image the image to set
-	 */
-	public void setImage(String image) {
-		this.image = image;
-	}
-
-	/**
-	 * TODO on devrait retourner ça ou une copie pour garder la cohérence interne?
-	 * @return the speakers
-	 */
-	public Queue<User> getSpeakers() {
-		return speakers;
-	}
-
-	/**
-	 * TODO ça sert à qqch cette méthode ou on devrait avoir de méthodes
-	 * addSpeaker(...) et removeSpeaker(...) directement ici dans la classe
-	 * Workshop?
-	 * @param speakers the speakers to set
-	 */
-	public void setSpeakers(Queue<User> speakers) {
-		this.speakers = speakers;
-	}
-	
 	
 }
