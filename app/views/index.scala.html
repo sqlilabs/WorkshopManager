@@ -1,7 +1,34 @@
-@(message: String)
+@(workshops: List[Workshop], workshopForm: Form[Workshop])
 
-@main("Welcome to Play 2.0") {
-    
-    @play20.welcome(message, style = "Java")
-    
+@import helper._
+
+@main("Liste des Workshops") {
+	
+	<h1>@workshops.size() workshop(s)</h1>
+	
+	<ul>
+		@for(workshop <- workshops) {
+			<li>
+				@workshop.subject, 
+				@workshop.description, 
+				@workshop.image
+				
+				@form(routes.Application.deleteWorkshop(workshop.id)) {
+					<input type="submit" value="Delete">
+				}
+			</li>
+		}
+	</ul>
+	
+	<h2>Add a new workshop</h2>
+	
+	@form(routes.Application.newWorkshop()) {
+		@inputText(workshopForm("subject"))
+		@inputText(workshopForm("description"))
+		@inputText(workshopForm("image"))
+		
+		<input type="submit" value="Create">
+	}
+	
 }
+ 
