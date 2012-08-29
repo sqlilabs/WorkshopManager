@@ -3,16 +3,11 @@
  */
 package models;
 
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.TypedQuery;
 
 import play.data.validation.Constraints.Required;
-import play.db.jpa.JPA;
 
 /**
  * Le Java Bean contenant les informations génériques du Workshop.
