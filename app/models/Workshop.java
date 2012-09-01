@@ -4,10 +4,16 @@
 package models;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import play.data.validation.Constraints.Required;
 
@@ -18,6 +24,7 @@ import play.data.validation.Constraints.Required;
  * @see WorkshopSession
  */
 @Entity
+@Table(name = "WORKSHOP")
 public class Workshop implements Serializable {
 
 	/**
@@ -47,9 +54,9 @@ public class Workshop implements Serializable {
 	private String image;
 	
 	/**
-	 * Le speaker proposé du workshop
+	 * Les speakers proposé du workshop
 	 */
-	//public Queue<User> speakers = new LinkedList<>();
+	private Set<User> speakers = new HashSet<>();
 	
 	/**
 	 * Constructeur par défaut
@@ -113,6 +120,25 @@ public class Workshop implements Serializable {
 	 */
 	public void setImage(String image) {
 		this.image = image;
+	}
+
+	/**
+	 * @return the speakers
+	 */
+	@OneToMany
+	@JoinTable(
+			name="WORKSHOP_SPEAKERS",
+			joinColumns = @JoinColumn(name="workshop_id"),
+			inverseJoinColumns = @JoinColumn(name = "user_id"))
+	public Set<User> getSpeakers() {
+		return speakers;
+	}
+
+	/**
+	 * @param speakers the speakers to set
+	 */
+	public void setSpeakers(Set<User> speakers) {
+		this.speakers = speakers;
 	}
 	
 }

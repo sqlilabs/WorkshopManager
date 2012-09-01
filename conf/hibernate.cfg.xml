@@ -23,6 +23,8 @@
         <!-- Echo all executed SQL to stdout -->
         <property name="show_sql">true</property>
         
-		<mapping class="models.Workshop"/>
+		<mapping class="models.User" />
+		<mapping class="models.Workshop" />
+		<mapping class="models.WorkshopSession" />
 	</session-factory>
 </hibernate-configuration>

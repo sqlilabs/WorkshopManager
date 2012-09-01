@@ -3,13 +3,32 @@
  */
 package models;
 
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * Un utilisateur dans l'application
  * 
  * @author cachavezley
  */
-public class User {
+@Entity
+@Table(name = "USER")
+public class User implements Serializable {
 	
+	/**
+	 * serialVersionUID
+	 */
+	private static final long serialVersionUID = 7097349530301633288L;
+
+	/**
+	 * L'identifiant
+	 */
+	private Long id;
+
 	/**
 	 * Le prénom.
 	 */
@@ -32,8 +51,24 @@ public class User {
 	}
 
 	/**
+	 * @return the id
+	 */
+	@Id
+	public Long getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	/**
 	 * @return the firstName
 	 */
+	@Column(name = "first_name")
 	public String getFirstName() {
 		return firstName;
 	}
@@ -48,6 +83,7 @@ public class User {
 	/**
 	 * @return the lastName
 	 */
+	@Column(name = "last_name")
 	public String getLastName() {
 		return lastName;
 	}
