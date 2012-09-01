@@ -25,6 +25,7 @@ object ApplicationBuild extends Build {
 		 */
 		"org.hibernate" 				% "hibernate-core" 					% hibernateVersion,
 		"org.springframework" 			% "spring-beans" 					% springVersion,
+		"org.springframework.data" 		% "spring-data-jpa" 				% "1.1.2.RELEASE",
 		
 		/*
 		 * Dépendances des tests
