@@ -20,7 +20,7 @@ public class Application extends Controller {
 	 */
 	public static Result welcome() {	
 		// We render the welcome page
-		return ok(welcome.render("Your new application is ready.", getWorkshops()));
+		return ok(welcome.render("Workshop Manager", getWorkshops()));
 	}
 
 	

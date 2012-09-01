@@ -6,6 +6,8 @@ package models;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import play.data.validation.Constraints.Required;
+
 /**
  * Le Java Bean contenant les informations génériques du Workshop.
  * 
@@ -17,6 +19,7 @@ public class Workshop {
 	/**
 	 * Le sujet du workshop.
 	 */
+	@Required
 	private String subject;
 	
 	/**
