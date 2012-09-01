@@ -28,8 +28,6 @@ public class Workshop implements Serializable {
 	/**
 	 * L'identifiant
 	 */
-	@Id
-    @GeneratedValue
 	private Long id;
 
 	/**
@@ -62,6 +60,8 @@ public class Workshop implements Serializable {
 	/**
 	 * @return the id
 	 */
+	@Id
+    @GeneratedValue
 	public Long getId() {
 		return id;
 	}
