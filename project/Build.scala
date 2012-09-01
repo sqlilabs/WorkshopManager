@@ -9,7 +9,8 @@ object ApplicationBuild extends Build {
 
     val appDependencies = Seq(
       // Add your project dependencies here,
-      "com.github.twitter" % "bootstrap" % "2.0.2"
+      "com.github.twitter" % "bootstrap" % "2.0.2",
+      "org.hibernate" % "hibernate-entitymanager" % "3.6.9.Final"
     )
 
     val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings(
