@@ -12,10 +12,10 @@ import play.GlobalSettings;
 public class Global extends GlobalSettings {
 
 	/* (non-Javadoc)
-	 * @see play.GlobalSettings#beforeStart(play.Application)
+	 * @see play.GlobalSettings#onStart(play.Application)
 	 */
 	@Override
-	public void beforeStart(Application arg0) {
+	public void onStart(Application arg0) {
 		/*
 		 * Recréé la BDD avec les informations des mappings
 		 * décrits dans hibernate.cfg.xml
