@@ -1,82 +1,33 @@
 package controllers;
 
-import java.util.List;
-
-import javax.persistence.TypedQuery;
-
-import models.Workshop;
-import play.*;
-import play.api.templates.Html;
-import play.data.Form;
-import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
-import play.mvc.*;
-
-import views.html.*;
+import play.mvc.Controller;
+import play.mvc.Result;
+import views.html.welcome.welcome;
 
 public class Application extends Controller {
-	
-	static Form<Workshop> workshopForm = form(Workshop.class);
+    
 
+	// <--------------------------------------------------------------------------->
+	// - 							Actions Methods
+	// <--------------------------------------------------------------------------->	
 	/**
-	 * La page par défaut
-	 * @return un redirect vers la liste de workshops
-	 */
-	public static Result index() {
-		return redirect(routes.Application.list());
-	}
-	
-	/**
-	 * Affiche la liste des workshops
-	 * @return
+	 * This method is the action that render the welcome page
+	 * 
+	 * @return Result the http response
 	 */
 	@Transactional(readOnly = true)
-	public static Result list() {
-		TypedQuery<Workshop> query = JPA.em().createQuery("SELECT ws FROM Workshop ws", Workshop.class);
-		List<Workshop> list = query.getResultList();
-		return ok(
-				views.html.index.render(
-						list, 
-						workshopForm));
+	public static Result welcome() {	
+		// We render the welcome page
+		return ok(welcome.render("Workshop Manager", WorkshopController.getWorkshops()));
 	}
 	
 	/**
+	 * TODO voir à quoi ça sert ce lien ou l'enlever
 	 * @return
 	 */
-	@Transactional
-	public static Result newWorkshop() {
-		Form<Workshop> filledForm = workshopForm.bindFromRequest();
-		
-		if(filledForm.hasErrors()) {
-			List<Workshop> list = JPA.em().createQuery("SELECT ws FROM Workshop ws", Workshop.class).getResultList();
-			Html html = views.html.index.render(list , filledForm);
-			return badRequest(html);
-			
-		} else {
-			Workshop workshop = filledForm.get();
-			JPA.em().persist(workshop);
-			
-			List<Workshop> list = JPA.em().createQuery("SELECT ws FROM Workshop ws", Workshop.class).getResultList();
-			Html html = views.html.index.render(list , filledForm);
-			
-			return ok(html);
-		}
+	public static Result workshops() {
+		return TODO;
 	}
 	
-	/**
-	 * @param id l'identifiant du workshop
-	 * @return
-	 */
-	@Transactional
-	public static Result deleteWorkshop(Long id) {
-		Workshop ws = JPA.em().find(Workshop.class, id);
-		JPA.em().remove(ws);
-		
-		List<Workshop> list = JPA.em().createQuery("SELECT ws FROM Workshop ws", Workshop.class).getResultList();
-		Html html = views.html.index.render(list , workshopForm);
-		
-		return ok(html);
-	}
-	
-
 }

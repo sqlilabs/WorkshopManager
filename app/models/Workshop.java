@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -97,6 +98,7 @@ public class Workshop implements Serializable {
 	/**
 	 * @return the description
 	 */
+	@Column(length = 1000)
 	public String getDescription() {
 		return description;
 	}

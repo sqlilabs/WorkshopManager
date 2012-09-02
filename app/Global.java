@@ -1,3 +1,4 @@
+
 import org.hibernate.cfg.Configuration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 
@@ -15,7 +16,7 @@ public class Global extends GlobalSettings {
 	 * @see play.GlobalSettings#onStart(play.Application)
 	 */
 	@Override
-	public void onStart(Application arg0) {
+	public void beforeStart(Application arg0) {
 		/*
 		 * Recréé la BDD avec les informations des mappings
 		 * décrits dans hibernate.cfg.xml

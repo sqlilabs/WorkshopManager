@@ -1,0 +1,10 @@
+.center-text {
+	text-align: center;
+}
+
+.well-border-only {
+	background-color: white;
+	-moz-box-shadow: 5px 5px 5px #888;
+	-webkit-box-shadow: 5px 5px 5px #888;
+	box-shadow: 5px 5px 5px #888;
+}
