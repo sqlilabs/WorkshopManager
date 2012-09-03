@@ -3,7 +3,13 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.index()
+GET		/							controllers.Application.welcome()
+GET 	/workshops					controllers.Application.workshops()
+
+# Workshops
+GET 	/workshops/add				controllers.WorkshopController.blank()
+POST    /workshops/add				controllers.WorkshopController.save()
+POST	/workshops/:id/delete		controllers.WorkshopController.deleteWorkshop(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

@@ -11,3 +11,6 @@ target
 tmp
 .history
 dist
+/.settings
+/.classpath
+/.project
