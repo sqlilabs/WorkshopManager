@@ -3,8 +3,15 @@
  */
 package models;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  * Une séance d'un Workshop.
@@ -12,7 +19,19 @@ import java.util.GregorianCalendar;
  * @author cachavezley
  *
  */
-public class WorkshopSession {
+@Entity
+@Table(name = "WORKSHOP_SESSION")
+public class WorkshopSession implements Serializable {
+
+	/**
+	 * serialVersionUID
+	 */
+	private static final long serialVersionUID = 9112271812179769416L;
+
+	/**
+	 * L'identifiant
+	 */
+	private Long id;
 	
 	/**
 	 * L'url du doodle qui contient les participants à cette séance.
@@ -41,8 +60,24 @@ public class WorkshopSession {
 	}
 
 	/**
+	 * @return the id
+	 */
+	@Id
+	public Long getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	/**
 	 * @return the doodleUrl
 	 */
+	@Column(name = "doodle_url")
 	public String getDoodleUrl() {
 		return doodleUrl;
 	}
@@ -85,6 +120,7 @@ public class WorkshopSession {
 	/**
 	 * @return the speaker
 	 */
+	@ManyToOne
 	public User getSpeaker() {
 		return speaker;
 	}

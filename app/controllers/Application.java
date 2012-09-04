@@ -1,15 +1,13 @@
 package controllers;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.welcome.welcome;
 
 public class Application extends Controller {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
-	
+    
+
 	// <--------------------------------------------------------------------------->
 	// - 							Actions Methods
 	// <--------------------------------------------------------------------------->	
@@ -18,35 +16,18 @@ public class Application extends Controller {
 	 * 
 	 * @return Result the http response
 	 */
+	@Transactional(readOnly = true)
 	public static Result welcome() {	
 		// We render the welcome page
-		return ok(welcome.render("Workshop Manager", getWorkshops()));
+		return ok(welcome.render("Workshop Manager", WorkshopController.getWorkshops()));
 	}
-
 	
-	// <--------------------------------------------------------------------------->
-	// - 							helper methods
-	// <--------------------------------------------------------------------------->	
-	public static List<String> getWorkshops() {
-		List<String> wks = new ArrayList<String>();
-		for (int i = 1; i <= 5; i++) {
-			StringBuffer sb = new StringBuffer();
-			sb.append("WorksShop_");
-			sb.append(i);
-			wks.add(sb.toString());
-		}
-		return wks;
-	}
-
-	
-	// <--------------------------------------------------------------------------->
-	// - 							Constructor(s)
-	// <--------------------------------------------------------------------------->
 	/**
-	 * Constructor by default
+	 * TODO voir à quoi ça sert ce lien ou l'enlever
+	 * @return
 	 */
-	public Application() {
-		super();
+	public static Result workshops() {
+		return TODO;
 	}
-
+	
 }

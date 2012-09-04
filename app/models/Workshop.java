@@ -3,8 +3,18 @@
  */
 package models;
 
-import java.util.LinkedList;
-import java.util.Queue;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import play.data.validation.Constraints.Required;
 
@@ -14,7 +24,19 @@ import play.data.validation.Constraints.Required;
  * @author cachavezley
  * @see WorkshopSession
  */
-public class Workshop {
+@Entity
+@Table(name = "WORKSHOP")
+public class Workshop implements Serializable {
+
+	/**
+	 * serialVersionUID
+	 */
+	private static final long serialVersionUID = -6669398454928349805L;
+
+	/**
+	 * L'identifiant
+	 */
+	private Long id;
 
 	/**
 	 * Le sujet du workshop.
@@ -33,14 +55,30 @@ public class Workshop {
 	private String image;
 	
 	/**
-	 * Le speaker proposé du workshop
+	 * Les speakers proposé du workshop
 	 */
-	private Queue<User> speakers = new LinkedList<>();
+	private Set<User> speakers = new HashSet<>();
 	
 	/**
 	 * Constructeur par défaut
 	 */
 	public Workshop() {
+	}
+
+	/**
+	 * @return the id
+	 */
+	@Id
+    @GeneratedValue
+	public Long getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	/**
@@ -60,6 +98,7 @@ public class Workshop {
 	/**
 	 * @return the description
 	 */
+	@Column(length = 1000)
 	public String getDescription() {
 		return description;
 	}
@@ -86,22 +125,22 @@ public class Workshop {
 	}
 
 	/**
-	 * TODO on devrait retourner ça ou une copie pour garder la cohérence interne?
 	 * @return the speakers
 	 */
-	public Queue<User> getSpeakers() {
+	@OneToMany
+	@JoinTable(
+			name="WORKSHOP_SPEAKERS",
+			joinColumns = @JoinColumn(name="workshop_id"),
+			inverseJoinColumns = @JoinColumn(name = "user_id"))
+	public Set<User> getSpeakers() {
 		return speakers;
 	}
 
 	/**
-	 * TODO ça sert à qqch cette méthode ou on devrait avoir de méthodes
-	 * addSpeaker(...) et removeSpeaker(...) directement ici dans la classe
-	 * Workshop?
 	 * @param speakers the speakers to set
 	 */
-	public void setSpeakers(Queue<User> speakers) {
+	public void setSpeakers(Set<User> speakers) {
 		this.speakers = speakers;
 	}
-	
 	
 }
