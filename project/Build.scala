@@ -23,8 +23,7 @@ object ApplicationBuild extends Build {
 	)
 	
 	val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings(
-		// Add your own project settings here
+		resolvers += "webjars" at "http://webjars.github.com/m2",
 		ebeanEnabled := false
 	)
-
 }
