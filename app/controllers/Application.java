@@ -49,7 +49,7 @@ public class Application extends Controller {
 	 */
 	public static String isActive( String tabName ) {
 		String currentTab = (String) Http.Context.current().args.get("ongletActif");
-		return currentTab.equals( tabName ) ? "class=active" : "";
+		return tabName.equals( currentTab ) ? "class=active" : "";
 	}
 	
 	
