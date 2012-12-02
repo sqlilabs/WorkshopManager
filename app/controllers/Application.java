@@ -2,6 +2,7 @@ package controllers;
 
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
+import play.mvc.Http;
 import play.mvc.Http.Context;
 import play.mvc.Result;
 import views.html.welcome.welcome;
@@ -20,7 +21,8 @@ public class Application extends Controller {
 	 */
 	@Transactional(readOnly = true)
 	public static Result welcome() {
-		Context.current().args.put("wsPlanifie", WorkshopController.getWorkshopsPlanifie());  
+		Context.current().args.put("wsPlanifie", WorkshopController.getWorkshopsPlanifie()); 
+		Context.current().args.put("ongletActif", "home");
 		// We render the welcome page
 		return ok(welcome.render("Workshop Manager", WorkshopController.getWorkshops()));
 	}
@@ -33,8 +35,22 @@ public class Application extends Controller {
 	@Transactional(readOnly = true)
 	public static Result workshops() {
 		Context.current().args.put("wsPlanifie", WorkshopController.getWorkshopsPlanifie());
+		Context.current().args.put("ongletActif", "alreadyPlayed");
 		// We render the welcome page
 		return ok(alreadyPlayed.render("Les Workshops déjà présentés", WorkshopController.getWorkshopsAlreadyPlayed()));
 	}
+	
+	// <--------------------------------------------------------------------------->
+	// - 							helper methods
+	// <--------------------------------------------------------------------------->
+	/**
+	 * @param tabName le nom du tab à tester
+	 * @return le code html du style css à appliquer si c'est l'onglet selectionné
+	 */
+	public static String isActive( String tabName ) {
+		String currentTab = (String) Http.Context.current().args.get("ongletActif");
+		return currentTab.equals( tabName ) ? "class=active" : "";
+	}
+	
 	
 }
