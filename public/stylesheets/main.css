@@ -20,3 +20,8 @@
 .floatRight {
 	float: right;
 }
+
+.labelWS {
+	font-style: normal;
+	font-weight: bold;
+}

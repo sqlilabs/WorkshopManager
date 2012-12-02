@@ -12,9 +12,12 @@
 	<div class="row-fluid">
 		<div class="span10 well well-border-only">
 			<h3>@workshop.getSubject</h3>
-			<p><b>Présenté par: </b> @workshop.getSpeaker().getFirstName() @workshop.getSpeaker().getLastName()</p>
-			<p><b>Lieu: </b> @workshop.getLocation()</p>
+			<div class="cadre">
+				<p><i class="icon-user"></i><span class="labelWS" > Speaker:</span> @workshop.getSpeaker().getFirstName() @workshop.getSpeaker().getLastName()</p>
+				<p><i class="icon-map-marker"></i><span class="labelWS" > Lieu:</span> @workshop.getLocation()</p>
+			</div>
 			<p>@workshop.getDescription()</p>
+			<p><a class="btn btn-mini btn-success floatRight" href="@workshop.getLienDoodle()">S'inscrire</a></p>
 		</div>
 	</div>
 }

@@ -4,6 +4,7 @@
 package models;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -83,12 +84,25 @@ public class Workshop implements Serializable {
 	private String location;
 	
 	/**
+	 * Le lien Doodle
+	 */
+	private String lienDoodle;
+	
+	
+	//<--------------------------------------------------------------------------->
+	//-							 Constructeur(s)	        
+	//<--------------------------------------------------------------------------->
+	/**
 	 * Constructeur par défaut
 	 */
 	public Workshop() {
 		super();
 	}
 
+	
+	//<--------------------------------------------------------------------------->
+	//-							Setter/Getter	        
+	//<--------------------------------------------------------------------------->	
 	/**
 	 * @return the id
 	 */
@@ -167,34 +181,82 @@ public class Workshop implements Serializable {
 		this.speakers = speakers;
 	}
 
-	public Date getLastPlay() {
-		return lastPlay;
+
+	/**
+	 * @return the lienDoodle
+	 */
+	public String getLienDoodle() {
+		return lienDoodle;
 	}
 
-	public void setLastPlay(Date lastPlay) {
-		this.lastPlay = lastPlay;
+
+	/**
+	 * @param lienDoodle the lienDoodle to set
+	 */
+	public void setLienDoodle(String lienDoodle) {
+		this.lienDoodle = lienDoodle;
 	}
 
-	public Date getNextPlay() {
-		return nextPlay;
-	}
 
-	public void setNextPlay(Date nextPlay) {
-		this.nextPlay = nextPlay;
-	}
-
+	/**
+	 * @return the speaker
+	 */
 	public User getSpeaker() {
 		return speaker;
 	}
 
+
+	/**
+	 * @param speaker the speaker to set
+	 */
 	public void setSpeaker(User speaker) {
 		this.speaker = speaker;
 	}
 
+
+	/**
+	 * @return the lastPlay
+	 */
+	public Date getLastPlay() {
+		return lastPlay;
+	}
+
+
+	/**
+	 * @param lastPlay the lastPlay to set
+	 */
+	public void setLastPlay(Date lastPlay) {
+		this.lastPlay = lastPlay;
+	}
+
+
+	/**
+	 * @return the nextPlay
+	 */
+	public Date getNextPlay() {
+		return nextPlay;
+	}
+
+
+	/**
+	 * @param nextPlay the nextPlay to set
+	 */
+	public void setNextPlay(Date nextPlay) {
+		this.nextPlay = nextPlay;
+	}
+
+
+	/**
+	 * @return the location
+	 */
 	public String getLocation() {
 		return location;
 	}
 
+
+	/**
+	 * @param location the location to set
+	 */
 	public void setLocation(String location) {
 		this.location = location;
 	}
