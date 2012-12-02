@@ -4,6 +4,7 @@
 package models;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -60,9 +61,32 @@ public class Workshop implements Serializable {
 	private Set<User> speakers = new HashSet<>();
 	
 	/**
+	 * Le speaker du Workshop
+	 */
+	private User speaker = new User();
+	
+	/**
+	 * Date à laquelle le workshop a été donné pour la dernière fois. Si null alors c'est 
+	 * que le workshop n'a jamais été donné
+	 */
+	private Date lastPlay;
+	
+	/**
+	 * Date à laquelle le workshop est planifié. Si null alors c'est 
+	 * que le workshop n'est pas planifié
+	 */
+	private Date nextPlay;
+	
+	/**
+	 * la lieu du Workshop
+	 */
+	private String location;
+	
+	/**
 	 * Constructeur par défaut
 	 */
 	public Workshop() {
+		super();
 	}
 
 	/**
@@ -141,6 +165,38 @@ public class Workshop implements Serializable {
 	 */
 	public void setSpeakers(Set<User> speakers) {
 		this.speakers = speakers;
+	}
+
+	public Date getLastPlay() {
+		return lastPlay;
+	}
+
+	public void setLastPlay(Date lastPlay) {
+		this.lastPlay = lastPlay;
+	}
+
+	public Date getNextPlay() {
+		return nextPlay;
+	}
+
+	public void setNextPlay(Date nextPlay) {
+		this.nextPlay = nextPlay;
+	}
+
+	public User getSpeaker() {
+		return speaker;
+	}
+
+	public void setSpeaker(User speaker) {
+		this.speaker = speaker;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
 	}
 	
 }

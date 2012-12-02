@@ -3,6 +3,7 @@
  */
 package controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.TypedQuery;
@@ -13,6 +14,7 @@ import play.data.Form;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
+import play.mvc.Http;
 import play.mvc.Result;
 import views.html.welcome.welcome;
 import views.html.workshops.addWorkshop;
@@ -55,14 +57,34 @@ public class WorkshopController extends Controller {
 	 * TODO Remplacer les helpers par un DAO
      */
 	/**
-	 * @return
+	 * @return la liste des workshops non joué
 	 */
 	public static List<Workshop> getWorkshops() {
-		TypedQuery<Workshop> query = JPA.em().createQuery("SELECT ws FROM Workshop ws", Workshop.class);
+		TypedQuery<Workshop> query = JPA.em().createQuery("SELECT ws FROM Workshop ws WHERE nextPlay IS null AND lastPlay IS null", Workshop.class);
 		List<Workshop> list = query.getResultList();
 		return list;
 	}
   
+	
+	/**
+	 * @return la liste des workshops planifiés
+	 */
+	public static List<Workshop> getWorkshopsPlanifie() {
+		TypedQuery<Workshop> query = JPA.em().createQuery("SELECT ws FROM Workshop ws WHERE nextPlay IS NOT null", Workshop.class);
+		List<Workshop> list = query.getResultList();
+		return list;
+	}
+	
+	
+	/**
+	 * @return la liste des Workshops planifiés qui a été placé dans le context
+	 */
+	public static List<Workshop> getWorkshopsPlanifieFromContext() {
+		List<Workshop> listWsPlanifie = (List<Workshop>) Http.Context.current().args.get("wsPlanifie");
+		return listWsPlanifie != null ? listWsPlanifie : new ArrayList<Workshop>();
+	}
+	
+	
     /**
      * Handle the 'new workshop form' submission 
      */

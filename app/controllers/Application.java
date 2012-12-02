@@ -2,6 +2,7 @@ package controllers;
 
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
+import play.mvc.Http.Context;
 import play.mvc.Result;
 import views.html.welcome.welcome;
 
@@ -17,7 +18,8 @@ public class Application extends Controller {
 	 * @return Result the http response
 	 */
 	@Transactional(readOnly = true)
-	public static Result welcome() {	
+	public static Result welcome() {
+		Context.current().args.put("wsPlanifie", WorkshopController.getWorkshopsPlanifie());  
 		// We render the welcome page
 		return ok(welcome.render("Workshop Manager", WorkshopController.getWorkshops()));
 	}

@@ -1,4 +1,4 @@
-@(page:String)
+@( page:String )
 <div class="row-fluid">
 	<div class="span12 center-text">
 		<a href="@routes.WorkshopController.blank()" class="btn btn-large btn-primary">Submit a Workshop</a>
@@ -7,24 +7,14 @@
 <div class="row-fluid">
 	<div class="span12 center-text">&nbsp;</div>
 </div>
-<div class="row-fluid">
-	<div class="span10 well well-border-only">
-		<h3>Element A</h3>
-		<p>jkldsj j klq dklqsjldqs djq ldqs dlkqsj djsf sdqjj qlk
-			lfjldsfjskl fsdl fls qjfljsq</p>
+
+@for(workshop <- WorkshopController.getWorkshopsPlanifieFromContext()) { 
+	<div class="row-fluid">
+		<div class="span10 well well-border-only">
+			<h3>@workshop.getSubject</h3>
+			<p><b>Présenté par: </b> @workshop.getSpeaker().getFirstName() @workshop.getSpeaker().getLastName()</p>
+			<p><b>Lieu: </b> @workshop.getLocation()</p>
+			<p>@workshop.getDescription()</p>
+		</div>
 	</div>
-</div>
-<div class="row-fluid">
-	<div class="span10 well well-border-only">
-		<h3 class="center-text">Element B</h3>
-		<p>jkldsj j klq dklqsjldqs djq ldqs dlkqsj djsf sdqjj qlk
-			lfjldsfjskl fsdl fls qjfljsq</p>
-	</div>
-</div>
-<div class="row-fluid">
-	<div class="span10 well well-border-only">
-		<h3>Element B</h3>
-		<p>jkldsj j klq dklqsjldqs djq ldqs dlkqsj djsf sdqjj qlk
-			lfjldsfjskl fsdl fls qjfljsq</p>
-	</div>
-</div>
+}
