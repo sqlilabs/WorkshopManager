@@ -3,7 +3,9 @@
  */
 package controllers;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.TypedQuery;
@@ -27,6 +29,10 @@ import views.html.workshops.addWorkshop;
  */
 public class WorkshopController extends Controller {
 	
+	/**
+	 * DATE_PATTERN pattern to convert date to String
+	 */
+	private static final String DATE_PATTERN = "dd/MM/yyyy";
 	
 	//<--------------------------------------------------------------------------->
 	//-							 Constructeur(s)	        
@@ -75,6 +81,15 @@ public class WorkshopController extends Controller {
 		return list;
 	}
 	
+	/**
+	 * @return la liste des workshops déjà présentés
+	 */
+	public static List<Workshop> getWorkshopsAlreadyPlayed() {
+		TypedQuery<Workshop> query = JPA.em().createQuery("SELECT ws FROM Workshop ws WHERE lastPlay IS NOT null", Workshop.class);
+		List<Workshop> list = query.getResultList();
+		return list;
+	}
+	
 	
 	/**
 	 * @return la liste des Workshops planifiés qui a été placé dans le context
@@ -84,6 +99,13 @@ public class WorkshopController extends Controller {
 		return listWsPlanifie != null ? listWsPlanifie : new ArrayList<Workshop>();
 	}
 	
+	
+	/**
+	 * @return la date décorée
+	 */
+	public static String decorateDate( Date date ) {
+		return new SimpleDateFormat(DATE_PATTERN).format(date);
+	}
 	
     /**
      * Handle the 'new workshop form' submission 

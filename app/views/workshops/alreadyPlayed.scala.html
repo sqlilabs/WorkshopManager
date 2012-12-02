@@ -17,16 +17,19 @@
 		<div class="span11 well">
 			<div class="row-fluid">
 				<div class="span11">
+					<img class="floatRight" width="140"
+						src="http://www.sqli.com/design/fre/images/logo_sqli.com.png" />
 					<h3>@workshop.getSubject</h3>
+					<div class="cadre">
+						<p><b>Dernière session présenté par: </b> @workshop.getSpeaker().getFirstName() @workshop.getSpeaker().getLastName()</p>
+						<p><b>Dernière session le:</b> @WorkshopController.decorateDate(workshop.getLastPlay())</p>
+					</div>
 				</div>
 			</div>
 			<div class="row-fluid">
-				<div class="span3">
-					<img width="140"
-						src="http://ww1.prweb.com/prfiles/2012/02/17/9208636/gI_81373_html5_apps.png" />
-				</div>
 				<div class="span8">
 					<p>
+						<b>Description: </b>
 						@workshop.getDescription()
 					</p>
 				</div>

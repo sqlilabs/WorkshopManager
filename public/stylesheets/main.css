@@ -12,3 +12,11 @@
 .cadre {
 	padding: 10px 10px 10px 10px;
 }
+
+.clear {
+	clear: both;
+}
+
+.floatRight {
+	float: right;
+}

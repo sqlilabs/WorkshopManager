@@ -5,6 +5,7 @@ import play.mvc.Controller;
 import play.mvc.Http.Context;
 import play.mvc.Result;
 import views.html.welcome.welcome;
+import views.html.workshops.alreadyPlayed;
 
 public class Application extends Controller {
     
@@ -25,11 +26,14 @@ public class Application extends Controller {
 	}
 	
 	/**
-	 * TODO voir à quoi ça sert ce lien ou l'enlever
-	 * @return
+	 * This action allow to display the list of the already played workshop
+	 * 
+	 * @return Result the http response
 	 */
+	@Transactional(readOnly = true)
 	public static Result workshops() {
-		return TODO;
+		// We render the welcome page
+		return ok(alreadyPlayed.render("Les Workshops déjà présentés", WorkshopController.getWorkshopsAlreadyPlayed()));
 	}
 	
 }
