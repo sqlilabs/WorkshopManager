@@ -32,6 +32,7 @@ public class Application extends Controller {
 	 */
 	@Transactional(readOnly = true)
 	public static Result workshops() {
+		Context.current().args.put("wsPlanifie", WorkshopController.getWorkshopsPlanifie());
 		// We render the welcome page
 		return ok(alreadyPlayed.render("Les Workshops déjà présentés", WorkshopController.getWorkshopsAlreadyPlayed()));
 	}
