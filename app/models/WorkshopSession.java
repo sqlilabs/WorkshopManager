@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import play.data.validation.Constraints.Required;
+
 import play.data.format.Formats;
 
 
@@ -38,23 +40,20 @@ public class WorkshopSession implements Serializable {
 	/**
 	 * L'url du doodle qui contient les participants à cette séance.
 	 */
+	@Required
 	private String doodleUrl;
 	
 	/**
 	 * L'endroit où le workshop va se dérouler.
 	 */
+	@Required
 	private String location;
 	
 	/**
-	 * Date à laquelle le workshop a été donné pour la dernière fois. Si null alors c'est 
-	 * que le workshop n'a jamais été donné
+	 * Date à laquelle le workshop est planifié ou a été joué. Si null alors c'est 
+	 * que le workshop n'a jamais été planifié
 	 */
-	private Date lastPlay;
-	
-	/**
-	 * Date à laquelle le workshop est planifié. Si null alors c'est 
-	 * que le workshop n'est pas planifié
-	 */
+	@Required
 	private Date nextPlay;	
 	
 	/**
@@ -125,20 +124,6 @@ public class WorkshopSession implements Serializable {
 	 */
 	public void setSpeaker(User speaker) {
 		this.speaker = speaker;
-	}
-
-	/**
-	 * @return the lastPlay
-	 */
-	public Date getLastPlay() {
-		return lastPlay;
-	}
-
-	/**
-	 * @param lastPlay the lastPlay to set
-	 */
-	public void setLastPlay(Date lastPlay) {
-		this.lastPlay = lastPlay;
 	}
 
 	/**

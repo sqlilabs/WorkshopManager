@@ -151,7 +151,7 @@ public class WorkshopController extends Controller {
 	 * @return la liste des workshops planifiés
 	 */
 	public static List<Workshop> getWorkshopsPlanifie() {
-		TypedQuery<Workshop> query = JPA.em().createQuery("SELECT ws FROM Workshop ws WHERE ws.workshopSession.nextPlay IS NOT null", Workshop.class);
+		TypedQuery<Workshop> query = JPA.em().createQuery("SELECT ws FROM Workshop ws WHERE ws.workshopSession.nextPlay IS NOT null AND ws.workshopSession.nextPlay >= NOW()", Workshop.class);
 		List<Workshop> list = query.getResultList();
 		return list;
 	}
@@ -160,7 +160,7 @@ public class WorkshopController extends Controller {
 	 * @return la liste des workshops déjà présentés
 	 */
 	public static List<Workshop> getWorkshopsAlreadyPlayed() {
-		TypedQuery<Workshop> query = JPA.em().createQuery("SELECT ws FROM Workshop ws WHERE ws.workshopSession.lastPlay IS NOT null", Workshop.class);
+		TypedQuery<Workshop> query = JPA.em().createQuery("SELECT ws FROM Workshop ws WHERE ws.workshopSession.nextPlay IS NOT null AND ws.workshopSession.nextPlay <= NOW()", Workshop.class);
 		List<Workshop> list = query.getResultList();
 		return list;
 	}
