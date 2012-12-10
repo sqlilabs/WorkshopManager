@@ -1,0 +1,50 @@
+@(workshopSessionForm: Form[WorkshopSession], id: Long )
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.render) } 
+
+@main("Plannifier un Worshop") {
+    
+    <h3 style="padding-bottom:20px;">Veuillez saisir les détails de la session du workshop:</h3>
+    
+    @form( routes.WorkshopController.saveWorkshopSession( id ) ) {
+        
+        <fieldset>
+            @inputText(
+            	workshopSessionForm("doodleUrl"), 
+            	'_label -> "L'url du Doodle"
+            )
+            
+            @inputText(
+            	workshopSessionForm("location"), 
+            	'_label -> "Lieu du Workshop"
+            )
+            
+            @inputDate(
+            	workshopSessionForm("lastPlay"), 
+            	'_label -> "La dernière fois que le Workshop a été présenté"
+            )
+            
+            @inputDate(
+            	workshopSessionForm("nextPlay"), 
+            	'_label -> "Date de la prochaine séance du Workshop"
+            )
+
+@*
+TODO: A intégrer quand on aura des Users
+            @select(
+            	workshopSessionForm("Speaker"), 
+            	options( "foo"->"Foo", "bar"->"Bar" )
+            )*@ 
+         
+        </fieldset>
+        
+        <div class="actions" style="padding-top:20px;">
+            <input type="submit" value="Plannifier ce Workshop" class="btn-success btn primary"> 
+            <a href="@routes.Application.welcome()" class="btn">Cancel </a> 
+        </div>
+        
+    }
+    
+}

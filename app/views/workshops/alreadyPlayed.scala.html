@@ -21,8 +21,8 @@
 						src="http://www.sqli.com/design/fre/images/logo_sqli.com.png" />
 					<h3>@workshop.getSubject</h3>
 					<div class="cadre">
-						<p><b>Dernière session présenté par: </b> @workshop.getSpeaker().getFirstName() @workshop.getSpeaker().getLastName()</p>
-						<p><b>Dernière session le:</b> @WorkshopController.decorateDate(workshop.getLastPlay())</p>
+						<p><b>Dernière session présenté par: </b> @workshop.getWorkshopSession().getSpeaker().getFirstName() @workshop.getWorkshopSession().getSpeaker().getLastName()</p>
+						<p><b>Dernière session le:</b> @WorkshopController.decorateDate(workshop.getWorkshopSession().getLastPlay())</p>
 					</div>
 				</div>
 			</div>

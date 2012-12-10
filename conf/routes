@@ -7,9 +7,11 @@ GET		/							controllers.Application.welcome()
 GET 	/workshops					controllers.Application.workshops()
 
 # Workshops
-GET 	/workshops/add				controllers.WorkshopController.blank()
-POST    /workshops/add				controllers.WorkshopController.save()
+GET 	/workshops/add				controllers.WorkshopController.blankWorkshop()
+POST    /workshops/add				controllers.WorkshopController.saveWorkshop()
 POST	/workshops/:id/delete		controllers.WorkshopController.deleteWorkshop(id: Long)
+GET		/workshops/:id/plan			controllers.WorkshopController.planWorkshop(id: Long)
+POST    /workshops/plan				controllers.WorkshopController.saveWorkshopSession(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import play.data.validation.Constraints.Required;
@@ -62,31 +63,9 @@ public class Workshop implements Serializable {
 	private Set<User> speakers = new HashSet<>();
 	
 	/**
-	 * Le speaker du Workshop
+	 * La WorkshopSession contient les informations relatives à la planification du Workshop
 	 */
-	private User speaker = new User();
-	
-	/**
-	 * Date à laquelle le workshop a été donné pour la dernière fois. Si null alors c'est 
-	 * que le workshop n'a jamais été donné
-	 */
-	private Date lastPlay;
-	
-	/**
-	 * Date à laquelle le workshop est planifié. Si null alors c'est 
-	 * que le workshop n'est pas planifié
-	 */
-	private Date nextPlay;
-	
-	/**
-	 * la lieu du Workshop
-	 */
-	private String location;
-	
-	/**
-	 * Le lien Doodle
-	 */
-	private String lienDoodle;
+	private WorkshopSession workshopSession;
 	
 	
 	//<--------------------------------------------------------------------------->
@@ -183,82 +162,20 @@ public class Workshop implements Serializable {
 
 
 	/**
-	 * @return the lienDoodle
+	 * @return the workshopSession
 	 */
-	public String getLienDoodle() {
-		return lienDoodle;
+	@OneToOne
+	public WorkshopSession getWorkshopSession() {
+		return workshopSession;
 	}
 
 
 	/**
-	 * @param lienDoodle the lienDoodle to set
+	 * @param workshopSession the workshopSession to set
 	 */
-	public void setLienDoodle(String lienDoodle) {
-		this.lienDoodle = lienDoodle;
+	public void setWorkshopSession(WorkshopSession workshopSession) {
+		this.workshopSession = workshopSession;
 	}
-
-
-	/**
-	 * @return the speaker
-	 */
-	public User getSpeaker() {
-		return speaker;
-	}
-
-
-	/**
-	 * @param speaker the speaker to set
-	 */
-	public void setSpeaker(User speaker) {
-		this.speaker = speaker;
-	}
-
-
-	/**
-	 * @return the lastPlay
-	 */
-	public Date getLastPlay() {
-		return lastPlay;
-	}
-
-
-	/**
-	 * @param lastPlay the lastPlay to set
-	 */
-	public void setLastPlay(Date lastPlay) {
-		this.lastPlay = lastPlay;
-	}
-
-
-	/**
-	 * @return the nextPlay
-	 */
-	public Date getNextPlay() {
-		return nextPlay;
-	}
-
-
-	/**
-	 * @param nextPlay the nextPlay to set
-	 */
-	public void setNextPlay(Date nextPlay) {
-		this.nextPlay = nextPlay;
-	}
-
-
-	/**
-	 * @return the location
-	 */
-	public String getLocation() {
-		return location;
-	}
-
-
-	/**
-	 * @param location the location to set
-	 */
-	public void setLocation(String location) {
-		this.location = location;
-	}
+	
 	
 }

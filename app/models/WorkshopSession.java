@@ -4,14 +4,16 @@
 package models;
 
 import java.io.Serializable;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import play.data.format.Formats;
+
 
 /**
  * Une séance d'un Workshop.
@@ -44,9 +46,16 @@ public class WorkshopSession implements Serializable {
 	private String location;
 	
 	/**
-	 * La date à laquelle le workshop se déroulera.
+	 * Date à laquelle le workshop a été donné pour la dernière fois. Si null alors c'est 
+	 * que le workshop n'a jamais été donné
 	 */
-	private Calendar date = new GregorianCalendar();
+	private Date lastPlay;
+	
+	/**
+	 * Date à laquelle le workshop est planifié. Si null alors c'est 
+	 * que le workshop n'est pas planifié
+	 */
+	private Date nextPlay;	
 	
 	/**
 	 * La personne qui donnera cette séance du workshop.
@@ -104,20 +113,6 @@ public class WorkshopSession implements Serializable {
 	}
 
 	/**
-	 * @return the date
-	 */
-	public Calendar getDate() {
-		return date;
-	}
-
-	/**
-	 * @param date the date to set
-	 */
-	public void setDate(Calendar date) {
-		this.date = date;
-	}
-
-	/**
 	 * @return the speaker
 	 */
 	@ManyToOne
@@ -130,6 +125,34 @@ public class WorkshopSession implements Serializable {
 	 */
 	public void setSpeaker(User speaker) {
 		this.speaker = speaker;
+	}
+
+	/**
+	 * @return the lastPlay
+	 */
+	public Date getLastPlay() {
+		return lastPlay;
+	}
+
+	/**
+	 * @param lastPlay the lastPlay to set
+	 */
+	public void setLastPlay(Date lastPlay) {
+		this.lastPlay = lastPlay;
+	}
+
+	/**
+	 * @return the nextPlay
+	 */
+	public Date getNextPlay() {
+		return nextPlay;
+	}
+
+	/**
+	 * @param nextPlay the nextPlay to set
+	 */
+	public void setNextPlay(Date nextPlay) {
+		this.nextPlay = nextPlay;
 	}
 	
 }
