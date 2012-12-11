@@ -3,11 +3,13 @@
  */
 package dao;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.TypedQuery;
 
 import models.Workshop;
+import models.utils.comparator.PlanifiedDateComparatorAscendant;
 import play.db.jpa.JPA;
 
 /**
@@ -46,7 +48,10 @@ public class WorkshopDAO {
 	public static List<Workshop> getWorkshopsPlanifie() {
 		TypedQuery<Workshop> query = JPA.em().createQuery("SELECT ws FROM Workshop ws WHERE ws.workshopSession.nextPlay IS NOT null AND ws.workshopSession.nextPlay >= NOW()", Workshop.class);
 		List<Workshop> list = query.getResultList();
-		// TODO: trier la liste par date décroissante
+		
+		// On trie la liste dans le sens croissant
+		Collections.sort(list, new PlanifiedDateComparatorAscendant());
+		
 		return list;
 	}
 	
@@ -56,6 +61,10 @@ public class WorkshopDAO {
 	public static List<Workshop> getWorkshopsAlreadyPlayed() {
 		TypedQuery<Workshop> query = JPA.em().createQuery("SELECT ws FROM Workshop ws WHERE ws.workshopSession.nextPlay IS NOT null AND ws.workshopSession.nextPlay <= NOW()", Workshop.class);
 		List<Workshop> list = query.getResultList();
+		
+		// On trie la liste dans le sens décroissant
+		Collections.sort(list, new PlanifiedDateComparatorAscendant());
+				
 		return list;
 	}
 
