@@ -13,6 +13,7 @@
 		<div class="span10 well well-border-only">
 			<h3>@workshop.getSubject</h3>
 			<div class="cadre">
+				<p><i class="icon-check"></i><span class="labelWS" > Le:</span> @WorkshopController.decorateDate( workshop.getWorkshopSession().getNextPlay() )</p>
 				<p><i class="icon-user"></i><span class="labelWS" > Speaker:</span> @workshop.getWorkshopSession().getSpeaker().getFirstName() @workshop.getWorkshopSession().getSpeaker().getLastName()</p>
 				<p><i class="icon-map-marker"></i><span class="labelWS" > Lieu:</span> @workshop.getWorkshopSession().getLocation()</p>
 			</div>
