@@ -7,6 +7,7 @@ import play.mvc.Http.Context;
 import play.mvc.Result;
 import views.html.welcome.welcome;
 import views.html.workshops.alreadyPlayed;
+import dao.WorkshopDAO;
 
 public class Application extends Controller {
     
@@ -21,10 +22,10 @@ public class Application extends Controller {
 	 */
 	@Transactional(readOnly = true)
 	public static Result welcome() {
-		Context.current().args.put("wsPlanifie", WorkshopController.getWorkshopsPlanifie()); 
+		Context.current().args.put("wsPlanifie", WorkshopDAO.getWorkshopsPlanifie()); 
 		Context.current().args.put("ongletActif", "home");
 		// We render the welcome page
-		return ok(welcome.render("Workshop Manager", WorkshopController.getWorkshops()));
+		return ok(welcome.render("Workshop Manager", WorkshopDAO.getWorkshops()));
 	}
 	
 	/**
@@ -34,11 +35,12 @@ public class Application extends Controller {
 	 */
 	@Transactional(readOnly = true)
 	public static Result workshops() {
-		Context.current().args.put("wsPlanifie", WorkshopController.getWorkshopsPlanifie());
+		Context.current().args.put("wsPlanifie", WorkshopDAO.getWorkshopsPlanifie());
 		Context.current().args.put("ongletActif", "alreadyPlayed");
 		// We render the welcome page
-		return ok(alreadyPlayed.render("Les Workshops déjà présentés", WorkshopController.getWorkshopsAlreadyPlayed()));
+		return ok(alreadyPlayed.render("Les Workshops déjà présentés", WorkshopDAO.getWorkshopsAlreadyPlayed()));
 	}
+	
 	
 	// <--------------------------------------------------------------------------->
 	// - 							helper methods

@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.TypedQuery;
-
 import models.Workshop;
 import models.WorkshopSession;
 import play.api.templates.Html;
@@ -19,10 +17,10 @@ import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
-import play.mvc.Http.Context;
 import views.html.welcome.welcome;
 import views.html.workshops.addWorkshop;
 import views.html.workshops.planWorkshop;
+import dao.WorkshopDAO;
 
 /**
  * Ce controller regroupe toutes les actions qui sont liées à l'ajout d'un nouveau Workshop
@@ -64,13 +62,15 @@ public class WorkshopController extends Controller {
 	//<--------------------------------------------------------------------------->	
     /**
      * Display a blank form for Workshop.
+     * @return the workshopForm empty
      */ 
     public static Result blankWorkshop() {
         return ok( addWorkshop.render(workshopForm) );
     }
     
     /**
-     * Handle the 'new workshop form' submission 
+     * Handle the 'new workshop form' submission
+     * @return the welcome page or the addWorkshop page if the validation has errors
      */
     @Transactional
     public static Result saveWorkshop() {
@@ -84,30 +84,38 @@ public class WorkshopController extends Controller {
         Workshop workshop = filledForm.get();
 		JPA.em().persist(workshop);
 		
-		Html html = welcome.render("Workshop Manager", getWorkshops());
+		Html html = welcome.render("Workshop Manager", WorkshopDAO.getWorkshops());
         
         return ok(html);
     }
 	
 	/**
 	 * @param id l'identifiant du workshop
-	 * @return
+	 * @return the welcome page
 	 */
 	@Transactional
 	public static Result deleteWorkshop(Long id) {
 		Workshop ws = JPA.em().find(Workshop.class, id);
 		JPA.em().remove(ws);
 		
-		Html html = welcome.render("Workshop Manager", getWorkshops());
+		Html html = welcome.render("Workshop Manager", WorkshopDAO.getWorkshops());
 		
 		return ok(html);
 	}
 	
+	/**
+	 * @param id l'identifiant du workshop
+	 * @return the planWorkshop page
+	 */
 	@Transactional
 	public static Result planWorkshop(Long id) {
 		return ok( planWorkshop.render( workshopSessionForm, id ) );
 	}
 	
+    /**
+     * @param id l'identifiant du workshop
+     * @return the welcome page or the planWorkshop page if the validation has errors
+     */
     @Transactional
     public static Result saveWorkshopSession( Long id ) {
     	Form<WorkshopSession> 	filledForm 		= 	workshopSessionForm.bindFromRequest();
@@ -128,43 +136,13 @@ public class WorkshopController extends Controller {
         JPA.em().persist( workshopSession );
 		JPA.em().persist( workshopToPlan );
 		
-        return ok( welcome.render("Workshop Manager", getWorkshops()) );
+        return ok( welcome.render("Workshop Manager", WorkshopDAO.getWorkshops()) );
     }
 
     
 	// <--------------------------------------------------------------------------->
 	// - 							helper methods
 	// <--------------------------------------------------------------------------->	
-    /*
-	 * TODO Remplacer les helpers par un DAO
-     */
-	/**
-	 * @return la liste des workshops non joué
-	 */
-	public static List<Workshop> getWorkshops() {
-		TypedQuery<Workshop> query = JPA.em().createQuery("SELECT ws FROM Workshop ws WHERE ws.workshopSession IS null", Workshop.class);
-		List<Workshop> list = query.getResultList();
-		return list;
-	}
-	
-	/**
-	 * @return la liste des workshops planifiés
-	 */
-	public static List<Workshop> getWorkshopsPlanifie() {
-		TypedQuery<Workshop> query = JPA.em().createQuery("SELECT ws FROM Workshop ws WHERE ws.workshopSession.nextPlay IS NOT null AND ws.workshopSession.nextPlay >= NOW()", Workshop.class);
-		List<Workshop> list = query.getResultList();
-		return list;
-	}
-	
-	/**
-	 * @return la liste des workshops déjà présentés
-	 */
-	public static List<Workshop> getWorkshopsAlreadyPlayed() {
-		TypedQuery<Workshop> query = JPA.em().createQuery("SELECT ws FROM Workshop ws WHERE ws.workshopSession.nextPlay IS NOT null AND ws.workshopSession.nextPlay <= NOW()", Workshop.class);
-		List<Workshop> list = query.getResultList();
-		return list;
-	}
-	
 	/**
 	 * @return la liste des Workshops planifiés qui a été placé dans le context
 	 */
