@@ -120,7 +120,7 @@ public class WorkshopController extends Controller {
 		Workshop ws = JPA.em().find(Workshop.class, id);
 		
 		if ( ws.getWorkshopSession() != null ) {
-			workshopSessionForm = workshopSessionForm.fill( ws.getWorkshopSession() );
+			workshopSessionForm = form(WorkshopSession.class).fill( ws.getWorkshopSession() );
 		}
 		else {
 			workshopSessionForm	= form(WorkshopSession.class);

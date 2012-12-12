@@ -1,4 +1,6 @@
 @( page:String )
+@import helper._
+
 <div class="row-fluid">
 	<div class="span12 center-text">
 		<a href="@routes.WorkshopController.blankWorkshop()" class="btn btn-large btn-primary">Submit a Workshop</a>
@@ -18,7 +20,12 @@
 				<p><i class="icon-map-marker"></i><span class="labelWS" > Lieu:</span> @workshop.getWorkshopSession().getLocation()</p>
 			</div>
 			<p>@workshop.getDescription()</p>
-			<p><a class="btn btn-mini btn-success floatRight" href="@workshop.getWorkshopSession().getDoodleUrl()">S'inscrire</a></p>
+			<p>
+				@form(routes.WorkshopController.planWorkshop(workshop.getId)) {
+						<input class="btn-mini btn-info" type="submit" value="Modifier">
+						<a class="btn btn-mini btn-success floatRight" href="@workshop.getWorkshopSession().getDoodleUrl()">S'inscrire</a>
+				}
+			</p>
 		</div>
 	</div>
 }
