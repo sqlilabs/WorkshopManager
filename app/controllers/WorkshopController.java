@@ -3,15 +3,22 @@
  */
 package controllers;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
+import javax.persistence.TypedQuery;
+
+import models.User;
 import models.Workshop;
 import models.WorkshopSession;
+import models.utils.formatter.UserFormatter;
 import play.api.templates.Html;
 import play.data.Form;
+import play.data.format.Formatters;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
@@ -20,6 +27,7 @@ import play.mvc.Result;
 import views.html.welcome.welcome;
 import views.html.workshops.addWorkshop;
 import views.html.workshops.planWorkshop;
+import dao.UserDAO;
 import dao.WorkshopDAO;
 
 /**
@@ -118,6 +126,7 @@ public class WorkshopController extends Controller {
      */
     @Transactional
     public static Result saveWorkshopSession( Long id ) {
+    	
     	Form<WorkshopSession> 	filledForm 		= 	workshopSessionForm.bindFromRequest();
     	
         if (filledForm.hasErrors()) {

@@ -1,6 +1,7 @@
 @(workshopSessionForm: Form[WorkshopSession], id: Long )
 
 @import helper._
+@import dao._
 
 @implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.render) } 
 
@@ -26,12 +27,13 @@
             	'_label -> "Date de la prochaine séance du Workshop"
             )
 
-@*
-TODO: A intégrer quand on aura des Users
             @select(
             	workshopSessionForm("Speaker"), 
-            	options( "foo"->"Foo", "bar"->"Bar" )
-            )*@ 
+                options = options( UserDAO.getSpeakers ),
+                '_default -> "--- Choisir un Speaker ---",
+                '_label -> "Speaker",
+                '_error -> workshopSessionForm("Speaker").error.map(_.withMessage("Le choix d'un Speaker est obligatoire"))
+            )
          
         </fieldset>
         

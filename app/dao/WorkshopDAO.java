@@ -10,6 +10,7 @@ import javax.persistence.TypedQuery;
 
 import models.Workshop;
 import models.utils.comparator.PlanifiedDateComparatorAscendant;
+import models.utils.comparator.PlanifiedDateComparatorDescendant;
 import play.db.jpa.JPA;
 
 /**
@@ -49,8 +50,8 @@ public class WorkshopDAO {
 		TypedQuery<Workshop> query = JPA.em().createQuery("SELECT ws FROM Workshop ws WHERE ws.workshopSession.nextPlay IS NOT null AND ws.workshopSession.nextPlay >= NOW()", Workshop.class);
 		List<Workshop> list = query.getResultList();
 		
-		// On trie la liste dans le sens croissant
-		Collections.sort(list, new PlanifiedDateComparatorAscendant());
+		// On trie la liste dans le sens décroissant
+		Collections.sort(list, new PlanifiedDateComparatorDescendant());
 		
 		return list;
 	}
@@ -62,7 +63,7 @@ public class WorkshopDAO {
 		TypedQuery<Workshop> query = JPA.em().createQuery("SELECT ws FROM Workshop ws WHERE ws.workshopSession.nextPlay IS NOT null AND ws.workshopSession.nextPlay <= NOW()", Workshop.class);
 		List<Workshop> list = query.getResultList();
 		
-		// On trie la liste dans le sens décroissant
+		// On trie la liste dans le sens croissant
 		Collections.sort(list, new PlanifiedDateComparatorAscendant());
 				
 		return list;
