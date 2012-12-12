@@ -41,12 +41,12 @@ public class WorkshopController extends Controller {
 	/**
      * Defines a form wrapping the Workshop class.
      */ 
-    final static Form<Workshop> workshopForm = form(Workshop.class);
+    private static Form<Workshop> workshopForm = form(Workshop.class);
     
     /**
      * Defines a form wrapping the WorkShopSession class.
      */ 
-    final static Form<WorkshopSession> workshopSessionForm = form(WorkshopSession.class);
+    private static Form<WorkshopSession> workshopSessionForm ;
 	
 	/**
 	 * DATE_PATTERN pattern to convert date to String
@@ -117,6 +117,15 @@ public class WorkshopController extends Controller {
 	 */
 	@Transactional
 	public static Result planWorkshop(Long id) {
+		Workshop ws = JPA.em().find(Workshop.class, id);
+		
+		if ( ws.getWorkshopSession() != null ) {
+			workshopSessionForm = workshopSessionForm.fill( ws.getWorkshopSession() );
+		}
+		else {
+			workshopSessionForm	= form(WorkshopSession.class);
+		}
+		
 		return ok( planWorkshop.render( workshopSessionForm, id ) );
 	}
 	
@@ -135,6 +144,7 @@ public class WorkshopController extends Controller {
         
         // We get the Workshop
         Workshop workshopToPlan = JPA.em().find(Workshop.class, id);
+        boolean newSession 		= workshopToPlan.getWorkshopSession() == null;
         
         
 		// We set the WorkshopSession to the Workshop to Plan
@@ -142,7 +152,12 @@ public class WorkshopController extends Controller {
         workshopToPlan.setWorkshopSession( workshopSession );
         
         // Sauver l'objet en base
-        JPA.em().persist( workshopSession );
+        if ( !newSession ) {
+        	JPA.em().merge( workshopSession );
+        }
+        else {
+        	JPA.em().persist( workshopSession );
+        }
 		JPA.em().persist( workshopToPlan );
 		
         return ok( welcome.render("Workshop Manager", WorkshopDAO.getWorkshops()) );

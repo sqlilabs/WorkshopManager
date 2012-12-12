@@ -34,6 +34,13 @@
 					</p>
 				</div>
 			</div>
+			<div class="row">
+				<div class="span3 offset7">
+					@form(routes.WorkshopController.planWorkshop(workshop.getId)) {
+						<input class="btn-success" type="submit" value="Re-Planifier">
+					}
+				</div>
+			</div>
 		</div>
 	</div>
 	}
