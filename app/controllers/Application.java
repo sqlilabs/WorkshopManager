@@ -25,7 +25,7 @@ public class Application extends Controller {
 		Context.current().args.put("wsPlanifie", WorkshopDAO.getWorkshopsPlanifie()); 
 		Context.current().args.put("ongletActif", "home");
 		// We render the welcome page
-		return ok(welcome.render("Workshop Manager", WorkshopDAO.getWorkshops()));
+		return ok(welcome.render("Accueil", WorkshopDAO.getWorkshops()));
 	}
 	
 	/**
