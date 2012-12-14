@@ -2,7 +2,9 @@
 	"-//Hibernate/Hibernate Configuration DTD//EN"
 	"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 	
+		
 <hibernate-configuration>
+	
 	<session-factory>
 		<!--
 			H2 in-memory database 
@@ -15,12 +17,12 @@
 		
 		<!-- 
 			Base MySQL
-		<property name="dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
-		<property name="connection.url">jdbc:mysql:///workshop_manager</property>
-		<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-		<property name="connection.username">root</property>
-		<property name="connection.password">root</property>
 		 -->
+		<property name="dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
+		<property name="connection.url">${application.db.default.url}</property>
+		<property name="connection.driver_class">${application.db.default.driver}</property>
+		<property name="connection.username">${application.db.default.user}</property>
+		<property name="connection.password">${application.db.default.password}</property>	
 		
         <!-- Echo all executed SQL to stdout -->
         <property name="show_sql">true</property>
@@ -30,3 +32,4 @@
 		<mapping class="models.WorkshopSession" />
 	</session-factory>
 </hibernate-configuration>
+

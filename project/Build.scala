@@ -18,7 +18,8 @@ object ApplicationBuild extends Build {
 		
 		// Nécesaire pour JPA, utilisez dans le persistence.xml
 		"com.github.twitter" 			% "bootstrap" 						% "2.0.2",
-		"org.hibernate" 				% "hibernate-entitymanager"			% hibernateVersion
+		"org.hibernate" 				% "hibernate-entitymanager"			% hibernateVersion,
+		"mysql" 						% "mysql-connector-java" 			% "5.1.20"
 		
 	)
 	
