@@ -32,14 +32,13 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="span3 offset7">
-					@form(routes.WorkshopController.planWorkshop(workshop.getId)) {
-						<input class="btn-success" type="submit" value="Planifier">
+				<span class="span11 offset6 clear">
+					@form(routes.WorkshopController.actionWorkshop(workshop.getId)) {
+						<input class="btn-danger" type="submit" name="Supprimer" value="Supprimer">
+						<input class="btn-info" type="submit" name="Modifier" value="Modifer">
+						<input class="btn-success" type="submit" name="Planifier" value="Planifier">
 					}
-					@form(routes.WorkshopController.deleteWorkshop(workshop.getId)) {
-						<input class="btn-danger" type="submit" value="Supprimer">
-					}
-				</div>
+				</span>
 			</div>
 		</div>
 	</div>

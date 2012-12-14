@@ -24,6 +24,7 @@ import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
+import scala.annotation.target.param;
 import views.html.welcome.welcome;
 import views.html.workshops.addWorkshop;
 import views.html.workshops.planWorkshop;
@@ -97,6 +98,40 @@ public class WorkshopController extends Controller {
         return ok(html);
     }
 	
+    /**
+     * @param id id du workshop
+     * @return la page a afficher suivant l'action qui a été déclenchée
+     */
+    @Transactional
+    public static Result actionWorkshop( Long id ) {
+		if ( request().body().asFormUrlEncoded().get("Planifier") != null ) {
+			return planWorkshop(id);
+		}
+		else if ( request().body().asFormUrlEncoded().get("Supprimer") != null ) {
+			return deleteWorkshop(id);
+		}
+		else if ( request().body().asFormUrlEncoded().get("Modifier") != null ) {
+			return modifyWorkshop(id);
+		}
+		else {
+			return status(NOT_IMPLEMENTED);
+		}
+    }
+    
+    /**
+     * @param id id du workshop
+     * @return la page permettant de modifier le workshop
+     */
+    private static Result modifyWorkshop( Long id ) {
+    	Workshop ws = JPA.em().find(Workshop.class, id);
+		
+		if ( ws != null ) {
+			workshopForm = form(Workshop.class).fill( ws );
+		}
+    	
+    	return ok( addWorkshop.render(workshopForm) );
+    }
+    
 	/**
 	 * @param id l'identifiant du workshop
 	 * @return the welcome page
@@ -105,6 +140,10 @@ public class WorkshopController extends Controller {
 	public static Result deleteWorkshop(Long id) {
 		Workshop ws = JPA.em().find(Workshop.class, id);
 		JPA.em().remove(ws);
+		
+		for (String key : request().headers().keySet() ) {
+			System.out.println( key );
+		}
 		
 		Html html = welcome.render("Workshop Manager", WorkshopDAO.getWorkshops());
 		
