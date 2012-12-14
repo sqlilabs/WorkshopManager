@@ -31,6 +31,8 @@ import views.html.workshops.planWorkshop;
 import dao.UserDAO;
 import dao.WorkshopDAO;
 
+import static models.utils.constants.WorkShopConstants.*;
+
 /**
  * Ce controller regroupe toutes les actions qui sont liées à l'ajout d'un nouveau Workshop
  * 
@@ -39,22 +41,7 @@ import dao.WorkshopDAO;
  */
 public class WorkshopController extends Controller {
 	
-	/**
-     * Defines a form wrapping the Workshop class.
-     */ 
-    private static Form<Workshop> workshopForm = form(Workshop.class);
-    
-    /**
-     * Defines a form wrapping the WorkShopSession class.
-     */ 
-    private static Form<WorkshopSession> workshopSessionForm ;
-	
-	/**
-	 * DATE_PATTERN pattern to convert date to String
-	 */
-	private static final String DATE_PATTERN = "dd/MM/yyyy";
-	
-	
+
 	//<--------------------------------------------------------------------------->
 	//-							 Constructeur(s)	        
 	//<--------------------------------------------------------------------------->
@@ -74,7 +61,7 @@ public class WorkshopController extends Controller {
      * @return the workshopForm empty
      */ 
     public static Result blankWorkshop() {
-        return ok( addWorkshop.render(workshopForm) );
+        return ok( addWorkshop.render( form(Workshop.class), ID_NOT_IN_TABLE ) );
     }
     
     /**
@@ -82,16 +69,23 @@ public class WorkshopController extends Controller {
      * @return the welcome page or the addWorkshop page if the validation has errors
      */
     @Transactional
-    public static Result saveWorkshop() {
-    	Form<Workshop> filledForm = workshopForm.bindFromRequest();
+    public static Result saveWorkshop( Long id ) {
+    	Form<Workshop> workshopForm		=	form(Workshop.class).bindFromRequest();
     	
-        if (filledForm.hasErrors()) {
-            return badRequest(addWorkshop.render(workshopForm));
+        if (workshopForm.hasErrors()) {
+            return badRequest( addWorkshop.render(workshopForm, id) );
         }
         
         //Sauver l'objet en base
-        Workshop workshop = filledForm.get();
-		JPA.em().persist(workshop);
+        Workshop workshop = workshopForm.get();
+        
+        if ( id == ID_NOT_IN_TABLE ) {
+        	JPA.em().persist(workshop);
+        }
+        else {
+        	workshop.setId(id);
+        	JPA.em().merge(workshop);
+        }
 		
 		Html html = welcome.render("Workshop Manager", WorkshopDAO.getWorkshops());
         
@@ -123,13 +117,10 @@ public class WorkshopController extends Controller {
      * @return la page permettant de modifier le workshop
      */
     private static Result modifyWorkshop( Long id ) {
-    	Workshop ws = JPA.em().find(Workshop.class, id);
-		
-		if ( ws != null ) {
-			workshopForm = form(Workshop.class).fill( ws );
-		}
+    	Workshop 		ws 				= 	JPA.em().find(Workshop.class, id);
+    	Form<Workshop> 	workshopForm 	= 	form(Workshop.class).fill( ws );
     	
-    	return ok( addWorkshop.render(workshopForm) );
+    	return ok( addWorkshop.render(workshopForm, id) );
     }
     
 	/**
@@ -158,6 +149,7 @@ public class WorkshopController extends Controller {
 	public static Result planWorkshop(Long id) {
 		Workshop ws = JPA.em().find(Workshop.class, id);
 		
+		Form<WorkshopSession> workshopSessionForm;
 		if ( ws.getWorkshopSession() != null ) {
 			workshopSessionForm = form(WorkshopSession.class).fill( ws.getWorkshopSession() );
 		}
@@ -175,10 +167,10 @@ public class WorkshopController extends Controller {
     @Transactional
     public static Result saveWorkshopSession( Long id ) {
     	
-    	Form<WorkshopSession> 	filledForm 		= 	workshopSessionForm.bindFromRequest();
+    	Form<WorkshopSession> 	filledForm 		= 	form(WorkshopSession.class).bindFromRequest();
     	
         if (filledForm.hasErrors()) {
-            return badRequest( planWorkshop.render(workshopSessionForm, id) );
+            return badRequest( planWorkshop.render(filledForm, id) );
         }
         
         // We get the Workshop

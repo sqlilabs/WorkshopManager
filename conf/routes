@@ -8,7 +8,7 @@ GET 	/workshops					controllers.Application.workshops()
 
 # Workshops
 GET 	/workshops/add				controllers.WorkshopController.blankWorkshop()
-POST    /workshops/add				controllers.WorkshopController.saveWorkshop()
+POST    /workshops/add				controllers.WorkshopController.saveWorkshop(idWorkshop: Long)
 POST	/workshop/:id/action		controllers.WorkshopController.actionWorkshop(id: Long)
 POST	/workshops/:id/delete		controllers.WorkshopController.deleteWorkshop(id: Long)
 GET		/workshops/:id/plan			controllers.WorkshopController.planWorkshop(id: Long)
