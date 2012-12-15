@@ -35,17 +35,23 @@ $(document).ready(function(){
 		}).on('changeDate', function(ev){
 			var now = new Date();
 			if(ev.date.valueOf() < now.valueOf()){
-				var $alert = $('<div class="alert alert-error" id="changed-date-alert-error">La date choisie est inférieure à la date du jour<a class="close" data-dismiss="alert" href="#">&times;</a></div>')
+				var $alert = $('<div class="alert alert-error fade in" id="changed-date-alert-error">La date choisie est inférieure à la date du jour<a class="close" data-dismiss="alert" href="#">&times;</a></div>')
 				$alert.css({
 					'position':'fixed',
 					'bottom':'15px',
 					'right' :'15px',
-					'border' : '1px solid '
+					'border' : '1px solid',
+					'font-weight':'bolder'
+					
+					
 				}).appendTo('body');
 				$alert.alert();
+				/*
+				On peut vouloir supprimer l'alerte au bout d'un certain temp, ou alors seulement lorsque le choix de la date est ok
+				*/
 				setTimeout(function(){
 					$('#changed-date-alert-error').alert('close');
-				},1000);
+				},2000);
 			} else {
 				$("#nextPlay").datepicker('hide');
 				if( $('#changed-date-alert-error').length > 0){
