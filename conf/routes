@@ -9,10 +9,13 @@ GET 	/workshops					controllers.Application.workshops()
 # Workshops
 GET 	/workshops/add				controllers.WorkshopController.blankWorkshop()
 POST    /workshops/add				controllers.WorkshopController.saveWorkshop(idWorkshop: Long)
-POST	/workshop/:id/action		controllers.WorkshopController.actionWorkshop(id: Long)
-POST	/workshops/:id/delete		controllers.WorkshopController.deleteWorkshop(id: Long)
+GET		/workshops/planifier/:id	controllers.WorkshopController.planWorkshop(id: Long)
+GET		/workshops/supprimer/:id	controllers.WorkshopController.deleteWorkshop(id: Long)
+GET		/workshops/modifier/:id		controllers.WorkshopController.modifyWorkshop(id: Long)
 GET		/workshops/:id/plan			controllers.WorkshopController.planWorkshop(id: Long)
 POST    /workshops/plan				controllers.WorkshopController.saveWorkshopSession(id: Long)
 
+
+GET     /webjars/*file              controllers.WebJarAssets.at(file)
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

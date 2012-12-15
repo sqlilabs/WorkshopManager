@@ -39,7 +39,7 @@ public class UserDAO {
 	public static List<String> getSpeakers() {
 		TypedQuery<User> 	query 	= 	JPA.em().createQuery("SELECT user FROM User user WHERE user.email IS NOT null", User.class);
 		List<User> 			list 	= 	query.getResultList();
-		List<String> 		result 	= 	new ArrayList<>( list.size() );
+		List<String> 		result 	= 	new ArrayList<String>( list.size() );
 		
 		for ( User currentUser : list ) {
 			result.add( Formatters.print( currentUser ) );

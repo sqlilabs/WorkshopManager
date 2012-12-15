@@ -3,35 +3,27 @@
  */
 package controllers;
 
-import java.text.ParseException;
+import static models.utils.constants.WorkShopConstants.DATE_PATTERN;
+import static models.utils.constants.WorkShopConstants.ID_NOT_IN_TABLE;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
-import javax.persistence.TypedQuery;
-
-import models.User;
 import models.Workshop;
 import models.WorkshopSession;
-import models.utils.formatter.UserFormatter;
 import play.api.templates.Html;
 import play.data.Form;
-import play.data.format.Formatters;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
-import scala.annotation.target.param;
 import views.html.welcome.welcome;
 import views.html.workshops.addWorkshop;
 import views.html.workshops.planWorkshop;
-import dao.UserDAO;
 import dao.WorkshopDAO;
-
-import static models.utils.constants.WorkShopConstants.*;
 
 /**
  * Ce controller regroupe toutes les actions qui sont liées à l'ajout d'un nouveau Workshop
@@ -92,31 +84,15 @@ public class WorkshopController extends Controller {
         return ok(html);
     }
 	
-    /**
-     * @param id id du workshop
-     * @return la page a afficher suivant l'action qui a été déclenchée
-     */
-    @Transactional
-    public static Result actionWorkshop( Long id ) {
-		if ( request().body().asFormUrlEncoded().get("Planifier") != null ) {
-			return planWorkshop(id);
-		}
-		else if ( request().body().asFormUrlEncoded().get("Supprimer") != null ) {
-			return deleteWorkshop(id);
-		}
-		else if ( request().body().asFormUrlEncoded().get("Modifier") != null ) {
-			return modifyWorkshop(id);
-		}
-		else {
-			return status(NOT_IMPLEMENTED);
-		}
-    }
+    
+    
     
     /**
      * @param id id du workshop
      * @return la page permettant de modifier le workshop
      */
-    private static Result modifyWorkshop( Long id ) {
+    @Transactional
+    public static Result modifyWorkshop( Long id ) {
     	Workshop 		ws 				= 	JPA.em().find(Workshop.class, id);
     	Form<Workshop> 	workshopForm 	= 	form(Workshop.class).fill( ws );
     	

@@ -6,10 +6,11 @@
 <head>
 <title>@title</title>
 <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
-<link rel='stylesheet' media='screen' href='@routes.Assets.at("stylesheets/bootstrap.min.css")'>
-<link rel='stylesheet' media='screen' href='@routes.Assets.at("stylesheets/bootstrap-responsive.min.css")'>
+<link rel='stylesheet' href='@routes.WebJarAssets.at(WebJarAssets.locate("css/bootstrap.min.css"))'>
+<link rel='stylesheet' href='@routes.WebJarAssets.at(WebJarAssets.locate("css/bootstrap-responsive.min.css"))'>
+<script type='text/javascript' src='@routes.WebJarAssets.at(WebJarAssets.locate("jquery.min.js"))'></script>
+<script type='text/javascript' src='@routes.WebJarAssets.at(WebJarAssets.locate("js/bootstrap.min.js"))'></script>
 <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
-<script src="@routes.Assets.at("javascripts/jquery-1.7.1.min.js")" type="text/javascript"></script>
 <script src="@routes.Assets.at("javascripts/main.js")" type="text/javascript"></script>
 </head>
 <body>
@@ -21,10 +22,20 @@
 			<div class="span12">@menu("home")</div>
 		</div>
 		<div class="row">
-			<div class="span9">
-				@content
+			<div class="span12">
+				<div class="container-fluid">
+					<div class="row-fluid">
+						<div class="span9">
+							<div class="container-fluid">
+								@content
+							</div>
+						</div>
+						<div class="span3 bg-grey">@sidebar("home")</div>
+					</div>
+				</div>
 			</div>
-			<div class="span3">@sidebar("home")</div>
+
+
 		</div>
 		<div class="row">
 			<div class="span12">@footer()</div>

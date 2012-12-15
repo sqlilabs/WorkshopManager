@@ -9,6 +9,9 @@
 	box-shadow: 5px 5px 5px #888;
 }
 
+.alignToRight{
+	text-align:right;	
+}
 .cadre {
 	padding: 10px 10px 10px 10px;
 }
@@ -24,4 +27,11 @@
 .labelWS {
 	font-style: normal;
 	font-weight: bold;
+}
+
+/*******
+debug
+********/
+.bg-grey{
+	background-color: #DDD;
 }

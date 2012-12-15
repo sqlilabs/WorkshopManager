@@ -4,8 +4,6 @@
 package models;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -60,7 +58,7 @@ public class Workshop implements Serializable {
 	/**
 	 * Les speakers proposé du workshop
 	 */
-	private Set<User> speakers = new HashSet<>();
+	private Set<User> speakers = new HashSet<User>();
 	
 	/**
 	 * La WorkshopSession contient les informations relatives à la planification du Workshop

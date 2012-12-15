@@ -1,0 +1,47 @@
+@(message: String, workshops: List[Workshop])
+
+@import helper._
+
+@main(message) {
+
+@if(workshops.isEmpty()) {
+	<div class="row-fluid workshop-bloc">
+		<div class="span11 well">
+			Il n'y a pas de workshops dans la liste
+		</div>
+	</div>
+	
+} else {
+	@for(workshop <- workshops) { 
+	<div class="row-fluid workshop-bloc">
+		<div class="span11 well">
+			<div class="row-fluid">
+				<div class="span11">
+					<h3>@workshop.getSubject</h3>
+				</div>
+			</div>
+			<div class="row-fluid">
+				<div class="span3">
+					<img width="140"
+						src="http://ww1.prweb.com/prfiles/2012/02/17/9208636/gI_81373_html5_apps.png" />
+				</div>
+				<div class="span8">
+					<p>
+						@workshop.getDescription()
+					</p>
+				</div>
+			</div>
+			<div class="row">
+				<span class="span11 offset6 clear">
+					@form(routes.WorkshopController.actionWorkshop(workshop.getId)) {
+						<input class="btn-danger" type="submit" name="Supprimer" value="Supprimer">
+						<input class="btn-info" type="submit" name="Modifier" value="Modifer">
+						<input class="btn-success" type="submit" name="Planifier" value="Planifier">
+					}
+				</span>
+			</div>
+		</div>
+	</div>
+	}
+}
+}
