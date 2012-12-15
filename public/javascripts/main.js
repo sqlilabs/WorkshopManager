@@ -9,4 +9,11 @@ $(document).ready(function(){
     	$('#authentication').show(); 
 	});
 
+
+	$("#add-workshop-form #image-button").click(function(){
+		$('#add-workshop-form #image-workshop').click();
+	});
+	$("#add-workshop-form #image-workshop").change(function(){
+		$('#add-workshop-form #appendedInputButton').val($('#add-workshop-form #image-workshop').val());
+	});
 });

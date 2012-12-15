@@ -1,8 +1,20 @@
 <form class="form form-condensed pull-right">
-  	<a id="authenticationButton" class="btn btn-primary" href="#"><i class="icon-user icon-white"></i> Se connecter</a>
-  	<div id="authentication" class="cadre" class="hidden">
-  		<input id="login" type="text" placeholder="Login" />
-		<input id="password" type="password" placeholder="Password" />	
-  	</div>
-	
+  	<a id="authenticationButton" class="btn btn-primary" href="#authentication" data-toggle="modal"><i class="icon-user icon-white"></i> Se connecter</a>
+  	<div id="authentication" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  		<form class="form form-vertical" method="POST">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h3 id="myModalLabel">Authentification</h3>
+			</div>
+			
+			<div class="modal-body center-text">
+				<input id="login" type="text" placeholder="Login" />
+				<input id="password" type="password" placeholder="Password" />	
+			</div>
+			<div class="modal-footer center-text">
+				<button class="btn" data-dismiss="modal" aria-hidden="true">Annuler</button>
+				<button class="btn btn-primary">S'authentifier</button>
+			</div>
+		</form>
+  	</div>		
 </form>
