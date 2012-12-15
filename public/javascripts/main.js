@@ -16,4 +16,43 @@ $(document).ready(function(){
 	$("#add-workshop-form #image-workshop").change(function(){
 		$('#add-workshop-form #appendedInputButton').val($('#add-workshop-form #image-workshop').val());
 	});
+	
+	$('.workshop-bloc a.btn-danger').click(function(e){
+		e.preventDefault();
+		$('#valid-suppression').attr('data-link',$(this).attr('data-link')); 
+		$('#modal-suppression-confirm').modal();
+	});
+	$('#modal-suppression-confirm').on('shown', function () {
+		$('#modal-suppression-confirm #valid-suppression').click(function(){
+			window.location.href = $(this).attr('data-link');
+		});
+	});
+	
+	$('#nextPlayButton').click(function(){
+		$("#nextPlay").datepicker({
+			format:'dd-mm-yyyy',
+			weekStart:1,
+		}).on('changeDate', function(ev){
+			var now = new Date();
+			if(ev.date.valueOf() < now.valueOf()){
+				var $alert = $('<div class="alert alert-error" id="changed-date-alert-error">La date choisie est inférieure à la date du jour<a class="close" data-dismiss="alert" href="#">&times;</a></div>')
+				$alert.css({
+					'position':'fixed',
+					'bottom':'15px',
+					'right' :'15px',
+					'border' : '1px solid '
+				}).appendTo('body');
+				$alert.alert();
+				setTimeout(function(){
+					$('#changed-date-alert-error').alert('close');
+				},1000);
+			} else {
+				$("#nextPlay").datepicker('hide');
+				if( $('#changed-date-alert-error').length > 0){
+					$('#changed-date-alert-error').alert('close');
+				}
+			}
+		});
+		$("#nextPlay").datepicker('show');
+	});
 });

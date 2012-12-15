@@ -1,6 +1,9 @@
 .wrapper{
 	box-shadow:5px 0px 50px #DDD;
 }
+.spaceBefore{
+	margin-top:20px;
+}
 #sidebar{
 	
 }

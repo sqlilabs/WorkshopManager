@@ -34,12 +34,26 @@
 				</div>
 				<div class="row-fluid">
 					<div class="span12 alignToRight">
-						<a href="@routes.WorkshopController.deleteWorkshop(workshop.getId)" class="btn btn-danger">Supprimer</a>
+						<a href="#" data-link="@routes.WorkshopController.deleteWorkshop(workshop.getId)" class="btn btn-danger">Supprimer</a>
 						<a href="@routes.WorkshopController.modifyWorkshop(workshop.getId)" class="btn btn-info">Modifier</a>
 						<a href="@routes.WorkshopController.planWorkshop(workshop.getId)" class="btn btn-success">Planifier</a>
 					</div>
 				</div>
 			</div>
+		</div>
+	</div>
+	<div id="modal-suppression-confirm" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-header">
+		  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		  <h3 id="myModalLabel">Confirmation</h3>
+		</div>
+		<div class="modal-body">
+		  <img src="@routes.Assets.at("images/confirm_48.png")" align="left" />
+		  <p>Etes vous sur de vouloir supprimer ce workshop ?</p>
+		</div>
+		<div class="modal-footer">
+		  <button class="btn" data-dismiss="modal" aria-hidden="true">Non</button>
+		  <button class="btn btn-primary" id="valid-suppression">Oui</button>
 		</div>
 	</div>
 	}

@@ -12,8 +12,7 @@ POST    /workshops/add				controllers.WorkshopController.saveWorkshop(idWorkshop
 GET		/workshops/planifier/:id	controllers.WorkshopController.planWorkshop(id: Long)
 GET		/workshops/supprimer/:id	controllers.WorkshopController.deleteWorkshop(id: Long)
 GET		/workshops/modifier/:id		controllers.WorkshopController.modifyWorkshop(id: Long)
-GET		/workshops/:id/plan			controllers.WorkshopController.planWorkshop(id: Long)
-POST    /workshops/plan				controllers.WorkshopController.saveWorkshopSession(id: Long)
+POST    /workshops/planifier/:id	controllers.WorkshopController.saveWorkshopSession(id: Long)
 
 
 GET     /webjars/*file              controllers.WebJarAssets.at(file)

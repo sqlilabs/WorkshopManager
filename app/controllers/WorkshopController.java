@@ -12,10 +12,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import controllers.utils.ControllerUtils;
-
 import models.Workshop;
 import models.WorkshopSession;
+import play.Logger;
 import play.Play;
 import play.api.templates.Html;
 import play.data.Form;
@@ -69,49 +68,53 @@ public class WorkshopController extends Controller {
 	 *         errors
 	 */
 	@Transactional
-    public static Result saveWorkshop( Long id ) {
-    	Form<Workshop> workshopForm		=	form(Workshop.class).bindFromRequest();
-    	
-        if (workshopForm.hasErrors()) {
-            return badRequest( addWorkshop.render(workshopForm, id) );
-        }
-        
-        //Sauver l'objet en base
-        Workshop workshop = workshopForm.get();
-        
-        // Gestion de la sauvegarde des fichiers uploadés (images)
-        MultipartFormData body = request().body().asMultipartFormData();
-        FilePart picture = body.getFile("image");
-        if (picture != null) {
-          String fileName = picture.getFilename();
-          // TODO : renommer le fichier avant de le sauvegarder
-          // TODO : vérifier si le fichier existe
-          //String contentType = picture.getContentType(); 
-          File file = picture.getFile();
-          
-          // On sauvegarde le ficheir
-          String myUploadPath = Play.application().path() + "/" + Play.application().configuration().getString("workshop.images.directory");
-          file.renameTo(new File(myUploadPath, fileName));
-          workshop.setImage(Play.application().configuration().getString("workshop.images.url") + "/"+fileName);
-          
-        }
-        
-        if ( id == ID_NOT_IN_TABLE ) {
-        	JPA.em().persist(workshop);
-        }
-        else {
-        	workshop.setId(id);
-        	JPA.em().merge(workshop);
-        }
-		
-        
-       
-        
-        
-		Html html = welcome.render("Workshop Manager", WorkshopDAO.getWorkshops());
-        
-        return ok(html);
-    }
+	public static Result saveWorkshop(Long id) {
+		Form<Workshop> workshopForm = form(Workshop.class).bindFromRequest();
+
+		if (workshopForm.hasErrors()) {
+			return badRequest(addWorkshop.render(workshopForm, id));
+		}
+
+		// Sauver l'objet en base
+		Workshop workshop = workshopForm.get();
+
+		// Gestion de la sauvegarde des fichiers uploadés (images)
+		MultipartFormData body = request().body().asMultipartFormData();
+		FilePart picture = body.getFile("image");
+		if (picture != null) {
+			String fileName = picture.getFilename();
+			// TODO : renommer le fichier avant de le sauvegarder
+			// TODO : vérifier si le fichier existe
+			// String contentType = picture.getContentType();
+			File file = picture.getFile();
+
+			// On sauvegarde le ficheir
+			try {
+				String myUploadPath = Play.application().path()
+						+ "/"
+						+ Play.application().configuration()
+								.getString("workshop.images.directory");
+				file.renameTo(new File(myUploadPath, fileName));
+				workshop.setImage(Play.application().configuration()
+						.getString("workshop.images.url")
+						+ "/" + fileName);
+			} catch (Exception e) {
+				// TODO : préciser les exceptions
+				// TODO Prévenir le user que le fichier ne s'est pas copié (utiliser les flash messages ?)
+				Logger.info("Erreur lors de la copie du fichier image "
+						+ fileName);
+			}
+		}
+
+		if (id == ID_NOT_IN_TABLE) {
+			JPA.em().persist(workshop);
+		} else {
+			workshop.setId(id);
+			JPA.em().merge(workshop);
+		}
+
+		return redirect(routes.Application.welcome());
+	}
 
 	/**
 	 * @param id
@@ -133,7 +136,6 @@ public class WorkshopController extends Controller {
 	 */
 	@Transactional
 	public static Result deleteWorkshop(Long id) {
-		// TODO demander une confirmation
 		Workshop ws = JPA.em().find(Workshop.class, id);
 		JPA.em().remove(ws);
 
@@ -141,10 +143,7 @@ public class WorkshopController extends Controller {
 			System.out.println(key);
 		}
 
-		Html html = welcome.render("Workshop Manager",
-				WorkshopDAO.getWorkshops());
-
-		return ok(html);
+		return redirect(routes.Application.welcome());
 	}
 
 	/**
