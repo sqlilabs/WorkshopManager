@@ -16,3 +16,7 @@ POST    /workshops/plan				controllers.WorkshopController.saveWorkshopSession(id
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
+
+
+# OAuth 2.0 Google
+GET 	/oauth2callback				controllers.AuthentificationController.callback()				

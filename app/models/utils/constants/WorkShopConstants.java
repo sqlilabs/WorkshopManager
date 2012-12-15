@@ -1,5 +1,11 @@
 package models.utils.constants;
 
+/**
+ * Constant class for objects related to Workshop
+ * 
+ * @author ychartois
+ *
+ */
 public class WorkShopConstants {
 
 	
