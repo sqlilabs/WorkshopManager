@@ -4,11 +4,10 @@
 @implicitFieldConstructor = @{
 FieldConstructor(twitterBootstrapInputHorizontal.render) }
 
-@mainNoSidebar("Ajouter un Worshop") {
+@mainNoSidebar(Messages("form.add.workshop.page.title")) {
 <div class="row">
 	<div class="span6 offset3">
-		<h3 style="padding-bottom: 20px;">Veuillez saisir les détails du
-			workshop:</h3>
+		<h3 style="padding-bottom: 20px;">@Messages("form.add.workshop.title")</h3>
 
 		@form(
 			action = routes.WorkshopController.saveWorkshop( idWorkshop ),
@@ -26,21 +25,21 @@ FieldConstructor(twitterBootstrapInputHorizontal.render) }
 		
 		@inputText(
 			workshopForm("subject"), 
-			'_label -> "Sujet du Workshop",
+			'_label -> Messages("form.add.workshop.subject.label"),
 			'class  -> "input-xlarge"
 		) 
 		
 		@textarea(
 			workshopForm("description"), 
-			'_label -> "Description du contenu",
+			'_label -> Messages("form.add.workshop.description.label"),
 			'class  -> "input-xlarge"
 		) 		
 		
 		<div class="control-group">			
-			<label class="control-label" for="appendedInputButton">Choisissez une image</label>
+			<label class="control-label" for="appendedInputButton">@Messages("form.add.workshop.image.label")</label>
 			<div class="controls">
 				<input class="input-xlarge" name="image-hack" id="appendedInputButton" disabled type="text" />
-				<button class="btn" id="image-button" type="button">Go!</button>
+				<button class="btn" id="image-button" type="button">@Messages("form.add.workshop.subject.button")</button>
 			</div>
 		</div>
 
@@ -56,9 +55,9 @@ FieldConstructor(twitterBootstrapInputHorizontal.render) }
 		)
 		
 		<div class="actions center-text" >
-			<input type="submit" value="Créer ce Workshop"
+			<input type="submit" value="@Messages("form.add.workshop.submit.button")"
 				class="btn-success btn primary"> <a
-				href="@routes.Application.welcome()" class="btn">Cancel </a>
+				href="@routes.Application.welcome()" class="btn">@Messages("form.add.workshop.cancel.button")</a>
 		</div>
 
 	</div>

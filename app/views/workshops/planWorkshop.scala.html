@@ -5,10 +5,10 @@
 
 @implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInputHorizontal.render) } 
 
-@mainNoSidebar("Plannifier un Worshop") {
+@mainNoSidebar(Messages("form.plan.workshop.page.title")) {
 <div class="row">
 	<div class="span6 offset3">
-	    <h3 style="padding-bottom:20px;">Veuillez saisir les détails de la session du workshop:</h3>
+	    <h3 class="spaceBefore">@Messages("form.plan.workshop.title")</h3>
     
     @form( 
     	action = routes.WorkshopController.saveWorkshopSession( id ),
@@ -17,19 +17,22 @@
         
             @inputText(
             	workshopSessionForm("doodleUrl"), 
-            	'_label -> "L'url du Doodle",
-            	'class  -> "input-xlarge"
+            	'_label -> Messages("form.plan.workshop.doodleUrl.label"),
+            	'class  -> "input-xlarge",
+            	'_help -> Messages("form.plan.workshop.doodleUrl.help"),
+				'_showConstraints -> false
             )
             
             @inputText(
             	workshopSessionForm("location"), 
-            	'_label -> "Lieu du Workshop",
-            	'class  -> "input-xlarge"
+            	'_label -> Messages("form.plan.workshop.location.label"),
+            	'class  -> "input-xlarge",
+            	'_showConstraints -> false
             )
             
           
 			<div class="control-group">
-				<label class="control-label">Date de la prochaine s&eacute;ance</label>
+				<label class="control-label">@Messages("form.plan.workshop.nextPlay.label")</label>
 				<div class="controls">
 					<input class="input-xlarge" name="date" id="nextPlay" disabled type="date" />
 					<div class='btn' id="nextPlayButton"><i class='icon-calendar'></i></div>
@@ -38,15 +41,16 @@
             @select(
             	workshopSessionForm("Speaker"), 
                 options = options( UserDAO.getSpeakers ),
-                '_default -> "--- Choisir un Speaker ---",
-                '_label -> "Speaker",
+                '_default -> Messages("form.plan.workshop.speaker.default"),
+                '_label -> Messages("form.plan.workshop.speaker.label"),
                 'class  -> "input-xlarge",
+                '_showConstraints -> false,
                 '_error -> workshopSessionForm("Speaker").error.map(_.withMessage("Le choix d'un Speaker est obligatoire"))
             )
          
         <div class="actions center-text spaceBefore">
-            <input type="submit" value="Plannifier ce Workshop" class="btn-success btn primary"> 
-            <a href="@routes.Application.welcome()" class="btn">Cancel </a> 
+            <input type="submit" value="@Messages("form.plan.workshop.submit.button")" class="btn-success btn primary"> 
+            <a href="@routes.Application.welcome()" class="btn">@Messages("form.plan.workshop.cancel.button")</a> 
         </div>
     }
 	 </div>
