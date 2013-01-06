@@ -19,9 +19,7 @@ object ApplicationBuild extends Build {
 		// Nécesaire pour JPA, utilisez dans le persistence.xml
 		"com.github.twitter" 			% "bootstrap" 						% "2.0.2",
 		"org.hibernate" 				% "hibernate-entitymanager"			% hibernateVersion,
-		"mysql" 						% "mysql-connector-java" 			% "5.1.20",
-		"org.apache.amber"				% "amber-oauth2-client" 			% "0.22-incubating"
-		
+		"mysql" 						% "mysql-connector-java" 			% "5.1.20"
 	)
 	
 	val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings(

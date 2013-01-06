@@ -1,3 +1,7 @@
+/* ******************* */
+/*   For general use   */
+/* ******************* */
+
 .center-text {
 	text-align: center;
 }
@@ -24,4 +28,12 @@
 .labelWS {
 	font-style: normal;
 	font-weight: bold;
+}
+
+/* ******************* */
+/*   Profil Picture    */
+/* ******************* */
+.emailStyle {
+	font-style: italic;
+	color: gray;
 }

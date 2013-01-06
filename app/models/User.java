@@ -5,10 +5,15 @@ package models;
 
 import java.io.Serializable;
 
+import javax.annotation.Nonnull;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.avaje.ebean.validation.NotNull;
 
 /**
  * Un utilisateur dans l'application
@@ -27,22 +32,33 @@ public class User implements Serializable {
 	/**
 	 * L'identifiant
 	 */
+	@Id
+	@GeneratedValue
 	private Long id;
 
 	/**
 	 * Le prénom.
 	 */
+	@Column(name = "first_name")
 	private String firstName;
 	
 	/**
 	 * Le nom de famille
 	 */
+	@Column(name = "last_name")
 	private String lastName;
 	
 	/**
 	 * Le mail.
 	 */
+	@Column(name = "email")
 	private String email;
+	
+	/**
+	 * the link to the profile picture
+	 */
+	@Column(name = "picture")
+	private String picture;
 	
 	/**
 	 * Constructeur par défaut.
@@ -53,7 +69,6 @@ public class User implements Serializable {
 	/**
 	 * @return the id
 	 */
-	@Id
 	public Long getId() {
 		return id;
 	}
@@ -68,7 +83,6 @@ public class User implements Serializable {
 	/**
 	 * @return the firstName
 	 */
-	@Column(name = "first_name")
 	public String getFirstName() {
 		return firstName;
 	}
@@ -83,7 +97,6 @@ public class User implements Serializable {
 	/**
 	 * @return the lastName
 	 */
-	@Column(name = "last_name")
 	public String getLastName() {
 		return lastName;
 	}
@@ -108,5 +121,22 @@ public class User implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+	/**
+	 * @return the picture
+	 */
+	public String getPicture() {
+		return picture;
+	}
+
+	/**
+	 * @param picture the picture to set
+	 */
+	public void setPicture(String picture) {
+		this.picture = picture;
+	}
+
+
+	
 
 }

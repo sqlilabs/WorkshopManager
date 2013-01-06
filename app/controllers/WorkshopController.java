@@ -136,7 +136,7 @@ public class WorkshopController extends Controller {
 			System.out.println( key );
 		}
 		
-		Html html = welcome.render("Workshop Manager", WorkshopDAO.getWorkshops());
+		Html html = welcome.render("Accueil", WorkshopDAO.getWorkshops());
 		
 		return ok(html);
 	}

@@ -1,5 +1,7 @@
 package controllers;
 
+import static models.utils.constants.ApplicationConstants.*;
+
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -52,6 +54,22 @@ public class Application extends Controller {
 	public static String isActive( String tabName ) {
 		String currentTab = (String) Http.Context.current().args.get("ongletActif");
 		return tabName.equals( currentTab ) ? "class=active" : "";
+	}
+	
+	/**
+	 * Get the uuid of the session or create one if never defined
+	 * 
+	 * @return the uuid of this session
+	 */
+	public static String getUuid() {
+		// Generate a unique ID
+		String 		uuid		=	session(UUID);
+		if( uuid == null ) {
+			uuid				=	java.util.UUID.randomUUID().toString();
+			session(UUID, uuid);
+		}
+		
+		return uuid;
 	}
 	
 	

@@ -1,14 +1,23 @@
 package controllers;
 
 import static models.utils.constants.AuthentificationConstants.*;
+
+import models.User;
+
+import org.codehaus.jackson.JsonNode;
+
+import dao.WorkshopDAO;
+
 import play.Play;
-import play.api.Application;
-import play.api.templates.Html;
+import play.cache.Cache;
+import play.db.jpa.Transactional;
+import play.libs.WS;
+import play.libs.WS.Response;
 import play.mvc.Controller;
 import play.mvc.Result;
-import views.html.header;
+import services.UserService;
 import views.html.welcome.welcome;
-import dao.WorkshopDAO;
+import views.html.errors.error;
 
 /**
  * Ce controller regroupe toutes les actions qui sont liées à l'authentification via Google API
@@ -16,7 +25,8 @@ import dao.WorkshopDAO;
  * @author ychartois
  */
 public class AuthentificationController extends Controller {
-
+	
+	
 	//<--------------------------------------------------------------------------->
 	//-							 Constructeur(s)	        
 	//<--------------------------------------------------------------------------->
@@ -32,23 +42,65 @@ public class AuthentificationController extends Controller {
 	//-							 Actions(s)	        
 	//<--------------------------------------------------------------------------->	
 	/**
+	 * Action which handle the authentification by Google and put the authentificated user
+	 * in the session
 	 * 
-	 * @return
+	 * @return to welcome page
 	 */
+	@Transactional
 	public static Result callback() {
 		
-		String codeRetour = request().queryString().get(CALLBACK_GOOGLE_CODE)[CALLBACK_GOOGLE_INFO_INDEX];
+		// On récupère le code fourni par Google
+		String[]	codeRetour 				= 	request().queryString().get(CALLBACK_GOOGLE_CODE);
 		
-		Html html = header.render(codeRetour);
-		return ok( html );
+		// Si le code n'existe pas c'est qu'il y a une erreur
+		if ( codeRetour == null ) {
+			String 		errorCode 			= 	request().queryString().get(CALLBACK_GOOGLE_ERROR)[CALLBACK_GOOGLE_INFO_INDEX];
+			//TODO: a externalisé avec la méthode de Rémi
+			return ok ( error.render("Vous avez refusé l'identification via votre compte Google, vous ne pourrez pas profiter des privilèges liés aux utilisateurs identifiés. Google nous a retourné l'erreur suivante: [" + errorCode + "]") );
+		}
+		
+		// Request an Access token
+		Response 	responseAccessToken 	= 	WS.url(GOOGLE_ACCESS_TOKEN_URL)
+													.setHeader("Content-Type", "application/x-www-form-urlencoded")
+													.post( getAccessTokenParams( codeRetour[CALLBACK_GOOGLE_INFO_INDEX] ) )
+													.get();
+		
+		JsonNode 	resultAccessToken		= 	responseAccessToken.asJson();
+		
+		// Get the user information
+		Response 	response 				= 	WS.url(GOOGLE_USER_INFO_URL)
+													.setQueryParameter(GOOGLE_ACCESS_TOKEN, resultAccessToken.get(GOOGLE_ACCESS_TOKEN).asText())
+													.get().get();
+		
+		JsonNode 	result 					= 	response.asJson();
+		
+		// Call the service that handle the user
+		Cache.set( Application.getUuid() + "connectedUser", new UserService().handleUserFromGoogleResponse( result ) );	
+		
+		return ok( welcome.render("Accueil", WorkshopDAO.getWorkshops() ));
 	}
+	
+	/**
+	 * Action which handles the deconnection
+	 * 
+	 * @return the welcome page
+	 */
+	@Transactional
+	public static Result deconnection() {
+		// On enlève le user de la session
+		Cache.set( Application.getUuid() + "connectedUser", null );	
+		
+		return ok( welcome.render("Accueil", WorkshopDAO.getWorkshops() ));
+	}
+	
 	
 	// <--------------------------------------------------------------------------->
 	// - 							helper methods
 	// <--------------------------------------------------------------------------->
 
 	/**
-	 * Build the Google OAuth link
+	 * Build the Google OAuth link. Use by the authentication view
 	 * 
 	 * @return the Google OAuth link
 	 */
@@ -82,4 +134,62 @@ public class AuthentificationController extends Controller {
 		
 		return googleOAuthLink.toString();
 	}
+	
+	/**
+	 * Allow to acess to the authentificated user
+	 * 
+	 * @return the authentificated user
+	 */
+	public static User getUser() {
+		return (User) Cache.get( Application.getUuid() + "connectedUser");
+	}
+	
+	
+	// <--------------------------------------------------------------------------->
+	// - 							private methods
+	// <--------------------------------------------------------------------------->	
+	/**
+	 * Build the Google Token request link
+	 * 
+	 * @param code The authorization code returned from the initial request
+	 * 
+	 * @return the Google Token request link
+	 */
+	private static String getAccessTokenParams( String code ) {
+	
+		StringBuilder	googleAccessTokenParams		=	new StringBuilder();
+		
+		// Google Client ID
+		googleAccessTokenParams.append(GOOGLE_CLIENT_ID);
+		googleAccessTokenParams.append("=");
+		googleAccessTokenParams.append( Play.application().configuration().getString(GOOGLE_CLIENT_ID_PROP) );
+		googleAccessTokenParams.append("&");
+		
+		// Google redirect URL
+		googleAccessTokenParams.append(GOOGLE_REDIRECT_URL);
+		googleAccessTokenParams.append("=");
+		googleAccessTokenParams.append(Play.application().configuration().getString(GOOGLE_REDIRECT_URL_PROP));
+		googleAccessTokenParams.append("&");
+		
+		// Google code
+		googleAccessTokenParams.append(GOOGLE_CODE);
+		googleAccessTokenParams.append("=");
+		googleAccessTokenParams.append(code);
+		googleAccessTokenParams.append("&");
+		
+		// Google Client secret
+		googleAccessTokenParams.append(GOOGLE_CLIENT_SECRET);
+		googleAccessTokenParams.append("=");
+		googleAccessTokenParams.append(Play.application().configuration().getString(GOOGLE_CLIENT_SECRET_PROP));
+		googleAccessTokenParams.append("&");
+		
+		
+		// Google Grant Type
+		googleAccessTokenParams.append(GOOGLE_GRANT_TYPE);
+		googleAccessTokenParams.append("=");
+		googleAccessTokenParams.append(Play.application().configuration().getString(GOOGLE_GRANT_TYPE_PROP));
+				
+		return googleAccessTokenParams.toString();
+	}
+	
 }

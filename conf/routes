@@ -14,6 +14,9 @@ POST	/workshops/:id/delete		controllers.WorkshopController.deleteWorkshop(id: Lo
 GET		/workshops/:id/plan			controllers.WorkshopController.planWorkshop(id: Long)
 POST    /workshops/plan				controllers.WorkshopController.saveWorkshopSession(id: Long)
 
+# Application
+GET     /logout						controllers.AuthentificationController.deconnection()
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 

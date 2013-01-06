@@ -37,7 +37,7 @@ public class UserFormatter extends SimpleFormatter<User>{
 	 */
 	@Override
 	public User parse(String completeName, Locale loc) throws ParseException {
-		return UserDAO.getSpeakerWithName( completeName );
+		return UserDAO.getUserWithName( completeName );
 	}
 
 	/* (non-Javadoc)

@@ -6,6 +6,7 @@ package dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import models.User;
@@ -52,12 +53,19 @@ public class UserDAO {
 	 * @param completeName the complete name composed as FirstName + LastName
 	 * @return the selected user
 	 */
-	public static User getSpeakerWithName( String completeName ) {
+	public static User getUserWithName( String completeName ) {
 		String[] 			splittedName 	=	completeName.split(" ");
 		String 				queryStr		=	"SELECT user FROM User user WHERE user.firstName = '" + splittedName[0] + "'  AND user.lastName IS '" + splittedName[1] + "'";
 		TypedQuery<User> 	query 			= 	JPA.em().createQuery(queryStr, User.class);
 		
-		User user = query.getSingleResult();
+		User 				user 			= 	null ;
+		
+		try {
+			user 	=	query.getSingleResult();
+		}
+		catch ( NoResultException nre ) {
+			//Do Nothing, if we don't get any result, we want to return null
+		}
 		
 		return user;
 	}
