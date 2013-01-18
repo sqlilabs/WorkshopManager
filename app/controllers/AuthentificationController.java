@@ -4,6 +4,8 @@ import static models.utils.constants.AuthentificationConstants.*;
 import static models.utils.constants.UserConstants.*;
 
 import models.User;
+import models.Workshop;
+import models.WorkshopSession;
 
 import org.codehaus.jackson.JsonNode;
 
@@ -153,6 +155,28 @@ public class AuthentificationController extends Controller {
 	public static boolean isAuthenticatedUserAdmin() {
 		User	user 	=	getUser();
 		return ROLE_ADMIN.equals( user != null ? user.getRole() : null);
+	}
+	
+	public static boolean isSessionSpeaker( WorkshopSession session ) {
+		User	user 	=	getUser();
+		
+		if ( user == null ) {
+			return false;
+		}
+		
+		return user.getFirstName().equals( session.getSpeaker().getFirstName() ) 
+				&& user.getLastName().equals( session.getSpeaker().getLastName() ) ;
+	}
+	
+	public static boolean isAuthor( Workshop worshop ) {
+		User	user 	=	getUser();
+		
+		if ( user == null || worshop == null || worshop.getAuthor() == null) {
+			return false;
+		}
+		
+		return user.getFirstName().equals( worshop.getAuthor().getFirstName() ) 
+				&& user.getLastName().equals( worshop.getAuthor().getLastName() ) ;
 	}
 	
 	// <--------------------------------------------------------------------------->

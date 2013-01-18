@@ -79,6 +79,9 @@ public class WorkshopController extends Controller {
         //Sauver l'objet en base
         Workshop workshop = workshopForm.get();
         
+        //On affecte l'auteur connecté
+        workshop.setAuthor( AuthentificationController.getUser() );
+        
         if ( id == ID_NOT_IN_TABLE ) {
         	JPA.em().persist(workshop);
         }

@@ -15,6 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -66,6 +67,11 @@ public class Workshop implements Serializable {
 	 * La WorkshopSession contient les informations relatives à la planification du Workshop
 	 */
 	private WorkshopSession workshopSession;
+	
+	/**
+	 * Who created the workshop
+	 */
+	private User author;
 	
 	
 	//<--------------------------------------------------------------------------->
@@ -175,6 +181,23 @@ public class Workshop implements Serializable {
 	 */
 	public void setWorkshopSession(WorkshopSession workshopSession) {
 		this.workshopSession = workshopSession;
+	}
+
+
+	/**
+	 * @return the author
+	 */
+	@ManyToOne
+	public User getAuthor() {
+		return author;
+	}
+
+
+	/**
+	 * @param author the author to set
+	 */
+	public void setAuthor(User author) {
+		this.author = author;
 	}
 	
 	

@@ -32,15 +32,19 @@
 				</div>
 			</div>
 			<div class="row">
-				@if( AuthentificationController.isAuthenticatedUserAdmin() ) {
+				
 					<span class="span11 offset6 clear">
 						@form(routes.WorkshopController.actionWorkshop(workshop.getId)) {
-							<input class="btn-danger" type="submit" name="Supprimer" value="Supprimer">
-							<input class="btn-info" type="submit" name="Modifier" value="Modifer">
-							<input class="btn-success" type="submit" name="Planifier" value="Planifier">
+							@if( AuthentificationController.isAuthenticatedUserAdmin() || AuthentificationController.isAuthor( workshop ) ) {
+								<input class="btn-danger" type="submit" name="Supprimer" value="Supprimer">
+								<input class="btn-info" type="submit" name="Modifier" value="Modifer">
+							}
+							@if( AuthentificationController.isAuthenticatedUserAdmin() ) {
+								<input class="btn-success" type="submit" name="Planifier" value="Planifier">
+							}
 						}
 					</span>
-				}
+				
 			</div>
 		</div>
 	</div>
