@@ -15,6 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -40,6 +41,8 @@ public class Workshop implements Serializable {
 	/**
 	 * L'identifiant
 	 */
+	@Id
+    @GeneratedValue
 	private Long id;
 
 	/**
@@ -51,6 +54,7 @@ public class Workshop implements Serializable {
 	/**
 	 * La description du contenu du workshop.
 	 */
+	@Column(length = 1000)
 	private String description;
 	
 	/**
@@ -61,17 +65,34 @@ public class Workshop implements Serializable {
 	/**
 	 * Les speakers proposé du workshop
 	 */
+	@ManyToMany
+	@JoinTable(
+			name="WORKSHOP_SPEAKERS",
+			joinColumns = @JoinColumn(name="workshop_id"),
+			inverseJoinColumns = @JoinColumn(name = "user_id"))
 	private Set<User> speakers = new HashSet<>();
 	
 	/**
 	 * La WorkshopSession contient les informations relatives à la planification du Workshop
 	 */
+	@OneToOne
 	private WorkshopSession workshopSession;
 	
 	/**
 	 * Who created the workshop
 	 */
+	@ManyToOne
 	private User author;
+	
+	/**
+	 * Les personnes intéressées par le workshop
+	 */
+	@ManyToMany
+	@JoinTable(
+			name="POTENTIAL_PARTICIPANTS",
+			joinColumns = @JoinColumn(name="workshop_id"),
+			inverseJoinColumns = @JoinColumn(name = "user_id"))
+	private Set<User> potentialParticipants = new HashSet<>();
 	
 	
 	//<--------------------------------------------------------------------------->
@@ -91,8 +112,6 @@ public class Workshop implements Serializable {
 	/**
 	 * @return the id
 	 */
-	@Id
-    @GeneratedValue
 	public Long getId() {
 		return id;
 	}
@@ -121,7 +140,6 @@ public class Workshop implements Serializable {
 	/**
 	 * @return the description
 	 */
-	@Column(length = 1000)
 	public String getDescription() {
 		return description;
 	}
@@ -150,11 +168,6 @@ public class Workshop implements Serializable {
 	/**
 	 * @return the speakers
 	 */
-	@OneToMany
-	@JoinTable(
-			name="WORKSHOP_SPEAKERS",
-			joinColumns = @JoinColumn(name="workshop_id"),
-			inverseJoinColumns = @JoinColumn(name = "user_id"))
 	public Set<User> getSpeakers() {
 		return speakers;
 	}
@@ -170,7 +183,6 @@ public class Workshop implements Serializable {
 	/**
 	 * @return the workshopSession
 	 */
-	@OneToOne
 	public WorkshopSession getWorkshopSession() {
 		return workshopSession;
 	}
@@ -187,7 +199,6 @@ public class Workshop implements Serializable {
 	/**
 	 * @return the author
 	 */
-	@ManyToOne
 	public User getAuthor() {
 		return author;
 	}
@@ -198,6 +209,22 @@ public class Workshop implements Serializable {
 	 */
 	public void setAuthor(User author) {
 		this.author = author;
+	}
+
+
+	/**
+	 * @return the potentialParticipants
+	 */
+	public Set<User> getPotentialParticipants() {
+		return potentialParticipants;
+	}
+
+
+	/**
+	 * @param potentialParticipants the potentialParticipants to set
+	 */
+	public void setPotentialParticipants(Set<User> potentialParticipants) {
+		this.potentialParticipants = potentialParticipants;
 	}
 	
 	

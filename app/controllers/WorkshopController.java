@@ -3,33 +3,25 @@
  */
 package controllers;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
-import javax.persistence.TypedQuery;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.tool.hbm2ddl.SchemaExport;
 
 import models.User;
 import models.Workshop;
 import models.WorkshopSession;
-import models.utils.formatter.UserFormatter;
-import play.api.templates.Html;
 import play.data.Form;
-import play.data.format.Formatters;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
-import scala.annotation.target.param;
-import views.html.welcome.welcome;
 import views.html.workshops.addWorkshop;
 import views.html.workshops.planWorkshop;
-import dao.UserDAO;
-import dao.WorkshopDAO;
 
 import static models.utils.constants.WorkShopConstants.*;
 
@@ -90,9 +82,7 @@ public class WorkshopController extends Controller {
         	JPA.em().merge(workshop);
         }
 		
-		Html html = welcome.render("Workshop Manager", WorkshopDAO.getWorkshops());
-        
-        return ok(html);
+		return redirect(routes.Application.welcome());
     }
 	
     /**
@@ -139,9 +129,7 @@ public class WorkshopController extends Controller {
 			System.out.println( key );
 		}
 		
-		Html html = welcome.render("Accueil", WorkshopDAO.getWorkshops());
-		
-		return ok(html);
+		return redirect(routes.Application.welcome());
 	}
 	
 	/**
@@ -194,9 +182,62 @@ public class WorkshopController extends Controller {
         }
 		JPA.em().persist( workshopToPlan );
 		
-        return ok( welcome.render("Workshop Manager", WorkshopDAO.getWorkshops()) );
+		return redirect(routes.Application.welcome());
     }
 
+    /**
+     * Allow to add a proposal Speaker to the speaker List for a selected workshop
+     * 
+     * @param id workshop id
+     * @return the welcome page
+     */
+    @Transactional
+    public static Result addSpeaker( Long id ) {
+    	Configuration cfg = new Configuration().configure();
+		SchemaExport export = new SchemaExport(cfg);
+		
+		export.create(true,true);
+    	// We get the Workshop
+        Workshop	currentWorkshop 	= 	JPA.em().find(Workshop.class, id);
+        
+        // Get the connected User
+        User		user				=	AuthentificationController.getUser();
+        
+        // It's a Set, so no duplicate
+        currentWorkshop.getSpeakers().add( user );
+        
+        // We save the new Workshop
+        JPA.em().persist( currentWorkshop );
+    	
+        return redirect(routes.Application.welcome());
+    }
+    
+    /**
+     * Allow to add a participant to the potential participants List for a selected workshop
+     * 
+     * @param id workshop id
+     * @return the welcome page
+     */
+    @Transactional
+    public static Result addParticipant( Long id ) {
+    	Configuration cfg = new Configuration().configure();
+		SchemaExport export = new SchemaExport(cfg);
+		
+		export.create(true,true);
+    	// We get the Workshop
+        Workshop	currentWorkshop 	= 	JPA.em().find(Workshop.class, id);
+        
+        // Get the connected User
+        User		user				=	AuthentificationController.getUser();
+        
+        // It's a Set, so no duplicate
+        currentWorkshop.getPotentialParticipants().add( user );
+        
+        // We save the new Workshop
+        JPA.em().persist( currentWorkshop );
+    	
+        return redirect(routes.Application.welcome());
+    }
     
 	// <--------------------------------------------------------------------------->
 	// - 							helper methods

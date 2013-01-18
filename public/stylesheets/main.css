@@ -30,10 +30,35 @@
 	font-weight: bold;
 }
 
+.littleMarginTop {
+	margin-top: 10px;
+}
+
 /* ******************* */
 /*   Profil Picture    */
 /* ******************* */
 .emailStyle {
 	font-style: italic;
 	color: gray;
+}
+
+
+/* ******************* */
+/*   Speaker Picture   */
+/* ******************* */
+.speakerPicture {
+	margin-top:-40px;
+	padding:5px;
+}
+
+.speakerPicture img {
+	padding:5px;
+	margin-left: 25px;
+}
+
+/* ******************* */
+/*   Particip Picture  */
+/* ******************* */
+.participantPicture img {
+	padding-left:5px;
 }

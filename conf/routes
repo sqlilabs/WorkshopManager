@@ -7,12 +7,15 @@ GET		/							controllers.Application.welcome()
 GET 	/workshops					controllers.Application.workshops()
 
 # Workshops
-GET 	/workshops/add				controllers.WorkshopController.blankWorkshop()
-POST    /workshops/add				controllers.WorkshopController.saveWorkshop(idWorkshop: Long)
-POST	/workshop/:id/action		controllers.WorkshopController.actionWorkshop(id: Long)
-POST	/workshops/:id/delete		controllers.WorkshopController.deleteWorkshop(id: Long)
-GET		/workshops/:id/plan			controllers.WorkshopController.planWorkshop(id: Long)
-POST    /workshops/plan				controllers.WorkshopController.saveWorkshopSession(id: Long)
+GET 	/workshops/add					controllers.WorkshopController.blankWorkshop()
+POST    /workshops/add					controllers.WorkshopController.saveWorkshop(idWorkshop: Long)
+POST	/workshop/:id/action			controllers.WorkshopController.actionWorkshop(id: Long)
+POST	/workshops/:id/delete			controllers.WorkshopController.deleteWorkshop(id: Long)
+GET		/workshops/:id/plan				controllers.WorkshopController.planWorkshop(id: Long)
+POST    /workshops/plan					controllers.WorkshopController.saveWorkshopSession(id: Long)
+GET     /workshops/addSpeaker/id		controllers.WorkshopController.addSpeaker(id: Long)
+GET     /workshops/addParticipant/id	controllers.WorkshopController.addParticipant(id: Long)
+
 
 # Application
 GET     /logout						controllers.AuthentificationController.deconnection()

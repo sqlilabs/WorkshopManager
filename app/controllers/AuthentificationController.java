@@ -9,8 +9,6 @@ import models.WorkshopSession;
 
 import org.codehaus.jackson.JsonNode;
 
-import dao.WorkshopDAO;
-
 import play.Play;
 import play.cache.Cache;
 import play.db.jpa.Transactional;
@@ -19,7 +17,6 @@ import play.libs.WS.Response;
 import play.mvc.Controller;
 import play.mvc.Result;
 import services.UserService;
-import views.html.welcome.welcome;
 import views.html.errors.error;
 
 /**
@@ -81,7 +78,7 @@ public class AuthentificationController extends Controller {
 		// Call the service that handle the user
 		Cache.set( Application.getUuid() + "connectedUser", new UserService().handleUserFromGoogleResponse( result ) );	
 		
-		return ok( welcome.render("Accueil", WorkshopDAO.getWorkshops() ));
+		return redirect(routes.Application.welcome());
 	}
 	
 	/**
@@ -94,7 +91,7 @@ public class AuthentificationController extends Controller {
 		// On enlève le user de la session
 		Cache.set( Application.getUuid() + "connectedUser", null );	
 		
-		return ok( welcome.render("Accueil", WorkshopDAO.getWorkshops() ));
+		return redirect(routes.Application.welcome());
 	}
 	
 	
@@ -157,6 +154,13 @@ public class AuthentificationController extends Controller {
 		return ROLE_ADMIN.equals( user != null ? user.getRole() : null);
 	}
 	
+	/**
+	 * Determine if the connected user is the speaker of the session
+	 * 
+	 * @param session the workshop session
+	 * 
+	 * @return true if the connected user is the speaker of the session
+	 */
 	public static boolean isSessionSpeaker( WorkshopSession session ) {
 		User	user 	=	getUser();
 		
@@ -168,6 +172,13 @@ public class AuthentificationController extends Controller {
 				&& user.getLastName().equals( session.getSpeaker().getLastName() ) ;
 	}
 	
+	/**
+	 * Determine if the connected user is the author of the workshop
+	 * 
+	 * @param worshop a workshop
+	 * 
+	 * @return true if the connected user is the author of the workshop
+	 */
 	public static boolean isAuthor( Workshop worshop ) {
 		User	user 	=	getUser();
 		
