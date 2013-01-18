@@ -1,6 +1,7 @@
 package controllers;
 
 import static models.utils.constants.AuthentificationConstants.*;
+import static models.utils.constants.UserConstants.*;
 
 import models.User;
 
@@ -144,6 +145,15 @@ public class AuthentificationController extends Controller {
 		return (User) Cache.get( Application.getUuid() + "connectedUser");
 	}
 	
+	/**
+	 * Allow to identify if the user is an admin
+	 * 
+	 * @return true if the user is admin
+	 */
+	public static boolean isAuthenticatedUserAdmin() {
+		User	user 	=	getUser();
+		return ROLE_ADMIN.equals( user != null ? user.getRole() : null);
+	}
 	
 	// <--------------------------------------------------------------------------->
 	// - 							private methods

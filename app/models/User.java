@@ -61,11 +61,25 @@ public class User implements Serializable {
 	private String picture;
 	
 	/**
+	 * the role of the user
+	 */
+	@Column(name = "role")
+	private String role;
+	
+	
+	//<--------------------------------------------------------------------------->
+	//-							 Constructeur(s)	        
+	//<--------------------------------------------------------------------------->	
+	/**
 	 * Constructeur par défaut.
 	 */
 	public User() {
 	}
 
+	
+	//<--------------------------------------------------------------------------->
+	//-							Setter/Getter	        
+	//<--------------------------------------------------------------------------->		
 	/**
 	 * @return the id
 	 */
@@ -134,6 +148,20 @@ public class User implements Serializable {
 	 */
 	public void setPicture(String picture) {
 		this.picture = picture;
+	}
+
+	/**
+	 * @return the role
+	 */
+	public String getRole() {
+		return role;
+	}
+
+	/**
+	 * @param role the role to set
+	 */
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 

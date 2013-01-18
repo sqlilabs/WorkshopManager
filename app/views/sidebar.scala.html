@@ -22,7 +22,10 @@
 			<p>@workshop.getDescription()</p>
 			<p>
 				@form(routes.WorkshopController.planWorkshop(workshop.getId)) {
-						<input class="btn-mini btn-info" type="submit" value="Modifier">
+						@if( AuthentificationController.isAuthenticatedUserAdmin() ) {
+							<input class="btn-mini btn-info" type="submit" value="Modifier">
+						}
+						
 						<a class="btn btn-mini btn-success floatRight" href="@workshop.getWorkshopSession().getDoodleUrl()">S'inscrire</a>
 				}
 			</p>

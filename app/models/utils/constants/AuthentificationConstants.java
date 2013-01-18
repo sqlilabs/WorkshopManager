@@ -161,8 +161,8 @@ public class AuthentificationConstants {
 	/**
 	 * Constructor private because it's a constant class
 	 */
-	public AuthentificationConstants() {
-		// TODO Auto-generated constructor stub
+	private AuthentificationConstants() {
+		super();
 	}
 
 }
