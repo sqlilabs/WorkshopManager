@@ -190,6 +190,7 @@ public class AuthentificationController extends Controller {
 				&& user.getLastName().equals( worshop.getAuthor().getLastName() ) ;
 	}
 	
+	
 	// <--------------------------------------------------------------------------->
 	// - 							private methods
 	// <--------------------------------------------------------------------------->	

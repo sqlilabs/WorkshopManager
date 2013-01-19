@@ -213,6 +213,33 @@ public class WorkshopController extends Controller {
     }
     
     /**
+     * Allow to remove a proposal Speaker to the speaker List for a selected workshop
+     * 
+     * @param id workshop id
+     * @return the welcome page
+     */
+    @Transactional
+    public static Result removeSpeaker( Long id ) {
+    	Configuration cfg = new Configuration().configure();
+		SchemaExport export = new SchemaExport(cfg);
+		
+		export.create(true,true);
+    	// We get the Workshop
+        Workshop	currentWorkshop 	= 	JPA.em().find(Workshop.class, id);
+        
+        // Get the connected User
+        User		user				=	AuthentificationController.getUser();
+        
+        // It's a Set, so no duplicate
+        currentWorkshop.getSpeakers().remove( user );
+        
+        // We save the new Workshop
+        JPA.em().persist( currentWorkshop );
+    	
+        return redirect(routes.Application.welcome());
+    }
+    
+    /**
      * Allow to add a participant to the potential participants List for a selected workshop
      * 
      * @param id workshop id
@@ -232,6 +259,33 @@ public class WorkshopController extends Controller {
         
         // It's a Set, so no duplicate
         currentWorkshop.getPotentialParticipants().add( user );
+        
+        // We save the new Workshop
+        JPA.em().persist( currentWorkshop );
+    	
+        return redirect(routes.Application.welcome());
+    }
+    
+    /**
+     * Allow to remove a participant to the potential participants List for a selected workshop
+     * 
+     * @param id workshop id
+     * @return the welcome page
+     */
+    @Transactional
+    public static Result removeParticipant( Long id ) {
+    	Configuration cfg = new Configuration().configure();
+		SchemaExport export = new SchemaExport(cfg);
+		
+		export.create(true,true);
+    	// We get the Workshop
+        Workshop	currentWorkshop 	= 	JPA.em().find(Workshop.class, id);
+        
+        // Get the connected User
+        User		user				=	AuthentificationController.getUser();
+        
+        // It's a Set, so no duplicate
+        currentWorkshop.getPotentialParticipants().remove( user );
         
         // We save the new Workshop
         JPA.em().persist( currentWorkshop );

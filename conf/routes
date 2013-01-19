@@ -15,7 +15,8 @@ GET		/workshops/:id/plan				controllers.WorkshopController.planWorkshop(id: Long
 POST    /workshops/plan					controllers.WorkshopController.saveWorkshopSession(id: Long)
 GET     /workshops/addSpeaker/id		controllers.WorkshopController.addSpeaker(id: Long)
 GET     /workshops/addParticipant/id	controllers.WorkshopController.addParticipant(id: Long)
-
+GET     /workshops/removeSpeaker/id		controllers.WorkshopController.removeSpeaker(id: Long)
+GET     /workshops/removeParticipant/id	controllers.WorkshopController.removeParticipant(id: Long)
 
 # Application
 GET     /logout						controllers.AuthentificationController.deconnection()

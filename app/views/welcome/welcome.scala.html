@@ -25,10 +25,16 @@
 					<img width="48" height="48"
 						src="@speaker.getPicture()" />
 				}
-				@if( AuthentificationController.getUser() != null ) {
-					<a href="@routes.WorkshopController.addSpeaker( workshop.getId )">
+				@if( AuthentificationController.getUser() != null && !workshop.getSpeakers().contains(AuthentificationController.getUser())) {
+					<a href="@routes.WorkshopController.addSpeaker( workshop.getId )" title="Se proposer en tant que Speaker" >
 						<img width="48" height="48"
-							src="@routes.Assets.at("images/plussign.png")" />
+							src="@routes.Assets.at("images/addUser.png")" />
+					</a>
+				}
+				@if( AuthentificationController.getUser() != null && workshop.getSpeakers().contains(AuthentificationController.getUser())) {
+					<a href="@routes.WorkshopController.removeSpeaker( workshop.getId )" title="Se retirer de la liste des Speakers" >
+						<img width="48" height="48"
+							src="@routes.Assets.at("images/removeUser.png")" />
 					</a>
 				}	
 				
@@ -51,10 +57,16 @@
 			</div>
 			<div class="row-fluid littleMarginTop">
 				<span class="span10 participantPicture">
-					@if( AuthentificationController.getUser() != null ) {
-						<a href="@routes.WorkshopController.addParticipant( workshop.getId )">
+					@if( AuthentificationController.getUser() != null && !workshop.getPotentialParticipants().contains(AuthentificationController.getUser()) ) {
+						<a href="@routes.WorkshopController.addParticipant( workshop.getId )" title="Je suis intéressé par ce Workshop" >
 							<img width="32" height="32"
-								src="@routes.Assets.at("images/tick.png")" />
+								src="@routes.Assets.at("images/addUser.png")" />
+						</a>
+					}
+					@if( AuthentificationController.getUser() != null && workshop.getPotentialParticipants().contains(AuthentificationController.getUser()) ) {
+						<a href="@routes.WorkshopController.removeParticipant( workshop.getId )" title="J'aimerai me retirer de la liste des gens intéressés par ce Workshop" >
+							<img width="32" height="32"
+								src="@routes.Assets.at("images/removeUser.png")" />
 						</a>
 					}
 					@for(participant <- workshop.getPotentialParticipants()) { 
@@ -78,7 +90,6 @@
 					</span>
 				
 			</div>
-			
 		</div>
 	</div>
 	}
