@@ -1,0 +1,45 @@
+# Surcharge des messages par défaut du framework
+# @see https://github.com/playframework/Play20/blob/master/framework/src/play/src/main/resources/messages 
+constraint.required=Obligatoire
+
+# Menu
+application.title=Workshops Manager
+menu.home=Accueil
+menu.search=Rechercher
+menu.alreadydone=Déjà présentés
+action.submit.a.workshop=Soumettre un workshop
+action.login=Se connecter
+
+# Page d'accueil
+welcome.no.workshops=Il n'y a pas de workshops dans la liste
+welcome.workshop.delete=Supprimer
+welcome.workshop.edit=Modifier
+welcome.workshop.plan=Planifier
+
+# Modal de suppression de workshop
+welcome.workshop.delete.modal.title=Confirmation de suppression
+welcome.workshop.delete.modal.text=Etes-vous sur de vouloir supprimer ce workshop ?
+welcome.workshop.delete.modal.yes=Oui
+welcome.workshop.delete.modal.no=Non
+
+# Formulaire ajout de workshop
+form.add.workshop.title=Saisir les informations du workshop :
+form.add.workshop.subject.label = Sujet
+form.add.workshop.description.label = Description
+form.add.workshop.image.label = Image
+form.add.workshop.page.title=Ajouter un workshop
+form.add.workshop.subject.button= Aller ...
+form.add.workshop.submit.button = Soumettre ...
+form.add.workshop.cancel.button = Annuler
+
+# Formulaire de planification
+form.plan.page.title=Planifier un workshop
+form.plan.workshop.title=Saisir les détails de la session
+form.plan.workshop.doodleUrl.label=Url du Doodle
+form.plan.workshop.doodleUrl.help=Il faut saisir l'url complete (avec http://). <br />L''url doit être valide.
+form.plan.workshop.location.label=Lieu du Workshop
+form.plan.workshop.nextPlay.label=Date de la prochaine séance
+form.plan.workshop.speaker.label=Speaker
+form.plan.workshop.speaker.default=--- Choisir un Speaker ---
+form.plan.workshop.submit.button=Planifier ce workshop 
+form.plan.workshop.cancel.button=Annuler

@@ -1,0 +1,44 @@
+@(workshopForm: Form[Workshop],idWorkshop: Long)
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.render) } 
+
+@main("Ajouter un Worshop") {
+    
+    <h3 style="padding-bottom:20px;">Veuillez saisir les détails du workshop:</h3>
+    
+    @form(routes.WorkshopController.saveWorkshop( idWorkshop )) {
+        
+        <fieldset>
+            @inputText(
+            	workshopForm("subject"), 
+            	'_label -> "Sujet du Workshop"
+            )
+            
+            @textarea(
+                workshopForm("description"), 
+            	'_label -> "Description du contenu",
+            	'cols -> 50
+            )
+            
+            <div class="clearfix">
+			    <label for="appendedInputButton">Choisissez une image</label>
+			    <div class="input">
+			        <div class="input-append">
+		  				<input class="span2" name="image" id="appendedInputButton" size="16" type="text"><button class="btn" type="button">Go!</button>
+					</div>			
+			    </div>
+			</div>
+            
+            
+        </fieldset>
+        
+        <div class="actions" style="padding-top:20px;">
+            <input type="submit" value="Créer ce Workshop" class="btn-success btn primary"> 
+            <a href="@routes.Application.welcome()" class="btn">Cancel </a> 
+        </div>
+        
+    }
+    
+}

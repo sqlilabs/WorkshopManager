@@ -12,9 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import play.data.validation.Constraints.Pattern;
 import play.data.validation.Constraints.Required;
-
-import play.data.format.Formats;
 
 
 /**
@@ -41,6 +40,7 @@ public class WorkshopSession implements Serializable {
 	 * L'url du doodle qui contient les participants à cette séance.
 	 */
 	@Required
+	@Pattern(value="http://(.*)",message="constraint.workshopsession.doodleUrl")
 	private String doodleUrl;
 	
 	/**

@@ -1,33 +1,72 @@
 /* ******************* */
 /*   For general use   */
 /* ******************* */
+.wrapper{
+	box-shadow:5px 0px 50px #DDD;
+}
 
+/** Styles pour mise en forme globales **/
+.spaceBefore{
+	margin-top:20px;
+}
+.spaceAfter{
+	margin-bottom:20px;
+}
 .center-text {
 	text-align: center;
 }
-
-.well-border-only {
-	background-color: white;
-	-moz-box-shadow: 5px 5px 5px #888;
-	-webkit-box-shadow: 5px 5px 5px #888;
-	box-shadow: 5px 5px 5px #888;
+.right-text, .alignToRight{
+	text-align:right;	
+}
+/** Mise en forme des formulaires **/
+.help-block.muted{
+	color:#999;
+}
+/** Styles Sp�cifiques **/
+.header .application-title img{
+	float:left;	
+}
+.header .application-title h1{
+	font-family: 'Monda', sans-serif;
+	color:#C50011;
+	font-size: 40px;
+    padding: 10px 0 0 30px;
+    float:left;
+}
+.workshop-bloc h3{
+	font-family: 'Monda', sans-serif;
+}
+#authenticationButton{
+	margin: 15px 20px 0 0 ;
 }
 
-.cadre {
-	padding: 10px 10px 10px 10px;
+a.copyright{
+	color:#C50011;
 }
 
-.clear {
-	clear: both;
+/** Fenetre de confirmation de suppresion **/
+#modal-suppression-confirm .modal-body img{
+	float:left;
+	margin-left:48px;
+}
+.modal-suppression-text{
+	padding:15px 10px;
 }
 
-.floatRight {
-	float: right;
+/** Bare horizontale **/ 
+hr.soften {
+  height: 1px;
+  margin: 70px 0;
+  background-image: -webkit-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,.1), rgba(0,0,0,0));
+  background-image:    -moz-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,.1), rgba(0,0,0,0));
+  background-image:     -ms-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,.1), rgba(0,0,0,0));
+  background-image:      -o-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,.1), rgba(0,0,0,0));
+  border: 0;
 }
 
-.labelWS {
-	font-style: normal;
-	font-weight: bold;
+.footer hr.soften{
+	height: 2px;
+  	margin: 20px 0; 
 }
 
 .littleMarginTop {
@@ -62,3 +101,4 @@
 .participantPicture img {
 	padding-left:5px;
 }
+

@@ -5,7 +5,7 @@
 <html>
 <head>
 <title>@title</title>
- <meta charset="UTF-8">
+<meta charset="UTF-8">
 <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
 <link rel='stylesheet' href='@routes.WebJarAssets.at(WebJarAssets.locate("css/bootstrap.min.css"))'>
 <link rel='stylesheet' href='@routes.WebJarAssets.at(WebJarAssets.locate("css/bootstrap-responsive.min.css"))'>
@@ -27,12 +27,11 @@
 			<div class="span12">
 				<div class="container-fluid">
 					<div class="row-fluid">
-						<div id="main-content" class="span9">
+						<div id="main-content" class="span12">
 							<div class="container-fluid">
 								@content
 							</div>
 						</div>
-						<div id="sidebar" class="span3">@sidebar("home")</div>
 					</div>
 				</div>
 			</div>

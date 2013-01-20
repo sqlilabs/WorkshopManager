@@ -1,0 +1,17 @@
+@(elements: helper.FieldElements)
+
+@**************************************************
+* Generate input according twitter bootsrap rules *
+**************************************************@
+@*
+TODO Revoir la mise en forme, peut etre utiliser un icone pour l'aide avec un tooltip. revoir l'affiche des messages d'erreur
+*@
+<div class="control-group @if(elements.hasErrors) {error}">
+    <label class="control-label" for="@elements.id">@elements.label</label>
+    <div class="controls">
+        @elements.input        
+		<span class="help-block muted">
+			@Html(elements.infos.mkString(", "))
+		</span>
+    </div>
+</div>

@@ -1,0 +1,47 @@
+@(workshopSessionForm: Form[WorkshopSession], id: Long )
+
+@import helper._
+@import dao._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.render) } 
+
+@main("Plannifier un Worshop") {
+    
+    <h3 style="padding-bottom:20px;">Veuillez saisir les détails de la session du workshop:</h3>
+    
+    @form( routes.WorkshopController.saveWorkshopSession( id ) ) {
+        
+        <fieldset>
+            @inputText(
+            	workshopSessionForm("doodleUrl"), 
+            	'_label -> "L'url du Doodle"
+            )
+            
+            @inputText(
+            	workshopSessionForm("location"), 
+            	'_label -> "Lieu du Workshop"
+            )
+            
+            @inputDate(
+            	workshopSessionForm("nextPlay"), 
+            	'_label -> "Date de la prochaine séance du Workshop"
+            )
+
+            @select(
+            	workshopSessionForm("Speaker"), 
+                options = options( UserDAO.getSpeakers ),
+                '_default -> "--- Choisir un Speaker ---",
+                '_label -> "Speaker",
+                '_error -> workshopSessionForm("Speaker").error.map(_.withMessage("Le choix d'un Speaker est obligatoire"))
+            )
+         
+        </fieldset>
+        
+        <div class="actions" style="padding-top:20px;">
+            <input type="submit" value="Plannifier ce Workshop" class="btn-success btn primary"> 
+            <a href="@routes.Application.welcome()" class="btn">Cancel </a> 
+        </div>
+        
+    }
+    
+}

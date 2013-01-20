@@ -4,8 +4,6 @@
 package models;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -70,7 +68,6 @@ public class Workshop implements Serializable {
 			name="WORKSHOP_SPEAKERS",
 			joinColumns = @JoinColumn(name="workshop_id"),
 			inverseJoinColumns = @JoinColumn(name = "user_id"))
-	private Set<User> speakers = new HashSet<>();
 	
 	/**
 	 * La WorkshopSession contient les informations relatives à la planification du Workshop
