@@ -100,21 +100,23 @@
 						}
 					</span>
 				
-	</div>
-	<div id="modal-suppression-confirm" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		<div class="modal-header">
-		  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-		  <h3 id="myModalLabel">@Messages("welcome.workshop.delete.modal.title")</h3>
-		</div>
-		<div class="modal-body center-text">
-		  <img src="@routes.Assets.at("images/confirm_48.png")" />
-		  <div class="modal-suppression-text">@Messages("welcome.workshop.delete.modal.text")</div>
-		</div>
-		<div class="modal-footer">
-		  <button class="btn" data-dismiss="modal" aria-hidden="true">@Messages("welcome.workshop.delete.modal.no")</button>
-		  <button class="btn btn-danger" id="valid-suppression">@Messages("welcome.workshop.delete.modal.yes")</button>
-		</div>
-	</div>
+			</div>
+			
+			<div id="modal-suppression-confirm" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-header">
+				  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				  <h3 id="myModalLabel">@Messages("welcome.workshop.delete.modal.title")</h3>
+				</div>
+				<div class="modal-body center-text">
+				  <img src="@routes.Assets.at("images/confirm_48.png")" />
+				  <div class="modal-suppression-text">@Messages("welcome.workshop.delete.modal.text")</div>
+				</div>
+				<div class="modal-footer">
+				  <button class="btn" data-dismiss="modal" aria-hidden="true">@Messages("welcome.workshop.delete.modal.no")</button>
+				  <button class="btn btn-danger" id="valid-suppression">@Messages("welcome.workshop.delete.modal.yes")</button>
+				</div>
+			</div>
+	
 	}
 }
 }
