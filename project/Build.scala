@@ -16,15 +16,13 @@ object ApplicationBuild extends Build {
 	// Add your project dependencies here,
 	val appDependencies = Seq(
 
-		"org.webjars" % "webjars-play" % "2.0",
-    		"org.webjars" % "bootstrap" % "2.1.1",
+		"org.webjars" 					% "webjars-play" 					% "2.0",
+    	"org.webjars" 					% "bootstrap" 						% "2.1.1",
 		"org.hibernate" 				% "hibernate-entitymanager"			% hibernateVersion,
 		"mysql" 						% "mysql-connector-java" 			% "5.1.20"
 	)
 
-  	val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings()
-	// val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings(
-
-	// 	ebeanEnabled := false
-	// )
+  	val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings(
+	 	ebeanEnabled := false
+	 )
 }

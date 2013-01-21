@@ -51,14 +51,6 @@
 						</div>
 					</div>
 				</div>
-				<div class="row-fluid">
-					<div class="span12 alignToRight">
-						<a href="#" data-link="@routes.WorkshopController.deleteWorkshop(workshop.getId)" class="btn btn-danger">@Messages("welcome.workshop.delete")</a>
-						<a href="@routes.WorkshopController.modifyWorkshop(workshop.getId)" class="btn btn-info">@Messages("welcome.workshop.edit")</a>
-						<a href="@routes.WorkshopController.planWorkshop(workshop.getId)" class="btn btn-success">@Messages("welcome.workshop.plan")</a>
-					</div>
-				</div>
-				<div class="span7">
 			</div>
 		</div>
 			<div class="row-fluid">
@@ -87,19 +79,15 @@
 				</span>
 			</div>
 			<div class="row-fluid">
-				
-					<span class="floatRight clear">
-						@form(routes.WorkshopController.actionWorkshop(workshop.getId)) {
-							@if( AuthentificationController.isAuthenticatedUserAdmin() || AuthentificationController.isAuthor( workshop ) ) {
-								<input class="btn-danger" type="submit" name="Supprimer" value="Supprimer">
-								<input class="btn-info" type="submit" name="Modifier" value="Modifer">
-							}
-							@if( AuthentificationController.isAuthenticatedUserAdmin() ) {
-								<input class="btn-success" type="submit" name="Planifier" value="Planifier">
-							}
-						}
-					</span>
-				
+				<div class="span12 alignToRight">
+					@if( AuthentificationController.isAuthenticatedUserAdmin() || AuthentificationController.isAuthor( workshop ) ) {
+						<a href="#" data-link="@routes.WorkshopController.deleteWorkshop(workshop.getId)" class="btn btn-danger">@Messages("welcome.workshop.delete")</a>
+						<a href="@routes.WorkshopController.modifyWorkshop(workshop.getId)" class="btn btn-info">@Messages("welcome.workshop.edit")</a>
+					}
+					@if( AuthentificationController.isAuthenticatedUserAdmin() ) {
+						<a href="@routes.WorkshopController.planWorkshop(workshop.getId)" class="btn btn-success">@Messages("welcome.workshop.plan")</a>
+					}
+				</div>
 			</div>
 			
 			<div id="modal-suppression-confirm" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

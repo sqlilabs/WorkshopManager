@@ -1,9 +1,6 @@
-/**
- * 
- */
 package controllers;
 
-import static models.utils.constants.WorkShopConstants.ID_NOT_IN_TABLE;
+import static models.utils.constants.WorkShopConstants.*;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -13,6 +10,7 @@ import java.util.List;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 
+import models.User;
 import models.Workshop;
 import models.WorkshopSession;
 import play.Logger;
@@ -29,7 +27,7 @@ import views.html.workshops.addWorkshop;
 import views.html.workshops.planWorkshop;
 
 /**
- * Ce controller regroupe toutes les actions qui sont liées à l'ajout d'un
+ * Ce controller regroupe toutes les actions qui sont li√©es √† l'ajout d'un
  * nouveau Workshop
  * 
  * @author ychartois
@@ -76,16 +74,16 @@ public class WorkshopController extends Controller {
 		// Sauver l'objet en base
 		Workshop workshop = workshopForm.get();
 
-        //On affecte l'auteur connecté
+        //On affecte l'auteur connect√©
         workshop.setAuthor( AuthentificationController.getUser() );
         
-		// Gestion de la sauvegarde des fichiers uploadés (images)
+		// Gestion de la sauvegarde des fichiers upload√©s (images)
 		MultipartFormData body = request().body().asMultipartFormData();
 		FilePart picture = body.getFile("image");
 		if (picture != null) {
 			String fileName = picture.getFilename();
 			// TODO : renommer le fichier avant de le sauvegarder
-			// TODO : vérifier si le fichier existe
+			// TODO : v√©rifier si le fichier existe
 			// String contentType = picture.getContentType();
 			File file = picture.getFile();
 
@@ -100,8 +98,8 @@ public class WorkshopController extends Controller {
 						.getString("workshop.images.url")
 						+ "/" + fileName);
 			} catch (Exception e) {
-				// TODO : préciser les exceptions
-				// TODO Prévenir le user que le fichier ne s'est pas copié (utiliser les flash messages ?)
+				// TODO : pr√©ciser les exceptions
+				// TODO Pr√©venir le user que le fichier ne s'est pas copi√© (utiliser les flash messages ?)
 				Logger.info("Erreur lors de la copie du fichier image "
 						+ fileName);
 			}
@@ -313,7 +311,7 @@ public class WorkshopController extends Controller {
 	// - helper methods
 	// <--------------------------------------------------------------------------->
 	/**
-	 * @return la liste des Workshops planifiés qui a été placé dans le context
+	 * @return la liste des Workshops planifi√©s qui a √©t√© plac√© dans le context
 	 */
 	public static List<Workshop> getWorkshopsPlanifieFromContext() {
 		List<Workshop> listWsPlanifie = (List<Workshop>) Http.Context.current().args
@@ -323,7 +321,7 @@ public class WorkshopController extends Controller {
 	}
 
 	/**
-	 * @return la date décorée
+	 * @return la date d√©cor√©e
 	 */
 	public static String decorateDate(Date date) {
 		return new SimpleDateFormat(DATE_PATTERN).format(date);

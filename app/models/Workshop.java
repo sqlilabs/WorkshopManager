@@ -68,6 +68,7 @@ public class Workshop implements Serializable {
 			name="WORKSHOP_SPEAKERS",
 			joinColumns = @JoinColumn(name="workshop_id"),
 			inverseJoinColumns = @JoinColumn(name = "user_id"))
+	private Set<User> speakers = new HashSet<User>();
 	
 	/**
 	 * La WorkshopSession contient les informations relatives à la planification du Workshop
