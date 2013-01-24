@@ -1,8 +1,19 @@
 <form class="form form-condensed pull-right">
-  	<a id="authenticationButton" class="btn btn-primary" href="#"><i class="icon-user icon-white"></i> Se connecter</a>
-  	<div id="authentication" class="cadre">
-  		<input id="login" type="text" placeholder="Login" />
-		<input id="password" type="password" placeholder="Password" />	
-  	</div>
-	
+	@if( AuthentificationController.getUser() == null ) {
+	 	<a id="authenticationButton" class="btn btn-primary" href="@AuthentificationController.buildGoogleOAuthLink()"><i class="icon-user icon-white"></i> Se connecter</a>
+	} else {
+		<div class="row floatRight">
+			<div class="span1">
+				<img width="48" height=48"
+					src="@AuthentificationController.getUser().getPicture()" />
+			
+			<div class="modal-body center-text">
+			</div>
+			<div class="span2">
+				<div class="row">@AuthentificationController.getUser().getFirstName() @AuthentificationController.getUser().getLastName()</div>
+				<div class="row emailStyle">@AuthentificationController.getUser().getEmail()</div>
+				<div class="row"><a href="@routes.AuthentificationController.deconnection()">logout</a></div>
+			</div>
+		</div>
+	}
 </form>

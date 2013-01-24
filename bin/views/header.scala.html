@@ -1,8 +1,10 @@
 @(title:String)
-<div class="row-fluid">
-	<div class="span9"><img src="@routes.Assets.at("images/banniere.png")"/></div>
-	<div class="span3">@authentication()</div>
-</div>
-<div class="row-fluid">
-	<div class="span9"><h2><i>@title</i></h2></div>
+<div class="container-fluid header">
+	<div class="row-fluid">
+		<div class="span9 application-title">
+			<img width="110" src="@routes.Assets.at("images/logo_sqli.png")" title="logo sqli" alt="logo sqli" />
+			<h1>@Messages("application.title")</h1>
+		</div>
+		<div class="span3">@authentication()</div>
+	</div>
 </div>

@@ -90,7 +90,7 @@ public class Workshop implements Serializable {
 			name="POTENTIAL_PARTICIPANTS",
 			joinColumns = @JoinColumn(name="workshop_id"),
 			inverseJoinColumns = @JoinColumn(name = "user_id"))
-	private Set<User> potentialParticipants = new HashSet<>();
+	private Set<User> potentialParticipants = new HashSet<User>();
 	
 	
 	//<--------------------------------------------------------------------------->

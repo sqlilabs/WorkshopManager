@@ -1,19 +1,24 @@
-<form class="form form-condensed pull-right">
+<div class="container-fluid">
+	
 	@if( AuthentificationController.getUser() == null ) {
-	 	<a id="authenticationButton" class="btn btn-primary" href="@AuthentificationController.buildGoogleOAuthLink()"><i class="icon-user icon-white"></i> Se connecter</a>
+		<div class="row-fluid">
+			<div class="span12 ">
+	 			<a id="authenticationButton" class="btn btn-primary" href="@AuthentificationController.buildGoogleOAuthLink()"><i class="icon-user icon-white"></i> Se connecter</a>
+	 		</div>
+	 	</div>
 	} else {
-		<div class="row floatRight">
-			<div class="span1">
-				<img width="48" height=48"
-					src="@AuthentificationController.getUser().getPicture()" />
-			
-			<div class="modal-body center-text">
+		<div class="row-fluid">
+			<div class="span4">
+				<img width="48" height=48" src="@AuthentificationController.getUser().getPicture()" />
 			</div>
-			<div class="span2">
-				<div class="row">@AuthentificationController.getUser().getFirstName() @AuthentificationController.getUser().getLastName()</div>
-				<div class="row emailStyle">@AuthentificationController.getUser().getEmail()</div>
-				<div class="row"><a href="@routes.AuthentificationController.deconnection()">logout</a></div>
+			
+			<div class="span8">
+				<div>@AuthentificationController.getUser().getFirstName() @AuthentificationController.getUser().getLastName()</div>
+				<div class="emailStyle">@AuthentificationController.getUser().getEmail()</div>
+				<div><a href="@routes.AuthentificationController.deconnection()">logout</a></div>
 			</div>
 		</div>
+		
 	}
-</form>
+</div>
+

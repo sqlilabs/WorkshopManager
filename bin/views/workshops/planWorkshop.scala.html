@@ -3,45 +3,59 @@
 @import helper._
 @import dao._
 
-@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.render) } 
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInputHorizontal.render) } 
 
-@main("Plannifier un Worshop") {
+@mainNoSidebar(Messages("form.plan.workshop.page.title")) {
+<div class="row">
+	<div class="span6 offset3">
+	    <h3 class="spaceBefore">@Messages("form.plan.workshop.title")</h3>
     
-    <h3 style="padding-bottom:20px;">Veuillez saisir les détails de la session du workshop:</h3>
-    
-    @form( routes.WorkshopController.saveWorkshopSession( id ) ) {
+    @form( 
+    	action = routes.WorkshopController.saveWorkshopSession( id ),
+    	'class   -> "form form-horizontal"
+    ) {
         
-        <fieldset>
             @inputText(
             	workshopSessionForm("doodleUrl"), 
-            	'_label -> "L'url du Doodle"
+            	'_label -> Messages("form.plan.workshop.doodleUrl.label"),
+            	'class  -> "input-xlarge",
+            	'_help -> Messages("form.plan.workshop.doodleUrl.help"),
+				'_showConstraints -> false
             )
             
             @inputText(
             	workshopSessionForm("location"), 
-            	'_label -> "Lieu du Workshop"
+            	'_label -> Messages("form.plan.workshop.location.label"),
+            	'class  -> "input-xlarge",
+            	'_showConstraints -> false
             )
             
-            @inputDate(
-            	workshopSessionForm("nextPlay"), 
-            	'_label -> "Date de la prochaine séance du Workshop"
-            )
-
+          
+			<div class="control-group">
+				<label class="control-label">@Messages("form.plan.workshop.nextPlay.label")</label>
+				<div class="controls">
+					<input class="input-xlarge" name="date" id="nextPlay" disabled type="date" />
+					<div class='btn' id="nextPlayButton"><i class='icon-calendar'></i></div>
+				</div>
+			</div>
             @select(
             	workshopSessionForm("Speaker"), 
                 options = options( UserDAO.getSpeakers ),
-                '_default -> "--- Choisir un Speaker ---",
-                '_label -> "Speaker",
+                '_default -> Messages("form.plan.workshop.speaker.default"),
+                '_label -> Messages("form.plan.workshop.speaker.label"),
+                'class  -> "input-xlarge",
+                '_showConstraints -> false,
                 '_error -> workshopSessionForm("Speaker").error.map(_.withMessage("Le choix d'un Speaker est obligatoire"))
             )
          
-        </fieldset>
-        
-        <div class="actions" style="padding-top:20px;">
-            <input type="submit" value="Plannifier ce Workshop" class="btn-success btn primary"> 
-            <a href="@routes.Application.welcome()" class="btn">Cancel </a> 
+        <div class="actions center-text spaceBefore">
+            <input type="submit" value="@Messages("form.plan.workshop.submit.button")" class="btn-success btn primary"> 
+            <a href="@routes.Application.welcome()" class="btn">@Messages("form.plan.workshop.cancel.button")</a> 
         </div>
-        
     }
+	 </div>
+</div>
     
+<link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/datepicker.css")">
+<script src="@routes.Assets.at("javascripts/bootstrap-datepicker.js")" type="text/javascript"></script>
 }

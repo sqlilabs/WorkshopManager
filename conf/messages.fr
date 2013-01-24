@@ -15,6 +15,11 @@ welcome.no.workshops=Il n'y a pas de workshops dans la liste
 welcome.workshop.delete=Supprimer
 welcome.workshop.edit=Modifier
 welcome.workshop.plan=Planifier
+welcome.workshop.become.speaker=Se proposer en tant que Speaker
+welcome.workshop.removeme.speaker=Se retirer de la liste des Speakers
+welcome.workshop.i.am.interested=Je suis intéressé par ce Workshop
+welcome.workshop.i.am.not.interested=J'aimerai me retirer de la liste des gens intéressés par ce Workshop
+welcome.there.is.some.people.intersted=Il y a {0} personne(s) intéressée(s) par ce workshop :
 
 # Modal de suppression de workshop
 welcome.workshop.delete.modal.title=Confirmation de suppression
@@ -43,3 +48,9 @@ form.plan.workshop.speaker.label=Speaker
 form.plan.workshop.speaker.default=--- Choisir un Speaker ---
 form.plan.workshop.submit.button=Planifier ce workshop 
 form.plan.workshop.cancel.button=Annuler
+
+# Page already played
+form.plan.workshop.last.speaker=Dernière session présenté par :
+form.plan.workshop.last.date=Dernière session le :
+form.plan.workshop.description=Description : 
+form.plan.workshop.plan.again=Re-Planifier
