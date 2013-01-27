@@ -85,16 +85,11 @@ hr.soften {
 /* ******************* */
 /*   Speaker Picture   */
 /* ******************* */
-/*.speakerPicture {
-	margin-top:-40px;
-	padding:5px;
-}
 
 .speakerPicture img {
-	padding:5px;
-	margin-left: 25px;
+	float: right;
 }
-*/
+
 /* ******************* */
 /*   Particip Picture  */
 /* ******************* */

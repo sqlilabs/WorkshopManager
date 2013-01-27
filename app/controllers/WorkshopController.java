@@ -71,14 +71,22 @@ public class WorkshopController extends Controller {
 			return badRequest(addWorkshop.render(workshopForm, id));
 		}
 
-		// Sauver l'objet en base
-		Workshop workshop = workshopForm.get();
+		// On récupère le workshop depuis le formulaire
+		Workshop 		workshopNew 	= 	workshopForm.get();
+		
+		// Et le workshop depuis la base si c'est une modification
+		if ( id != ID_NOT_IN_TABLE ) {
+			Workshop 	ws 				= 	JPA.em().find(Workshop.class, id);
+			// on met à jour la nouvelle instance avec les anciennes données
+			workshopNew.setSpeakers( ws.getSpeakers() );
+			workshopNew.setPotentialParticipants( ws.getPotentialParticipants() );
+		}
 
         //On affecte l'auteur connecté
-        workshop.setAuthor( AuthentificationController.getUser() );
+		workshopNew.setAuthor( AuthentificationController.getUser() );
         
 		// Gestion de la sauvegarde des fichiers uploadés (images)
-		MultipartFormData body = request().body().asMultipartFormData();
+		MultipartFormData body = request().body().asMultipartFormData(); 
 		FilePart picture = body.getFile("image");
 		if (picture != null) {
 			String fileName = picture.getFilename();
@@ -87,16 +95,23 @@ public class WorkshopController extends Controller {
 			// String contentType = picture.getContentType();
 			File file = picture.getFile();
 
-			// On sauvegarde le ficheir
+			// On sauvegarde le fichier
 			try {
 				String myUploadPath = Play.application().path()
 						+ "/"
 						+ Play.application().configuration()
 								.getString("workshop.images.directory");
-				file.renameTo(new File(myUploadPath, fileName));
-				workshop.setImage(Play.application().configuration()
-						.getString("workshop.images.url")
-						+ "/" + fileName);
+				
+				if ( file.renameTo(new File(myUploadPath, fileName)) ) {
+					workshopNew.setImage(Play.application().configuration()
+							.getString("workshop.images.url")
+							+ "/" + fileName);
+				}
+				else {
+					Logger.info("Erreur lors de la copie du fichier image " + fileName);
+				}
+				
+				
 			} catch (Exception e) {
 				// TODO : préciser les exceptions
 				// TODO Prévenir le user que le fichier ne s'est pas copié (utiliser les flash messages ?)
@@ -106,10 +121,10 @@ public class WorkshopController extends Controller {
 		}
 
 		if (id == ID_NOT_IN_TABLE) {
-			JPA.em().persist(workshop);
+			JPA.em().persist(workshopNew);
 		} else {
-			workshop.setId(id);
-			JPA.em().merge(workshop);
+			workshopNew.setId(id);
+			JPA.em().merge(workshopNew);
 		}
 
 		return redirect(routes.Application.welcome());
@@ -125,7 +140,7 @@ public class WorkshopController extends Controller {
 		Workshop ws = JPA.em().find(Workshop.class, id);
 		Form<Workshop> workshopForm = form(Workshop.class).fill(ws);
 
-		return ok(addWorkshop.render(workshopForm, id));
+		return ok( addWorkshop.render(workshopForm, id) );
 	}
 
 	/**
@@ -314,8 +329,7 @@ public class WorkshopController extends Controller {
 	 * @return la liste des Workshops planifiés qui a été placé dans le context
 	 */
 	public static List<Workshop> getWorkshopsPlanifieFromContext() {
-		List<Workshop> listWsPlanifie = (List<Workshop>) Http.Context.current().args
-				.get("wsPlanifie");
+		List<Workshop> listWsPlanifie = (List<Workshop>) Http.Context.current().args.get("wsPlanifie");
 		return listWsPlanifie != null ? listWsPlanifie
 				: new ArrayList<Workshop>();
 	}
