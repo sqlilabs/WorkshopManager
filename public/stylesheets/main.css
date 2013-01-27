@@ -5,6 +5,10 @@
 	box-shadow:5px 0px 50px #DDD;
 }
 
+.floatRight{
+	float:right;
+}
+
 /** Styles pour mise en forme globales **/
 .spaceBefore{
 	margin-top:20px;
@@ -87,6 +91,7 @@ hr.soften {
 /* ******************* */
 
 .speakerPicture img {
+	padding-left:5px;
 	float: right;
 }
 
