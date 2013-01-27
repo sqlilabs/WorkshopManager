@@ -44,10 +44,12 @@ form.plan.workshop.doodleUrl.label=Url du Doodle
 form.plan.workshop.doodleUrl.help=Il faut saisir l'url complete (avec http://). <br />L''url doit être valide.
 form.plan.workshop.location.label=Lieu du Workshop
 form.plan.workshop.nextPlay.label=Date de la prochaine séance
+form.plan.workshop.nextPlay.error=La date de prochaine séance est obligatoire
 form.plan.workshop.speaker.label=Speaker
 form.plan.workshop.speaker.default=--- Choisir un Speaker ---
 form.plan.workshop.submit.button=Planifier ce workshop 
 form.plan.workshop.cancel.button=Annuler
+
 
 # Page already played
 form.plan.workshop.last.speaker=Dernière session présenté par :

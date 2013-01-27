@@ -17,11 +17,11 @@ FieldConstructor(twitterBootstrapInputHorizontal.render) }
 		) { 
 		
 		@if(workshopForm.hasGlobalErrors) { 
-                <div class="alert alert-error">
-                <a class="close" data-dismiss="alert">×</a>
-                    @workshopForm.globalError.message
-                </div>
-            }
+            <div class="alert alert-error">
+            <a class="close" data-dismiss="alert">×</a>
+                @workshopForm.globalError.message
+            </div>
+        }
 		
 		@inputText(
 			workshopForm("subject"), 
@@ -56,8 +56,8 @@ FieldConstructor(twitterBootstrapInputHorizontal.render) }
 		
 		<div class="actions center-text" >
 			<input type="submit" value="@Messages("form.add.workshop.submit.button")"
-				class="btn-success btn primary"> <a
-				href="@routes.Application.welcome()" class="btn">@Messages("form.add.workshop.cancel.button")</a>
+				class="btn-success btn primary"> 
+			<a href="@routes.Application.welcome()" class="btn">@Messages("form.add.workshop.cancel.button")</a>
 		</div>
 
 	</div>

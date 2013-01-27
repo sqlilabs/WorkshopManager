@@ -31,13 +31,20 @@
             )
             
           
-			<div class="control-group">
-				<label class="control-label">@Messages("form.plan.workshop.nextPlay.label")</label>
-				<div class="controls">
-					<input class="input-xlarge" name="date" id="nextPlay" disabled type="date" />
-					<div class='btn' id="nextPlayButton"><i class='icon-calendar'></i></div>
-				</div>
-			</div>
+<!-- 			<div class="control-group"> -->
+<!-- 				<label class="control-label">@Messages("form.plan.workshop.nextPlay.label")</label> -->
+<!-- 				<div class="controls"> -->
+<!-- 					<input class="input-xlarge" name="date" id="nextPlay" disabled type="date" /> -->
+<!-- 					<div class='btn' id="nextPlayButton"><i class='icon-calendar'></i></div> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+
+			@inputDate(
+            	workshopSessionForm("nextPlay"), 
+            	'_label -> Messages("form.plan.workshop.nextPlay.label"),
+            	'_error -> workshopSessionForm("nextPlay").error.map(_.withMessage(Messages("form.plan.workshop.nextPlay.error")))
+            )
+
             @select(
             	workshopSessionForm("Speaker"), 
                 options = options( UserDAO.getSpeakers ),

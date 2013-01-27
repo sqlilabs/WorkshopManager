@@ -197,8 +197,8 @@ public class WorkshopController extends Controller {
 		}
 
 		// We get the Workshop
-		Workshop workshopToPlan = JPA.em().find(Workshop.class, id);
-		boolean newSession = workshopToPlan.getWorkshopSession() == null;
+		Workshop workshopToPlan 	= 	JPA.em().find(Workshop.class, id);
+		boolean newSession 			= 	workshopToPlan.getWorkshopSession() == null;
 
 		// We set the WorkshopSession to the Workshop to Plan
 		WorkshopSession workshopSession = filledForm.get();
