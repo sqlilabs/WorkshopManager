@@ -337,7 +337,9 @@ public class WorkshopController extends Controller {
 	 */
 	private static String uploadImage() {
     	String imageLocation 	= 	Play.application().configuration().getString("workshop.images.url") + "/";
-    	String defaultImage 	= 	imageLocation + "logo_sqli.png";
+    	
+    	//TODO: trouver une image moins pourrie
+    	String defaultImage 	= 	imageLocation + "default.png";
     	
     	// Gestion de la sauvegarde des fichiers uploadés (images)
  		MultipartFormData body = request().body().asMultipartFormData(); 
@@ -355,11 +357,9 @@ public class WorkshopController extends Controller {
  						+ "/"
  						+ Play.application().configuration().getString("workshop.images.directory");
  				
- 				if ( !file.renameTo(new File(myUploadPath, fileName)) ) {
- 					Logger.info("Erreur lors de la copie du fichier image " + fileName);
+ 				if ( file.renameTo(new File(myUploadPath, fileName)) ) {
+ 					return imageLocation + fileName;
  				}
- 				
- 				return imageLocation + fileName;
  				
  			} catch (Exception e) {
  				// TODO : préciser les exceptions
