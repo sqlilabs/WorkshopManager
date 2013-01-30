@@ -312,6 +312,20 @@ public class WorkshopController extends Controller {
 		return new SimpleDateFormat(DATE_PATTERN).format(date);
 	}
 	
+	/**
+	 * Permet de découper la description du workshop
+	 * 
+	 * @param workshop un workshop
+	 * @return la description du workshop tronquée
+	 */
+	public static String getWorkshopDescription( Workshop workshop ) {
+		int maxlength = Play.application().configuration().getInt( "detail.workshop.main.view" );
+
+		return ( workshop.getDescription().length() > maxlength ) 
+				? workshop.getDescription().substring(0, maxlength) + "..." 
+				:  workshop.getDescription() ;
+	}
+	
 	
 	// <--------------------------------------------------------------------------->
 	// - helper methods private
