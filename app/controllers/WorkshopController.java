@@ -82,43 +82,11 @@ public class WorkshopController extends Controller {
 			workshopNew.setPotentialParticipants( ws.getPotentialParticipants() );
 		}
 
-        //On affecte l'auteur connecté
+        // On affecte l'auteur connecté
 		workshopNew.setAuthor( AuthentificationController.getUser() );
         
-		// Gestion de la sauvegarde des fichiers uploadés (images)
-		MultipartFormData body = request().body().asMultipartFormData(); 
-		FilePart picture = body.getFile("image");
-		if (picture != null) {
-			String fileName = picture.getFilename();
-			// TODO : renommer le fichier avant de le sauvegarder
-			// TODO : vérifier si le fichier existe
-			// String contentType = picture.getContentType();
-			File file = picture.getFile();
-
-			// On sauvegarde le fichier
-			try {
-				String myUploadPath = Play.application().path()
-						+ "/"
-						+ Play.application().configuration()
-								.getString("workshop.images.directory");
-				
-				if ( file.renameTo(new File(myUploadPath, fileName)) ) {
-					workshopNew.setImage(Play.application().configuration()
-							.getString("workshop.images.url")
-							+ "/" + fileName);
-				}
-				else {
-					Logger.info("Erreur lors de la copie du fichier image " + fileName);
-				}
-				
-				
-			} catch (Exception e) {
-				// TODO : préciser les exceptions
-				// TODO Prévenir le user que le fichier ne s'est pas copié (utiliser les flash messages ?)
-				Logger.info("Erreur lors de la copie du fichier image "
-						+ fileName);
-			}
-		}
+		// On set l'image du workshop
+		workshopNew.setImage( uploadImage() );
 
 		if (id == ID_NOT_IN_TABLE) {
 			JPA.em().persist(workshopNew);
@@ -322,6 +290,9 @@ public class WorkshopController extends Controller {
     	
         return redirect(routes.Application.welcome());
     }
+    
+    
+    
 	// <--------------------------------------------------------------------------->
 	// - helper methods
 	// <--------------------------------------------------------------------------->
@@ -340,5 +311,51 @@ public class WorkshopController extends Controller {
 	public static String decorateDate(Date date) {
 		return new SimpleDateFormat(DATE_PATTERN).format(date);
 	}
+	
+	
+	// <--------------------------------------------------------------------------->
+	// - helper methods private
+	// <--------------------------------------------------------------------------->	
+	/**
+	 * Upload l'image spécifié et retourne le lien vers cette image
+	 * 
+	 * @return le chemin vers l'image qui a été uploader dans le système
+	 */
+	private static String uploadImage() {
+    	String imageLocation 	= 	Play.application().configuration().getString("workshop.images.url") + "/";
+    	String defaultImage 	= 	imageLocation + "logo_sqli.png";
+    	
+    	// Gestion de la sauvegarde des fichiers uploadés (images)
+ 		MultipartFormData body = request().body().asMultipartFormData(); 
+ 		FilePart picture = body.getFile("image");
+ 		if (picture != null) {
+ 			String fileName = picture.getFilename();
+ 			// TODO : renommer le fichier avant de le sauvegarder
+ 			// TODO : vérifier si le fichier existe
+ 			// String contentType = picture.getContentType();
+ 			File file = picture.getFile();
+
+ 			// On sauvegarde le fichier
+ 			try {
+ 				String myUploadPath = Play.application().path()
+ 						+ "/"
+ 						+ Play.application().configuration().getString("workshop.images.directory");
+ 				
+ 				if ( !file.renameTo(new File(myUploadPath, fileName)) ) {
+ 					Logger.info("Erreur lors de la copie du fichier image " + fileName);
+ 				}
+ 				
+ 				return imageLocation + fileName;
+ 				
+ 			} catch (Exception e) {
+ 				// TODO : préciser les exceptions
+ 				// TODO Prévenir le user que le fichier ne s'est pas copié (utiliser les flash messages ?)
+ 				Logger.info("Erreur lors de la copie du fichier image "
+ 						+ fileName);
+ 			}
+ 		}
+ 		
+ 		return defaultImage;
+    }
 
 }
