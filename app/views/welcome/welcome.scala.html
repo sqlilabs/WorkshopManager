@@ -1,6 +1,7 @@
 @(message: String, workshops: List[Workshop])
 
 @import helper._
+@import play.Play;
 
 @main(message) {
 
@@ -47,7 +48,7 @@
 						</div>
 						<div class="span9 spaceAfter">
 							<div>
-								@Html(workshop.getDescription)
+								@Html( workshop.getDescription().substring(0, Play.application().configuration().getInt( "detail.workshop.main.view" )) + "..." )
 							</div>
 						</div>
 					</div>
