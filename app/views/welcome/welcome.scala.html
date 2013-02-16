@@ -13,7 +13,7 @@
 		
 	} else {
 		@for(workshop <- workshops) { 
-		<div class="row-fluid workshop-bloc">
+		<div class="row-fluid workshop-bloc spaceAfter">
 			<div class="span12 well">
 				<div class="container-fluid">
 					<div class="row-fluid">
@@ -22,7 +22,9 @@
 								src="@routes.Assets.at(workshop.getImage)" />
 						</div>
 						<div class="span7 spaceAfter">
-							<h4>@workshop.getSubject</h4>
+							<h4>
+								<a href="#" workshop-id="@workshop.getId">@workshop.getSubject</a>
+							</h4>
 							<div>
 								@Html( WorkshopController.getWorkshopDescription(workshop) )
 							</div>
@@ -49,7 +51,7 @@
 				
 					<div class="row-fluid">
 						<div class="span10">
-							@Messages("welcome.there.is.some.people.intersted", workshop.getPotentialParticipants().size())
+							@Messages("welcome.there.is.some.people.intersted", workshop.getPotentialParticipants().size()) :
 						</div>
 					</div>
 					
@@ -88,23 +90,26 @@
 				</div>
 				
 			</div>
-				
-				
-			<div id="modal-suppression-confirm" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-				<div class="modal-header">
-				  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-				  <h3 id="myModalLabel">@Messages("welcome.workshop.delete.modal.title")</h3>
-				</div>
-				<div class="modal-body center-text">
-				  <img src="@routes.Assets.at("images/confirm_48.png")" />
-				  <div class="modal-suppression-text">@Messages("welcome.workshop.delete.modal.text")</div>
-				</div>
-				<div class="modal-footer">
-				  <button class="btn" data-dismiss="modal" aria-hidden="true">@Messages("welcome.workshop.delete.modal.no")</button>
-				  <button class="btn btn-danger" id="valid-suppression">@Messages("welcome.workshop.delete.modal.yes")</button>
-				</div>
+			<div id="workshop-details-@workshop.getId" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				@views.html.workshops.workshopDetailsNew( workshop )
 			</div>
+			
 		</div>		
 		}
+		<div id="modal-suppression-confirm" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-header">
+			  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			  <h3 id="myModalLabel">@Messages("welcome.workshop.delete.modal.title")</h3>
+			</div>
+			<div class="modal-body center-text">
+			  <img src="@routes.Assets.at("images/confirm_48.png")" />
+			  <div class="modal-suppression-text">@Messages("welcome.workshop.delete.modal.text")</div>
+			</div>
+			<div class="modal-footer">
+			  <button class="btn" data-dismiss="modal" aria-hidden="true">@Messages("welcome.workshop.delete.modal.no")</button>
+			  <button class="btn btn-danger" id="valid-suppression">@Messages("welcome.workshop.delete.modal.yes")</button>
+			</div>
+		</div>
+		
 	}
 }

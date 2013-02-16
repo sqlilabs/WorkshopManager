@@ -12,7 +12,9 @@
 @for(workshop <- WorkshopController.getWorkshopsPlanifieFromContext()) { 
 	<div class="row-fluid">
 		<div class="span12 well well-border-only">
-			<h4 class="center-text">@workshop.getSubject</h4>
+			<h4 class="center-text">
+				<a href="#" workshop-id="@workshop.getId">@workshop.getSubject</a>
+			</h4>
 			<div class="littlePaddingLeft">
 				<p><i class="icon-check"></i><span class="labelWS" > Le:</span> @WorkshopController.decorateDate( workshop.getWorkshopSession().getNextPlay() )</p>
 				<p><i class="icon-user"></i><span class="labelWS" > Speaker:</span> @workshop.getWorkshopSession().getSpeaker().getFirstName() @workshop.getWorkshopSession().getSpeaker().getLastName()</p>
@@ -29,5 +31,8 @@
 				}
 			</p>
 		</div>
+	</div>
+	<div id="workshop-details-@workshop.getId" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		@views.html.workshops.workshopDetailsPlanned( workshop )
 	</div>
 }

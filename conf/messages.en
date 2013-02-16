@@ -15,6 +15,9 @@ welcome.no.workshops=There's no workshops in that list
 welcome.workshop.delete=Delete
 welcome.workshop.edit=Edit
 welcome.workshop.plan=Schedule
+welcome.there.is.some.people.intersted=There is {0} people(s) interested by this workshop
+welcome.workshop.foreseen.speaker=The foreseen Speaker is {0}
+welcome.workshop.no.speaker=There is no Speaker for this workshop yet
 
 # Modal de suppression de workshop
 welcome.workshop.delete.modal.title=Confirm Deletion
@@ -43,6 +46,12 @@ form.plan.workshop.speaker.label=Speaker
 form.plan.workshop.speaker.default=--- Choose a Speaker ---
 form.plan.workshop.submit.button=Schedule this workshop 
 form.plan.workshop.cancel.button=Cancel
+
+# Page already played
+form.plan.workshop.last.speaker=Last session presented by
+form.plan.workshop.last.date=Last session date
+form.plan.workshop.plan.again=Re-Planning
+plan.workshop.people.want.replay={0} people(s) wish that someone present this workshop again
 
 # Charter
 action.ok=That''s cool ;) I understand and I agree

@@ -19,7 +19,9 @@ welcome.workshop.become.speaker=Se proposer en tant que Speaker
 welcome.workshop.removeme.speaker=Se retirer de la liste des Speakers
 welcome.workshop.i.am.interested=Je suis intéressé par ce Workshop
 welcome.workshop.i.am.not.interested=J'aimerai me retirer de la liste des gens intéressés par ce Workshop
-welcome.there.is.some.people.intersted=Il y a {0} personne(s) intéressée(s) par ce workshop :
+welcome.there.is.some.people.intersted=Il y a {0} personne(s) intéressée(s) par ce workshop
+welcome.workshop.foreseen.speaker=Le Speaker pressenti est {0}
+welcome.workshop.no.speaker=Il n''y a pas encore de Speaker pour ce workshop
 
 # Modal de suppression de workshop
 welcome.workshop.delete.modal.title=Confirmation de suppression
@@ -50,12 +52,11 @@ form.plan.workshop.speaker.default=--- Choisir un Speaker ---
 form.plan.workshop.submit.button=Planifier ce workshop 
 form.plan.workshop.cancel.button=Annuler
 
-
 # Page already played
-form.plan.workshop.last.speaker=Dernière session présenté par :
-form.plan.workshop.last.date=Dernière session le :
-form.plan.workshop.description=Description : 
+form.plan.workshop.last.speaker=Dernière session présenté par
+form.plan.workshop.last.date=Dernière session le
 form.plan.workshop.plan.again=Re-Planifier
+plan.workshop.people.want.replay={0} personne(s) aimerai(en)t que l''on rejoue ce workshop
 
 # Charte
 action.ok=C''est cool! Je comprends et j''accepte ces termes

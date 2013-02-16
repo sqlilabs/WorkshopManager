@@ -6,13 +6,18 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
+import java.util.Set;
+
 import org.hibernate.cfg.Configuration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 
 import models.User;
 import models.Workshop;
 import models.WorkshopSession;
+import models.utils.formatter.UserFormatter;
 import play.Logger;
 import play.Play;
 import play.data.Form;
@@ -171,8 +176,11 @@ public class WorkshopController extends Controller {
 		// We set the WorkshopSession to the Workshop to Plan
 		WorkshopSession workshopSession = filledForm.get();
 		workshopToPlan.setWorkshopSession(workshopSession);
+		
+		// We empty the potentialParticipants List
+		workshopToPlan.setPotentialParticipants( new HashSet<User>() );
 
-		// Sauver l'objet en base
+		// Sauver l'objet en base 
 		if (!newSession) {
 			JPA.em().merge(workshopSession);
 		} else {
@@ -313,7 +321,7 @@ public class WorkshopController extends Controller {
 	}
 	
 	/**
-	 * Permet de découper la description du workshop
+	 * Permet de découper la description du workshop courte
 	 * 
 	 * @param workshop un workshop
 	 * @return la description du workshop tronquée
@@ -324,6 +332,30 @@ public class WorkshopController extends Controller {
 		return ( workshop.getDescription().length() > maxlength ) 
 				? workshop.getDescription().substring(0, maxlength) + "..." 
 				:  workshop.getDescription() ;
+	}
+	
+	/**
+	 * Permet de découper la description du workshop complète
+	 * 
+	 * @param workshop un workshop
+	 * @return la description du workshop tronquée
+	 */
+	public static String getFullWorkshopDescription( Workshop workshop ) {
+		return workshop.getDescription() ;
+	}
+	
+	/**
+	 * @param speakers the list of speakers
+	 * @return the nam of the foorseen User
+	 */
+	public static String getForseenSpeaker( Set<User> speakers ) {
+		
+		if ( speakers.isEmpty() ) {
+			return "";
+		}
+		
+		User user = (User) speakers.toArray()[speakers.size()-1];
+		return new UserFormatter().print(user, Locale.FRANCE);
 	}
 	
 	
@@ -337,8 +369,6 @@ public class WorkshopController extends Controller {
 	 */
 	private static String uploadImage() {
     	String imageLocation 	= 	Play.application().configuration().getString("workshop.images.url") + "/";
-    	
-    	//TODO: trouver une image moins pourrie
     	String defaultImage 	= 	imageLocation + "default.png";
     	
     	// Gestion de la sauvegarde des fichiers uploadés (images)

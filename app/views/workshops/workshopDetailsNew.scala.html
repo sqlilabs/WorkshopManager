@@ -1,0 +1,25 @@
+@( workshop : Workshop )
+
+@import helper._
+
+<div class="modal-header">
+  	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+  	<h3 id="myModalLabel">@workshop.getSubject</h3>
+</div>
+<div class="modal-body">
+	<div>
+		@Html( WorkshopController.getFullWorkshopDescription(workshop) )
+	</div>
+</div>
+<div class="modal-footer">
+  	<div>
+		<p>@Messages("welcome.there.is.some.people.intersted", workshop.getPotentialParticipants().size())</p>
+		@if( workshop.getSpeakers().size() > 0 ) {
+			<p>@Messages("welcome.workshop.foreseen.speaker", WorkshopController.getForseenSpeaker(workshop.getSpeakers()) )</p>
+		}
+		@if( workshop.getSpeakers().size() == 0 ) {
+			<p>@Messages("welcome.workshop.no.speaker")</p>
+		}
+	</div>
+</div>
+

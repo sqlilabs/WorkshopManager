@@ -1,17 +1,9 @@
 $(document).ready(function(){
      
-//	// We hide the authentication module
-//    $('#authentication').hide(); 
-//    
-//    // We add a listener on the authenticationButton
-//    $('#authenticationButton').bind('click', function() {
-//    	$('#authentication').show(); 
-//	});
-
-
 	$("#add-workshop-form #image-button").click(function(){
 		$('#add-workshop-form #image-workshop').click();
 	});
+	
 	$("#add-workshop-form #image-workshop").change(function(){
 		$('#add-workshop-form #appendedInputButton').val($('#add-workshop-form #image-workshop').val());
 	});
@@ -21,12 +13,32 @@ $(document).ready(function(){
 		$('#valid-suppression').attr('data-link',$(this).attr('data-link')); 
 		$('#modal-suppression-confirm').modal();
 	});
+	
 	$('#modal-suppression-confirm').on('shown', function () {
 		$('#modal-suppression-confirm #valid-suppression').click(function(){
 			window.location.href = $(this).attr('data-link');
 		});
 	});
 	
+	// ------------------------------------------
+	// handle the frame with the workshop details
+	// ------------------------------------------
+	$('.workshop-bloc h4').click( function(e) {
+		e.preventDefault();
+		var id = "#workshop-details-" + $(this.innerHTML).attr("workshop-id") ;
+		$(id).modal();
+	});
+	
+	$('#sidebar h4').click( function(e) {
+		e.preventDefault();
+		var id = "#workshop-details-" + $(this.innerHTML).attr("workshop-id") ;
+		$(id).modal();
+	});
+	
+	
+	// ------------------------------------------
+	// handle something else
+	// ------------------------------------------
 	$('#nextPlayButton').click(function(){
 		$("#nextPlay").datepicker({
 			format:'dd-mm-yyyy',
