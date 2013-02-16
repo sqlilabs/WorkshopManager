@@ -2,6 +2,7 @@ package controllers;
 
 import static models.utils.constants.ApplicationConstants.*;
 
+import play.Play;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -69,8 +70,18 @@ public class Application extends Controller {
 			session(UUID, uuid);
 		}
 		
-		return uuid;
+		return uuid; 
 	}
+	
+	/**
+	 * Retreive the bug manager url
+	 * 
+	 * @return url of the bug manager
+	 */
+	public static String getBugManagerUrl() {
+		return Play.application().configuration().getString("bug.manager.link");
+	}
+	
 	
 	
 }
