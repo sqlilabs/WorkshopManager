@@ -1,0 +1,25 @@
+@( workshop : Workshop )
+
+@import helper._
+
+<div class="modal-header">
+  	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+  	<h3 id="myModalLabel">@workshop.getSubject</h3>
+</div>
+<div class="modal-body">
+  	<div class="container-fluid">
+		<div class="row-fluid">
+			<div class="span12 spaceAfter">
+				<div>
+					@Html( WorkshopController.getFullWorkshopDescription(workshop) )
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal-footer">
+  	<p><strong>@Messages("form.plan.workshop.last.speaker")</strong> @workshop.getWorkshopSession().getSpeaker().getFirstName() @workshop.getWorkshopSession().getSpeaker().getLastName()</p>
+	<p><strong>@Messages("form.plan.workshop.last.date")</strong> @WorkshopController.decorateDate(workshop.getWorkshopSession().getNextPlay())</p>
+	<p>@Messages("plan.workshop.people.want.replay", workshop.getPotentialParticipants().size())</p>
+</div>
+
