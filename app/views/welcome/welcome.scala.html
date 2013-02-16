@@ -17,10 +17,17 @@
 			<div class="span12 well">
 				<div class="container-fluid">
 					<div class="row-fluid">
-						<div class="span9">
-							<h3>@workshop.getSubject</h3>
+						<div class="span3 workshopPicture">
+							<img 
+								src="@routes.Assets.at(workshop.getImage)" />
 						</div>
-						<div class="span3 speakerPicture">
+						<div class="span7 spaceAfter">
+							<h4>@workshop.getSubject</h4>
+							<div>
+								@Html( WorkshopController.getWorkshopDescription(workshop) )
+							</div>
+						</div>
+						<div class="span2 speakerPicture">
 							@for(speaker <- workshop.getSpeakers()) { 
 								<img width="48" height="48" title="@speaker.getFirstName() @speaker.getLastName()"
 									src="@speaker.getPicture()" />
@@ -37,18 +44,6 @@
 										src="@routes.Assets.at("images/removeUser.png")" />
 								</a>
 							}
-						</div>
-					</div>
-					
-					<div class="row-fluid">
-						<div class="span3">
-							<img 
-								src="@routes.Assets.at(workshop.getImage)" />
-						</div>
-						<div class="span9 spaceAfter">
-							<div>
-								@Html( WorkshopController.getWorkshopDescription(workshop) )
-							</div>
 						</div>
 					</div>
 				
@@ -78,19 +73,18 @@
 							}
 						</div>
 					</div>
-					
-					<div class="row-fluid">
-						<div class="span12 alignToRight">
-							@if( AuthentificationController.isAuthenticatedUserAdmin() || AuthentificationController.isAuthor( workshop ) ) {
+					@if( AuthentificationController.isAuthenticatedUserAdmin() || AuthentificationController.isAuthor( workshop ) ) {
+						<div class="row-fluid">
+							<div class="span12 alignToRight">
 								<a href="#" data-link="@routes.WorkshopController.deleteWorkshop(workshop.getId)" class="btn btn-danger">@Messages("welcome.workshop.delete")</a>
 								<a href="@routes.WorkshopController.modifyWorkshop(workshop.getId)" class="btn btn-info">@Messages("welcome.workshop.edit")</a>
-							}
-							@if( AuthentificationController.isAuthenticatedUserAdmin() ) {
-								<a href="@routes.WorkshopController.planWorkshop(workshop.getId)" class="btn btn-success">@Messages("welcome.workshop.plan")</a>
-							}
+								
+								@if( AuthentificationController.isAuthenticatedUserAdmin() ) {
+									<a href="@routes.WorkshopController.planWorkshop(workshop.getId)" class="btn btn-success">@Messages("welcome.workshop.plan")</a>
+								}
+							</div>
 						</div>
-					</div>
-					
+					}
 				</div>
 				
 			</div>

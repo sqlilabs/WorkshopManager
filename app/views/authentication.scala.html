@@ -8,11 +8,11 @@
 	 	</div>
 	} else {
 		<div class="row-fluid littleMarginTop">
-			<div class="span4">
+			<div class="span3">
 				<img width="48" height=48" src="@AuthentificationController.getUser().getPicture()" />
 			</div>
 			
-			<div class="span8">
+			<div class="span9">
 				<div>@AuthentificationController.getUser().getFirstName() @AuthentificationController.getUser().getLastName()</div>
 				<div class="emailStyle">@AuthentificationController.getUser().getEmail()</div>
 				<div><a href="@routes.AuthentificationController.deconnection()">logout</a></div>
