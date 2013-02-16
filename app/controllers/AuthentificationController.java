@@ -11,6 +11,7 @@ import org.codehaus.jackson.JsonNode;
 
 import play.Play;
 import play.cache.Cache;
+import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.libs.WS;
 import play.libs.WS.Response;
@@ -18,6 +19,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import services.UserService;
 import views.html.errors.error;
+import views.html.welcome.charter;
 
 /**
  * Ce controller regroupe toutes les actions qui sont liées à l'authentification via Google API
@@ -76,7 +78,36 @@ public class AuthentificationController extends Controller {
 		JsonNode 	result 					= 	response.asJson();
 		
 		// Call the service that handle the user
-		Cache.set( Application.getUuid() + "connectedUser", new UserService().handleUserFromGoogleResponse( result ) );	
+		User 		user 					= 	new UserService().handleUserFromGoogleResponse( result );
+		
+		if ( user.isCharterAgree() ) {
+			// We save the new instance and save it in cache and redirect to welcome page
+			JPA.em().merge( user );
+			Cache.set( Application.getUuid() + "connectedUser", user );
+			
+			return redirect(routes.Application.welcome());
+		} 
+		else {
+			// We save the new user in cache and redirect to charter page
+			Cache.set( Application.getUuid() + "newUser", user );
+			return ok( charter.render(true) );
+		}
+	}
+	
+	/**
+	 * Create a new user after his acceptance to the charter
+	 * 
+	 * @return the welcome page
+	 */
+	@Transactional
+	public static Result createNewUser() {
+		
+		// We retreive the new user from cache and persist it
+		User user = (User) Cache.get( Application.getUuid() + "newUser" );
+		JPA.em().persist( user );
+		
+		// The new user is now connected
+		Cache.set( Application.getUuid() + "connectedUser", user );
 		
 		return redirect(routes.Application.welcome());
 	}

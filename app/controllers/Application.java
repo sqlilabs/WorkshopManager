@@ -9,6 +9,7 @@ import play.mvc.Http;
 import play.mvc.Http.Context;
 import play.mvc.Result;
 import views.html.welcome.welcome;
+import views.html.welcome.charter;
 import views.html.workshops.alreadyPlayed;
 import dao.WorkshopDAO;
 
@@ -42,6 +43,11 @@ public class Application extends Controller {
 		Context.current().args.put("ongletActif", "alreadyPlayed");
 		// We render the welcome page
 		return ok(alreadyPlayed.render("Les Workshops déjà présentés", WorkshopDAO.getWorkshopsAlreadyPlayed()));
+	}
+	
+	public static Result charter() {
+		// We render the charter page
+		return ok( charter.render(false) );
 	}
 	
 	

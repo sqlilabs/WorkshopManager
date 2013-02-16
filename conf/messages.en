@@ -43,3 +43,7 @@ form.plan.workshop.speaker.label=Speaker
 form.plan.workshop.speaker.default=--- Choose a Speaker ---
 form.plan.workshop.submit.button=Schedule this workshop 
 form.plan.workshop.cancel.button=Cancel
+
+# Charter
+action.ok=That''s cool ;) I understand and I agree
+action.ko=No way!!! Are you crazy guys??

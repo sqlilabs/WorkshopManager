@@ -1,0 +1,40 @@
+@(firstAccess: Boolean)
+
+@import helper._
+
+@mainNoSidebar("Charte") {
+	<div class="container-fluid well">
+		
+		<div class="row-fluid center-text">
+			<h4>PHILOSOPHIE</h4>
+		</div>
+		<div class="row-fluid">
+			L'idée est de mutualiser nos connaissances, sous la forme de workshops <b>INFORMELS</b> courts, proposés et animés par les collabs, sans aucune obligation d'aucune sorte: ni de présence, ni de résultat, ni de préparation de support !!!! 
+		</div>
+		<div class="row-fluid spaceBefore center-text">
+			<h4>DETAILS</h4>
+		</div>
+		
+		<div class="row-fluid">
+		<ul>
+			<li>Workshop d'environ 1h, réalisé sur la pause déjeuner.</li>
+			<li>Ne remplace PAS une formation !!! En 1h on n'aborde pas ce que l'on fait en 3 jours !!</li>
+			<li><b>PAS OBLIGATOIRE</b>, et personne ne vous oblige quoique ce soit !!! Les speakers prépareront les présentations sur leur temps propre : la volonté est de partager nos connaissances, pour le plaisir. Personne ne nous oblige à le faire, personne ne vous oblige à être là :)</li>
+			<li><b>PARTICIPATIF !!!</b> Tout le monde peut proposer un sujet (qu'il puisse ou non le présenter).</li>
+			<li><b>INFORMEL</b> : il n'y a pas besoin d'avoir un super support, ça peut être un truc récupéré sur internet, le but c'est de parler du sujet. Le speaker est maître de cérémonie mais tout le monde peut intervenir pour apporter sa connaissance.</li>
+			<li><b>SANS LIMITE</b> : actuellement c'est très orienté techno, mais on est preneur de tout : management, CMMI, gestion de projet, la culture de la tulipe en Hollande ;) Si vous voulez en parler et que ça intéresse du monde ça suffit :)</li>
+		</ul>
+		</div>
+		@if(firstAccess) {
+			<div class="row-fluid spaceBefore">
+				<div class="span6 center-text">
+					<a href="@routes.AuthentificationController.createNewUser()" class="btn btn-large btn-success">@Messages("action.ok")</a>
+				</div>
+				<div class="span6 center-text">
+					<a href="@routes.Application.welcome()" class="btn btn-large btn-danger">@Messages("action.ko")</a>
+				</div>
+			</div>
+		}
+	</div>
+
+}

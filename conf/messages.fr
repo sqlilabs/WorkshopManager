@@ -56,3 +56,7 @@ form.plan.workshop.last.speaker=Dernière session présenté par :
 form.plan.workshop.last.date=Dernière session le :
 form.plan.workshop.description=Description : 
 form.plan.workshop.plan.again=Re-Planifier
+
+# Charte
+action.ok=C''est cool! Je comprends et j''accepte ces termes
+action.ko=Vous avez craqués, même par en rêve !!

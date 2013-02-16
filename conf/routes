@@ -3,8 +3,9 @@
 # ~~~~
 
 # Home page
-GET		/							controllers.Application.welcome()
-GET 	/workshops					controllers.Application.workshops()
+GET		/								controllers.Application.welcome()
+GET 	/workshops						controllers.Application.workshops()
+GET		/charter						controllers.Application.charter()
 
 # Workshops
 GET 	/workshops/add					controllers.WorkshopController.blankWorkshop()
@@ -19,13 +20,12 @@ GET     /workshops/removeSpeaker/id		controllers.WorkshopController.removeSpeake
 GET     /workshops/removeParticipant/id	controllers.WorkshopController.removeParticipant(id: Long)
 
 # Application
-GET     /logout						controllers.AuthentificationController.deconnection()
+GET     /webjars/*file              	controllers.WebJarAssets.at(file)
 
-
-GET     /webjars/*file              controllers.WebJarAssets.at(file)
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.at(path="/public", file)
-
+GET     /assets/*file               	controllers.Assets.at(path="/public", file)
 
 # OAuth 2.0 Google
-GET 	/oauth2callback				controllers.AuthentificationController.callback()				
+GET 	/oauth2callback					controllers.AuthentificationController.callback()
+GET     /logout							controllers.AuthentificationController.deconnection()	
+GET		/createNewUser					controllers.AuthentificationController.createNewUser()			

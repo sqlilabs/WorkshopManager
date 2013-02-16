@@ -5,15 +5,11 @@ package models;
 
 import java.io.Serializable;
 
-import javax.annotation.Nonnull;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import com.avaje.ebean.validation.NotNull;
 
 /**
  * Un utilisateur dans l'application
@@ -65,6 +61,12 @@ public class User implements Serializable {
 	 */
 	@Column(name = "role")
 	private String role;
+	
+	/**
+	 * boolean to know if the user had accepted the charter
+	 */
+	@Column(name = "charterAgree")
+	private boolean charterAgree;
 	
 	
 	//<--------------------------------------------------------------------------->
@@ -212,6 +214,22 @@ public class User implements Serializable {
 	 */
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+
+	/**
+	 * @return the charterAgree
+	 */
+	public boolean isCharterAgree() {
+		return charterAgree;
+	}
+
+
+	/**
+	 * @param charterAgree the charterAgree to set
+	 */
+	public void setCharterAgree(boolean charterAgree) {
+		this.charterAgree = charterAgree;
 	}
 
 
