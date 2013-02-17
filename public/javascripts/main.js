@@ -21,7 +21,7 @@ $(document).ready(function(){
 	});
 	
 	// ------------------------------------------
-	// handle the frame with the workshop details
+	// handle the modal with the workshop details
 	// ------------------------------------------
 	$('.workshop-bloc h4').click( function(e) {
 		e.preventDefault();
@@ -32,6 +32,15 @@ $(document).ready(function(){
 	$('#sidebar h4').click( function(e) {
 		e.preventDefault();
 		var id = "#workshop-details-" + $(this.innerHTML).attr("workshop-id") ;
+		$(id).modal();
+	});
+	
+	// ------------------------------------------
+	// handle the modal with the workshop comments
+	// ------------------------------------------
+	$('.speakerPicture img').click( function(e) {
+		e.preventDefault();
+		var id = "#workshop-comments-" + $(this).attr("workshop-id") ;
 		$(id).modal();
 	});
 	

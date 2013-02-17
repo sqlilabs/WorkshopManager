@@ -1,6 +1,3 @@
-/**
- * 
- */
 package models;
 
 import java.io.Serializable;
@@ -15,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -90,6 +88,12 @@ public class Workshop implements Serializable {
 			joinColumns = @JoinColumn(name="workshop_id"),
 			inverseJoinColumns = @JoinColumn(name = "user_id"))
 	private Set<User> potentialParticipants = new HashSet<User>();
+	
+	/**
+	 * Les commentaires du workshop
+	 */
+	@OneToMany(mappedBy="workshop")
+	private Set<Comment> comments = new HashSet<Comment>();
 	
 	
 	//<--------------------------------------------------------------------------->
@@ -222,6 +226,22 @@ public class Workshop implements Serializable {
 	 */
 	public void setPotentialParticipants(Set<User> potentialParticipants) {
 		this.potentialParticipants = potentialParticipants;
+	}
+
+
+	/**
+	 * @return the comments
+	 */
+	public Set<Comment> getComments() {
+		return comments;
+	}
+
+
+	/**
+	 * @param comments the comments to set
+	 */
+	public void setComments(Set<Comment> comments) {
+		this.comments = comments;
 	}
 	
 	

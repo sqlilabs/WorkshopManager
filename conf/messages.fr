@@ -57,6 +57,17 @@ form.plan.workshop.last.speaker=Dernière session présenté par
 form.plan.workshop.last.date=Dernière session le
 form.plan.workshop.plan.again=Re-Planifier
 plan.workshop.people.want.replay={0} personne(s) aimerai(en)t que l''on rejoue ce workshop
+form.plan.workshop.add.comment=Ajouter un commentaire
+
+# Zone Commentaire
+form.comment.title=Ajouter un commentaire
+form.comment.submit.button=Ajouter le commentaire
+form.comment.cancel.button=Annuler
+form.add.comment.description.label=Votre commentaire
+comments.number=Nombre de commentaires
+view.comments=Voir les commentaires
+comments.number.sentence=Il y a {0} commentaire(s) pour ce workshop
+comments.title=Commentaire de {0} {1} laissé le {2}
 
 # Charte
 action.ok=C''est cool! Je comprends et j''accepte ces termes

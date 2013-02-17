@@ -21,7 +21,7 @@
 								<img 
 									src="@routes.Assets.at(workshop.getImage)" />
 							</div>
-							<div class="span9 spaceAfter">
+							<div class="span8 spaceAfter">
 								<h4>
 									<a href="#" workshop-id="@workshop.getId">@workshop.getSubject</a>
 								</h4>
@@ -32,6 +32,13 @@
 									<p><strong>@Messages("form.plan.workshop.last.speaker") : </strong> @workshop.getWorkshopSession().getSpeaker().getFirstName() @workshop.getWorkshopSession().getSpeaker().getLastName()</p>
 									<p><strong>@Messages("form.plan.workshop.last.date") : </strong> @WorkshopController.decorateDate(workshop.getWorkshopSession().getNextPlay())</p>
 								</div>
+							</div>
+							<div class="span1 speakerPicture">
+								<a href="#">
+									<img width="36" height="36"	workshop-id="@workshop.getId" title="@Messages("view.comments")" src="@routes.Assets.at("images/view.png")" />
+								</a>
+								<h4 class="alignToRight" title="@Messages("comments.number")">@workshop.getComments().size()</h4>
+
 							</div>
 						</div>
 					
@@ -61,11 +68,18 @@
 								}
 							</div>
 						</div>
-						@if( AuthentificationController.isAuthenticatedUserAdmin() ) {
+						@if( AuthentificationController.isAuthenticatedUserAdmin() || AuthentificationController.getUser() != null ) {
 							<div class="row">
-								<div class="span2 offset10">
-									@form(routes.WorkshopController.planWorkshop(workshop.getId)) {
-										<input class="btn-success floatRight" type="submit" value="@Messages("form.plan.workshop.plan.again")" />
+								<div class="span12 alignToRight">
+									@if( AuthentificationController.isAuthenticatedUserAdmin() ) {
+										<a href="@routes.WorkshopController.planWorkshop(workshop.getId)" class="btn btn-success" >
+											@Messages("form.plan.workshop.plan.again")
+										</a>
+									}
+									@if( AuthentificationController.getUser() != null ) {
+										<a href="@routes.WorkshopController.addComment( workshop.getId )" class="btn btn-info" >
+											@Messages("form.plan.workshop.add.comment")
+										</a>
 									}
 								</div>
 							</div>
@@ -75,6 +89,9 @@
 				</div>
 				<div id="workshop-details-@workshop.getId" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 					@views.html.workshops.workshopDetailsPlayed( workshop )
+				</div>
+				<div id="workshop-comments-@workshop.getId" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					@views.html.workshops.workshopComments( workshop )
 				</div>
 			</div>	
 			}

@@ -4,8 +4,6 @@ import static models.utils.constants.AuthentificationConstants.*;
 
 import org.codehaus.jackson.JsonNode;
 
-import play.db.jpa.JPA;
-
 import dao.UserDAO;
 
 import models.User;

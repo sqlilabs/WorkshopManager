@@ -1,0 +1,33 @@
+@(commentForm: Form[Comment], id: Long )
+
+@import helper._
+@import dao._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInputHorizontal.render) } 
+
+@mainNoSidebar(Messages("form.comment.title")) {
+	<div class="row">
+		<div class="span6 offset3">
+		    <h3 class="spaceBefore">@Messages("form.comment.title") :</h3>
+	    
+	    @form( 
+	    	action = routes.WorkshopController.saveComment( id ),
+	    	'class   -> "form form-horizontal"
+	    ) {
+	        
+            @textarea(
+				commentForm("comment"), 
+				'_label -> Messages("form.add.comment.description.label"),
+				'class  -> "input-xlarge",
+				'rows 	-> 5, 
+				'col 	-> 50
+			) 
+	         
+	        <div class="actions center-text spaceBefore">
+	            <input type="submit" value="@Messages("form.comment.submit.button")" class="btn-success btn primary"> 
+	            <a href="@routes.Application.welcome()" class="btn">@Messages("form.comment.cancel.button")</a> 
+	        </div>
+	    }
+		 </div>
+	</div>
+}

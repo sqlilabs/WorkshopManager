@@ -14,6 +14,7 @@ import java.util.Set;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 
+import models.Comment;
 import models.User;
 import models.Workshop;
 import models.WorkshopSession;
@@ -30,6 +31,7 @@ import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
 import views.html.workshops.addWorkshop;
 import views.html.workshops.planWorkshop;
+import views.html.workshops.addComment;
 
 /**
  * Ce controller regroupe toutes les actions qui sont liées à l'ajout d'un
@@ -199,10 +201,6 @@ public class WorkshopController extends Controller {
      */
     @Transactional
     public static Result addSpeaker( Long id ) {
-    	Configuration cfg = new Configuration().configure();
-		SchemaExport export = new SchemaExport(cfg);
-		
-		export.create(true,true);
     	// We get the Workshop
         Workshop	currentWorkshop 	= 	JPA.em().find(Workshop.class, id);
         
@@ -226,10 +224,6 @@ public class WorkshopController extends Controller {
      */
     @Transactional
     public static Result removeSpeaker( Long id ) {
-    	Configuration cfg = new Configuration().configure();
-		SchemaExport export = new SchemaExport(cfg);
-		
-		export.create(true,true);
     	// We get the Workshop
         Workshop	currentWorkshop 	= 	JPA.em().find(Workshop.class, id);
         
@@ -253,10 +247,6 @@ public class WorkshopController extends Controller {
      */
     @Transactional
     public static Result addParticipant( Long id ) {
-    	Configuration cfg = new Configuration().configure();
-		SchemaExport export = new SchemaExport(cfg);
-		
-		export.create(true,true);
     	// We get the Workshop
         Workshop	currentWorkshop 	= 	JPA.em().find(Workshop.class, id);
         
@@ -280,10 +270,6 @@ public class WorkshopController extends Controller {
      */
     @Transactional
     public static Result removeParticipant( Long id ) {
-    	Configuration cfg = new Configuration().configure();
-		SchemaExport export = new SchemaExport(cfg);
-		
-		export.create(true,true);
     	// We get the Workshop
         Workshop	currentWorkshop 	= 	JPA.em().find(Workshop.class, id);
         
@@ -297,6 +283,48 @@ public class WorkshopController extends Controller {
         JPA.em().persist( currentWorkshop );
     	
         return redirect(routes.Application.welcome());
+    }
+    
+
+	/**
+	 * @param id the workshop ID
+	 * @return the comment form view
+	 */
+	public static Result addComment(Long id) {
+		Form<Comment> commentForm = form(Comment.class);
+
+		return ok( addComment.render(commentForm, id) );
+	}
+    
+    /**
+     * @param id the workshop ID
+     * @return redirct on workshop already played view
+     */
+    @Transactional
+    public static Result saveComment( Long id ) {
+    	Form<Comment> 	filledForm 	= 	form(Comment.class).bindFromRequest();
+    	
+    	if (filledForm.hasErrors()) {
+			return badRequest(addComment.render(filledForm, id));
+		}
+    	
+    	// Get the workshop from base
+    	Workshop 		ws 			= 	JPA.em().find(Workshop.class, id);
+    	
+    	//We create the comment instance
+    	Comment 		comment 	= 	filledForm.get();
+    	comment.setCreationDate(new Date());
+    	comment.setAuthor( AuthentificationController.getUser() );
+    	comment.setWorkshop( ws );
+    	
+    	// We add the new comment
+    	ws.getComments().add( comment );
+    	
+    	// We save the objects in base
+        JPA.em().persist( comment );
+        JPA.em().merge( ws );
+    	
+        return redirect(routes.Application.workshops());
     }
     
     
