@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le : Sam 16 Février 2013 à 23:32
+-- Généré le : Dim 17 Février 2013 à 19:00
 -- Version du serveur: 5.5.29
 -- Version de PHP: 5.3.10-1ubuntu3.5
 
@@ -19,6 +19,31 @@ SET time_zone = "+00:00";
 --
 -- Base de données: `workshopmanager`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `COMMENT`
+--
+
+CREATE TABLE IF NOT EXISTS `COMMENT` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `creation_date` date NOT NULL,
+  `comment` varchar(500) NOT NULL,
+  `author_id` bigint(20) NOT NULL,
+  `workshop_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+
+--
+-- Contenu de la table `COMMENT`
+--
+
+INSERT INTO `COMMENT` (`id`, `creation_date`, `comment`, `author_id`, `workshop_id`) VALUES
+(1, '2013-02-17', 'test', 1, 5),
+(2, '2013-02-17', 'un autre super commentaire', 1, 6),
+(3, '2013-02-17', 'une autre commentaire !!!!', 2, 5),
+(4, '2013-02-17', 'L’entité n’a pas été insérée en Base de données et donc elle est restée en dehors du champ d’Hibernate. Certes, vous l’avez ajoutée à la liste des B de A qui, elle, est attachée. La belle affaire ! C’est B qui est propriétaire du lien. Lorsque A est sauvegardé, la collection des B est purement et simplement – et silencieusement :-( - ignorée par Hibernate, qui aurait parfaitement pu se rendre compte de l’erreur mais qui ne le fait pas !', 2, 5);
 
 -- --------------------------------------------------------
 
@@ -71,8 +96,8 @@ CREATE TABLE IF NOT EXISTS `USER` (
   `first_name` varchar(255) DEFAULT NULL,
   `last_name` varchar(255) DEFAULT NULL,
   `picture` varchar(255) DEFAULT NULL,
-  `role` varchar(255) DEFAULT NULL,
-  `charterAgree` tinyint(1) NOT NULL,
+  `role` varchar(255) DEFAULT 'standard',
+  `charterAgree` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
@@ -82,7 +107,7 @@ CREATE TABLE IF NOT EXISTS `USER` (
 
 INSERT INTO `USER` (`id`, `email`, `first_name`, `last_name`, `picture`, `role`, `charterAgree`) VALUES
 (1, 'yannick.chartois@gmail.com', 'Yannick', 'Chartois', 'https://lh5.googleusercontent.com/-8rFmjE_z2do/AAAAAAAAAAI/AAAAAAAAAGM/kdGz_0hCplQ/photo.jpg', 'admin', 1),
-(2, 'yannig.corp@gmail.com', 'yannig', 'yannig', 'https://lh5.googleusercontent.com/-_10nuInSTVs/AAAAAAAAAAI/AAAAAAAAAAA/bgePzMZAQ78/photo.jpg', NULL, 0);
+(2, 'yannig.corp@gmail.com', 'yannig', 'yannig', 'https://lh5.googleusercontent.com/-_10nuInSTVs/AAAAAAAAAAI/AAAAAAAAAAA/bgePzMZAQ78/photo.jpg', 'standard', 1);
 
 -- --------------------------------------------------------
 
