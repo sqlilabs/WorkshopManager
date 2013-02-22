@@ -1,23 +1,27 @@
+drop table POTENTIAL_PARTICIPANTS;
 create table POTENTIAL_PARTICIPANTS (
-        workshop_id bigint not null,
+        workshop_id bigint auto_increment,
         user_id bigint not null,
         primary key (workshop_id, user_id)
     );
 
 
-    create table USER (
-        id bigint,
+drop table user;
+create table USER (
+        id bigint auto_increment,
         email varchar(255),
         first_name varchar(255),
         last_name varchar(255),
         picture varchar(255),
         role varchar(255),
+        charteragree tinyint(1),
         primary key (id)
     );
 
 
-    create table WORKSHOP (
-        id bigint,
+drop table WORKSHOP;
+create table WORKSHOP (
+        id bigint auto_increment,
         description varchar(1000),
         image varchar(255),
         subject varchar(255),
@@ -27,8 +31,9 @@ create table POTENTIAL_PARTICIPANTS (
     );
 
 
-    create table WORKSHOP_SESSION (
-        id bigint not null,
+drop table WORKSHOP_SESSION;
+create table WORKSHOP_SESSION (
+        id bigint auto_increment,
         doodle_url varchar(255),
         location varchar(255),
         nextPlay timestamp,
@@ -37,12 +42,21 @@ create table POTENTIAL_PARTICIPANTS (
     );
 
 
-    create table WORKSHOP_SPEAKERS (
-        workshop_id bigint not null,
+drop table WORKSHOP_SPEAKERS;
+create table WORKSHOP_SPEAKERS (
+        workshop_id bigint auto_increment,
         user_id bigint not null,
         primary key (workshop_id, user_id)
     );
 
+    CREATE TABLE COMMENT (
+  id bigint(20) NOT NULL AUTO_INCREMENT,
+  creation_date date NOT NULL,
+  comment varchar(500) NOT NULL,
+  author_id bigint(20) NOT NULL,
+  workshop_id bigint(20) NOT NULL,
+  PRIMARY KEY (id)
+)
 
     alter table POTENTIAL_PARTICIPANTS 
         add constraint FK8118E64147140EFE 
@@ -80,4 +94,4 @@ create table POTENTIAL_PARTICIPANTS (
         add constraint FK76C6E80CAC90337E 
         foreign key (workshop_id) 
         references WORKSHOP;
-
+        
