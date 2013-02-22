@@ -31,3 +31,6 @@ GET     /assets/*file               	controllers.Assets.at(path="/public", file)
 GET 	/oauth2callback					controllers.AuthentificationController.callback()
 GET     /logout							controllers.AuthentificationController.deconnection()	
 GET		/createNewUser					controllers.AuthentificationController.createNewUser()			
+
+# WS
+GET		/ws/workshopsPlanifies			controllers.Application.wsWorkshopsPlanifies()

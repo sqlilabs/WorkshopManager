@@ -1,15 +1,19 @@
 package controllers;
 
-import static models.utils.constants.ApplicationConstants.*;
+import static models.utils.constants.ApplicationConstants.UUID;
 
+import java.util.List;
+
+import models.Workshop;
 import play.Play;
 import play.db.jpa.Transactional;
+import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Http.Context;
 import play.mvc.Result;
-import views.html.welcome.welcome;
 import views.html.welcome.charter;
+import views.html.welcome.welcome;
 import views.html.workshops.alreadyPlayed;
 import dao.WorkshopDAO;
 
@@ -30,6 +34,13 @@ public class Application extends Controller {
 		Context.current().args.put("ongletActif", "home");
 		// We render the welcome page
 		return ok(welcome.render("Accueil", WorkshopDAO.getWorkshops()));
+	}
+	
+	@Transactional(readOnly = true)
+	@BodyParser.Of(play.mvc.BodyParser.Json.class)
+	public static Result wsWorkshopsPlanifies() {
+		List<Workshop> wsPlanifies = WorkshopDAO.getWorkshopsPlanifie();
+		return ok(play.libs.Json.toJson(wsPlanifies));
 	}
 	
 	/**
