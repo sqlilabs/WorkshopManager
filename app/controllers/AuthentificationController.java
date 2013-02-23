@@ -13,6 +13,7 @@ import play.Play;
 import play.cache.Cache;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
+import play.i18n.Messages;
 import play.libs.WS;
 import play.libs.WS.Response;
 import play.mvc.Controller;
@@ -58,11 +59,11 @@ public class AuthentificationController extends Controller {
 		// Si le code n'existe pas c'est qu'il y a une erreur
 		if ( codeRetour == null ) {
 			String 		errorCode 			= 	request().queryString().get(CALLBACK_GOOGLE_ERROR)[CALLBACK_GOOGLE_INFO_INDEX];
-			//TODO: a externalisé avec la méthode de Rémi
-			return ok ( error.render("Vous avez refusé l'identification via votre compte Google, vous ne pourrez pas profiter des privilèges liés aux utilisateurs identifiés. Google nous a retourné l'erreur suivante: [" + errorCode + "]") );
+
+			return ok ( error.render( Messages.get("error.google.authentification.refused", errorCode)) );
 		}
 		
-		// Request an Access token
+		// Request an Access tokenarg0 
 		Response 	responseAccessToken 	= 	WS.url(GOOGLE_ACCESS_TOKEN_URL)
 													.setHeader("Content-Type", "application/x-www-form-urlencoded")
 													.post( getAccessTokenParams( codeRetour[CALLBACK_GOOGLE_INFO_INDEX] ) )

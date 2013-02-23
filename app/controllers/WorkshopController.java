@@ -18,14 +18,17 @@ import models.WorkshopSession;
 import models.utils.formatter.UserFormatter;
 import play.Logger;
 import play.Play;
+import play.api.i18n.Messages.Message;
 import play.data.Form;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
+import play.i18n.Messages;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
+import views.html.errors.error;
 import views.html.workshops.addWorkshop;
 import views.html.workshops.planWorkshop;
 import views.html.workshops.addComment;
@@ -198,18 +201,24 @@ public class WorkshopController extends Controller {
      */
     @Transactional
     public static Result addSpeaker( Long id ) {
+    	
     	// We get the Workshop
         Workshop	currentWorkshop 	= 	JPA.em().find(Workshop.class, id);
         
-        // Get the connected User
-        User		user				=	AuthentificationController.getUser();
+        if ( currentWorkshop.getSpeakers().size() < Play.application().configuration().getInt( "speaker.limit" )) {
+        	// Get the connected User
+            User		user				=	AuthentificationController.getUser();
+            
+            // It's a Set, so no duplicate
+            currentWorkshop.getSpeakers().add( user );
+            
+            // We save the new Workshop
+            JPA.em().persist( currentWorkshop );
+    	}
+        else {
+        	return ok ( error.render( Messages.get("error.speaker.limit.reached")) );
+        }
         
-        // It's a Set, so no duplicate
-        currentWorkshop.getSpeakers().add( user );
-        
-        // We save the new Workshop
-        JPA.em().persist( currentWorkshop );
-    	
         return redirect(routes.Application.welcome());
     }
     
