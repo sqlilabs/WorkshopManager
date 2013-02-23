@@ -11,9 +11,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-import org.hibernate.cfg.Configuration;
-import org.hibernate.tool.hbm2ddl.SchemaExport;
-
 import models.Comment;
 import models.User;
 import models.Workshop;

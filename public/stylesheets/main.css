@@ -141,3 +141,8 @@ hr.soften {
 	border-radius: 5px;
 }
 
+.commentPicture img {
+	padding-left:5px;
+	float: right;
+}
+

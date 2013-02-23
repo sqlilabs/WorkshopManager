@@ -38,7 +38,7 @@ $(document).ready(function(){
 	// ------------------------------------------
 	// handle the modal with the workshop comments
 	// ------------------------------------------
-	$('.speakerPicture img').click( function(e) {
+	$('.commentPicture img').click( function(e) {
 		e.preventDefault();
 		var id = "#workshop-comments-" + $(this).attr("workshop-id") ;
 		$(id).modal();
