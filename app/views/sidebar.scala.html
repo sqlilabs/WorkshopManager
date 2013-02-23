@@ -16,9 +16,9 @@
 				<a href="#" workshop-id="@workshop.getId">@workshop.getSubject</a>
 			</h4>
 			<div class="littlePaddingLeft">
-				<p><i class="icon-check"></i><span class="labelWS" > Le:</span> @WorkshopController.decorateDate( workshop.getWorkshopSession().getNextPlay() )</p>
-				<p><i class="icon-user"></i><span class="labelWS" > Speaker:</span> @workshop.getWorkshopSession().getSpeaker().getFirstName() @workshop.getWorkshopSession().getSpeaker().getLastName()</p>
-				<p><i class="icon-map-marker"></i><span class="labelWS" > Lieu:</span> @workshop.getWorkshopSession().getLocation()</p>
+				<p><i class="icon-check"></i><span class="labelWS" > @Messages("workshop.planned.on"):</span> @WorkshopController.decorateDate( workshop.getWorkshopSession().getNextPlay() )</p>
+				<p><i class="icon-user"></i><span class="labelWS" > @Messages("workshop.speaker"):</span> @workshop.getWorkshopSession().getSpeaker().getFirstName() @workshop.getWorkshopSession().getSpeaker().getLastName()</p>
+				<p><i class="icon-map-marker"></i><span class="labelWS" > @Messages("workshop.location"):</span> @workshop.getWorkshopSession().getLocation()</p>
 			</div>
 			
 			<p>

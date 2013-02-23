@@ -68,6 +68,11 @@ comments.title={0} {1} comment's posted the {2}
 action.ok=That''s cool ;) I understand and I agree
 action.ko=No way!!! Are you crazy guys??
 
+
+# Workshops planed
+workshop.planned.on=Planned on
+workshop.speaker=Speaker
+workshop.location=Location
 # Errors messages
 error.speaker.limit.reached=The speakers limit is reached!!
 error.google.authentification.refused=You refused to identify via your Google account, you can not enjoy the privileges to authenticated users. Google has returned the following error: [{0}]

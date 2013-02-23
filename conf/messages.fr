@@ -73,6 +73,11 @@ comments.title=Commentaire de {0} {1} laissé le {2}
 action.ok=C''est cool! Je comprends et j''accepte ces termes
 action.ko=Vous avez craqués, même par en rêve !!
 
+# Workshops planed
+workshop.planned.on=Planifié le
+workshop.speaker=Speaker
+workshop.location=Lieu
+
 # Errors messages
 error.speaker.limit.reached=Le nombre de speaker maximum est atteint
 error.google.authentification.refused=Vous avez refusé l'identification via votre compte Google, vous ne pourrez pas profiter des privilèges liés aux utilisateurs identifiés. Google nous a retourné l'erreur suivante: [{0}]

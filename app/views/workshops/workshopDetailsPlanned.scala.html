@@ -18,6 +18,7 @@
 	</div>
 </div>
 <div class="modal-footer">
-  	
+  	<p><b>@Messages("workshop.planned.on")</b>: @WorkshopController.decorateDate( workshop.getWorkshopSession().getNextPlay() ) --  <b>@Messages("workshop.location")</b>: @workshop.getWorkshopSession().getLocation()</p>
+	<p><b>@Messages("workshop.speaker")</b>: @workshop.getWorkshopSession().getSpeaker().getFirstName() @workshop.getWorkshopSession().getSpeaker().getLastName()</p>
 </div>
 
