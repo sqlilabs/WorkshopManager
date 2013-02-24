@@ -3,6 +3,11 @@ package controllers;
 import static models.utils.constants.WorkShopConstants.*;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,6 +21,7 @@ import models.User;
 import models.Workshop;
 import models.WorkshopSession;
 import models.utils.formatter.UserFormatter;
+import models.utils.helpers.FilesUtils;
 import play.Logger;
 import play.Play;
 import play.data.Form;
@@ -401,7 +407,7 @@ public class WorkshopController extends Controller {
 	 * @return le chemin vers l'image qui a été uploader dans le système
 	 */
 	private static String uploadImage() {
-    	String imageLocation 	= 	Play.application().configuration().getString("workshop.images.url") + "/";
+    	String imageLocation 	= 	Play.application().configuration().getString("workshop.images.url") + File.separator;
     	String defaultImage 	= 	imageLocation + "default.png";
     	
     	// Gestion de la sauvegarde des fichiers uploadés (images)
@@ -409,30 +415,28 @@ public class WorkshopController extends Controller {
  		FilePart picture = body.getFile("image");
  		if (picture != null) {
  			String fileName = picture.getFilename();
- 			// TODO : renommer le fichier avant de le sauvegarder
- 			// TODO : vérifier si le fichier existe
- 			// String contentType = picture.getContentType();
  			File file = picture.getFile();
 
  			// On sauvegarde le fichier
- 			try {
- 				String myUploadPath = Play.application().path()
- 						+ "/"
- 						+ Play.application().configuration().getString("workshop.images.directory");
- 				
- 				if ( file.renameTo(new File(myUploadPath, fileName)) ) {
- 					return imageLocation + fileName;
- 				}
- 				
- 			} catch (Exception e) {
- 				// TODO : préciser les exceptions
- 				// TODO Prévenir le user que le fichier ne s'est pas copié (utiliser les flash messages ?)
- 				Logger.info("Erreur lors de la copie du fichier image "
- 						+ fileName);
- 			}
+			String myUploadPath = Play.application().path()
+					+ File.separator
+					+ Play.application().configuration().getString("workshop.images.directory");
+			
+			// We check if the dest file exists
+			File dest = new File(myUploadPath, fileName); 
+			if ( dest.exists() ) {
+				dest.delete();
+			}
+				
+			// If the file copy encounter an exception, we use the default picture
+			if ( FilesUtils.fastCopyFileCore( file, dest ) ) {
+				return imageLocation + fileName;
+			}
  		}
  		
  		return defaultImage;
     }
+	
+	
 
 }
