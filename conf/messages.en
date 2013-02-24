@@ -34,6 +34,7 @@ form.add.workshop.page.title=Add a workshop
 form.add.workshop.subject.button= Go !
 form.add.workshop.submit.button = Submit this workshop
 form.add.workshop.cancel.button = Cancel
+form.add.workshop.summary.label=Summary
 
 # Formulaire de planification
 form.plan.page.title=Schedule a workshop

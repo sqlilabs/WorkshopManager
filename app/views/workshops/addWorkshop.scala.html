@@ -30,9 +30,18 @@ FieldConstructor(twitterBootstrapInputHorizontal.render) }
 		) 
 		
 		@textarea(
+			workshopForm("summary"), 
+			'_label -> Messages("form.add.workshop.summary.label"),
+			'class  -> "input-xlarge",
+			'rows 	-> 5,
+			'maxlength -> 300
+		)
+		
+		@textarea(
 			workshopForm("description"), 
 			'_label -> Messages("form.add.workshop.description.label"),
 			'class  -> "input-xlarge",
+			'maxlength -> 1000,
 			'rows 	-> 10, 
 			'col 	-> 80
 		) 		

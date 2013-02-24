@@ -18,7 +18,6 @@ import models.WorkshopSession;
 import models.utils.formatter.UserFormatter;
 import play.Logger;
 import play.Play;
-import play.api.i18n.Messages.Message;
 import play.data.Form;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;

@@ -26,7 +26,7 @@
 									<a href="#" workshop-id="@workshop.getId">@workshop.getSubject</a>
 								</h4>
 								<div class="spaceAfter">
-									@Html( WorkshopController.getWorkshopDescription(workshop) )
+									<p>@Html( workshop.getSummary() )<p>
 								</div>
 								<div>
 									<p><strong>@Messages("form.plan.workshop.last.speaker") : </strong> @workshop.getWorkshopSession().getSpeaker().getFirstName() @workshop.getWorkshopSession().getSpeaker().getLastName()</p>

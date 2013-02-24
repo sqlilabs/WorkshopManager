@@ -47,6 +47,13 @@ public class Workshop implements Serializable {
 	private String subject;
 	
 	/**
+	 * Résumé court du workshop
+	 */
+	@Column(length=300)
+	@Required
+	private String summary;
+	
+	/**
 	 * La description du contenu du workshop.
 	 */
 	@Column(length = 1000)
@@ -242,6 +249,22 @@ public class Workshop implements Serializable {
 	 */
 	public void setComments(Set<Comment> comments) {
 		this.comments = comments;
+	}
+
+
+	/**
+	 * @return the summary
+	 */
+	public String getSummary() {
+		return summary;
+	}
+
+
+	/**
+	 * @param summary the summary to set
+	 */
+	public void setSummary(String summary) {
+		this.summary = summary;
 	}
 	
 	

@@ -26,7 +26,7 @@
 								<a href="#" workshop-id="@workshop.getId">@workshop.getSubject</a>
 							</h4>
 							<div>
-								@Html( WorkshopController.getWorkshopDescription(workshop) )
+								<p>@Html( workshop.getSummary() )<p>
 							</div>
 						</div>
 						<div class="span2 speakerPicture">

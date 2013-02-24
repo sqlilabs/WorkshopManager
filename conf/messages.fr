@@ -38,6 +38,7 @@ form.add.workshop.page.title=Ajouter un workshop
 form.add.workshop.subject.button= Aller ...
 form.add.workshop.submit.button = Soumettre ...
 form.add.workshop.cancel.button = Annuler
+form.add.workshop.summary.label=Résumé
 
 # Formulaire de planification
 form.plan.page.title=Planifier un workshop
