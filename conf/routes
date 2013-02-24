@@ -20,6 +20,8 @@ GET     /workshops/removeSpeaker/id		controllers.WorkshopController.removeSpeake
 GET     /workshops/removeParticipant/id	controllers.WorkshopController.removeParticipant(id: Long)
 GET     /workshop/addComment/:id		controllers.WorkshopController.addComment(id: Long)
 POST    /workshop/saveComment/:id		controllers.WorkshopController.saveComment(id: Long)
+GET     /workshop/addRessources/:id		controllers.WorkshopController.addWorkshopRessources(id: Long)
+POST    /workshop/saveRessources/:id	controllers.WorkshopController.saveWorkshopRessources(id: Long)
 
 # Application
 GET     /webjars/*file              	controllers.WebJarAssets.at(file)

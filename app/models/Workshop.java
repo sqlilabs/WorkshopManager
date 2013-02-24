@@ -102,6 +102,12 @@ public class Workshop implements Serializable {
 	@OneToMany(mappedBy="workshop")
 	private Set<Comment> comments = new HashSet<Comment>();
 	
+	/**
+	 * Ressources of the workshop (file/link to the workshop support)
+	 */
+	@OneToOne
+	private Ressources workshopRessources;
+	
 	
 	//<--------------------------------------------------------------------------->
 	//-							 Constructeur(s)	        
@@ -265,6 +271,22 @@ public class Workshop implements Serializable {
 	 */
 	public void setSummary(String summary) {
 		this.summary = summary;
+	}
+
+
+	/**
+	 * @return the workshopRessources
+	 */
+	public Ressources getWorkshopRessources() {
+		return workshopRessources;
+	}
+
+
+	/**
+	 * @param workshopRessources the workshopRessources to set
+	 */
+	public void setWorkshopRessources(Ressources workshopRessources) {
+		this.workshopRessources = workshopRessources;
 	}
 	
 	

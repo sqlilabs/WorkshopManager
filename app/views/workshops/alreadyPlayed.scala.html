@@ -33,12 +33,25 @@
 									<p><strong>@Messages("form.plan.workshop.last.date") : </strong> @WorkshopController.decorateDate(workshop.getWorkshopSession().getNextPlay())</p>
 								</div>
 							</div>
-							<div class="span1 commentPicture">
-								<a href="#">
-									<img width="36" height="36"	workshop-id="@workshop.getId" title="@Messages("view.comments")" src="@routes.Assets.at("images/view.png")" />
-								</a>
-								<h4 class="alignToRight" title="@Messages("comments.number")">@workshop.getComments().size()</h4>
-
+							<div class="span1">
+								<div class="commentPicture" >
+									<a href="#">
+										<img width="36" height="36"	workshop-id="@workshop.getId" title="@Messages("view.comments")" src="@routes.Assets.at("images/view.png")" />
+									</a>
+									<h4 class="alignToRight" title="@Messages("comments.number")">@workshop.getComments().size()</h4>
+								</div>
+								<div class="ressourcesPicture">
+									@if( workshop.getWorkshopRessources() != null && workshop.getWorkshopRessources().getWorkshopSupportLink() != null ) { 
+										<a href="@workshop.getWorkshopRessources().getWorkshopSupportLink()" target="_blank">
+											<img width="36" height="36"	title="@Messages("link.to.workshop.ressources")" src="@routes.Assets.at("images/internet-icon.png")" />
+										</a>
+									}
+									@if( workshop.getWorkshopRessources() != null && workshop.getWorkshopRessources().getWorkshopSupportFile() != null ) { 
+										<a href="@routes.Assets.at(workshop.getWorkshopRessources().getWorkshopSupportFile())" target="_blank">
+											<img width="36" height="36"	title="@Messages("workshop.ressources.file")" src="@routes.Assets.at("images/Files-icon.png")" />
+										</a>
+									}
+								</div>
 							</div>
 						</div>
 					
@@ -72,6 +85,9 @@
 							<div class="row">
 								<div class="span12 alignToRight">
 									@if( AuthentificationController.isAuthenticatedUserAdmin() ) {
+										<a href="@routes.WorkshopController.addWorkshopRessources(workshop.getId)" class="btn btn-inverse" >
+											@Messages("form.plan.workshop.add.ressources")
+										</a>
 										<a href="@routes.WorkshopController.planWorkshop(workshop.getId)" class="btn btn-success" >
 											@Messages("form.plan.workshop.plan.again")
 										</a>

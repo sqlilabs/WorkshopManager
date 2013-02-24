@@ -21,6 +21,17 @@ $(document).ready(function(){
 	});
 	
 	// ------------------------------------------
+	// handle the workshop support upload
+	// ------------------------------------------
+	$("#add-ressources-form #ressources-button").click(function(){
+		$('#add-ressources-form #workshop-support').click();
+	});
+	
+	$("#add-ressources-form #workshop-support").change(function(){
+		$('#add-ressources-form #appendedInputButton').val($('#add-ressources-form #workshop-support').val());
+	});
+	
+	// ------------------------------------------
 	// handle the modal with the workshop details
 	// ------------------------------------------
 	$('.workshop-bloc h4').click( function(e) {

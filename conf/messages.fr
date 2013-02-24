@@ -44,7 +44,7 @@ form.add.workshop.summary.label=Résumé
 form.plan.page.title=Planifier un workshop
 form.plan.workshop.title=Saisir les détails de la session
 form.plan.workshop.doodleUrl.label=Url du Doodle
-form.plan.workshop.doodleUrl.help=Il faut saisir l'url complete (avec http://). <br />L''url doit être valide.
+form.plan.workshop.doodleUrl.help=Il faut saisir l''url complete (avec http://). <br />L''url doit être valide.
 form.plan.workshop.location.label=Lieu du Workshop
 form.plan.workshop.nextPlay.label=Date de la prochaine séance
 form.plan.workshop.nextPlay.error=La date de prochaine séance est obligatoire
@@ -59,6 +59,7 @@ form.plan.workshop.last.date=Dernière session le
 form.plan.workshop.plan.again=Re-Planifier
 plan.workshop.people.want.replay={0} personne(s) aimerai(en)t que l''on rejoue ce workshop
 form.plan.workshop.add.comment=Ajouter un commentaire
+form.plan.workshop.add.ressources=Ajout support
 
 # Zone Commentaire
 form.comment.title=Ajouter un commentaire
@@ -69,6 +70,16 @@ comments.number=Nombre de commentaires
 view.comments=Voir les commentaires
 comments.number.sentence=Il y a {0} commentaire(s) pour ce workshop
 comments.title=Commentaire de {0} {1} laissé le {2}
+
+# Add Ressources
+form.ressources.title=Ressources à ajouter au workshop
+form.ressources.submit.button=Ajouter les ressources
+form.ressources.cancel.button=Annuler
+form.ressources.subject.label=Lien vers site externe: 
+form.ressources.label=Support du workshop
+link.to.workshop.ressources=Support du workshop externe (cloud)
+workshop.ressources.file=Support du workshop interne
+
 
 # Charte
 action.ok=C''est cool! Je comprends et j''accepte ces termes
@@ -82,3 +93,4 @@ workshop.location=Lieu
 # Errors messages
 error.speaker.limit.reached=Le nombre de speaker maximum est atteint
 error.google.authentification.refused=Vous avez refusé l'identification via votre compte Google, vous ne pourrez pas profiter des privilèges liés aux utilisateurs identifiés. Google nous a retourné l'erreur suivante: [{0}]
+constraint.workshopsession.url=Il faut saisir l''url complete (avec http://)

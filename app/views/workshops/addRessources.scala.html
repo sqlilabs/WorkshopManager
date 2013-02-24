@@ -1,0 +1,52 @@
+@(ressourcesForm: Form[Ressources], id: Long )
+
+@import helper._
+@import dao._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInputHorizontal.render) } 
+
+@mainNoSidebar(Messages("form.ressources.title")) {
+	<div class="row">
+		<div class="span6 offset3">
+		    <h3 class="spaceBefore">@Messages("form.ressources.title") :</h3>
+	    
+	    @form( 
+	    	action = routes.WorkshopController.saveWorkshopRessources( id ),
+	    	'id      -> "add-ressources-form",
+			'enctype -> "multipart/form-data",
+	    	'class   -> "form form-horizontal"
+	    ) {
+	        
+            @inputText(
+				ressourcesForm("workshopSupportLink"), 
+				'_label -> Messages("form.ressources.subject.label"),
+				'_help -> Messages("form.plan.workshop.doodleUrl.help"),
+				'class  -> "input-xlarge"
+			)  
+	         
+	         <div class="control-group">			
+				<label class="control-label" for="appendedInputButton">@Messages("form.ressources.label"):</label>
+				<div class="controls">
+					<input class="input-xlarge" name="image-hack" id="appendedInputButton" disabled type="text" />
+					<button class="btn" id="ressources-button" type="button">@Messages("form.add.workshop.subject.button")</button>
+				</div>
+			</div>
+		
+	        @********
+			 	hack : input reel de parcour d'images
+			 	@see http://duckranger.com/2012/06/pretty-file-input-field-in-bootstrap/ 
+			*********@
+			@inputFile(
+				ressourcesForm("workshopSupportFile"),
+				'_label -> "",
+				'style  -> "display:none",
+				'id     -> "workshop-support"
+			) 
+	        <div class="actions center-text spaceBefore">
+	            <input type="submit" value="@Messages("form.ressources.submit.button")" class="btn-success btn primary"> 
+	            <a href="@routes.Application.welcome()" class="btn">@Messages("form.ressources.cancel.button")</a> 
+	        </div>
+	    }
+		 </div>
+	</div>
+}

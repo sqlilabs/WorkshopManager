@@ -3,11 +3,6 @@ package controllers;
 import static models.utils.constants.WorkShopConstants.*;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,12 +12,12 @@ import java.util.Locale;
 import java.util.Set;
 
 import models.Comment;
+import models.Ressources;
 import models.User;
 import models.Workshop;
 import models.WorkshopSession;
 import models.utils.formatter.UserFormatter;
 import models.utils.helpers.FilesUtils;
-import play.Logger;
 import play.Play;
 import play.data.Form;
 import play.db.jpa.JPA;
@@ -37,6 +32,7 @@ import views.html.errors.error;
 import views.html.workshops.addWorkshop;
 import views.html.workshops.planWorkshop;
 import views.html.workshops.addComment;
+import views.html.workshops.addRessources;
 
 /**
  * Ce controller regroupe toutes les actions qui sont liées à l'ajout d'un
@@ -298,6 +294,8 @@ public class WorkshopController extends Controller {
     
 
 	/**
+	 * Prepare the form to add comments
+	 * 
 	 * @param id the workshop ID
 	 * @return the comment form view
 	 */
@@ -308,8 +306,10 @@ public class WorkshopController extends Controller {
 	}
     
     /**
+     * Save the comments
+     * 
      * @param id the workshop ID
-     * @return redirct on workshop already played view
+     * @return redirect on workshop already played view
      */
     @Transactional
     public static Result saveComment( Long id ) {
@@ -333,6 +333,71 @@ public class WorkshopController extends Controller {
     	
     	// We save the objects in base
         JPA.em().persist( comment );
+        JPA.em().merge( ws );
+    	
+        return redirect(routes.Application.workshops());
+    }
+    
+    
+    /**
+     * Prepare the form to add ressources
+     * 
+	 * @param id the workshop ID
+	 * @return the ressources form view
+	 */
+    @Transactional
+    public static Result addWorkshopRessources(Long id) {
+    	Workshop 	ws 			= 	JPA.em().find(Workshop.class, id);
+    	Ressources 	ressources	=	ws.getWorkshopRessources();
+    	
+    	// if we already set ressources, we want to fill the form with our old datas
+    	Form<Ressources> ressourcesForm = null;
+    	if ( ressources != null ) {
+    		ressourcesForm 		= 	form(Ressources.class).fill(ressources);
+    	}
+    	else {
+    		ressourcesForm 		= 	form(Ressources.class);
+    	}
+
+		return ok( addRessources.render(ressourcesForm, id) );
+	}
+    
+    /**
+     * Save the new ressources
+     * 
+     * @param id the workshop ID
+     * @return redirect on workshop already played view
+     */
+    @Transactional
+    public static Result saveWorkshopRessources( Long id ) {
+    	Form<Ressources> 	filledForm 	= 	form(Ressources.class).bindFromRequest();
+    	
+    	if (filledForm.hasErrors()) {
+			return badRequest(addRessources.render(filledForm, id));
+		}
+    	
+    	// Get the workshop from base
+    	Workshop 		ws 			= 	JPA.em().find(Workshop.class, id);
+    	
+    	boolean			update		=	 ws.getWorkshopRessources() != null;
+    	
+    	//We create the Ressources instance
+    	Ressources 		ressources 	= 	filledForm.get();
+    	ressources.setWorkshopSupportFile( uploadRessources( ws ) );
+    	if ( update ) {
+    		ressources.setId( ws.getWorkshopRessources().getId() );
+    	}
+    	
+    	// We add the new ressources
+    	ws.setWorkshopRessources( ressources );
+    	
+    	// We save the objects in base
+    	if (update) {
+    		JPA.em().merge( ressources );
+    	}
+    	else {
+    		JPA.em().persist( ressources );
+    	}
         JPA.em().merge( ws );
     	
         return redirect(routes.Application.workshops());
@@ -435,6 +500,47 @@ public class WorkshopController extends Controller {
  		}
  		
  		return defaultImage;
+    }
+	
+	/**
+	 * Upload la ressource spécifiée et retourne le lien vers cette ressource
+	 * 
+	 * @return le chemin vers la ressource qui a été uploadée dans le système
+	 */
+	private static String uploadRessources( Workshop workshop ) {
+		SimpleDateFormat 	simpleDateFormat	=	new SimpleDateFormat("[yyyy-MM]");
+		String				destFolderName		=	simpleDateFormat.format( workshop.getWorkshopSession().getNextPlay() ) + " - " + workshop.getSubject();
+    	String 				ressourceLocation 	= 	Play.application().configuration().getString("workshop.ressources.url") + File.separator + destFolderName + File.separator;
+    	
+    	// Gestion de la sauvegarde des fichiers uploadés (images)
+ 		MultipartFormData 	body 				= 	request().body().asMultipartFormData(); 
+ 		FilePart 			ressource 			= 	body.getFile("workshopSupportFile");
+ 		
+ 		if (ressource != null) {
+ 			String 			fileName 			= 	ressource.getFilename();
+ 			File 			file 				= 	ressource.getFile();
+
+ 			// On sauvegarde le fichier
+ 				
+			String 			myUploadPath 		= 	Play.application().path() + File.separator
+														+ Play.application().configuration().getString("workshop.ressources.directory")
+														+ File.separator + destFolderName;
+			File			destFolder			=	new File(myUploadPath);
+			destFolder.mkdirs();
+			
+			// We check if the dest file exists
+			File dest = new File(myUploadPath, fileName); 
+			if ( dest.exists() ) {
+				dest.delete();
+			}
+				
+			// If the file copy encounter an exception, we use the default picture
+			if ( FilesUtils.fastCopyFileCore( file, dest ) ) {
+				return ressourceLocation + fileName;
+			}
+ 		}
+ 		
+ 		return null;
     }
 	
 	

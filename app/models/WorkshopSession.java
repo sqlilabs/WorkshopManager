@@ -41,7 +41,7 @@ public class WorkshopSession implements Serializable {
 	 * L'url du doodle qui contient les participants à cette séance.
 	 */
 	@Required
-	@Pattern(value="http://(.*)",message="constraint.workshopsession.doodleUrl")
+	@Pattern(value="http://(.*)",message="constraint.workshopsession.url")
 	private String doodleUrl;
 	
 	/**

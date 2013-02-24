@@ -54,6 +54,7 @@ form.plan.workshop.last.date=Last session date
 form.plan.workshop.plan.again=Re-Planning
 plan.workshop.people.want.replay={0} people(s) wish that someone present this workshop again
 form.plan.workshop.add.comment=Add comment
+form.plan.workshop.add.ressources=Add ressources
 
 # Zone Commentaire
 form.comment.title=Add comment
