@@ -31,6 +31,7 @@
 		<mapping class="models.Workshop" />
 		<mapping class="models.WorkshopSession" />
 		<mapping class="models.Comment" />
+		<mapping class="models.Ressources" />
 		
 	</session-factory>
 </hibernate-configuration>

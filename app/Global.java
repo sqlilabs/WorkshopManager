@@ -26,12 +26,12 @@ public class Global extends GlobalSettings {
 		 * Recréé la BDD avec les informations des mappings
 		 * décrits dans hibernate.cfg.xml
 		 */
-		if ( Play.application().isProd() ) {
+//		if ( Play.application().isProd() ) {
 			Configuration cfg = new Configuration().configure();
 			SchemaExport export = new SchemaExport(cfg);
 			
 			export.create(true,true);
-		}
+//		}
 		
 		// add a formater which takes you field and convert it to the proper object
     	// this will be called autmaticaly when you call bindFromRequest()
