@@ -7,6 +7,7 @@ import models.User;
 import models.Workshop;
 import models.WorkshopSession;
 
+import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.JsonNode;
 
 import play.Play;
@@ -81,7 +82,14 @@ public class AuthentificationController extends Controller {
 		// Call the service that handle the user
 		User 		user 					= 	new UserService().handleUserFromGoogleResponse( result );
 		
-		if ( user.isCharterAgree() ) {
+		// If the user is not from sqli he can't connect
+		if ( !StringUtils.endsWith(user.getEmail(), "@sqli.com") ) {
+			//TODO un pop-up pour expliquer pourquoi çà serai sympa
+			return forbidden();
+		}
+		
+		
+		if ( user.isCharterAgree()  ) {
 			// We save the new instance and save it in cache and redirect to welcome page
 			JPA.em().merge( user );
 			Cache.set( Application.getUuid() + "connectedUser", user );
