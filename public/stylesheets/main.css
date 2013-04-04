@@ -120,7 +120,12 @@ hr.soften {
 /*   Workshop Picture  */
 /* ******************* */
 .workshopPicture img {
-	margin: 10px 20px 10px 0px;
+	display: block; 
+	margin: 0 auto;
+	padding-bottom: 10px;
+	height: 150px;
+	width: auto;
+	text-align: center;
 }
 
 /* ******************* */
