@@ -178,6 +178,9 @@ public class WorkshopController extends Controller {
 
 		// We set the WorkshopSession to the Workshop to Plan
 		WorkshopSession workshopSession = filledForm.get();
+		if ( workshopToPlan.getWorkshopSession() != null ) {
+			workshopSession.setId( workshopToPlan.getWorkshopSession().getId() );
+		}
 		workshopToPlan.setWorkshopSession(workshopSession);
 		
 		// We empty the potentialParticipants List
