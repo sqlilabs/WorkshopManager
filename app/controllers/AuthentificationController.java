@@ -113,6 +113,7 @@ public class AuthentificationController extends Controller {
 		
 		// We retreive the new user from cache and persist it
 		User user = (User) Cache.get( Application.getUuid() + "newUser" );
+		user.setCharterAgree(true);
 		JPA.em().persist( user );
 		
 		// The new user is now connected
