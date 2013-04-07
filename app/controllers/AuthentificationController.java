@@ -83,13 +83,13 @@ public class AuthentificationController extends Controller {
 		User 		user 					= 	new UserService().handleUserFromGoogleResponse( result );
 		
 		// If the user is not from sqli he can't connect
-		if ( !StringUtils.endsWith(user.getEmail(), "@sqli.com") ) {
+		if ( !StringUtils.endsWith( user.email, "@sqli.com" ) ) {
 			//TODO un pop-up pour expliquer pourquoi çà serai sympa
 			return forbidden();
 		}
 		
 		
-		if ( user.isCharterAgree()  ) {
+		if ( user.charterAgree  ) {
 			// We save the new instance and save it in cache and redirect to welcome page
 			JPA.em().merge( user );
 			Cache.set( Application.getUuid() + "connectedUser", user );
@@ -112,8 +112,8 @@ public class AuthentificationController extends Controller {
 	public static Result createNewUser() {
 		
 		// We retreive the new user from cache and persist it
-		User user = (User) Cache.get( Application.getUuid() + "newUser" );
-		user.setCharterAgree(true);
+		User 	user 		= 	(User) Cache.get( Application.getUuid() + "newUser" );
+		user.charterAgree	=	true;
 		JPA.em().persist( user );
 		
 		// The new user is now connected
@@ -192,7 +192,7 @@ public class AuthentificationController extends Controller {
 	 */
 	public static boolean isAuthenticatedUserAdmin() {
 		User	user 	=	getUser();
-		return ROLE_ADMIN.equals( user != null ? user.getRole() : null);
+		return ROLE_ADMIN.equals( user != null ? user.role : null);
 	}
 	
 	/**
@@ -209,8 +209,8 @@ public class AuthentificationController extends Controller {
 			return false;
 		}
 		
-		return user.getFirstName().equals( session.getSpeaker().getFirstName() ) 
-				&& user.getLastName().equals( session.getSpeaker().getLastName() ) ;
+		return user.firstName.equals( session.speaker.firstName ) 
+				&& user.lastName.equals( session.speaker.lastName ) ;
 	}
 	
 	/**
@@ -223,12 +223,12 @@ public class AuthentificationController extends Controller {
 	public static boolean isAuthor( Workshop worshop ) {
 		User	user 	=	getUser();
 		
-		if ( user == null || worshop == null || worshop.getAuthor() == null) {
+		if ( user == null || worshop == null || worshop.author == null) {
 			return false;
 		}
 		
-		return user.getFirstName().equals( worshop.getAuthor().getFirstName() ) 
-				&& user.getLastName().equals( worshop.getAuthor().getLastName() ) ;
+		return user.firstName.equals( worshop.author.firstName ) 
+				&& user.lastName.equals( worshop.author.lastName ) ;
 	}
 	
 	

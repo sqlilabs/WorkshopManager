@@ -4,16 +4,16 @@
 
 <div class="modal-header">
   	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-  	<h3 id="myModalLabel">@workshop.getSubject</h3>
+  	<h3 id="myModalLabel">@workshop.subject</h3>
 </div>
 <div class="modal-body">
   	<div class="container-fluid">
-  		@for(comment <- workshop.getComments()) { 
+  		@for(comment <- workshop.comments) { 
 			<div class="row-fluid">
 				<div class="span12 spaceAfter">
-					<h5 class="commentsTitle">@Messages("comments.title", comment.getAuthor().getFirstName(), comment.getAuthor().getLastName(), WorkshopController.decorateDate(comment.getCreationDate()))</h5>
+					<h5 class="commentsTitle">@Messages("comments.title", comment.author.firstName, comment.author.lastName, WorkshopController.decorateDate(comment.creationDate))</h5>
 					<div class="well">
-						@comment.getComment()
+						@comment.comment
 					</div>
 				</div>
 			</div>
@@ -21,6 +21,6 @@
 	</div>
 </div>
 <div class="modal-footer">
-	<p>@Messages("comments.number.sentence", workshop.getComments().size())</p>
+	<p>@Messages("comments.number.sentence", workshop.comments.size)</p>
 </div>
 

@@ -35,111 +35,41 @@ public class WorkshopSession implements Serializable {
 	/**
 	 * L'identifiant
 	 */
-	private Long id;
+	@Id
+	@GeneratedValue
+	public Long id;
 	
 	/**
 	 * L'url du doodle qui contient les participants à cette séance.
 	 */
 	@Required
 	@Pattern(value="http://(.*)",message="constraint.workshopsession.url")
-	private String doodleUrl;
+	@Column(name = "doodle_url")
+	public String doodleUrl;
 	
 	/**
 	 * L'endroit où le workshop va se dérouler.
 	 */
 	@Required
-	private String location;
+	public String location;
 	
 	/**
 	 * Date à laquelle le workshop est planifié ou a été joué. Si null alors c'est 
 	 * que le workshop n'a jamais été planifié
 	 */
 	@Required
-	private Date nextPlay;	
+	public Date nextPlay;	
 	
 	/**
 	 * La personne qui donnera cette séance du workshop.
 	 */
-	private User speaker;
+	@ManyToOne
+	public User speaker;
 	
 	/**
 	 * Constructeur par défaut.
 	 */
 	public WorkshopSession() {
-	}
-
-	/**
-	 * @return the id  
-	 */
-	@Id
-	@GeneratedValue
-	public Long getId() {
-		return id;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	/**
-	 * @return the doodleUrl
-	 */
-	@Column(name = "doodle_url")
-	public String getDoodleUrl() {
-		return doodleUrl;
-	}
-
-	/**
-	 * @param doodleUrl the doodleUrl to set
-	 */
-	public void setDoodleUrl(String doodleUrl) {
-		this.doodleUrl = doodleUrl;
-	}
-
-	/**
-	 * @return the location
-	 */
-	public String getLocation() {
-		return location;
-	}
-
-	/**
-	 * @param location the location to set
-	 */
-	public void setLocation(String location) {
-		this.location = location;
-	}
-
-	/**
-	 * @return the speaker
-	 */
-	@ManyToOne
-	public User getSpeaker() {
-		return speaker;
-	}
-
-	/**
-	 * @param speaker the speaker to set
-	 */
-	public void setSpeaker(User speaker) {
-		this.speaker = speaker;
-	}
-
-	/**
-	 * @return the nextPlay
-	 */
-	public Date getNextPlay() {
-		return nextPlay;
-	}
-
-	/**
-	 * @param nextPlay the nextPlay to set
-	 */
-	public void setNextPlay(Date nextPlay) {
-		this.nextPlay = nextPlay;
 	}
 	
 }

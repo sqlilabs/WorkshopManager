@@ -86,20 +86,20 @@ public class WorkshopController extends Controller {
 		if ( id != ID_NOT_IN_TABLE ) {
 			Workshop 	ws 				= 	JPA.em().find(Workshop.class, id);
 			// on met à jour la nouvelle instance avec les anciennes données
-			workshopNew.setSpeakers( ws.getSpeakers() );
-			workshopNew.setPotentialParticipants( ws.getPotentialParticipants() );
+			workshopNew.speakers				=	ws.speakers;
+			workshopNew.potentialParticipants	=	ws.potentialParticipants ;
 		}
 
         // On affecte l'auteur connecté
-		workshopNew.setAuthor( AuthentificationController.getUser() );
+		workshopNew.author 				=	AuthentificationController.getUser() ;
         
 		// On set l'image du workshop
-		workshopNew.setImage( uploadImage() );
+		workshopNew.image				=	uploadImage();
 
 		if (id == ID_NOT_IN_TABLE) {
 			JPA.em().persist(workshopNew);
 		} else {
-			workshopNew.setId(id);
+			workshopNew.id				=	id;
 			JPA.em().merge(workshopNew);
 		}
 
@@ -146,9 +146,8 @@ public class WorkshopController extends Controller {
 		Workshop ws = JPA.em().find(Workshop.class, id);
 
 		Form<WorkshopSession> workshopSessionForm;
-		if (ws.getWorkshopSession() != null) {
-			workshopSessionForm = form(WorkshopSession.class).fill(
-					ws.getWorkshopSession());
+		if (ws.workshopSession != null) {
+			workshopSessionForm = form(WorkshopSession.class).fill( ws.workshopSession );
 		} else {
 			workshopSessionForm = form(WorkshopSession.class);
 		}
@@ -174,17 +173,17 @@ public class WorkshopController extends Controller {
 
 		// We get the Workshop
 		Workshop workshopToPlan 	= 	JPA.em().find(Workshop.class, id);
-		boolean newSession 			= 	workshopToPlan.getWorkshopSession() == null;
+		boolean newSession 			= 	workshopToPlan.workshopSession == null;
 
 		// We set the WorkshopSession to the Workshop to Plan
 		WorkshopSession workshopSession = filledForm.get();
-		if ( workshopToPlan.getWorkshopSession() != null ) {
-			workshopSession.setId( workshopToPlan.getWorkshopSession().getId() );
+		if ( workshopToPlan.workshopSession != null ) {
+			workshopSession.id		=	workshopToPlan.workshopSession.id ;
 		}
-		workshopToPlan.setWorkshopSession(workshopSession);
+		workshopToPlan.workshopSession 			=	workshopSession;
 		
 		// We empty the potentialParticipants List
-		workshopToPlan.setPotentialParticipants( new HashSet<User>() );
+		workshopToPlan.potentialParticipants	= 	new HashSet<User>();
 
 		// Sauver l'objet en base 
 		if (!newSession) {
@@ -209,12 +208,12 @@ public class WorkshopController extends Controller {
     	// We get the Workshop
         Workshop	currentWorkshop 	= 	JPA.em().find(Workshop.class, id);
         
-        if ( currentWorkshop.getSpeakers().size() < Play.application().configuration().getInt( "speaker.limit" )) {
+        if ( currentWorkshop.speakers.size() < Play.application().configuration().getInt( "speaker.limit" )) {
         	// Get the connected User
             User		user				=	AuthentificationController.getUser();
             
             // It's a Set, so no duplicate
-            currentWorkshop.getSpeakers().add( user );
+            currentWorkshop.speakers.add( user );
             
             // We save the new Workshop
             JPA.em().persist( currentWorkshop );
@@ -241,7 +240,7 @@ public class WorkshopController extends Controller {
         User		user				=	AuthentificationController.getUser();
         
         // It's a Set, so no duplicate
-        currentWorkshop.getSpeakers().remove( user );
+        currentWorkshop.speakers.remove( user );
         
         // We save the new Workshop
         JPA.em().persist( currentWorkshop );
@@ -264,7 +263,7 @@ public class WorkshopController extends Controller {
         User		user				=	AuthentificationController.getUser();
         
         // It's a Set, so no duplicate
-        currentWorkshop.getPotentialParticipants().add( user );
+        currentWorkshop.potentialParticipants.add( user );
         
         // We save the new Workshop
         JPA.em().persist( currentWorkshop );
@@ -287,7 +286,7 @@ public class WorkshopController extends Controller {
         User		user				=	AuthentificationController.getUser();
         
         // It's a Set, so no duplicate
-        currentWorkshop.getPotentialParticipants().remove( user );
+        currentWorkshop.potentialParticipants.remove( user );
         
         // We save the new Workshop
         JPA.em().persist( currentWorkshop );
@@ -327,12 +326,12 @@ public class WorkshopController extends Controller {
     	
     	//We create the comment instance
     	Comment 		comment 	= 	filledForm.get();
-    	comment.setCreationDate(new Date());
-    	comment.setAuthor( AuthentificationController.getUser() );
-    	comment.setWorkshop( ws );
+    	comment.creationDate 		= 	new Date();
+    	comment.author				=	AuthentificationController.getUser();
+    	comment.workshop			=	ws;
     	
     	// We add the new comment
-    	ws.getComments().add( comment );
+    	ws.comments.add( comment );
     	
     	// We save the objects in base
         JPA.em().persist( comment );
@@ -351,7 +350,7 @@ public class WorkshopController extends Controller {
     @Transactional
     public static Result addWorkshopRessources(Long id) {
     	Workshop 	ws 			= 	JPA.em().find(Workshop.class, id);
-    	Ressources 	ressources	=	ws.getWorkshopRessources();
+    	Ressources 	ressources	=	ws.workshopRessources;
     	
     	// if we already set ressources, we want to fill the form with our old datas
     	Form<Ressources> ressourcesForm = null;
@@ -380,19 +379,19 @@ public class WorkshopController extends Controller {
 		}
     	
     	// Get the workshop from base
-    	Workshop 		ws 			= 	JPA.em().find(Workshop.class, id);
+    	Workshop 		ws 				= 	JPA.em().find(Workshop.class, id);
     	
-    	boolean			update		=	 ws.getWorkshopRessources() != null;
+    	boolean			update			=	 ws.workshopRessources != null;
     	
     	//We create the Ressources instance
-    	Ressources 		ressources 	= 	filledForm.get();
-    	ressources.setWorkshopSupportFile( uploadRessources( ws ) );
+    	Ressources 		ressources 		= 	filledForm.get();
+    	ressources.workshopSupportFile	=	uploadRessources( ws );
     	if ( update ) {
-    		ressources.setId( ws.getWorkshopRessources().getId() );
+    		ressources.id				=	ws.workshopRessources.id;
     	}
     	
     	// We add the new ressources
-    	ws.setWorkshopRessources( ressources );
+    	ws.workshopRessources 			= 	ressources;
     	
     	// We save the objects in base
     	if (update) {
@@ -436,9 +435,9 @@ public class WorkshopController extends Controller {
 	public static String getWorkshopDescription( Workshop workshop ) {
 		int maxlength = Play.application().configuration().getInt( "detail.workshop.main.view" );
 
-		return ( workshop.getDescription().length() > maxlength ) 
-				? workshop.getDescription().substring(0, maxlength) + "..." 
-				:  workshop.getDescription() ;
+		return ( workshop.description.length() > maxlength ) 
+				? workshop.description.substring(0, maxlength) + "..." 
+				:  workshop.description ;
 	}
 	
 	/**
@@ -448,7 +447,7 @@ public class WorkshopController extends Controller {
 	 * @return la description du workshop tronquée
 	 */
 	public static String getFullWorkshopDescription( Workshop workshop ) {
-		return workshop.getDescription() ;
+		return workshop.description ;
 	}
 	
 	/**
@@ -512,7 +511,7 @@ public class WorkshopController extends Controller {
 	 */
 	private static String uploadRessources( Workshop workshop ) {
 		SimpleDateFormat 	simpleDateFormat	=	new SimpleDateFormat("[yyyy-MM]");
-		String				destFolderName		=	simpleDateFormat.format( workshop.getWorkshopSession().getNextPlay() ) + " - " + workshop.getSubject();
+		String				destFolderName		=	simpleDateFormat.format( workshop.workshopSession.nextPlay ) + " - " + workshop.subject;
     	String 				ressourceLocation 	= 	Play.application().configuration().getString("workshop.ressources.url") + File.separator + destFolderName + File.separator;
     	
     	// Gestion de la sauvegarde des fichiers uploadés (images)

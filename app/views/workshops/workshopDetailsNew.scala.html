@@ -4,21 +4,21 @@
 
 <div class="modal-header">
   	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-  	<h3 id="myModalLabel">@workshop.getSubject</h3>
+  	<h3 id="myModalLabel">@workshop.subject</h3>
 </div>
 <div class="modal-body">
 	<div>
-		<p>@Html( workshop.getSummary() )<p>
+		<p>@Html( workshop.summary )<p>
 		@Html( WorkshopController.getFullWorkshopDescription(workshop) )
 	</div>
 </div>
 <div class="modal-footer">
   	<div>
-		<p>@Messages("welcome.there.is.some.people.intersted", workshop.getPotentialParticipants().size())</p>
-		@if( workshop.getSpeakers().size() > 0 ) {
-			<p>@Messages("welcome.workshop.foreseen.speaker", WorkshopController.getForseenSpeaker(workshop.getSpeakers()) )</p>
+		<p>@Messages("welcome.there.is.some.people.intersted", workshop.potentialParticipants.size)</p>
+		@if( workshop.speakers.size > 0 ) {
+			<p>@Messages("welcome.workshop.foreseen.speaker", WorkshopController.getForseenSpeaker(workshop.speakers) )</p>
 		}
-		@if( workshop.getSpeakers().size() == 0 ) {
+		@if( workshop.speakers.size == 0 ) {
 			<p>@Messages("welcome.workshop.no.speaker")</p>
 		}
 	</div>

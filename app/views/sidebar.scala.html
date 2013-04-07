@@ -1,38 +1,38 @@
 @( page:String )
 @import helper._
 
-@if( AuthentificationController.getUser() != null ) {
+@if( AuthentificationController.getUser != null ) {
 	<div class="row-fluid spaceAfter">
 		<div class="span12 center-text">
-		<a href="@routes.WorkshopController.blankWorkshop()" class="btn btn-large btn-primary">@Messages("action.submit.a.workshop")</a>
+		<a href="@routes.WorkshopController.blankWorkshop" class="btn btn-large btn-primary">@Messages("action.submit.a.workshop")</a>
 		</div>
 	</div>
 }
 
-@for(workshop <- WorkshopController.getWorkshopsPlanifieFromContext()) { 
+@for(workshop <- WorkshopController.getWorkshopsPlanifieFromContext) { 
 	<div class="row-fluid">
 		<div class="span12 well well-border-only">
 			<h4 class="center-text">
-				<a href="#" workshop-id="@workshop.getId">@workshop.getSubject</a>
+				<a href="#" workshop-id="@workshop.id">@workshop.subject</a>
 			</h4>
 			<div class="littlePaddingLeft">
-				<p><i class="icon-check"></i><span class="labelWS" > @Messages("workshop.planned.on"):</span> @WorkshopController.decorateDate( workshop.getWorkshopSession().getNextPlay() )</p>
-				<p><i class="icon-user"></i><span class="labelWS" > @Messages("workshop.speaker"):</span> @workshop.getWorkshopSession().getSpeaker().getFirstName() @workshop.getWorkshopSession().getSpeaker().getLastName()</p>
-				<p><i class="icon-map-marker"></i><span class="labelWS" > @Messages("workshop.location"):</span> @workshop.getWorkshopSession().getLocation()</p>
+				<p><i class="icon-check"></i><span class="labelWS" > @Messages("workshop.planned.on"):</span> @WorkshopController.decorateDate( workshop.workshopSession.nextPlay )</p>
+				<p><i class="icon-user"></i><span class="labelWS" > @Messages("workshop.speaker"):</span> @workshop.workshopSession.speaker.firstName @workshop.workshopSession.speaker.lastName</p>
+				<p><i class="icon-map-marker"></i><span class="labelWS" > @Messages("workshop.location"):</span> @workshop.workshopSession.location</p>
 			</div>
 			
 			<p>
-				@form(routes.WorkshopController.planWorkshop(workshop.getId)) {
-						@if( AuthentificationController.isAuthenticatedUserAdmin() || AuthentificationController.isSessionSpeaker( workshop.getWorkshopSession() ) ) {
+				@form(routes.WorkshopController.planWorkshop(workshop.id)) {
+						@if( AuthentificationController.isAuthenticatedUserAdmin || AuthentificationController.isSessionSpeaker( workshop.workshopSession ) ) {
 							<input class="btn-mini btn-info" type="submit" value="Modifier">
 						}
 						
-						<a class="btn btn-mini btn-success floatRight" href="@workshop.getWorkshopSession().getDoodleUrl()">S'inscrire</a>
+						<a class="btn btn-mini btn-success floatRight" href="@workshop.workshopSession.doodleUrl">S'inscrire</a>
 				}
 			</p>
 		</div>
 	</div>
-	<div id="workshop-details-@workshop.getId" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div id="workshop-details-@workshop.id" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		@views.html.workshops.workshopDetailsPlanned( workshop )
 	</div>
 }

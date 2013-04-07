@@ -31,15 +31,15 @@ public class PlanifiedDateComparatorDescendant implements Comparator<Workshop>{
 	//<--------------------------------------------------------------------------->		
 	@Override
 	public int compare( Workshop workshop1, Workshop workshop2 ) {
-		WorkshopSession 	session1 	= 	workshop1.getWorkshopSession();
-		WorkshopSession 	session2 	= 	workshop2.getWorkshopSession();
+		WorkshopSession 	session1 	= 	workshop1.workshopSession;
+		WorkshopSession 	session2 	= 	workshop2.workshopSession;
 		
 		if ( session1 == null || session2 == null ) {
 			return -1;
 		}
 		
-		Date 				date1 		=	session1.getNextPlay();
-		Date 				date2 		=	session2.getNextPlay();	
+		Date 				date1 		=	session1.nextPlay;
+		Date 				date2 		=	session2.nextPlay;	
 		
 		if ( date1 == null || date2 == null ) {
 			return -1;

@@ -45,7 +45,7 @@ public class UserFormatter extends SimpleFormatter<User>{
 	 */
 	@Override
 	public String print(User user, Locale loc) {
-		return user.getFirstName() + " " + user.getLastName();
+		return user.firstName+ " " + user.lastName;
 	}
 
 }

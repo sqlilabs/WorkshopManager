@@ -38,31 +38,31 @@ public class Workshop implements Serializable {
 	 */
 	@Id
     @GeneratedValue
-	private Long id;
+    public Long id;
 
 	/**
 	 * Le sujet du workshop.
 	 */
 	@Required
-	private String subject;
+	public String subject;
 	
 	/**
 	 * Résumé court du workshop
 	 */
 	@Column(length=300)
 	@Required
-	private String summary;
+	public String summary;
 	
 	/**
 	 * La description du contenu du workshop.
 	 */
 	@Column(length = 1000)
-	private String description;
+	public String description;
 	
 	/**
 	 * L'url de l'image à utiliser.
 	 */
-	private String image;
+	public String image;
 	
 	/**
 	 * Les speakers proposé du workshop
@@ -72,19 +72,19 @@ public class Workshop implements Serializable {
 			name="WORKSHOP_SPEAKERS",
 			joinColumns = @JoinColumn(name="workshop_id"),
 			inverseJoinColumns = @JoinColumn(name = "user_id"))
-	private Set<User> speakers = new HashSet<User>();
+	public Set<User> speakers = new HashSet<User>();
 	
 	/**
 	 * La WorkshopSession contient les informations relatives à la planification du Workshop
 	 */
 	@OneToOne
-	private WorkshopSession workshopSession;
+	public WorkshopSession workshopSession;
 	
 	/**
 	 * Who created the workshop
 	 */
 	@ManyToOne
-	private User author;
+	public User author;
 	
 	/**
 	 * Les personnes intéressées par le workshop
@@ -94,19 +94,19 @@ public class Workshop implements Serializable {
 			name="POTENTIAL_PARTICIPANTS",
 			joinColumns = @JoinColumn(name="workshop_id"),
 			inverseJoinColumns = @JoinColumn(name = "user_id"))
-	private Set<User> potentialParticipants = new HashSet<User>();
+	public Set<User> potentialParticipants = new HashSet<User>();
 	
 	/**
 	 * Les commentaires du workshop
 	 */
 	@OneToMany(mappedBy="workshop")
-	private Set<Comment> comments = new HashSet<Comment>();
+	public Set<Comment> comments = new HashSet<Comment>();
 	
 	/**
 	 * Ressources of the workshop (file/link to the workshop support)
 	 */
 	@OneToOne
-	private Ressources workshopRessources;
+	public Ressources workshopRessources;
 	
 	
 	//<--------------------------------------------------------------------------->
@@ -119,175 +119,4 @@ public class Workshop implements Serializable {
 		super();
 	}
 
-	
-	//<--------------------------------------------------------------------------->
-	//-							Setter/Getter	        
-	//<--------------------------------------------------------------------------->	
-	/**
-	 * @return the id
-	 */
-	public Long getId() {
-		return id;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	/**
-	 * @return the subject
-	 */
-	public String getSubject() {
-		return subject;
-	}
-
-	/**
-	 * @param subject the subject to set
-	 */
-	public void setSubject(String subject) {
-		this.subject = subject;
-	}
-
-	/**
-	 * @return the description
-	 */
-	public String getDescription() {
-		return description;
-	}
-
-	/**
-	 * @param description the description to set
-	 */
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	/**
-	 * @return the image
-	 */
-	public String getImage() {
-		return image;
-	}
-
-	/**
-	 * @param image the image to set
-	 */
-	public void setImage(String image) {
-		this.image = image;
-	}
-
-	/**
-	 * @return the speakers
-	 */
-	public Set<User> getSpeakers() {
-		return speakers;
-	}
-
-	/**
-	 * @param speakers the speakers to set
-	 */
-	public void setSpeakers(Set<User> speakers) {
-		this.speakers = speakers;
-	}
-
-
-	/**
-	 * @return the workshopSession
-	 */
-	public WorkshopSession getWorkshopSession() {
-		return workshopSession;
-	}
-
-
-	/**
-	 * @param workshopSession the workshopSession to set
-	 */
-	public void setWorkshopSession(WorkshopSession workshopSession) {
-		this.workshopSession = workshopSession;
-	}
-
-
-	/**
-	 * @return the author
-	 */
-	public User getAuthor() {
-		return author;
-	}
-
-
-	/**
-	 * @param author the author to set
-	 */
-	public void setAuthor(User author) {
-		this.author = author;
-	}
-
-
-	/**
-	 * @return the potentialParticipants
-	 */
-	public Set<User> getPotentialParticipants() {
-		return potentialParticipants;
-	}
-
-
-	/**
-	 * @param potentialParticipants the potentialParticipants to set
-	 */
-	public void setPotentialParticipants(Set<User> potentialParticipants) {
-		this.potentialParticipants = potentialParticipants;
-	}
-
-
-	/**
-	 * @return the comments
-	 */
-	public Set<Comment> getComments() {
-		return comments;
-	}
-
-
-	/**
-	 * @param comments the comments to set
-	 */
-	public void setComments(Set<Comment> comments) {
-		this.comments = comments;
-	}
-
-
-	/**
-	 * @return the summary
-	 */
-	public String getSummary() {
-		return summary;
-	}
-
-
-	/**
-	 * @param summary the summary to set
-	 */
-	public void setSummary(String summary) {
-		this.summary = summary;
-	}
-
-
-	/**
-	 * @return the workshopRessources
-	 */
-	public Ressources getWorkshopRessources() {
-		return workshopRessources;
-	}
-
-
-	/**
-	 * @param workshopRessources the workshopRessources to set
-	 */
-	public void setWorkshopRessources(Ressources workshopRessources) {
-		this.workshopRessources = workshopRessources;
-	}
-	
-	
 }

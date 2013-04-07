@@ -30,20 +30,20 @@ public class Ressources implements Serializable {
 	 */
 	@Id
 	@GeneratedValue
-	private Long id;
+	public Long id;
 	
 	/**
 	 * The workshop support file (as pdf, doc, ppt, ...)
 	 */
 	@Column(name = "ws_support_file")
-	private String workshopSupportFile;
+	public String workshopSupportFile;
 	
 	/**
 	 * Date of which the comment was created
 	 */
 	@Column(name = "ws_support_link")
 	@Pattern(value="http://(.*)",message="constraint.workshopsession.url")
-	private String workshopSupportLink;
+	public String workshopSupportLink;
 	 
 	
 	
@@ -55,51 +55,5 @@ public class Ressources implements Serializable {
 	 */
 	public Ressources() {
 		super();
-	}
-
-	
-	//<--------------------------------------------------------------------------->
-	//-							Setter/Getter	        
-	//<--------------------------------------------------------------------------->		
-	/**
-	 * @return the id
-	 */
-	public Long getId() {
-		return id;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	/**
-	 * @return the workshopSupportFile
-	 */
-	public String getWorkshopSupportFile() {
-		return workshopSupportFile;
-	}
-
-	/**
-	 * @param workshopSupportFile the workshopSupportFile to set
-	 */
-	public void setWorkshopSupportFile(String workshopSupportFile) {
-		this.workshopSupportFile = workshopSupportFile;
-	}
-
-	/**
-	 * @return the workshopSupportLink
-	 */
-	public String getWorkshopSupportLink() {
-		return workshopSupportLink;
-	}
-
-	/**
-	 * @param workshopSupportLink the workshopSupportLink to set
-	 */
-	public void setWorkshopSupportLink(String workshopSupportLink) {
-		this.workshopSupportLink = workshopSupportLink;
 	}
 }

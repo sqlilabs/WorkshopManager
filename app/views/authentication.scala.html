@@ -1,21 +1,21 @@
 <div class="container-fluid">
 	
-	@if( AuthentificationController.getUser() == null ) {
+	@if( AuthentificationController.getUser == null ) {
 		<div class="row-fluid">
 			<div class="span12 ">
-	 			<a id="authenticationButton" class="btn btn-primary" href="@AuthentificationController.buildGoogleOAuthLink()"><i class="icon-user icon-white"></i> Se connecter</a>
+	 			<a id="authenticationButton" class="btn btn-primary" href="@AuthentificationController.buildGoogleOAuthLink"><i class="icon-user icon-white"></i> Se connecter</a>
 	 		</div>
 	 	</div>
 	} else {
 		<div class="row-fluid littleMarginTop">
 			<div class="span3">
-				<img width="48" height=48" src="@AuthentificationController.getUser().getPicture()" />
+				<img width="48" height=48" src="@AuthentificationController.getUser.picture" />
 			</div>
 			
 			<div class="span9">
-				<div>@AuthentificationController.getUser().getFirstName() @AuthentificationController.getUser().getLastName()</div>
-				<div class="emailStyle">@AuthentificationController.getUser().getEmail()</div>
-				<div><a href="@routes.AuthentificationController.deconnection()">logout</a></div>
+				<div>@AuthentificationController.getUser.firstName @AuthentificationController.getUser.lastName</div>
+				<div class="emailStyle">@AuthentificationController.getUser.email</div>
+				<div><a href="@routes.AuthentificationController.deconnection">logout</a></div>
 			</div>
 		</div>
 		

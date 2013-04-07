@@ -45,14 +45,14 @@ public class UserService {
 		// If not, we create it
 		if ( user == null ) {
 			user				=	new User();
-			user.setFirstName( googleResponse.get(GOOGLE_FIRST_NAME).asText() );
-			user.setLastName( googleResponse.get(GOOGLE_LAST_NAME).asText()  );
+			user.firstName		=	googleResponse.get(GOOGLE_FIRST_NAME).asText();
+			user.lastName		=	googleResponse.get(GOOGLE_LAST_NAME).asText();
 		}
 		
 		// Dans tous les cas on met son email et sa photo à jour
 		JsonNode 	picture		=	googleResponse.get(GOOGLE_PICTURE);
-		user.setPicture( picture != null ? picture.asText() : "/assets/images/avatar-default.png");
-		user.setEmail( googleResponse.get(GOOGLE_EMAIL).asText() );
+		user.picture			=	picture != null ? picture.asText() : "/assets/images/avatar-default.png";
+		user.email				=	googleResponse.get(GOOGLE_EMAIL).asText();
 		
 		return user;
 	}

@@ -4,14 +4,14 @@
 
 <div class="modal-header">
   	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-  	<h3 id="myModalLabel">@workshop.getSubject</h3>
+  	<h3 id="myModalLabel">@workshop.subject</h3>
 </div>
 <div class="modal-body">
   	<div class="container-fluid">
 		<div class="row-fluid">
 			<div class="span12 spaceAfter">
 				<div>
-					<p>@Html( workshop.getSummary() )<p>
+					<p>@Html( workshop.summary )<p>
 					@Html( WorkshopController.getFullWorkshopDescription(workshop) )
 				</div>
 			</div>
@@ -19,7 +19,7 @@
 	</div>
 </div>
 <div class="modal-footer">
-  	<p><b>@Messages("workshop.planned.on")</b>: @WorkshopController.decorateDate( workshop.getWorkshopSession().getNextPlay() ) --  <b>@Messages("workshop.location")</b>: @workshop.getWorkshopSession().getLocation()</p>
-	<p><b>@Messages("workshop.speaker")</b>: @workshop.getWorkshopSession().getSpeaker().getFirstName() @workshop.getWorkshopSession().getSpeaker().getLastName()</p>
+  	<p><b>@Messages("workshop.planned.on")</b>: @WorkshopController.decorateDate( workshop.workshopSession.nextPlay ) --  <b>@Messages("workshop.location")</b>: @workshop.workshopSession.location</p>
+	<p><b>@Messages("workshop.speaker")</b>: @workshop.workshopSession.speaker.firstName @workshop.workshopSession.speaker.lastName</p>
 </div>
 
