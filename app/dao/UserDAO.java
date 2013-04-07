@@ -56,8 +56,8 @@ public class UserDAO {
 		String[] 			splittedName 	=	completeName.split(" ");
 		
 		return 	User.find.where()			
-					.eq("firstName", splittedName[0])
-					.eq("lastName", splittedName[1])
+					.contains("firstName", splittedName[0])
+					.contains("lastName", splittedName[ splittedName.length-1 ])
 					.findUnique();
 		
 	}
