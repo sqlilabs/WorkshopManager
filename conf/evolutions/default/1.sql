@@ -82,9 +82,9 @@ alter table WORKSHOP_SPEAKERS add constraint fk_WORKSHOP_SPEAKERS_WORKSHOP_01 fo
 
 alter table WORKSHOP_SPEAKERS add constraint fk_WORKSHOP_SPEAKERS_USER_02 foreign key (user_id) references USER (id) on delete restrict on update restrict;
 
-alter table POTENTIAL_PARTICIPANTS add constraint fk_POTENTIAL_PARTICIPANTS_WOR_01 foreign key (workshop_id) references WORKSHOP (id) on delete restrict on update restrict;
+alter table POTENTIAL_PARTICIPANTS add constraint fk_POTENTIAL_PARTICIPANTS_WORKSHOP_01 foreign key (workshop_id) references WORKSHOP (id) on delete restrict on update restrict;
 
-alter table POTENTIAL_PARTICIPANTS add constraint fk_POTENTIAL_PARTICIPANTS_USE_02 foreign key (user_id) references USER (id) on delete restrict on update restrict;
+alter table POTENTIAL_PARTICIPANTS add constraint fk_POTENTIAL_PARTICIPANTS_USER_02 foreign key (user_id) references USER (id) on delete restrict on update restrict;
 
 # --- !Downs
 

@@ -1,6 +1,6 @@
 import sbt._
 import Keys._
-import PlayProject._
+import play.Project._
 
 object ApplicationBuild extends Build {
 
@@ -14,14 +14,17 @@ object ApplicationBuild extends Build {
 
 	// Add your project dependencies here,
 	val appDependencies = Seq(
-
-		"org.webjars" 					% "webjars-play" 					% "2.0",
+		javaCore, javaJdbc, javaEbean,
+		"org.webjars" 					% "webjars-play" 					% "2.1.0",
     	"org.webjars" 					% "bootstrap" 						% "2.1.1",
     	"org.easytesting" 				% "fest-assert-core" 				% "2.0M7",
+    	"commons-lang" 					% "commons-lang" 					% "2.6",
 		"mysql" 						% "mysql-connector-java" 			% "5.1.20"
 	)
 
-  	val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings(
+  	val main = play.Project(appName, appVersion, appDependencies).settings(
+  		resolvers += Resolver.url("Objectify Play Repository", url("http://schaloner.github.com/releases/"))(Resolver.ivyStylePatterns),
+  		resolvers += Resolver.url("Objectify Play Snapshot Repository", url("http://schaloner.github.com/snapshots/"))(Resolver.ivyStylePatterns),
 	 	ebeanEnabled := true
 	 )
 }

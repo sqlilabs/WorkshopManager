@@ -63,7 +63,7 @@ public class WorkshopController extends Controller {
 	 * @return the workshopForm empty
 	 */
 	public static Result blankWorkshop() {
-		return ok(addWorkshop.render(form(Workshop.class), ID_NOT_IN_TABLE));
+		return ok(addWorkshop.render(play.data.Form.form(Workshop.class), ID_NOT_IN_TABLE));
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class WorkshopController extends Controller {
 	 */
 	@Transactional
 	public static Result saveWorkshop(Long id) {
-		Form<Workshop> workshopForm = form(Workshop.class).bindFromRequest();
+		Form<Workshop> workshopForm = play.data.Form.form(Workshop.class).bindFromRequest();
 
 		if (workshopForm.hasErrors()) {
 			return badRequest(addWorkshop.render(workshopForm, id));
@@ -116,7 +116,7 @@ public class WorkshopController extends Controller {
 	@Transactional
 	public static Result modifyWorkshop(Long id) {
 		Workshop ws = Workshop.find.byId(id);
-		Form<Workshop> workshopForm = form(Workshop.class).fill(ws);
+		Form<Workshop> workshopForm = play.data.Form.form(Workshop.class).fill(ws);
 
 		return ok( addWorkshop.render(workshopForm, id) );
 	}
@@ -149,9 +149,9 @@ public class WorkshopController extends Controller {
 
 		Form<WorkshopSession> workshopSessionForm;
 		if (ws.workshopSession != null) {
-			workshopSessionForm = form(WorkshopSession.class).fill( ws.workshopSession );
+			workshopSessionForm = play.data.Form.form(WorkshopSession.class).fill( ws.workshopSession );
 		} else {
-			workshopSessionForm = form(WorkshopSession.class);
+			workshopSessionForm = play.data.Form.form(WorkshopSession.class);
 		}
 
 		return ok(planWorkshop.render(workshopSessionForm, id));
@@ -166,7 +166,7 @@ public class WorkshopController extends Controller {
 	@Transactional
 	public static Result saveWorkshopSession(Long id) {
 
-		Form<WorkshopSession> filledForm = form(WorkshopSession.class)
+		Form<WorkshopSession> filledForm = play.data.Form.form(WorkshopSession.class)
 				.bindFromRequest();
 
 		if (filledForm.hasErrors()) {
@@ -304,7 +304,7 @@ public class WorkshopController extends Controller {
 	 * @return the comment form view
 	 */
 	public static Result addComment(Long id) {
-		Form<Comment> commentForm = form(Comment.class);
+		Form<Comment> commentForm = play.data.Form.form(Comment.class);
 
 		return ok( addComment.render(commentForm, id) );
 	}
@@ -317,7 +317,7 @@ public class WorkshopController extends Controller {
      */
     @Transactional
     public static Result saveComment( Long id ) {
-    	Form<Comment> 	filledForm 	= 	form(Comment.class).bindFromRequest();
+    	Form<Comment> 	filledForm 	= 	play.data.Form.form(Comment.class).bindFromRequest();
     	
     	if (filledForm.hasErrors()) {
 			return badRequest( addComment.render(filledForm, id) );
@@ -357,10 +357,10 @@ public class WorkshopController extends Controller {
     	// if we already set ressources, we want to fill the form with our old datas
     	Form<Ressources> ressourcesForm = null;
     	if ( ressources != null ) {
-    		ressourcesForm 		= 	form(Ressources.class).fill(ressources);
+    		ressourcesForm 		= 	play.data.Form.form(Ressources.class).fill(ressources);
     	}
     	else {
-    		ressourcesForm 		= 	form(Ressources.class);
+    		ressourcesForm 		= 	play.data.Form.form(Ressources.class);
     	}
 
 		return ok( addRessources.render(ressourcesForm, id) );
@@ -374,7 +374,7 @@ public class WorkshopController extends Controller {
      */
     @Transactional
     public static Result saveWorkshopRessources( Long id ) {
-    	Form<Ressources> 	filledForm 	= 	form(Ressources.class).bindFromRequest();
+    	Form<Ressources> 	filledForm 	= 	play.data.Form.form(Ressources.class).bindFromRequest();
     	
     	if (filledForm.hasErrors()) {
 			return badRequest(addRessources.render(filledForm, id));

@@ -3,11 +3,8 @@
  */
 package dao;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import com.sun.org.apache.bcel.internal.generic.NEW;
 
 import models.Workshop;
 
