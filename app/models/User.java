@@ -3,13 +3,14 @@
  */
 package models;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import play.db.ebean.Model;
+import play.db.ebean.Model.Finder;
 
 /**
  * Un utilisateur dans l'application
@@ -18,7 +19,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "USER")
-public class User implements Serializable {
+public class User extends Model {
 	
 	/**
 	 * serialVersionUID
@@ -67,6 +68,11 @@ public class User implements Serializable {
 	 */
 	@Column(name = "charterAgree")
 	public boolean charterAgree;
+	
+	/**
+	 * Définition d'un finder qui va permettre de faire les accès à la base
+	 */
+	public static Finder<Long, User> find = new Finder<Long, User>(Long.class, User.class);
 	
 	
 	//<--------------------------------------------------------------------------->

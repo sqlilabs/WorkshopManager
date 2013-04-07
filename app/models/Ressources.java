@@ -1,7 +1,5 @@
 package models;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import play.data.validation.Constraints.Pattern;
+import play.db.ebean.Model;
 
 /**
  * This Object represent a comments on a Workshop
@@ -18,7 +17,7 @@ import play.data.validation.Constraints.Pattern;
  */
 @Entity
 @Table(name = "RESSOURCE")
-public class Ressources implements Serializable {
+public class Ressources extends Model {
 
 	/**
 	 * serialVersionUID
@@ -45,6 +44,10 @@ public class Ressources implements Serializable {
 	@Pattern(value="http://(.*)",message="constraint.workshopsession.url")
 	public String workshopSupportLink;
 	 
+	/**
+	 * Définition d'un finder qui va permettre de faire les accès à la base
+	 */
+	public static Finder<Long, Ressources> find = new Finder<Long, Ressources>(Long.class, Ressources.class);
 	
 	
 	//<--------------------------------------------------------------------------->

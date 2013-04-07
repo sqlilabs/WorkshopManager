@@ -3,7 +3,6 @@
  */
 package models;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -15,6 +14,7 @@ import javax.persistence.Table;
 
 import play.data.validation.Constraints.Pattern;
 import play.data.validation.Constraints.Required;
+import play.db.ebean.Model;
 
 
 /**
@@ -25,7 +25,7 @@ import play.data.validation.Constraints.Required;
  */
 @Entity
 @Table(name = "WORKSHOP_SESSION")
-public class WorkshopSession implements Serializable {
+public class WorkshopSession extends Model {
 
 	/**
 	 * serialVersionUID
@@ -66,6 +66,15 @@ public class WorkshopSession implements Serializable {
 	@ManyToOne
 	public User speaker;
 	
+	/**
+	 * Définition d'un finder qui va permettre de faire les accès à la base
+	 */
+	public static Finder<Long, WorkshopSession> find = new Finder<Long, WorkshopSession>(Long.class, WorkshopSession.class);
+	
+	
+	//<--------------------------------------------------------------------------->
+	//-							 Constructeur(s)	        
+	//<--------------------------------------------------------------------------->
 	/**
 	 * Constructeur par défaut.
 	 */

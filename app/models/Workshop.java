@@ -1,9 +1,9 @@
 package models;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,6 +17,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import play.data.validation.Constraints.Required;
+import play.db.ebean.Model;
 
 /**
  * Le Java Bean contenant les informations génériques du Workshop.
@@ -26,7 +27,7 @@ import play.data.validation.Constraints.Required;
  */
 @Entity
 @Table(name = "WORKSHOP")
-public class Workshop implements Serializable {
+public class Workshop extends Model {
 
 	/**
 	 * serialVersionUID
@@ -67,7 +68,7 @@ public class Workshop implements Serializable {
 	/**
 	 * Les speakers proposé du workshop
 	 */
-	@ManyToMany
+	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(
 			name="WORKSHOP_SPEAKERS",
 			joinColumns = @JoinColumn(name="workshop_id"),
@@ -83,13 +84,13 @@ public class Workshop implements Serializable {
 	/**
 	 * Who created the workshop
 	 */
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	public User author;
 	
 	/**
 	 * Les personnes intéressées par le workshop
 	 */
-	@ManyToMany
+	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(
 			name="POTENTIAL_PARTICIPANTS",
 			joinColumns = @JoinColumn(name="workshop_id"),
@@ -99,14 +100,19 @@ public class Workshop implements Serializable {
 	/**
 	 * Les commentaires du workshop
 	 */
-	@OneToMany(mappedBy="workshop")
+	@OneToMany(mappedBy="workshop", cascade=CascadeType.ALL)
 	public Set<Comment> comments = new HashSet<Comment>();
 	
 	/**
 	 * Ressources of the workshop (file/link to the workshop support)
 	 */
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	public Ressources workshopRessources;
+	
+	/**
+	 * Définition d'un finder qui va permettre de faire les accès à la base
+	 */
+	public static Finder<Long, Workshop> find = new Finder<Long, Workshop>(Long.class, Workshop.class);
 	
 	
 	//<--------------------------------------------------------------------------->

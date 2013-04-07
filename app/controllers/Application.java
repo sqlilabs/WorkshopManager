@@ -6,7 +6,7 @@ import java.util.List;
 
 import models.Workshop;
 import play.Play;
-import play.db.jpa.Transactional;
+import play.db.ebean.Transactional;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -28,7 +28,7 @@ public class Application extends Controller {
 	 * 
 	 * @return Result the http response
 	 */
-	@Transactional(readOnly = true)
+	@Transactional()
 	public static Result welcome() {
 		Context.current().args.put("wsPlanifie", WorkshopDAO.getWorkshopsPlanifie()); 
 		Context.current().args.put("ongletActif", "home");
@@ -36,7 +36,7 @@ public class Application extends Controller {
 		return ok(welcome.render("Accueil", WorkshopDAO.getWorkshops()));
 	}
 	
-	@Transactional(readOnly = true)
+	@Transactional()
 	@BodyParser.Of(play.mvc.BodyParser.Json.class)
 	public static Result wsWorkshopsPlanifies() {
 		List<Workshop> wsPlanifies = WorkshopDAO.getWorkshopsPlanifie();
@@ -48,7 +48,7 @@ public class Application extends Controller {
 	 * 
 	 * @return Result the http response
 	 */
-	@Transactional(readOnly = true)
+	@Transactional()
 	public static Result workshops() {
 		Context.current().args.put("wsPlanifie", WorkshopDAO.getWorkshopsPlanifie());
 		Context.current().args.put("ongletActif", "alreadyPlayed");

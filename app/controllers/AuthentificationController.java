@@ -10,10 +10,11 @@ import models.WorkshopSession;
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.JsonNode;
 
+import com.avaje.ebean.Ebean;
+
 import play.Play;
 import play.cache.Cache;
-import play.db.jpa.JPA;
-import play.db.jpa.Transactional;
+import play.db.ebean.Transactional;
 import play.i18n.Messages;
 import play.libs.WS;
 import play.libs.WS.Response;
@@ -91,7 +92,7 @@ public class AuthentificationController extends Controller {
 		
 		if ( user.charterAgree  ) {
 			// We save the new instance and save it in cache and redirect to welcome page
-			JPA.em().merge( user );
+			Ebean.save( user );
 			Cache.set( Application.getUuid() + "connectedUser", user );
 			
 			return redirect(routes.Application.welcome());
@@ -114,7 +115,7 @@ public class AuthentificationController extends Controller {
 		// We retreive the new user from cache and persist it
 		User 	user 		= 	(User) Cache.get( Application.getUuid() + "newUser" );
 		user.charterAgree	=	true;
-		JPA.em().persist( user );
+		Ebean.save( user );
 		
 		// The new user is now connected
 		Cache.set( Application.getUuid() + "connectedUser", user );

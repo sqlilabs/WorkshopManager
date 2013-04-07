@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import com.avaje.ebean.Ebean;
+
 import models.Comment;
 import models.Ressources;
 import models.User;
@@ -20,8 +22,7 @@ import models.utils.formatter.UserFormatter;
 import models.utils.helpers.FilesUtils;
 import play.Play;
 import play.data.Form;
-import play.db.jpa.JPA;
-import play.db.jpa.Transactional;
+import play.db.ebean.Transactional;
 import play.i18n.Messages;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -84,7 +85,7 @@ public class WorkshopController extends Controller {
 		
 		// Et le workshop depuis la base si c'est une modification
 		if ( id != ID_NOT_IN_TABLE ) {
-			Workshop 	ws 				= 	JPA.em().find(Workshop.class, id);
+			Workshop 	ws 				= 	Workshop.find.byId(id);
 			// on met à jour la nouvelle instance avec les anciennes données
 			workshopNew.speakers				=	ws.speakers;
 			workshopNew.potentialParticipants	=	ws.potentialParticipants ;
@@ -97,11 +98,12 @@ public class WorkshopController extends Controller {
 		workshopNew.image				=	uploadImage();
 
 		if (id == ID_NOT_IN_TABLE) {
-			JPA.em().persist(workshopNew);
+			Ebean.save(workshopNew);
 		} else {
 			workshopNew.id				=	id;
-			JPA.em().merge(workshopNew);
+			Ebean.update(workshopNew);
 		}
+		
 
 		return redirect(routes.Application.welcome());
 	}
@@ -113,7 +115,7 @@ public class WorkshopController extends Controller {
 	 */
 	@Transactional
 	public static Result modifyWorkshop(Long id) {
-		Workshop ws = JPA.em().find(Workshop.class, id);
+		Workshop ws = Workshop.find.byId(id);
 		Form<Workshop> workshopForm = form(Workshop.class).fill(ws);
 
 		return ok( addWorkshop.render(workshopForm, id) );
@@ -126,8 +128,8 @@ public class WorkshopController extends Controller {
 	 */
 	@Transactional
 	public static Result deleteWorkshop(Long id) {
-		Workshop ws = JPA.em().find(Workshop.class, id);
-		JPA.em().remove(ws);
+		Workshop ws = Workshop.find.byId(id);
+		Ebean.delete(ws);
 
 		for (String key : request().headers().keySet()) {
 			System.out.println(key);
@@ -143,7 +145,7 @@ public class WorkshopController extends Controller {
 	 */
 	@Transactional
 	public static Result planWorkshop(Long id) {
-		Workshop ws = JPA.em().find(Workshop.class, id);
+		Workshop ws = Workshop.find.byId(id);
 
 		Form<WorkshopSession> workshopSessionForm;
 		if (ws.workshopSession != null) {
@@ -172,7 +174,7 @@ public class WorkshopController extends Controller {
 		}
 
 		// We get the Workshop
-		Workshop workshopToPlan 	= 	JPA.em().find(Workshop.class, id);
+		Workshop workshopToPlan 	= 	Workshop.find.byId(id);
 		boolean newSession 			= 	workshopToPlan.workshopSession == null;
 
 		// We set the WorkshopSession to the Workshop to Plan
@@ -187,11 +189,11 @@ public class WorkshopController extends Controller {
 
 		// Sauver l'objet en base 
 		if (!newSession) {
-			JPA.em().merge(workshopSession);
+			Ebean.update(workshopSession);
 		} else {
-			JPA.em().persist(workshopSession);
+			Ebean.save(workshopSession);
 		}
-		JPA.em().persist(workshopToPlan);
+		Ebean.save(workshopToPlan);
 
 		return redirect(routes.Application.welcome());
     }
@@ -206,7 +208,7 @@ public class WorkshopController extends Controller {
     public static Result addSpeaker( Long id ) {
     	
     	// We get the Workshop
-        Workshop	currentWorkshop 	= 	JPA.em().find(Workshop.class, id);
+        Workshop	currentWorkshop 	= 	Workshop.find.byId(id);
         
         if ( currentWorkshop.speakers.size() < Play.application().configuration().getInt( "speaker.limit" )) {
         	// Get the connected User
@@ -216,7 +218,7 @@ public class WorkshopController extends Controller {
             currentWorkshop.speakers.add( user );
             
             // We save the new Workshop
-            JPA.em().persist( currentWorkshop );
+            Ebean.update(currentWorkshop);
     	}
         else {
         	return ok ( error.render( Messages.get("error.speaker.limit.reached")) );
@@ -234,7 +236,7 @@ public class WorkshopController extends Controller {
     @Transactional
     public static Result removeSpeaker( Long id ) {
     	// We get the Workshop
-        Workshop	currentWorkshop 	= 	JPA.em().find(Workshop.class, id);
+        Workshop	currentWorkshop 	= 	Workshop.find.byId(id);
         
         // Get the connected User
         User		user				=	AuthentificationController.getUser();
@@ -243,7 +245,7 @@ public class WorkshopController extends Controller {
         currentWorkshop.speakers.remove( user );
         
         // We save the new Workshop
-        JPA.em().persist( currentWorkshop );
+        Ebean.save(currentWorkshop);
     	
         return redirect(routes.Application.welcome());
     }
@@ -257,7 +259,7 @@ public class WorkshopController extends Controller {
     @Transactional
     public static Result addParticipant( Long id ) {
     	// We get the Workshop
-        Workshop	currentWorkshop 	= 	JPA.em().find(Workshop.class, id);
+        Workshop	currentWorkshop 	= 	Workshop.find.byId(id);
         
         // Get the connected User
         User		user				=	AuthentificationController.getUser();
@@ -266,7 +268,7 @@ public class WorkshopController extends Controller {
         currentWorkshop.potentialParticipants.add( user );
         
         // We save the new Workshop
-        JPA.em().persist( currentWorkshop );
+        Ebean.save(currentWorkshop);
     	
         return redirect(routes.Application.welcome());
 	}
@@ -280,7 +282,7 @@ public class WorkshopController extends Controller {
     @Transactional
     public static Result removeParticipant( Long id ) {
     	// We get the Workshop
-        Workshop	currentWorkshop 	= 	JPA.em().find(Workshop.class, id);
+        Workshop	currentWorkshop 	= 	Workshop.find.byId(id);
         
         // Get the connected User
         User		user				=	AuthentificationController.getUser();
@@ -289,7 +291,7 @@ public class WorkshopController extends Controller {
         currentWorkshop.potentialParticipants.remove( user );
         
         // We save the new Workshop
-        JPA.em().persist( currentWorkshop );
+        Ebean.save(currentWorkshop);
     	
         return redirect(routes.Application.welcome());
     }
@@ -318,11 +320,11 @@ public class WorkshopController extends Controller {
     	Form<Comment> 	filledForm 	= 	form(Comment.class).bindFromRequest();
     	
     	if (filledForm.hasErrors()) {
-			return badRequest(addComment.render(filledForm, id));
+			return badRequest( addComment.render(filledForm, id) );
 		}
     	
     	// Get the workshop from base
-    	Workshop 		ws 			= 	JPA.em().find(Workshop.class, id);
+    	Workshop 		ws 			= 	Workshop.find.byId(id);
     	
     	//We create the comment instance
     	Comment 		comment 	= 	filledForm.get();
@@ -334,10 +336,10 @@ public class WorkshopController extends Controller {
     	ws.comments.add( comment );
     	
     	// We save the objects in base
-        JPA.em().persist( comment );
-        JPA.em().merge( ws );
+    	Ebean.save( comment );
+        Ebean.update( ws );
     	
-        return redirect(routes.Application.workshops());
+        return redirect( routes.Application.workshops() );
     }
     
     
@@ -349,7 +351,7 @@ public class WorkshopController extends Controller {
 	 */
     @Transactional
     public static Result addWorkshopRessources(Long id) {
-    	Workshop 	ws 			= 	JPA.em().find(Workshop.class, id);
+    	Workshop 	ws 			= 	Workshop.find.byId(id);
     	Ressources 	ressources	=	ws.workshopRessources;
     	
     	// if we already set ressources, we want to fill the form with our old datas
@@ -379,7 +381,7 @@ public class WorkshopController extends Controller {
 		}
     	
     	// Get the workshop from base
-    	Workshop 		ws 				= 	JPA.em().find(Workshop.class, id);
+    	Workshop 		ws 				= 	Workshop.find.byId(id);
     	
     	boolean			update			=	 ws.workshopRessources != null;
     	
@@ -395,12 +397,12 @@ public class WorkshopController extends Controller {
     	
     	// We save the objects in base
     	if (update) {
-    		JPA.em().merge( ressources );
+    		Ebean.update( ressources );
     	}
     	else {
-    		JPA.em().persist( ressources );
+    		Ebean.save( ressources );
     	}
-        JPA.em().merge( ws );
+    	Ebean.update( ws );
     	
         return redirect(routes.Application.workshops());
     }

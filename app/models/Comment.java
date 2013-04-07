@@ -1,6 +1,5 @@
 package models;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -12,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import play.db.ebean.Model;
+
 /**
  * This Object represent a comments on a Workshop
  * 
@@ -20,7 +21,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "COMMENT")
-public class Comment implements Serializable {
+public class Comment extends Model {
 
 	/**
 	 * serialVersionUID
@@ -59,6 +60,11 @@ public class Comment implements Serializable {
 	@JoinColumn(name = "workshop_id")
 	public Workshop workshop; 
 	
+	/**
+	 * Définition d'un finder qui va permettre de faire les accès à la base
+	 */
+	public static Finder<Long, Comment> find = new Finder<Long, Comment>(Long.class, Comment.class);
+	
 	
 	//<--------------------------------------------------------------------------->
 	//-							 Constructeur(s)	        
@@ -69,7 +75,6 @@ public class Comment implements Serializable {
 	public Comment() {
 		super();
 	}
-	
 	
 	
 }

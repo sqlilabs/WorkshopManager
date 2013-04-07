@@ -6,12 +6,8 @@ package dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.NoResultException;
-import javax.persistence.TypedQuery;
-
 import models.User;
 import play.data.format.Formatters;
-import play.db.jpa.JPA;
 
 /**
  * @author ychartois
@@ -38,8 +34,11 @@ public class UserDAO {
 	 * @return la liste des users
 	 */
 	public static List<String> getSpeakers() {
-		TypedQuery<User> 	query 	= 	JPA.em().createQuery("SELECT user FROM User user WHERE user.email IS NOT null", User.class);
-		List<User> 			list 	= 	query.getResultList();
+		List<User> 			list 	= 	User.find.where()
+											.isNotNull("email")
+											.orderBy("firstName asc")
+											.findList();
+				
 		List<String> 		result 	= 	new ArrayList<String>( list.size() );
 		
 		for ( User currentUser : list ) {
@@ -55,19 +54,12 @@ public class UserDAO {
 	 */
 	public static User getUserWithName( String completeName ) {
 		String[] 			splittedName 	=	completeName.split(" ");
-		String 				queryStr		=	"SELECT user FROM User user WHERE user.firstName = '" + splittedName[0] + "'  AND user.lastName IS '" + splittedName[1] + "'";
-		TypedQuery<User> 	query 			= 	JPA.em().createQuery(queryStr, User.class);
 		
-		User 				user 			= 	null ;
+		return 	User.find.where()			
+					.eq("firstName", splittedName[0])
+					.eq("lastName", splittedName[1])
+					.findUnique();
 		
-		try {
-			user 	=	query.getSingleResult();
-		}
-		catch ( NoResultException nre ) {
-			//Do Nothing, if we don't get any result, we want to return null
-		}
-		
-		return user;
 	}
 
 }
