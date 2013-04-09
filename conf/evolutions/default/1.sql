@@ -7,7 +7,7 @@ create table COMMENT (
   id                        bigint auto_increment not null,
   author_id                 bigint,
   creation_date             datetime,
-  comment                   varchar(255),
+  comment                   varchar(1000),
   workshop_id               bigint,
   constraint pk_COMMENT primary key (id))
 ;
@@ -25,14 +25,14 @@ create table USER (
   last_name                 varchar(255),
   email                     varchar(255),
   picture                   varchar(255),
-  role                      varchar(255),
+  role                      varchar(255) not null,
   charterAgree              tinyint(1) default 0,
   constraint pk_USER primary key (id))
 ;
 
 create table WORKSHOP (
   id                        bigint auto_increment not null,
-  subject                   varchar(255),
+  subject                   varchar(100),
   summary                   varchar(300),
   description               varchar(1000),
   image                     varchar(255),
@@ -45,7 +45,7 @@ create table WORKSHOP (
 create table WORKSHOP_SESSION (
   id                        bigint auto_increment not null,
   doodle_url                varchar(255),
-  location                  varchar(255),
+  location                  varchar(50),
   next_play                 datetime,
   speaker_id                bigint,
   constraint pk_WORKSHOP_SESSION primary key (id))
