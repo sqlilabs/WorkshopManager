@@ -84,13 +84,13 @@ public class Workshop extends Model {
 	/**
 	 * Who created the workshop
 	 */
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne()
 	public User author;
 	
 	/**
 	 * Les personnes intéressées par le workshop
 	 */
-	@ManyToMany(cascade=CascadeType.ALL)
+	@ManyToMany()
 	@JoinTable(
 			name="POTENTIAL_PARTICIPANTS",
 			joinColumns = @JoinColumn(name="workshop_id"),
