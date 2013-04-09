@@ -50,7 +50,7 @@ public class Comment extends Model {
 	/**
 	 * The comment
 	 */
-	@Column(name = "comment")
+	@Column(name = "comment", length = 1000)
 	public String comment;
 	
 	/**

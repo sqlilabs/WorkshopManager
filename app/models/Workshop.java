@@ -45,6 +45,7 @@ public class Workshop extends Model {
 	 * Le sujet du workshop.
 	 */
 	@Required
+	@Column(length=100)
 	public String subject;
 	
 	/**

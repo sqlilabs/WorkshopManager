@@ -44,13 +44,14 @@ public class WorkshopSession extends Model {
 	 */
 	@Required
 	@Pattern(value="http://(.*)",message="constraint.workshopsession.url")
-	@Column(name = "doodle_url")
+	@Column(name = "doodle_url", length=255)
 	public String doodleUrl;
 	
 	/**
 	 * L'endroit où le workshop va se dérouler.
 	 */
 	@Required
+	@Column(length=50)
 	public String location;
 	
 	/**
