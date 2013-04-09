@@ -85,7 +85,7 @@ public class AuthentificationController extends Controller {
 		
 		// If the user is not from sqli he can't connect
 		if ( !StringUtils.endsWith( user.email, "@sqli.com" ) ) {
-			//TODO un pop-up pour expliquer pourquoi çà serai sympa
+			//TODO un pop-up pour expliquer pourquoi ça serai sympa
 			return forbidden();
 		}
 		
@@ -115,6 +115,7 @@ public class AuthentificationController extends Controller {
 		// We retreive the new user from cache and persist it
 		User 	user 		= 	(User) Cache.get( Application.getUuid() + "newUser" );
 		user.charterAgree	=	true;
+		user.role			=	"standard";
 		Ebean.save( user );
 		
 		// The new user is now connected

@@ -60,7 +60,7 @@ public class User extends Model {
 	/**
 	 * the role of the user
 	 */
-	@Column(name = "role")
+	@Column(name = "role", nullable=false )
 	public String role;
 	
 	/**
