@@ -81,29 +81,33 @@ public class WorkshopController extends Controller {
 		}
 
 		// On récupère le workshop depuis le formulaire
-		Workshop 		workshopNew 	= 	workshopForm.get();
+		Workshop 		workshopNew 		= 	workshopForm.get();
 		
 		// Et le workshop depuis la base si c'est une modification
 		if ( id != ID_NOT_IN_TABLE ) {
-			Workshop 	ws 				= 	Workshop.find.byId(id);
+			Workshop 	ws 					= 	Workshop.find.byId(id);
 			// on met à jour la nouvelle instance avec les anciennes données
 			workshopNew.speakers				=	ws.speakers;
 			workshopNew.potentialParticipants	=	ws.potentialParticipants ;
+			workshopNew.author 					=	ws.author;
+			workshopNew.creationDate			=	ws.creationDate;
 		}
-
-        // On affecte l'auteur connecté
-		workshopNew.author 				=	AuthentificationController.getUser() ;
+		else {
+			// On affecte l'auteur connecté
+			workshopNew.author 				=	AuthentificationController.getUser() ;
+			// et la date de création
+			workshopNew.creationDate		= 	new Date();
+		}
         
 		// On set l'image du workshop
-		workshopNew.image				=	uploadImage();
+		workshopNew.image					=	uploadImage();
 
 		if (id == ID_NOT_IN_TABLE) {
 			Ebean.save(workshopNew);
 		} else {
-			workshopNew.id				=	id;
+			workshopNew.id					=	id;
 			Ebean.update(workshopNew);
 		}
-		
 
 		return redirect(routes.Application.welcome());
 	}
@@ -425,7 +429,7 @@ public class WorkshopController extends Controller {
 	 * @return la date décorée
 	 */
 	public static String decorateDate(Date date) {
-		return new SimpleDateFormat(DATE_PATTERN).format(date);
+		return date != null ? new SimpleDateFormat(DATE_PATTERN).format(date) : Messages.get("unknow.date") ;
 	}
 	
 	/**

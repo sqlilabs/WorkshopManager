@@ -2,6 +2,10 @@
 # @see https://github.com/playframework/Play20/blob/master/framework/src/play/src/main/resources/messages 
 constraint.required=Required
 
+
+# Commun
+unknow.date=No one really knows...
+
 # Menu
 application.title=Workshops Manager
 menu.home=Workshops planned
@@ -19,6 +23,8 @@ welcome.workshop.plan=Schedule
 welcome.there.is.some.people.intersted=There is {0} people(s) interested by this workshop
 welcome.workshop.foreseen.speaker=The foreseen Speaker is {0}
 welcome.workshop.no.speaker=There is no Speaker for this workshop yet
+created.date=Created the
+by.author=by
 
 # Modal de suppression de workshop
 welcome.workshop.delete.modal.title=Confirm Deletion
@@ -50,7 +56,7 @@ form.plan.workshop.submit.button=Schedule this workshop
 form.plan.workshop.cancel.button=Cancel
 
 # Page already played
-form.plan.workshop.last.speaker=Last session presented by
+form.plan.workshop.last.speaker=presented by
 form.plan.workshop.last.date=Last session date
 form.plan.workshop.plan.again=Re-Planning
 plan.workshop.people.want.replay={0} people(s) wish that someone present this workshop again
