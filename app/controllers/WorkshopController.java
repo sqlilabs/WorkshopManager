@@ -109,7 +109,7 @@ public class WorkshopController extends Controller {
 			Ebean.update(workshopNew);
 		}
 
-		return redirect(routes.Application.welcome());
+		return redirect(routes.Application.newWorkshops() + "#" + id);
 	}
 
 	/**
@@ -139,7 +139,7 @@ public class WorkshopController extends Controller {
 			System.out.println(key);
 		}
 
-		return redirect(routes.Application.welcome());
+		return redirect( routes.Application.welcome() );
 	}
 
 	/**
@@ -199,7 +199,7 @@ public class WorkshopController extends Controller {
 		}
 		Ebean.save(workshopToPlan);
 
-		return redirect(routes.Application.welcome());
+		return redirect( routes.Application.welcome() + "#" + id );
     }
 
     /**
@@ -228,7 +228,7 @@ public class WorkshopController extends Controller {
         	return ok ( error.render( Messages.get("error.speaker.limit.reached")) );
         }
         
-        return redirect(routes.Application.welcome());
+        return redirect(routes.Application.newWorkshops() + "#" + id);
     }
     
     /**
@@ -251,7 +251,7 @@ public class WorkshopController extends Controller {
         // We save the new Workshop
         Ebean.save(currentWorkshop);
     	
-        return redirect(routes.Application.welcome());
+        return redirect(routes.Application.newWorkshops() + "#" + id);
     }
     
     /**
@@ -274,7 +274,7 @@ public class WorkshopController extends Controller {
         // We save the new Workshop
         Ebean.save(currentWorkshop);
     	
-        return redirect(routes.Application.welcome());
+        return redirect(routes.Application.welcome() + "#" + id);
 	}
     
     /**
@@ -297,7 +297,7 @@ public class WorkshopController extends Controller {
         // We save the new Workshop
         Ebean.save(currentWorkshop);
     	
-        return redirect(routes.Application.welcome());
+        return redirect(routes.Application.welcome() + "#" + id);
     }
     
 
@@ -343,7 +343,7 @@ public class WorkshopController extends Controller {
     	Ebean.save( comment );
         Ebean.update( ws );
     	
-        return redirect( routes.Application.workshops() );
+        return redirect( routes.Application.workshops() + "#" + id);
     }
     
     
@@ -408,7 +408,7 @@ public class WorkshopController extends Controller {
     	}
     	Ebean.update( ws );
     	
-        return redirect(routes.Application.workshops());
+        return redirect( routes.Application.workshops() + "#" + id );
     }
     
     

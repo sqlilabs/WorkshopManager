@@ -13,7 +13,7 @@
 		
 	} else {
 		@for(workshop <- workshops) { 
-		<div class="row-fluid">
+		<div id="@workshop.id" class="row-fluid">
 			<div class="span12 plannedTitle ">
 				<p class="alert">@Messages("workshop.planned.on"): @WorkshopController.decorateDate( workshop.workshopSession.nextPlay ) - @workshop.workshopSession.location </p>
 			</div>
