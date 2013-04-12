@@ -4,6 +4,8 @@ constraint.required=Obligatoire
 
 # Commun
 unknow.date=Personne ne le sais plus vraiment...
+last.actions=Les dernières actions
+action.login=Se connecter
 
 # Menu
 application.title=Workshops Manager
@@ -12,7 +14,6 @@ menu.search=Rechercher
 menu.alreadydone=Workshops déjà présentés
 menu.new=Nouveaux Workshops
 action.submit.a.workshop=Soumettre un workshop
-action.login=Se connecter
 
 # Page d'accueil
 welcome.no.workshops=Il n'y a pas de workshops dans la liste
@@ -95,6 +96,7 @@ action.ko=Vous avez craqués, même par en rêve !!
 workshop.planned.on=Planifié le
 workshop.speaker=Speaker
 workshop.location=Lieu
+workshop.join=S'inscrire
 
 # Errors messages
 error.speaker.limit.reached=Le nombre de speaker maximum est atteint

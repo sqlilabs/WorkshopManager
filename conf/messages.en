@@ -5,6 +5,8 @@ constraint.required=Required
 
 # Commun
 unknow.date=No one really knows...
+last.actions=Last actions
+action.login=Login
 
 # Menu
 application.title=Workshops Manager
@@ -13,13 +15,16 @@ menu.search=Search
 menu.alreadydone=Workshops Already Played
 menu.new=New Workshops
 action.submit.a.workshop=Submit a Workshop
-action.login=Logn
 
 # Page d'accueil
 welcome.no.workshops=There's no workshops in that list
 welcome.workshop.delete=Delete
 welcome.workshop.edit=Edit
 welcome.workshop.plan=Schedule
+welcome.workshop.become.speaker=Propose as Speaker
+welcome.workshop.removeme.speaker=Withdraw from the list of Speakers
+welcome.workshop.i.am.interested=I am interested in this Workshop
+welcome.workshop.i.am.not.interested=I would like to remove myself from the list of people interested in this Workshop
 welcome.there.is.some.people.intersted=There is {0} people(s) interested by this workshop
 welcome.workshop.foreseen.speaker=The foreseen Speaker is {0}
 welcome.workshop.no.speaker=There is no Speaker for this workshop yet
@@ -72,6 +77,15 @@ comments.number=Number of comments
 view.comments=View comments
 comments.number.sentence=There is {0} comment(s) for this workshop
 comments.title={0} {1} comment's posted the {2}
+
+# Add Ressources
+form.ressources.title=Resources to add to the workshop
+form.ressources.submit.button=Add resources
+form.ressources.cancel.button=Cancel
+form.ressources.subject.label=Link to external site: 
+form.ressources.label=Workshop slides
+link.to.workshop.ressources=Workshop slides (cloud)
+workshop.ressources.file=Workshop slides
 
 # Charter
 action.ok=That''s cool ;) I understand and I agree
