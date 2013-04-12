@@ -55,6 +55,33 @@ $(document).ready(function(){
 		$(id).modal();
 	});
 	
+	// ------------------------------------------
+	// handle the modal with the user picture
+	// ------------------------------------------
+	$('#user-picture-link').click( function(e) {
+		e.preventDefault();
+		$("#user-picture").modal();
+	});
+	
+	/**
+	 * Requête ajax permettant de mettre à jour l'image de l'utilisateur
+	 * connecté
+	 */
+	$('#user-picture-submit').click( function(e) {
+		e.preventDefault();
+		// dans les autres cas on appelle le WS d'update
+    	$.ajax({
+          type: "PUT",
+          url: '/ws/modifyUserPicture',
+          data: {image: $("#imageURL").val()},
+          dataType: 'json'
+        })
+        $("#user-picture-img").attr('src', $("#imageURL").val());
+        $('#user-picture').modal('hide');
+        
+	});
+	
+
 	
 	// ------------------------------------------
 	// handle something else

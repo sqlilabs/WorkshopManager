@@ -3,6 +3,8 @@ package controllers;
 import static models.utils.constants.AuthentificationConstants.*;
 import static models.utils.constants.UserConstants.*;
 
+import java.util.Map;
+
 import models.User;
 import models.Workshop;
 import models.WorkshopSession;
@@ -135,6 +137,19 @@ public class AuthentificationController extends Controller {
 		Cache.set( Application.getUuid() + "connectedUser", null );	
 		
 		return redirect(routes.Application.welcome());
+	}
+	
+	/**
+	 * WS allows to modify the user picture
+	 * 
+	 * @return the html status ok
+	 */
+	public static Result modifyUserPicture() {
+		User 					user 	= 	(User) Cache.get( Application.getUuid() + "connectedUser" );
+		Map<String, String[]> 	data 	= 	request().body().asFormUrlEncoded();
+		user.picture					= 	data.get("image")[0];	
+		Ebean.save( user );
+		return ok("{image: " + user.picture + "}");
 	}
 	
 	

@@ -35,5 +35,8 @@ GET 	/oauth2callback					controllers.AuthentificationController.callback()
 GET     /logout							controllers.AuthentificationController.deconnection()	
 GET		/createNewUser					controllers.AuthentificationController.createNewUser()			
 
-# WS
+# WS Workshop
 GET		/ws/workshopsPlanifies			controllers.Application.wsWorkshopsPlanifies()
+
+# WS user
+PUT		/ws/modifyUserPicture			controllers.AuthentificationController.modifyUserPicture() 

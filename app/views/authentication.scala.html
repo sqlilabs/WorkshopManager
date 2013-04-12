@@ -9,13 +9,32 @@
 	} else {
 		<div class="row-fluid littleMarginTop">
 			<div class="span3">
-				<img width="48" height=48" src="@AuthentificationController.getUser.picture" />
+				<a id="user-picture-link" href="#">
+					<img id="user-picture-img" src="@AuthentificationController.getUser.picture" />
+					<i class="icon-edit"></i> edit
+				</a>
 			</div>
 			
 			<div class="span9">
 				<div>@AuthentificationController.getUser.firstName @AuthentificationController.getUser.lastName</div>
 				<div class="emailStyle">@AuthentificationController.getUser.email</div>
 				<div><a href="@routes.AuthentificationController.deconnection">logout</a></div>
+			</div>
+		</div>
+		
+		<div id="user-picture" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-header">
+			  	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			  	<h3 id="myModalLabel">@Messages("modify.picture")</h3>
+			</div>
+			<div class="modal-body">
+				<div class="input-append">
+				  <input class="span10" id="imageURL" maxlength="100">
+				  <button class="btn" id="user-picture-submit" type="button">Submit</button>
+				</div>
+			</div>
+			<div class="modal-footer">
+			  	
 			</div>
 		</div>
 		
