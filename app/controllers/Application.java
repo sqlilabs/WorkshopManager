@@ -15,6 +15,7 @@ import play.mvc.Result;
 import views.html.welcome.charter;
 import views.html.welcome.welcome;
 import views.html.workshops.alreadyPlayed;
+import views.html.workshops.newWorkshops;
 import dao.WorkshopDAO;
 
 public class Application extends Controller {
@@ -32,7 +33,7 @@ public class Application extends Controller {
 	public static Result welcome() {
 		Context.current().args.put("ongletActif", "home");
 		// We render the welcome page
-		return ok(welcome.render("Accueil", WorkshopDAO.getWorkshopsPlanifie()));
+		return ok(welcome.render("Les prochains Workshops", WorkshopDAO.getWorkshopsPlanifie()));
 	}
 	
 	/**
@@ -57,6 +58,18 @@ public class Application extends Controller {
 		Context.current().args.put("ongletActif", "alreadyPlayed");
 		// We render the welcome page
 		return ok(alreadyPlayed.render("Les Workshops déjà présentés", WorkshopDAO.getWorkshopsAlreadyPlayed()));
+	}
+	
+	/**
+	 * This action allow to display the list of the already played workshop
+	 * 
+	 * @return Result the http response
+	 */
+	@Transactional()
+	public static Result newWorkshops() {
+		Context.current().args.put("ongletActif", "newWorkshops");
+		// We render the welcome page
+		return ok( newWorkshops.render("Les Workshops qui n'ont jamais été présentés", WorkshopDAO.getWorkshops()) );
 	}
 	
 	/**

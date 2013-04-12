@@ -4,9 +4,10 @@ constraint.required=Required
 
 # Menu
 application.title=Workshops Manager
-menu.home=Home
+menu.home=Workshops planned
 menu.search=Search
-menu.alreadydone=Already Played
+menu.alreadydone=Workshops Already Played
+menu.new=New Workshops
 action.submit.a.workshop=Submit a Workshop
 action.login=Logn
 

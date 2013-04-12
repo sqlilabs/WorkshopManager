@@ -15,11 +15,11 @@
 		@for(workshop <- workshops) { 
 		<div class="row-fluid">
 			<div class="span12 plannedTitle ">
-				<p class="alert"><span> @WorkshopController.decorateDate( workshop.workshopSession.nextPlay ) - @workshop.workshopSession.location </p>
+				<p class="alert">@Messages("workshop.planned.on"): @WorkshopController.decorateDate( workshop.workshopSession.nextPlay ) - @workshop.workshopSession.location </p>
 			</div>
 		</div>
 		<div class="row-fluid workshop-bloc spaceAfter">
-			<div class="span11 offset1 well">
+			<div class="span11 offset1 well bulle">
 				<div class="container-fluid">
 					<div class="row-fluid">
 						<!-- inclusion fragment body -->

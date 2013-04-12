@@ -5,6 +5,7 @@
 # Home page
 GET		/								controllers.Application.welcome()
 GET 	/workshops						controllers.Application.workshops()
+GET 	/newWorkshops					controllers.Application.newWorkshops()
 GET		/charter						controllers.Application.charter()
 
 # Workshops

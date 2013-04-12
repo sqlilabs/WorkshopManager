@@ -97,6 +97,10 @@ hr.soften {
 	padding-left: 5px;
 }
 
+.no-space [class*="span"] {
+    margin-left: 0;
+}
+
 
 /* ******************* */
 /*   Profil Picture    */
@@ -185,3 +189,11 @@ hr.soften {
 .sidebarTitle img {
 	padding-right: 5px;
 }
+
+.bulle {
+	background-image: url(assets/images/bulleWorkshop.png);
+	background-repeat:no-repeat;
+	background-position:-100px 30px;
+}
+
+

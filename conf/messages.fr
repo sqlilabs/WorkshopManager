@@ -4,9 +4,10 @@ constraint.required=Obligatoire
 
 # Menu
 application.title=Workshops Manager
-menu.home=Accueil
+menu.home=Workshops Planifiés
 menu.search=Rechercher
-menu.alreadydone=Déjà présentés
+menu.alreadydone=Workshops déjà présentés
+menu.new=Nouveaux Workshops
 action.submit.a.workshop=Soumettre un workshop
 action.login=Se connecter
 
