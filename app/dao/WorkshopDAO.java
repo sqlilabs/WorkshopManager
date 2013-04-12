@@ -50,7 +50,7 @@ public class WorkshopDAO {
 				.where()
 					.isNotNull("workshopSession.nextPlay")
 					.gt("workshopSession.nextPlay", new Date())
-					.orderBy("workshopSession.nextPlay desc")
+					.orderBy("workshopSession.nextPlay asc")
 					.findList();
 	}
 	
