@@ -30,12 +30,16 @@ public class Application extends Controller {
 	 */
 	@Transactional()
 	public static Result welcome() {
-		Context.current().args.put("wsPlanifie", WorkshopDAO.getWorkshopsPlanifie()); 
 		Context.current().args.put("ongletActif", "home");
 		// We render the welcome page
-		return ok(welcome.render("Accueil", WorkshopDAO.getWorkshops()));
+		return ok(welcome.render("Accueil", WorkshopDAO.getWorkshopsPlanifie()));
 	}
 	
+	/**
+	 * This a REST webservice which return the planned workshops list
+	 * 
+	 * @return Result the http response
+	 */
 	@Transactional()
 	@BodyParser.Of(play.mvc.BodyParser.Json.class)
 	public static Result wsWorkshopsPlanifies() {
@@ -50,12 +54,16 @@ public class Application extends Controller {
 	 */
 	@Transactional()
 	public static Result workshops() {
-		Context.current().args.put("wsPlanifie", WorkshopDAO.getWorkshopsPlanifie());
 		Context.current().args.put("ongletActif", "alreadyPlayed");
 		// We render the welcome page
 		return ok(alreadyPlayed.render("Les Workshops déjà présentés", WorkshopDAO.getWorkshopsAlreadyPlayed()));
 	}
 	
+	/**
+	 * This action allow to display the charter agreement page
+	 * 
+	 * @return the charter agreement page
+	 */
 	public static Result charter() {
 		// We render the charter page
 		return ok( charter.render(false) );
