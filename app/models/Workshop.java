@@ -1,5 +1,6 @@
 package models;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -87,6 +88,11 @@ public class Workshop extends Model {
 	 */
 	@ManyToOne()
 	public User author;
+	
+	/**
+	 * When it as created
+	 */
+	public Date creationDate;
 	
 	/**
 	 * Les personnes intéressées par le workshop

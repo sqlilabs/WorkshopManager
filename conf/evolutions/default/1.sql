@@ -38,6 +38,7 @@ create table WORKSHOP (
   image                     varchar(255),
   workshop_session_id       bigint,
   author_id                 bigint,
+  creation_date             datetime,
   workshop_ressources_id    bigint,
   constraint pk_WORKSHOP primary key (id))
 ;
