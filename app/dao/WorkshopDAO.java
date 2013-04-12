@@ -35,6 +35,7 @@ public class WorkshopDAO {
 	public static List<Workshop> getWorkshops() {
 		return Workshop.find.where()
 					.isNull("workshopSession")
+					.orderBy("creationDate desc")
 					.findList();
 	}
 	
@@ -66,7 +67,7 @@ public class WorkshopDAO {
 				.where()
 					.isNotNull("workshopSession.nextPlay")
 					.lt("workshopSession.nextPlay", new Date() )
-					.orderBy("workshopSession.nextPlay asc")
+					.orderBy("workshopSession.nextPlay desc")
 					.findList();
 	}
 
