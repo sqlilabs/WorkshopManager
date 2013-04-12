@@ -1,4 +1,4 @@
-@( workshop : Workshop )
+@( workshop : Workshop, session : WorkshopSession )
 
 @import helper._
 
@@ -19,7 +19,7 @@
 	</div>
 </div>
 <div class="modal-footer">
-  	<p><b>@Messages("workshop.planned.on")</b>: @WorkshopController.decorateDate( workshop.workshopSession.nextPlay ) --  <b>@Messages("workshop.location")</b>: @workshop.workshopSession.location</p>
-	<p><b>@Messages("workshop.speaker")</b>: @workshop.workshopSession.speaker.firstName @workshop.workshopSession.speaker.lastName</p>
+  	<p><b>@Messages("workshop.planned.on")</b>: @WorkshopController.decorateDate( session.nextPlay ) --  <b>@Messages("workshop.location")</b>: session.location</p>
+	<p><b>@Messages("workshop.speaker")</b>: session.speaker.firstName session.speaker.lastName</p>
 </div>
 

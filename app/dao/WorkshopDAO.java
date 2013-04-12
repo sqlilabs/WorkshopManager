@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import models.Workshop;
+import models.Workshop.WorkshopStatus;
 
 /**
  * @author ychartois
@@ -34,7 +35,7 @@ public class WorkshopDAO {
 	 */
 	public static List<Workshop> getWorkshops() {
 		return Workshop.find.where()
-					.isNull("workshopSession")
+					.ilike("status", WorkshopStatus.NEW.getStatus())
 					.orderBy("creationDate desc")
 					.findList();
 	}
@@ -49,8 +50,7 @@ public class WorkshopDAO {
 				.fetch("potentialParticipants")
 				.fetch("speakers")
 				.where()
-					.isNotNull("workshopSession.nextPlay")
-					.gt("workshopSession.nextPlay", new Date())
+					.ilike("status", WorkshopStatus.PLANNED.getStatus())
 					.orderBy("workshopSession.nextPlay asc")
 					.findList();
 	}

@@ -106,6 +106,12 @@ public class AuthentificationController extends Controller {
 		}
 	}
 	
+	public static Result userBouchon() {
+		Cache.set( Application.getUuid() + "connectedUser", User.find.byId(1l) );
+		
+		return redirect(routes.Application.welcome());
+	}
+	
 	/**
 	 * Create a new user after his acceptance to the charter
 	 * 

@@ -5,10 +5,13 @@ package models;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -64,8 +67,15 @@ public class WorkshopSession extends Model {
 	/**
 	 * La personne qui donnera cette séance du workshop.
 	 */
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.PERSIST)
 	public User speaker;
+	
+	/**
+	 * the workshop related to this comment
+	 */
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name = "workshop_id")
+	public Workshop workshop; 
 	
 	/**
 	 * Définition d'un finder qui va permettre de faire les accès à la base

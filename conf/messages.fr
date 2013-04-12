@@ -16,7 +16,7 @@ menu.new=Nouveaux Workshops
 action.submit.a.workshop=Soumettre un workshop
 
 # Page d'accueil
-welcome.no.workshops=Il n'y a pas de workshops dans la liste
+welcome.no.workshops=Il n''y a pas de workshops dans la liste
 welcome.workshop.delete=Supprimer
 welcome.workshop.edit=Modifier
 welcome.workshop.plan=Planifier

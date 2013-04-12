@@ -17,6 +17,7 @@ import models.Comment;
 import models.Ressources;
 import models.User;
 import models.Workshop;
+import models.Workshop.WorkshopStatus;
 import models.WorkshopSession;
 import models.utils.formatter.UserFormatter;
 import models.utils.helpers.FilesUtils;
@@ -97,6 +98,7 @@ public class WorkshopController extends Controller {
 			workshopNew.author 				=	AuthentificationController.getUser() ;
 			// et la date de création
 			workshopNew.creationDate		= 	new Date();
+			workshopNew.status				=	WorkshopStatus.NEW.getStatus();
 		}
         
 		// On set l'image du workshop
@@ -149,16 +151,29 @@ public class WorkshopController extends Controller {
 	 */
 	@Transactional
 	public static Result planWorkshop(Long id) {
-		Workshop ws = Workshop.find.byId(id);
+		Form<WorkshopSession> workshopSessionForm = play.data.Form.form(WorkshopSession.class);
 
+		return ok(planWorkshop.render(workshopSessionForm, id, -1l));
+	}
+	
+	/**
+	 * @param id
+	 *            l'identifiant du workshop
+	 * @return the planWorkshop page
+	 */
+	@Transactional
+	public static Result modifyPlannedWorkshop(Long idWorkshop, Long idSession) {
+		Workshop 			ws 			= Workshop.find.byId( idWorkshop );
+		WorkshopSession		session		= WorkshopSession.find.byId( idSession );
+				
 		Form<WorkshopSession> workshopSessionForm;
-		if (ws.workshopSession != null) {
-			workshopSessionForm = play.data.Form.form(WorkshopSession.class).fill( ws.workshopSession );
+		if (session != null) {
+			workshopSessionForm = play.data.Form.form(WorkshopSession.class).fill( session );
 		} else {
 			workshopSessionForm = play.data.Form.form(WorkshopSession.class);
 		}
 
-		return ok(planWorkshop.render(workshopSessionForm, id));
+		return ok( planWorkshop.render(workshopSessionForm, idWorkshop, idSession) );
 	}
 
 	/**
@@ -168,25 +183,28 @@ public class WorkshopController extends Controller {
 	 *         errors
 	 */
 	@Transactional
-	public static Result saveWorkshopSession(Long id) {
-
-		Form<WorkshopSession> filledForm = play.data.Form.form(WorkshopSession.class)
-				.bindFromRequest();
+	public static Result saveWorkshopSession(Long idWorkshop, Long idSession) {
+		Form<WorkshopSession> filledForm = play.data.Form.form(WorkshopSession.class).bindFromRequest();
 
 		if (filledForm.hasErrors()) {
-			return badRequest(planWorkshop.render(filledForm, id));
+			return badRequest(planWorkshop.render(filledForm, idWorkshop, idSession));
 		}
 
 		// We get the Workshop
-		Workshop workshopToPlan 	= 	Workshop.find.byId(id);
-		boolean newSession 			= 	workshopToPlan.workshopSession == null;
+		Workshop workshopToPlan 	= 	Workshop.find.byId(idWorkshop);
+		boolean newSession 			= 	idSession == -1;
+		
+		if ( !newSession ) {
+			workshopToPlan.workshopSession.remove( WorkshopSession.find.byId( idSession ) );
+		}		
 
 		// We set the WorkshopSession to the Workshop to Plan
 		WorkshopSession workshopSession = filledForm.get();
-		if ( workshopToPlan.workshopSession != null ) {
-			workshopSession.id		=	workshopToPlan.workshopSession.id ;
+		if ( !newSession ) {
+			workshopSession.id		=	idSession ;
 		}
-		workshopToPlan.workshopSession 			=	workshopSession;
+		workshopToPlan.workshopSession.add(workshopSession);
+		workshopToPlan.status		=	WorkshopStatus.PLANNED.getStatus();
 		
 		// We empty the potentialParticipants List
 		workshopToPlan.potentialParticipants	= 	new HashSet<User>();
@@ -199,7 +217,7 @@ public class WorkshopController extends Controller {
 		}
 		Ebean.save(workshopToPlan);
 
-		return redirect( routes.Application.welcome() + "#" + id );
+		return redirect( routes.Application.welcome() + "#" + idWorkshop );
     }
 
     /**
@@ -517,7 +535,7 @@ public class WorkshopController extends Controller {
 	 */
 	private static String uploadRessources( Workshop workshop ) {
 		SimpleDateFormat 	simpleDateFormat	=	new SimpleDateFormat("[yyyy-MM]");
-		String				destFolderName		=	simpleDateFormat.format( workshop.workshopSession.nextPlay ) + " - " + workshop.subject;
+		String				destFolderName		=	simpleDateFormat.format( workshop.workshopSession.get(0).nextPlay ) + " - " + workshop.subject;
     	String 				ressourceLocation 	= 	Play.application().configuration().getString("workshop.ressources.url") + File.separator + destFolderName + File.separator;
     	
     	// Gestion de la sauvegarde des fichiers uploadés (images)

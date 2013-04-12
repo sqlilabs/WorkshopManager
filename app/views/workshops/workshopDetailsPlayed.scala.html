@@ -19,8 +19,8 @@
 	</div>
 </div>
 <div class="modal-footer">
-  	<p><strong>@Messages("form.plan.workshop.last.speaker")</strong> @workshop.workshopSession.speaker.firstName @workshop.workshopSession.speaker.lastName</p>
-	<p><strong>@Messages("form.plan.workshop.last.date")</strong> @WorkshopController.decorateDate(workshop.workshopSession.nextPlay)</p>
+  	<p><strong>@Messages("form.plan.workshop.last.speaker")</strong> @workshop.workshopSession.get( workshop.workshopSession.size() - 1).speaker.firstName @workshop.workshopSession.get( workshop.workshopSession.size() - 1).speaker.lastName</p>
+	<p><strong>@Messages("form.plan.workshop.last.date")</strong> @WorkshopController.decorateDate(workshop.workshopSession.get( workshop.workshopSession.size() - 1).nextPlay)</p>
 	<p>@Messages("plan.workshop.people.want.replay", workshop.potentialParticipants.size)</p>
 </div>
 

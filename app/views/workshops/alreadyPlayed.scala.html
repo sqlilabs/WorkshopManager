@@ -15,7 +15,7 @@
 		@for(workshop <- workshops) { 
 			<div id="@workshop.id" class="row-fluid">
 				<div class="span12 plannedTitle ">
-					<p class="alert">@Messages("form.plan.workshop.last.date") : @WorkshopController.decorateDate(workshop.workshopSession.nextPlay) @Messages("form.plan.workshop.last.speaker") @workshop.workshopSession.speaker.firstName @workshop.workshopSession.speaker.lastName </p>
+					<p class="alert">@Messages("form.plan.workshop.last.date") : @WorkshopController.decorateDate(workshop.workshopSession.get( workshop.workshopSession.size() - 1).nextPlay) @Messages("form.plan.workshop.last.speaker") @workshop.workshopSession.get( workshop.workshopSession.size() - 1).speaker.firstName @workshop.workshopSession.get( workshop.workshopSession.size() - 1).speaker.lastName </p>
 				</div>
 			</div>
 			<div class="row-fluid workshop-bloc spaceAfter">
