@@ -36,8 +36,8 @@ import views.html.workshops.addComment;
 import views.html.workshops.addRessources;
 
 /**
- * Ce controller regroupe toutes les actions qui sont liées à l'ajout d'un
- * nouveau Workshop
+ * Ce controller regroupe toutes les actions qui sont liées au opérations sur les 
+ * workshops
  * 
  * @author ychartois
  * @version 0.1
