@@ -17,7 +17,6 @@ import models.Comment;
 import models.Ressources;
 import models.User;
 import models.Workshop;
-import models.Workshop.WorkshopStatus;
 import models.WorkshopSession;
 import models.utils.formatter.UserFormatter;
 import models.utils.helpers.FilesUtils;
@@ -98,7 +97,6 @@ public class WorkshopController extends Controller {
 			workshopNew.author 				=	AuthentificationController.getUser() ;
 			// et la date de création
 			workshopNew.creationDate		= 	new Date();
-			workshopNew.status				=	WorkshopStatus.NEW.getStatus();
 		}
         
 		// On set l'image du workshop
@@ -163,7 +161,6 @@ public class WorkshopController extends Controller {
 	 */
 	@Transactional
 	public static Result modifyPlannedWorkshop(Long idWorkshop, Long idSession) {
-		Workshop 			ws 			= Workshop.find.byId( idWorkshop );
 		WorkshopSession		session		= WorkshopSession.find.byId( idSession );
 				
 		Form<WorkshopSession> workshopSessionForm;
@@ -201,10 +198,10 @@ public class WorkshopController extends Controller {
 		// We set the WorkshopSession to the Workshop to Plan
 		WorkshopSession workshopSession = filledForm.get();
 		if ( !newSession ) {
-			workshopSession.id		=	idSession ;
+			workshopSession.id			=	idSession ;
 		}
 		workshopToPlan.workshopSession.add(workshopSession);
-		workshopToPlan.status		=	WorkshopStatus.PLANNED.getStatus();
+		workshopSession.workshop		=	workshopToPlan;
 		
 		// We empty the potentialParticipants List
 		workshopToPlan.potentialParticipants	= 	new HashSet<User>();

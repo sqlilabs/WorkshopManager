@@ -36,27 +36,6 @@ public class Workshop extends Model {
 	 * serialVersionUID
 	 */
 	private static final long serialVersionUID = -6669398454928349805L;
-	
-	/**
-	 * Enum contenant les différents status possible pour un Workshop
-	 * @author ychartois
-	 */
-	public enum WorkshopStatus {
-		NEW("new"), PLANNED("planned"), PLAYED("played");
-
-		private String status;
-
-		WorkshopStatus(String status) {
-			this.status = status;
-		}
-
-		/**
-		 * @return the sqlFragment
-		 */
-		public String getStatus() {
-			return this.status;
-		}
-	}
 
 	/**
 	 * L'identifiant
@@ -64,11 +43,6 @@ public class Workshop extends Model {
 	@Id
     @GeneratedValue
     public Long id;
-	
-	/**
-	 * status du workshop
-	 */
-	public String status;
 
 	/**
 	 * Le sujet du workshop.

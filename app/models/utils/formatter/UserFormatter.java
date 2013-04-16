@@ -6,9 +6,9 @@ package models.utils.formatter;
 import java.text.ParseException;
 import java.util.Locale;
 
-import dao.UserDAO;
 
 import play.data.format.Formatters.SimpleFormatter;
+import repository.UserDAO;
 import models.User;
 
 /**

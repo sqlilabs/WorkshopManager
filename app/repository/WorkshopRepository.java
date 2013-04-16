@@ -1,19 +1,17 @@
-/**
- * 
- */
-package dao;
+package repository;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import models.Workshop;
-import models.Workshop.WorkshopStatus;
+import models.WorkshopSession;
 
 /**
  * @author ychartois
  *
  */
-public class WorkshopDAO {
+public class WorkshopRepository {
 
 	
 	//<--------------------------------------------------------------------------->
@@ -22,7 +20,7 @@ public class WorkshopDAO {
 	/**
 	 * Constructeur
 	 */
-	public WorkshopDAO() {
+	public WorkshopRepository() {
 		super();
 	}
 	
@@ -34,41 +32,49 @@ public class WorkshopDAO {
 	 * @return la liste des workshops non joué
 	 */
 	public static List<Workshop> getWorkshops() {
-		return Workshop.find.where()
-					.ilike("status", WorkshopStatus.NEW.getStatus())
-					.orderBy("creationDate desc")
-					.findList();
+		List<Workshop> 		unfilter 	= 	Workshop.find
+													.fetch("workshopSession")
+													.orderBy("creationDate desc")
+													.findList();
+		
+		List<Workshop> 		filter		=	new ArrayList<Workshop>();
+		for ( Workshop currentWorkshop : unfilter ) {
+			if ( currentWorkshop.workshopSession.size() == 0 ) {
+				filter.add( currentWorkshop );
+			}
+		}
+		
+		return filter;
 	}
 	
 	/**
 	 * @return la liste des workshops planifiés
 	 */
-	public static List<Workshop> getWorkshopsPlanifie() {
-		return Workshop.find
-				.fetch("workshopSession")
-				.fetch("workshopSession.speaker")
-				.fetch("potentialParticipants")
-				.fetch("speakers")
+	public static List<WorkshopSession> getWorkshopsPlanifie() {
+		return WorkshopSession.find
+				.fetch("workshop")
+				.fetch("speaker")
+				.fetch("workshop.potentialParticipants")
+				.fetch("workshop.speakers")
 				.where()
-					.ilike("status", WorkshopStatus.PLANNED.getStatus())
-					.orderBy("workshopSession.nextPlay asc")
-					.findList();
+					.gt("nextPlay", new Date() )
+				.orderBy("nextPlay asc")
+				.findList();
 	}
 	
 	/**
 	 * @return la liste des workshops déjà présentés
 	 */
 	public static List<Workshop> getWorkshopsAlreadyPlayed() {
+		
 		return Workshop.find
 				.fetch("workshopSession")
 				.fetch("workshopSession.speaker")
 				.fetch("comments")
 				.fetch("workshopRessources")
 				.where()
-					.isNotNull("workshopSession.nextPlay")
 					.lt("workshopSession.nextPlay", new Date() )
-					.orderBy("workshopSession.nextPlay desc")
-					.findList();
+				.findList();
 	}
 
 }

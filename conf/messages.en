@@ -96,6 +96,10 @@ action.ko=No way!!! Are you crazy guys??
 workshop.planned.on=Planned on
 workshop.speaker=Speaker
 workshop.location=Location
+workshop.join=Join
+workshop.planned.edit.session=Modify session
+workshop.planned.edit.add.session=Add session
+
 # Errors messages
 error.speaker.limit.reached=The speakers limit is reached!!
 error.google.authentification.refused=You refused to identify via your Google account, you can not enjoy the privileges to authenticated users. Google has returned the following error: [{0}]

@@ -32,7 +32,6 @@ create table USER (
 
 create table WORKSHOP (
   id                        bigint auto_increment not null,
-  status                    varchar(255),
   subject                   varchar(100),
   summary                   varchar(300),
   description               varchar(1000),

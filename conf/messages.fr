@@ -97,6 +97,8 @@ workshop.planned.on=Planifié le
 workshop.speaker=Speaker
 workshop.location=Lieu
 workshop.join=S'inscrire
+workshop.planned.edit.session=Modifier session
+workshop.planned.edit.add.session=Ajouter session
 
 # Errors messages
 error.speaker.limit.reached=Le nombre de speaker maximum est atteint

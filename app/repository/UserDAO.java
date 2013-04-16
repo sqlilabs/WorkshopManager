@@ -1,7 +1,7 @@
 /**
  * 
  */
-package dao;
+package repository;
 
 import java.util.ArrayList;
 import java.util.List;
