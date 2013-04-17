@@ -3,10 +3,10 @@
 # ~~~~
 
 # Home page
-GET		/								controllers.Application.welcome()
-GET 	/workshops						controllers.Application.workshops()
-GET 	/newWorkshops					controllers.Application.newWorkshops()
-GET		/charter						controllers.Application.charter()
+GET		/												controllers.Application.welcome()
+GET 	/workshops										controllers.Application.workshops()
+GET 	/newWorkshops									controllers.Application.newWorkshops()
+GET		/charter										controllers.Application.charter()
 
 # Workshops
 GET 	/workshops/add									controllers.WorkshopController.blankWorkshop()
@@ -26,19 +26,21 @@ GET     /workshop/addRessources/:id						controllers.WorkshopController.addWorks
 POST    /workshop/saveRessources/:id					controllers.WorkshopController.saveWorkshopRessources(id: Long)
 
 # Application
-GET     /webjars/*file              	controllers.WebJarAssets.at(file)
+GET     /webjars/*file              					controllers.WebJarAssets.at(file)
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               	controllers.Assets.at(path="/public", file)
+GET     /assets/images/workshops/:file_name        		controllers.ServeImage.at(file_name)
+GET     /assets/*file               					controllers.Assets.at(path="/public", file)
+
 
 # OAuth 2.0 Google 
-GET 	/oauth2callback					controllers.AuthentificationController.callback()
-GET     /logout							controllers.AuthentificationController.deconnection()	
-GET		/createNewUser					controllers.AuthentificationController.createNewUser()
-# GET 	/bouchon						controllers.AuthentificationController.userBouchon()			
+GET 	/oauth2callback									controllers.AuthentificationController.callback()
+GET     /logout											controllers.AuthentificationController.deconnection()	
+GET		/createNewUser									controllers.AuthentificationController.createNewUser()
+# GET 	/bouchon										controllers.AuthentificationController.userBouchon()			
 
 # WS Workshop
-GET		/ws/workshopsPlanifies			controllers.Application.wsWorkshopsPlanifies()
+GET		/ws/workshopsPlanifies							controllers.Application.wsWorkshopsPlanifies()
 
 # WS user
-PUT		/ws/modifyUserPicture			controllers.AuthentificationController.modifyUserPicture() 
+PUT		/ws/modifyUserPicture							controllers.AuthentificationController.modifyUserPicture() 

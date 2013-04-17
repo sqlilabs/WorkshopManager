@@ -19,6 +19,7 @@ object ApplicationBuild extends Build {
     	"org.webjars" 					% "bootstrap" 						% "2.1.1",
     	"org.easytesting" 				% "fest-assert-core" 				% "2.0M7",
     	"commons-lang" 					% "commons-lang" 					% "2.6",
+    	"org.apache.commons" 			% "commons-io" 						% "1.3.2",
 		"mysql" 						% "mysql-connector-java" 			% "5.1.20"
 	)
 

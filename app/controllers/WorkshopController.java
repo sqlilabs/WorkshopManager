@@ -44,18 +44,10 @@ import views.html.workshops.addRessources;
  */
 public class WorkshopController extends Controller {
 
-	// <--------------------------------------------------------------------------->
-	// - Constructeur(s)
-	// <--------------------------------------------------------------------------->
-	/**
-	 * Constructeur par defaut
-	 */
-	public WorkshopController() {
-		super();
-	}
+
 
 	// <--------------------------------------------------------------------------->
-	// - Actions(s)
+	// - 							Actions(s)
 	// <--------------------------------------------------------------------------->
 	/**
 	 * Display a blank form for Workshop.
@@ -566,6 +558,14 @@ public class WorkshopController extends Controller {
  		return null;
     }
 	
-	
+	// <--------------------------------------------------------------------------->
+	// - Constructeur(s)
+	// <--------------------------------------------------------------------------->
+	/**
+	 * Constructeur par defaut
+	 */
+	private WorkshopController() {
+		super();
+	}
 
 }
