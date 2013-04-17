@@ -1,4 +1,4 @@
-package dao;
+package repository;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,12 +14,13 @@ import org.junit.Test;
 
 import play.test.FakeApplication;
 import play.test.Helpers;
+import repository.WorkshopRepository;
 
 import com.avaje.ebean.Ebean;
 
 import utils.BaseModel;
 
-public class WorkshopDAOTest extends BaseModel {
+public class WorkshopRepositoryTest extends BaseModel {
 
 	public static FakeApplication app;
 	 
@@ -36,8 +37,8 @@ public class WorkshopDAOTest extends BaseModel {
 		// Un Workshop avec session
 		Workshop 			wsWithSession		= 	new Workshop();
 		wsWithSession.subject 					= 	"With session";
-		WorkshopSession 	session0				=	new WorkshopSession();
-		wsWithSession.workshopSession 			= 	session0;
+		WorkshopSession 	session0			=	new WorkshopSession();
+		wsWithSession.workshopSession.add( session0 );
 		Ebean.save(session0);
 		Ebean.save(wsWithSession);
 		
@@ -45,7 +46,7 @@ public class WorkshopDAOTest extends BaseModel {
         Workshop			wsWithoutDate 		= 	new Workshop();
         wsWithoutDate.subject 					= 	"With no date";
         WorkshopSession 	session				=	new WorkshopSession();
-        wsWithoutDate.workshopSession 			= 	session;
+        wsWithoutDate.workshopSession.add( session );
 		Ebean.save(session);
 		Ebean.save(wsWithoutDate);
 		
@@ -59,7 +60,7 @@ public class WorkshopDAOTest extends BaseModel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        wsWithDate.workshopSession 				= 	session2;
+        wsWithDate.workshopSession.add(session2);
 		Ebean.save(session2);
 		Ebean.save(wsWithDate);
 		
@@ -73,7 +74,7 @@ public class WorkshopDAOTest extends BaseModel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        wsWithOldDate.workshopSession 			= 	session3;
+        wsWithOldDate.workshopSession.add(session3);
 		Ebean.save(session3);
 		Ebean.save(wsWithOldDate);
 	  }
@@ -84,11 +85,11 @@ public class WorkshopDAOTest extends BaseModel {
 	  }
    
     /**
-     * Test of getWorkshops method, of class WorkshopDAO.
+     * Test of getWorkshops method, of class WorkshopRepository.
      */
     @Test
     public void testGetWorkshops() {
-		List<Workshop> list = WorkshopDAO.getWorkshops();
+		List<Workshop> list = WorkshopRepository.getWorkshops();
 		
 		// On vérifie qu'il y a bien un seul workshop
 		Assertions.assertThat(list.size()).isEqualTo(1);
@@ -97,27 +98,27 @@ public class WorkshopDAOTest extends BaseModel {
     }
 
     /**
-     * Test of getWorkshopsPlanifie method, of class WorkshopDAO.
+     * Test of getWorkshopsPlanifie method, of class WorkshopRepository.
      * @throws ParseException 
      */
     @Test
     public void testGetWorkshopsPlanifie() throws ParseException {
-		List<Workshop> list = WorkshopDAO.getWorkshopsPlanifie();
+		List<WorkshopSession> list = WorkshopRepository.getWorkshopsPlanifie();
 		
 		// On vérifie qu'il y a bien un seul workshop
 		Assertions.assertThat(list.size()).isEqualTo(1);
 		// On vérifie bien que c'est celui avec une date
-		Assertions.assertThat(list.get(0).subject).isEqualTo("With date");
+		Assertions.assertThat(list.get(0).workshop.subject).isEqualTo("With date");
     }
 
     /**
-     * Test of getWorkshopsAlreadyPlayed method, of class WorkshopDAO.
+     * Test of getWorkshopsAlreadyPlayed method, of class WorkshopRepository.
      * @throws ParseException 
      */
     @Test
     public void testGetWorkshopsAlreadyPlayed() throws ParseException {
 		
-		List<Workshop> list = WorkshopDAO.getWorkshopsAlreadyPlayed();
+		List<Workshop> list = WorkshopRepository.getWorkshopsAlreadyPlayed();
 		
 		// On vérifie qu'il y a bien un seul workshop
 		Assertions.assertThat(list.size()).isEqualTo(1);

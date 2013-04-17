@@ -16,7 +16,7 @@ menu.new=Nouveaux Workshops
 action.submit.a.workshop=Soumettre un workshop
 
 # Page d'accueil
-welcome.no.workshops=Il n'y a pas de workshops dans la liste
+welcome.no.workshops=Il n''y a pas de workshops dans la liste
 welcome.workshop.delete=Supprimer
 welcome.workshop.edit=Modifier
 welcome.workshop.plan=Planifier
@@ -97,6 +97,8 @@ workshop.planned.on=Planifié le
 workshop.speaker=Speaker
 workshop.location=Lieu
 workshop.join=S'inscrire
+workshop.planned.edit.session=Modifier session
+workshop.planned.edit.add.session=Ajouter session
 
 # Errors messages
 error.speaker.limit.reached=Le nombre de speaker maximum est atteint

@@ -1,7 +1,9 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -80,8 +82,8 @@ public class Workshop extends Model {
 	/**
 	 * La WorkshopSession contient les informations relatives à la planification du Workshop
 	 */
-	@OneToOne
-	public WorkshopSession workshopSession;
+	@OneToMany(mappedBy="workshop", cascade=CascadeType.ALL)
+	public List<WorkshopSession> workshopSession = new ArrayList<WorkshopSession>();
 	
 	/**
 	 * Who created the workshop

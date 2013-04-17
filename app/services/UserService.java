@@ -4,7 +4,8 @@ import static models.utils.constants.AuthentificationConstants.*;
 
 import org.codehaus.jackson.JsonNode;
 
-import dao.UserDAO;
+import repository.UserDAO;
+
 
 import models.User;
 

@@ -5,6 +5,7 @@ import static models.utils.constants.ApplicationConstants.UUID;
 import java.util.List;
 
 import models.Workshop;
+import models.WorkshopSession;
 import play.Play;
 import play.db.ebean.Transactional;
 import play.mvc.BodyParser;
@@ -12,11 +13,11 @@ import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Http.Context;
 import play.mvc.Result;
+import repository.WorkshopRepository;
 import views.html.welcome.charter;
 import views.html.welcome.welcome;
 import views.html.workshops.alreadyPlayed;
 import views.html.workshops.newWorkshops;
-import dao.WorkshopDAO;
 
 public class Application extends Controller {
     
@@ -33,7 +34,7 @@ public class Application extends Controller {
 	public static Result welcome() {
 		Context.current().args.put("ongletActif", "home");
 		// We render the welcome page
-		return ok(welcome.render("Les prochains Workshops", WorkshopDAO.getWorkshopsPlanifie()));
+		return ok(welcome.render("Les prochains Workshops", WorkshopRepository.getWorkshopsPlanifie()));
 	}
 	
 	/**
@@ -44,7 +45,7 @@ public class Application extends Controller {
 	@Transactional()
 	@BodyParser.Of(play.mvc.BodyParser.Json.class)
 	public static Result wsWorkshopsPlanifies() {
-		List<Workshop> wsPlanifies = WorkshopDAO.getWorkshopsPlanifie();
+		List<WorkshopSession> wsPlanifies = WorkshopRepository.getWorkshopsPlanifie();
 		return ok(play.libs.Json.toJson(wsPlanifies));
 	}
 	
@@ -57,7 +58,7 @@ public class Application extends Controller {
 	public static Result workshops() {
 		Context.current().args.put("ongletActif", "alreadyPlayed");
 		// We render the welcome page
-		return ok(alreadyPlayed.render("Les Workshops déjà présentés", WorkshopDAO.getWorkshopsAlreadyPlayed()));
+		return ok(alreadyPlayed.render("Les Workshops déjà présentés", WorkshopRepository.getWorkshopsAlreadyPlayed()));
 	}
 	
 	/**
@@ -69,7 +70,7 @@ public class Application extends Controller {
 	public static Result newWorkshops() {
 		Context.current().args.put("ongletActif", "newWorkshops");
 		// We render the welcome page
-		return ok( newWorkshops.render("Les Workshops qui n'ont jamais été présentés", WorkshopDAO.getWorkshops()) );
+		return ok( newWorkshops.render("Les Workshops qui n'ont jamais été présentés", WorkshopRepository.getWorkshops()) );
 	}
 	
 	/**

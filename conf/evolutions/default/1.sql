@@ -36,7 +36,6 @@ create table WORKSHOP (
   summary                   varchar(300),
   description               varchar(1000),
   image                     varchar(255),
-  workshop_session_id       bigint,
   author_id                 bigint,
   creation_date             datetime,
   workshop_ressources_id    bigint,
@@ -49,6 +48,7 @@ create table WORKSHOP_SESSION (
   location                  varchar(50),
   next_play                 datetime,
   speaker_id                bigint,
+  workshop_id               bigint,
   constraint pk_WORKSHOP_SESSION primary key (id))
 ;
 
@@ -68,14 +68,14 @@ alter table COMMENT add constraint fk_COMMENT_author_1 foreign key (author_id) r
 create index ix_COMMENT_author_1 on COMMENT (author_id);
 alter table COMMENT add constraint fk_COMMENT_workshop_2 foreign key (workshop_id) references WORKSHOP (id) on delete restrict on update restrict;
 create index ix_COMMENT_workshop_2 on COMMENT (workshop_id);
-alter table WORKSHOP add constraint fk_WORKSHOP_workshopSession_3 foreign key (workshop_session_id) references WORKSHOP_SESSION (id) on delete restrict on update restrict;
-create index ix_WORKSHOP_workshopSession_3 on WORKSHOP (workshop_session_id);
-alter table WORKSHOP add constraint fk_WORKSHOP_author_4 foreign key (author_id) references USER (id) on delete restrict on update restrict;
-create index ix_WORKSHOP_author_4 on WORKSHOP (author_id);
-alter table WORKSHOP add constraint fk_WORKSHOP_workshopRessources_5 foreign key (workshop_ressources_id) references RESSOURCE (id) on delete restrict on update restrict;
-create index ix_WORKSHOP_workshopRessources_5 on WORKSHOP (workshop_ressources_id);
-alter table WORKSHOP_SESSION add constraint fk_WORKSHOP_SESSION_speaker_6 foreign key (speaker_id) references USER (id) on delete restrict on update restrict;
-create index ix_WORKSHOP_SESSION_speaker_6 on WORKSHOP_SESSION (speaker_id);
+alter table WORKSHOP add constraint fk_WORKSHOP_author_3 foreign key (author_id) references USER (id) on delete restrict on update restrict;
+create index ix_WORKSHOP_author_3 on WORKSHOP (author_id);
+alter table WORKSHOP add constraint fk_WORKSHOP_workshopRessources_4 foreign key (workshop_ressources_id) references RESSOURCE (id) on delete restrict on update restrict;
+create index ix_WORKSHOP_workshopRessources_4 on WORKSHOP (workshop_ressources_id);
+alter table WORKSHOP_SESSION add constraint fk_WORKSHOP_SESSION_speaker_5 foreign key (speaker_id) references USER (id) on delete restrict on update restrict;
+create index ix_WORKSHOP_SESSION_speaker_5 on WORKSHOP_SESSION (speaker_id);
+alter table WORKSHOP_SESSION add constraint fk_WORKSHOP_SESSION_workshop_6 foreign key (workshop_id) references WORKSHOP (id) on delete restrict on update restrict;
+create index ix_WORKSHOP_SESSION_workshop_6 on WORKSHOP_SESSION (workshop_id);
 
 
 
