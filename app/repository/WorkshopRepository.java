@@ -1,11 +1,13 @@
 package repository;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 import models.Workshop;
 import models.WorkshopSession;
+import models.utils.compare.WorkshopsPlayedComparator;
 
 /**
  * @author ychartois
@@ -67,14 +69,18 @@ public class WorkshopRepository {
 	 */
 	public static List<Workshop> getWorkshopsAlreadyPlayed() {
 		
-		return Workshop.find
-				.fetch("workshopSession")
-				.fetch("workshopSession.speaker")
-				.fetch("comments")
-				.fetch("workshopRessources")
-				.where()
-					.lt("workshopSession.nextPlay", new Date() )
-				.findList();
+		List<Workshop> list		=	Workshop.find
+										.fetch("workshopSession")
+										.fetch("workshopSession.speaker")
+										.fetch("comments")
+										.fetch("workshopRessources")
+										.where()
+											.lt("workshopSession.nextPlay", new Date() )
+										.findList();
+		
+		Collections.sort(list, new WorkshopsPlayedComparator() );
+		
+		return list;
 	}
 
 }
