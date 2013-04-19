@@ -1,0 +1,122 @@
+@(message: String, workshops: List[Workshop])
+
+@import helper._
+
+@main(message) {
+
+	@if(workshops.isEmpty) {
+		<div class="row-fluid workshop-bloc">
+			<div class="span12 well">
+				@Messages("welcome.no.workshops")
+			</div>
+		</div>
+		
+	} else {
+		@for(workshop <- workshops) { 
+		<div id="@workshop.id" class="row-fluid">
+			<div class="span12 plannedTitle ">
+				<p class="alert">@Messages("created.date") : @WorkshopController.decorateDate(workshop.creationDate) @Messages("by.author") @workshop.author.firstName @workshop.author.lastName </p>
+			</div>
+		</div>
+		<div class="row-fluid workshop-bloc spaceAfter">
+			<div class="span1 bulle">
+				<img src="@routes.Assets.at("images/bulleWorkshop.png")" />
+			</div>
+			<div  id="bulle" class="span11 well">
+				<div class="container-fluid">
+					<div class="row-fluid">
+						<div class="span3 workshopPicture">
+							<img src="@routes.Assets.at(workshop.image)" />
+						</div>
+						<div class="span7 spaceAfter">
+							<h4>
+								<a href="#" workshop-id="@workshop.id"><i class="icon-zoom-in"></i>@workshop.subject</a>
+							</h4>
+							<div>
+								<p>@Html( workshop.summary )<p>
+							</div>
+						</div>
+						<div class="span2 speakerPicture">
+							@for(speaker <- workshop.speakers) { 
+								<img width="48" height="48" title="@speaker.firstName @speaker.lastName"
+									src="@speaker.picture" />
+							}
+							@if( AuthentificationController.getUser != null && !workshop.speakers.contains(AuthentificationController.getUser)) {
+								<a href="@routes.WorkshopController.addSpeaker( workshop.id )" title="@Messages("welcome.workshop.become.speaker")" >
+									<img width="48" height="48"
+										src="@routes.Assets.at("images/addUser.png")" />
+								</a>
+							}
+							@if( AuthentificationController.getUser != null && workshop.speakers.contains(AuthentificationController.getUser)) {
+								<a href="@routes.WorkshopController.removeSpeaker( workshop.id )" title="@Messages("welcome.workshop.removeme.speaker")" >
+									<img width="48" height="48"
+										src="@routes.Assets.at("images/removeUser.png")" />
+								</a>
+							}
+						</div>
+					</div>
+				
+					<div class="row-fluid">
+						<div class="span10">
+							@Messages("welcome.there.is.some.people.intersted", workshop.potentialParticipants.size) :
+						</div>
+					</div>
+					
+					<div class="row-fluid">
+						<div class="span10 participantPicture">
+							@if( AuthentificationController.getUser != null && !workshop.potentialParticipants.contains(AuthentificationController.getUser) ) {
+								<a href="@routes.WorkshopController.addParticipant( workshop.id )" title="@Messages("welcome.workshop.i.am.interested")" >
+									<img width="32" height="32"
+										src="@routes.Assets.at("images/addUser.png")" />
+								</a>
+							}
+							@if( AuthentificationController.getUser != null && workshop.potentialParticipants.contains(AuthentificationController.getUser) ) {
+								<a href="@routes.WorkshopController.removeParticipant( workshop.id )" title="@Messages("welcome.workshop.i.am.not.interested")" >
+									<img width="32" height="32"
+										src="@routes.Assets.at("images/removeUser.png")" />
+								</a>
+							}
+							@for(participant <- workshop.potentialParticipants) { 
+								<img width="32" height="32" title="@participant.firstName @participant.lastName"
+									src="@participant.picture" />
+							}
+						</div>
+					</div>
+					@if( AuthentificationController.isAuthenticatedUserAdmin || AuthentificationController.isAuthor( workshop ) ) {
+						<div class="row-fluid">
+							<div class="span12 alignToRight">
+								<a href="#" data-link="@routes.WorkshopController.deleteWorkshop(workshop.id)" class="btn btn-danger">@Messages("welcome.workshop.delete")</a>
+								<a href="@routes.WorkshopController.modifyWorkshop(workshop.id)" class="btn btn-info">@Messages("welcome.workshop.edit")</a>
+								
+								@if( AuthentificationController.isAuthenticatedUserAdmin ) {
+									<a href="@routes.WorkshopController.planWorkshop(workshop.id)" class="btn btn-success">@Messages("welcome.workshop.plan")</a>
+								}
+							</div>
+						</div>
+					}
+				</div>
+				
+			</div>
+			<div id="workshop-details-@workshop.id" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				@views.html.workshops.workshopDetailsNew( workshop )
+			</div>
+			
+		</div>		
+		}
+		<div id="modal-suppression-confirm" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-header">
+			  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			  <h3 id="myModalLabel">@Messages("welcome.workshop.delete.modal.title")</h3>
+			</div>
+			<div class="modal-body center-text">
+			  <img src="@routes.Assets.at("images/confirm_48.png")" />
+			  <div class="modal-suppression-text">@Messages("welcome.workshop.delete.modal.text")</div>
+			</div>
+			<div class="modal-footer">
+			  <button class="btn" data-dismiss="modal" aria-hidden="true">@Messages("welcome.workshop.delete.modal.no")</button>
+			  <button class="btn btn-danger" id="valid-suppression">@Messages("welcome.workshop.delete.modal.yes")</button>
+			</div>
+		</div>
+		
+	}
+}

@@ -1,7 +1,7 @@
-@(workshopSessionForm: Form[WorkshopSession], id: Long )
+@(workshopSessionForm: Form[WorkshopSession], idWs: Long, idSession: Long )
 
 @import helper._
-@import dao._
+@import repository._
 
 @implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInputHorizontal.render) } 
 
@@ -11,7 +11,7 @@
 	    <h3 class="spaceBefore">@Messages("form.plan.workshop.title")</h3>
     
     @form( 
-    	action = routes.WorkshopController.saveWorkshopSession( id ),
+    	action = routes.WorkshopController.saveWorkshopSession( idWs, idSession ),
     	'class   -> "form form-horizontal"
     ) {
         
@@ -20,6 +20,7 @@
             	'_label -> Messages("form.plan.workshop.doodleUrl.label"),
             	'class  -> "input-xlarge",
             	'_help -> Messages("form.plan.workshop.doodleUrl.help"),
+            	'maxlength -> 255,
 				'_showConstraints -> false
             )
             
@@ -27,6 +28,7 @@
             	workshopSessionForm("location"), 
             	'_label -> Messages("form.plan.workshop.location.label"),
             	'class  -> "input-xlarge",
+            	'maxlength -> 50,
             	'_showConstraints -> false
             )
             

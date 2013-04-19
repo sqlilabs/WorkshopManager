@@ -11,49 +11,43 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-import org.hibernate.cfg.Configuration;
-import org.hibernate.tool.hbm2ddl.SchemaExport;
+import com.avaje.ebean.Ebean;
 
 import models.Comment;
+import models.Ressources;
 import models.User;
 import models.Workshop;
 import models.WorkshopSession;
 import models.utils.formatter.UserFormatter;
-import play.Logger;
+import models.utils.helpers.FilesUtils;
 import play.Play;
 import play.data.Form;
-import play.db.jpa.JPA;
-import play.db.jpa.Transactional;
+import play.db.ebean.Transactional;
+import play.i18n.Messages;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
+import views.html.errors.error;
 import views.html.workshops.addWorkshop;
 import views.html.workshops.planWorkshop;
 import views.html.workshops.addComment;
+import views.html.workshops.addRessources;
 
 /**
- * Ce controller regroupe toutes les actions qui sont liées à l'ajout d'un
- * nouveau Workshop
+ * Ce controller regroupe toutes les actions qui sont liées au opérations sur les 
+ * workshops
  * 
  * @author ychartois
  * @version 0.1
  */
 public class WorkshopController extends Controller {
 
-	// <--------------------------------------------------------------------------->
-	// - Constructeur(s)
-	// <--------------------------------------------------------------------------->
-	/**
-	 * Constructeur par defaut
-	 */
-	public WorkshopController() {
-		super();
-	}
+
 
 	// <--------------------------------------------------------------------------->
-	// - Actions(s)
+	// - 							Actions(s)
 	// <--------------------------------------------------------------------------->
 	/**
 	 * Display a blank form for Workshop.
@@ -61,7 +55,7 @@ public class WorkshopController extends Controller {
 	 * @return the workshopForm empty
 	 */
 	public static Result blankWorkshop() {
-		return ok(addWorkshop.render(form(Workshop.class), ID_NOT_IN_TABLE));
+		return ok(addWorkshop.render(play.data.Form.form(Workshop.class), ID_NOT_IN_TABLE));
 	}
 
 	/**
@@ -72,37 +66,42 @@ public class WorkshopController extends Controller {
 	 */
 	@Transactional
 	public static Result saveWorkshop(Long id) {
-		Form<Workshop> workshopForm = form(Workshop.class).bindFromRequest();
+		Form<Workshop> workshopForm = play.data.Form.form(Workshop.class).bindFromRequest();
 
 		if (workshopForm.hasErrors()) {
 			return badRequest(addWorkshop.render(workshopForm, id));
 		}
 
 		// On récupère le workshop depuis le formulaire
-		Workshop 		workshopNew 	= 	workshopForm.get();
+		Workshop 		workshopNew 		= 	workshopForm.get();
 		
 		// Et le workshop depuis la base si c'est une modification
 		if ( id != ID_NOT_IN_TABLE ) {
-			Workshop 	ws 				= 	JPA.em().find(Workshop.class, id);
+			Workshop 	ws 					= 	Workshop.find.byId(id);
 			// on met à jour la nouvelle instance avec les anciennes données
-			workshopNew.setSpeakers( ws.getSpeakers() );
-			workshopNew.setPotentialParticipants( ws.getPotentialParticipants() );
+			workshopNew.speakers				=	ws.speakers;
+			workshopNew.potentialParticipants	=	ws.potentialParticipants ;
+			workshopNew.author 					=	ws.author;
+			workshopNew.creationDate			=	ws.creationDate;
 		}
-
-        // On affecte l'auteur connecté
-		workshopNew.setAuthor( AuthentificationController.getUser() );
+		else {
+			// On affecte l'auteur connecté
+			workshopNew.author 				=	AuthentificationController.getUser() ;
+			// et la date de création
+			workshopNew.creationDate		= 	new Date();
+		}
         
 		// On set l'image du workshop
-		workshopNew.setImage( uploadImage() );
+		workshopNew.image					=	uploadImage();
 
 		if (id == ID_NOT_IN_TABLE) {
-			JPA.em().persist(workshopNew);
+			Ebean.save(workshopNew);
 		} else {
-			workshopNew.setId(id);
-			JPA.em().merge(workshopNew);
+			workshopNew.id					=	id;
+			Ebean.update(workshopNew);
 		}
 
-		return redirect(routes.Application.welcome());
+		return redirect(routes.Application.newWorkshops() + "#" + id);
 	}
 
 	/**
@@ -112,8 +111,8 @@ public class WorkshopController extends Controller {
 	 */
 	@Transactional
 	public static Result modifyWorkshop(Long id) {
-		Workshop ws = JPA.em().find(Workshop.class, id);
-		Form<Workshop> workshopForm = form(Workshop.class).fill(ws);
+		Workshop ws = Workshop.find.byId(id);
+		Form<Workshop> workshopForm = play.data.Form.form(Workshop.class).fill(ws);
 
 		return ok( addWorkshop.render(workshopForm, id) );
 	}
@@ -125,14 +124,14 @@ public class WorkshopController extends Controller {
 	 */
 	@Transactional
 	public static Result deleteWorkshop(Long id) {
-		Workshop ws = JPA.em().find(Workshop.class, id);
-		JPA.em().remove(ws);
+		Workshop ws = Workshop.find.byId(id);
+		Ebean.delete(ws);
 
 		for (String key : request().headers().keySet()) {
 			System.out.println(key);
 		}
 
-		return redirect(routes.Application.welcome());
+		return redirect( routes.Application.welcome() );
 	}
 
 	/**
@@ -142,17 +141,28 @@ public class WorkshopController extends Controller {
 	 */
 	@Transactional
 	public static Result planWorkshop(Long id) {
-		Workshop ws = JPA.em().find(Workshop.class, id);
+		Form<WorkshopSession> workshopSessionForm = play.data.Form.form(WorkshopSession.class);
 
+		return ok(planWorkshop.render(workshopSessionForm, id, -1l));
+	}
+	
+	/**
+	 * @param id
+	 *            l'identifiant du workshop
+	 * @return the planWorkshop page
+	 */
+	@Transactional
+	public static Result modifyPlannedWorkshop(Long idWorkshop, Long idSession) {
+		WorkshopSession		session		= WorkshopSession.find.byId( idSession );
+				
 		Form<WorkshopSession> workshopSessionForm;
-		if (ws.getWorkshopSession() != null) {
-			workshopSessionForm = form(WorkshopSession.class).fill(
-					ws.getWorkshopSession());
+		if (session != null) {
+			workshopSessionForm = play.data.Form.form(WorkshopSession.class).fill( session );
 		} else {
-			workshopSessionForm = form(WorkshopSession.class);
+			workshopSessionForm = play.data.Form.form(WorkshopSession.class);
 		}
 
-		return ok(planWorkshop.render(workshopSessionForm, id));
+		return ok( planWorkshop.render(workshopSessionForm, idWorkshop, idSession) );
 	}
 
 	/**
@@ -162,35 +172,41 @@ public class WorkshopController extends Controller {
 	 *         errors
 	 */
 	@Transactional
-	public static Result saveWorkshopSession(Long id) {
-
-		Form<WorkshopSession> filledForm = form(WorkshopSession.class)
-				.bindFromRequest();
+	public static Result saveWorkshopSession(Long idWorkshop, Long idSession) {
+		Form<WorkshopSession> filledForm = play.data.Form.form(WorkshopSession.class).bindFromRequest();
 
 		if (filledForm.hasErrors()) {
-			return badRequest(planWorkshop.render(filledForm, id));
+			return badRequest(planWorkshop.render(filledForm, idWorkshop, idSession));
 		}
 
 		// We get the Workshop
-		Workshop workshopToPlan 	= 	JPA.em().find(Workshop.class, id);
-		boolean newSession 			= 	workshopToPlan.getWorkshopSession() == null;
+		Workshop workshopToPlan 	= 	Workshop.find.byId(idWorkshop);
+		boolean newSession 			= 	idSession == -1;
+		
+		if ( !newSession ) {
+			workshopToPlan.workshopSession.remove( WorkshopSession.find.byId( idSession ) );
+		}		
 
 		// We set the WorkshopSession to the Workshop to Plan
 		WorkshopSession workshopSession = filledForm.get();
-		workshopToPlan.setWorkshopSession(workshopSession);
+		if ( !newSession ) {
+			workshopSession.id			=	idSession ;
+		}
+		workshopToPlan.workshopSession.add(workshopSession);
+		workshopSession.workshop		=	workshopToPlan;
 		
 		// We empty the potentialParticipants List
-		workshopToPlan.setPotentialParticipants( new HashSet<User>() );
+		workshopToPlan.potentialParticipants	= 	new HashSet<User>();
 
 		// Sauver l'objet en base 
 		if (!newSession) {
-			JPA.em().merge(workshopSession);
+			Ebean.update(workshopSession);
 		} else {
-			JPA.em().persist(workshopSession);
+			Ebean.save(workshopSession);
 		}
-		JPA.em().persist(workshopToPlan);
+		Ebean.save(workshopToPlan);
 
-		return redirect(routes.Application.welcome());
+		return redirect( routes.Application.welcome() + "#" + idWorkshop );
     }
 
     /**
@@ -201,19 +217,25 @@ public class WorkshopController extends Controller {
      */
     @Transactional
     public static Result addSpeaker( Long id ) {
-    	// We get the Workshop
-        Workshop	currentWorkshop 	= 	JPA.em().find(Workshop.class, id);
-        
-        // Get the connected User
-        User		user				=	AuthentificationController.getUser();
-        
-        // It's a Set, so no duplicate
-        currentWorkshop.getSpeakers().add( user );
-        
-        // We save the new Workshop
-        JPA.em().persist( currentWorkshop );
     	
-        return redirect(routes.Application.welcome());
+    	// We get the Workshop
+        Workshop	currentWorkshop 	= 	Workshop.find.byId(id);
+        
+        if ( currentWorkshop.speakers.size() < Play.application().configuration().getInt( "speaker.limit" )) {
+        	// Get the connected User
+            User		user				=	AuthentificationController.getUser();
+            
+            // It's a Set, so no duplicate
+            currentWorkshop.speakers.add( user );
+            
+            // We save the new Workshop
+            Ebean.update(currentWorkshop);
+    	}
+        else {
+        	return ok ( error.render( Messages.get("error.speaker.limit.reached")) );
+        }
+        
+        return redirect(routes.Application.newWorkshops() + "#" + id);
     }
     
     /**
@@ -225,18 +247,18 @@ public class WorkshopController extends Controller {
     @Transactional
     public static Result removeSpeaker( Long id ) {
     	// We get the Workshop
-        Workshop	currentWorkshop 	= 	JPA.em().find(Workshop.class, id);
+        Workshop	currentWorkshop 	= 	Workshop.find.byId(id);
         
         // Get the connected User
         User		user				=	AuthentificationController.getUser();
         
         // It's a Set, so no duplicate
-        currentWorkshop.getSpeakers().remove( user );
+        currentWorkshop.speakers.remove( user );
         
         // We save the new Workshop
-        JPA.em().persist( currentWorkshop );
+        Ebean.save(currentWorkshop);
     	
-        return redirect(routes.Application.welcome());
+        return redirect(routes.Application.newWorkshops() + "#" + id);
     }
     
     /**
@@ -248,18 +270,18 @@ public class WorkshopController extends Controller {
     @Transactional
     public static Result addParticipant( Long id ) {
     	// We get the Workshop
-        Workshop	currentWorkshop 	= 	JPA.em().find(Workshop.class, id);
+        Workshop	currentWorkshop 	= 	Workshop.find.byId(id);
         
         // Get the connected User
         User		user				=	AuthentificationController.getUser();
         
         // It's a Set, so no duplicate
-        currentWorkshop.getPotentialParticipants().add( user );
+        currentWorkshop.potentialParticipants.add( user );
         
         // We save the new Workshop
-        JPA.em().persist( currentWorkshop );
+        Ebean.save(currentWorkshop);
     	
-        return redirect(routes.Application.welcome());
+        return redirect(routes.Application.welcome() + "#" + id);
 	}
     
     /**
@@ -271,60 +293,129 @@ public class WorkshopController extends Controller {
     @Transactional
     public static Result removeParticipant( Long id ) {
     	// We get the Workshop
-        Workshop	currentWorkshop 	= 	JPA.em().find(Workshop.class, id);
+        Workshop	currentWorkshop 	= 	Workshop.find.byId(id);
         
         // Get the connected User
         User		user				=	AuthentificationController.getUser();
         
         // It's a Set, so no duplicate
-        currentWorkshop.getPotentialParticipants().remove( user );
+        currentWorkshop.potentialParticipants.remove( user );
         
         // We save the new Workshop
-        JPA.em().persist( currentWorkshop );
+        Ebean.save(currentWorkshop);
     	
-        return redirect(routes.Application.welcome());
+        return redirect(routes.Application.welcome() + "#" + id);
     }
     
 
 	/**
+	 * Prepare the form to add comments
+	 * 
 	 * @param id the workshop ID
 	 * @return the comment form view
 	 */
 	public static Result addComment(Long id) {
-		Form<Comment> commentForm = form(Comment.class);
+		Form<Comment> commentForm = play.data.Form.form(Comment.class);
 
 		return ok( addComment.render(commentForm, id) );
 	}
     
     /**
+     * Save the comments
+     * 
      * @param id the workshop ID
-     * @return redirct on workshop already played view
+     * @return redirect on workshop already played view
      */
     @Transactional
     public static Result saveComment( Long id ) {
-    	Form<Comment> 	filledForm 	= 	form(Comment.class).bindFromRequest();
+    	Form<Comment> 	filledForm 	= 	play.data.Form.form(Comment.class).bindFromRequest();
     	
     	if (filledForm.hasErrors()) {
-			return badRequest(addComment.render(filledForm, id));
+			return badRequest( addComment.render(filledForm, id) );
 		}
     	
     	// Get the workshop from base
-    	Workshop 		ws 			= 	JPA.em().find(Workshop.class, id);
+    	Workshop 		ws 			= 	Workshop.find.byId(id);
     	
     	//We create the comment instance
     	Comment 		comment 	= 	filledForm.get();
-    	comment.setCreationDate(new Date());
-    	comment.setAuthor( AuthentificationController.getUser() );
-    	comment.setWorkshop( ws );
+    	comment.creationDate 		= 	new Date();
+    	comment.author				=	AuthentificationController.getUser();
+    	comment.workshop			=	ws;
     	
     	// We add the new comment
-    	ws.getComments().add( comment );
+    	ws.comments.add( comment );
     	
     	// We save the objects in base
-        JPA.em().persist( comment );
-        JPA.em().merge( ws );
+    	Ebean.save( comment );
+        Ebean.update( ws );
     	
-        return redirect(routes.Application.workshops());
+        return redirect( routes.Application.workshops() + "#" + id);
+    }
+    
+    
+    /**
+     * Prepare the form to add ressources
+     * 
+	 * @param id the workshop ID
+	 * @return the ressources form view
+	 */
+    @Transactional
+    public static Result addWorkshopRessources(Long id) {
+    	Workshop 	ws 			= 	Workshop.find.byId(id);
+    	Ressources 	ressources	=	ws.workshopRessources;
+    	
+    	// if we already set ressources, we want to fill the form with our old datas
+    	Form<Ressources> ressourcesForm = null;
+    	if ( ressources != null ) {
+    		ressourcesForm 		= 	play.data.Form.form(Ressources.class).fill(ressources);
+    	}
+    	else {
+    		ressourcesForm 		= 	play.data.Form.form(Ressources.class);
+    	}
+
+		return ok( addRessources.render(ressourcesForm, id) );
+	}
+    
+    /**
+     * Save the new ressources
+     * 
+     * @param id the workshop ID
+     * @return redirect on workshop already played view
+     */
+    @Transactional
+    public static Result saveWorkshopRessources( Long id ) {
+    	Form<Ressources> 	filledForm 	= 	play.data.Form.form(Ressources.class).bindFromRequest();
+    	
+    	if (filledForm.hasErrors()) {
+			return badRequest(addRessources.render(filledForm, id));
+		}
+    	
+    	// Get the workshop from base
+    	Workshop 		ws 				= 	Workshop.find.byId(id);
+    	
+    	boolean			update			=	 ws.workshopRessources != null;
+    	
+    	//We create the Ressources instance
+    	Ressources 		ressources 		= 	filledForm.get();
+    	ressources.workshopSupportFile	=	uploadRessources( ws );
+    	if ( update ) {
+    		ressources.id				=	ws.workshopRessources.id;
+    	}
+    	
+    	// We add the new ressources
+    	ws.workshopRessources 			= 	ressources;
+    	
+    	// We save the objects in base
+    	if (update) {
+    		Ebean.update( ressources );
+    	}
+    	else {
+    		Ebean.save( ressources );
+    	}
+    	Ebean.update( ws );
+    	
+        return redirect( routes.Application.workshops() + "#" + id );
     }
     
     
@@ -345,7 +436,7 @@ public class WorkshopController extends Controller {
 	 * @return la date décorée
 	 */
 	public static String decorateDate(Date date) {
-		return new SimpleDateFormat(DATE_PATTERN).format(date);
+		return date != null ? new SimpleDateFormat(DATE_PATTERN).format(date) : Messages.get("unknow.date") ;
 	}
 	
 	/**
@@ -357,9 +448,9 @@ public class WorkshopController extends Controller {
 	public static String getWorkshopDescription( Workshop workshop ) {
 		int maxlength = Play.application().configuration().getInt( "detail.workshop.main.view" );
 
-		return ( workshop.getDescription().length() > maxlength ) 
-				? workshop.getDescription().substring(0, maxlength) + "..." 
-				:  workshop.getDescription() ;
+		return ( workshop.description.length() > maxlength ) 
+				? workshop.description.substring(0, maxlength) + "..." 
+				:  workshop.description ;
 	}
 	
 	/**
@@ -369,7 +460,7 @@ public class WorkshopController extends Controller {
 	 * @return la description du workshop tronquée
 	 */
 	public static String getFullWorkshopDescription( Workshop workshop ) {
-		return workshop.getDescription() ;
+		return workshop.description ;
 	}
 	
 	/**
@@ -396,7 +487,7 @@ public class WorkshopController extends Controller {
 	 * @return le chemin vers l'image qui a été uploader dans le système
 	 */
 	private static String uploadImage() {
-    	String imageLocation 	= 	Play.application().configuration().getString("workshop.images.url") + "/";
+    	String imageLocation 	= 	Play.application().configuration().getString("workshop.images.url") + File.separator;
     	String defaultImage 	= 	imageLocation + "default.png";
     	
     	// Gestion de la sauvegarde des fichiers uploadés (images)
@@ -404,30 +495,77 @@ public class WorkshopController extends Controller {
  		FilePart picture = body.getFile("image");
  		if (picture != null) {
  			String fileName = picture.getFilename();
- 			// TODO : renommer le fichier avant de le sauvegarder
- 			// TODO : vérifier si le fichier existe
- 			// String contentType = picture.getContentType();
  			File file = picture.getFile();
 
  			// On sauvegarde le fichier
- 			try {
- 				String myUploadPath = Play.application().path()
- 						+ "/"
- 						+ Play.application().configuration().getString("workshop.images.directory");
- 				
- 				if ( file.renameTo(new File(myUploadPath, fileName)) ) {
- 					return imageLocation + fileName;
- 				}
- 				
- 			} catch (Exception e) {
- 				// TODO : préciser les exceptions
- 				// TODO Prévenir le user que le fichier ne s'est pas copié (utiliser les flash messages ?)
- 				Logger.info("Erreur lors de la copie du fichier image "
- 						+ fileName);
- 			}
+			String myUploadPath = Play.application().path()
+					+ File.separator
+					+ Play.application().configuration().getString("workshop.images.directory");
+			
+			// We check if the dest file exists
+			File dest = new File(myUploadPath, fileName); 
+			if ( dest.exists() ) {
+				dest.delete();
+			}
+				
+			// If the file copy encounter an exception, we use the default picture
+			if ( FilesUtils.fastCopyFileCore( file, dest ) ) {
+				return imageLocation + fileName;
+			}
  		}
  		
  		return defaultImage;
     }
+	
+	/**
+	 * Upload la ressource spécifiée et retourne le lien vers cette ressource
+	 * 
+	 * @return le chemin vers la ressource qui a été uploadée dans le système
+	 */
+	private static String uploadRessources( Workshop workshop ) {
+		SimpleDateFormat 	simpleDateFormat	=	new SimpleDateFormat("[yyyy-MM]");
+		String				destFolderName		=	simpleDateFormat.format( workshop.workshopSession.get(0).nextPlay ) + " - " + workshop.subject;
+    	String 				ressourceLocation 	= 	Play.application().configuration().getString("workshop.ressources.url") + File.separator + destFolderName + File.separator;
+    	
+    	// Gestion de la sauvegarde des fichiers uploadés (images)
+ 		MultipartFormData 	body 				= 	request().body().asMultipartFormData(); 
+ 		FilePart 			ressource 			= 	body.getFile("workshopSupportFile");
+ 		
+ 		if (ressource != null) {
+ 			String 			fileName 			= 	ressource.getFilename();
+ 			File 			file 				= 	ressource.getFile();
+
+ 			// On sauvegarde le fichier
+ 				
+			String 			myUploadPath 		= 	Play.application().path() + File.separator
+														+ Play.application().configuration().getString("workshop.ressources.directory")
+														+ File.separator + destFolderName;
+			File			destFolder			=	new File(myUploadPath);
+			destFolder.mkdirs();
+			
+			// We check if the dest file exists
+			File dest = new File(myUploadPath, fileName); 
+			if ( dest.exists() ) {
+				dest.delete();
+			}
+				
+			// If the file copy encounter an exception, we use the default picture
+			if ( FilesUtils.fastCopyFileCore( file, dest ) ) {
+				return ressourceLocation + fileName;
+			}
+ 		}
+ 		
+ 		return null;
+    }
+	
+	// <--------------------------------------------------------------------------->
+	// - Constructeur(s)
+	// <--------------------------------------------------------------------------->
+	/**
+	 * Constructeur par defaut
+	 */
+	private WorkshopController() {
+		super();
+	}
 
 }

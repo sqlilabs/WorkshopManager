@@ -3,16 +3,21 @@ package controllers;
 import static models.utils.constants.AuthentificationConstants.*;
 import static models.utils.constants.UserConstants.*;
 
+import java.util.Map;
+
 import models.User;
 import models.Workshop;
 import models.WorkshopSession;
 
+import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.JsonNode;
+
+import com.avaje.ebean.Ebean;
 
 import play.Play;
 import play.cache.Cache;
-import play.db.jpa.JPA;
-import play.db.jpa.Transactional;
+import play.db.ebean.Transactional;
+import play.i18n.Messages;
 import play.libs.WS;
 import play.libs.WS.Response;
 import play.mvc.Controller;
@@ -58,11 +63,11 @@ public class AuthentificationController extends Controller {
 		// Si le code n'existe pas c'est qu'il y a une erreur
 		if ( codeRetour == null ) {
 			String 		errorCode 			= 	request().queryString().get(CALLBACK_GOOGLE_ERROR)[CALLBACK_GOOGLE_INFO_INDEX];
-			//TODO: a externalisé avec la méthode de Rémi
-			return ok ( error.render("Vous avez refusé l'identification via votre compte Google, vous ne pourrez pas profiter des privilèges liés aux utilisateurs identifiés. Google nous a retourné l'erreur suivante: [" + errorCode + "]") );
+
+			return ok ( error.render( Messages.get("error.google.authentification.refused", errorCode)) );
 		}
 		
-		// Request an Access token
+		// Request an Access tokenarg0 
 		Response 	responseAccessToken 	= 	WS.url(GOOGLE_ACCESS_TOKEN_URL)
 													.setHeader("Content-Type", "application/x-www-form-urlencoded")
 													.post( getAccessTokenParams( codeRetour[CALLBACK_GOOGLE_INFO_INDEX] ) )
@@ -80,9 +85,16 @@ public class AuthentificationController extends Controller {
 		// Call the service that handle the user
 		User 		user 					= 	new UserService().handleUserFromGoogleResponse( result );
 		
-		if ( user.isCharterAgree() ) {
+		// If the user is not from sqli he can't connect
+		if ( !StringUtils.endsWith( user.email, "@sqli.com" ) ) {
+			//TODO un pop-up pour expliquer pourquoi ça serai sympa
+			return forbidden();
+		}
+		
+		
+		if ( user.charterAgree  ) {
 			// We save the new instance and save it in cache and redirect to welcome page
-			JPA.em().merge( user );
+			Ebean.save( user );
 			Cache.set( Application.getUuid() + "connectedUser", user );
 			
 			return redirect(routes.Application.welcome());
@@ -94,6 +106,12 @@ public class AuthentificationController extends Controller {
 		}
 	}
 	
+	public static Result userBouchon() {
+		Cache.set( Application.getUuid() + "connectedUser", User.find.byId(1l) );
+		
+		return redirect(routes.Application.welcome());
+	}
+	
 	/**
 	 * Create a new user after his acceptance to the charter
 	 * 
@@ -103,8 +121,10 @@ public class AuthentificationController extends Controller {
 	public static Result createNewUser() {
 		
 		// We retreive the new user from cache and persist it
-		User user = (User) Cache.get( Application.getUuid() + "newUser" );
-		JPA.em().persist( user );
+		User 	user 		= 	(User) Cache.get( Application.getUuid() + "newUser" );
+		user.charterAgree	=	true;
+		user.role			=	"standard";
+		Ebean.save( user );
 		
 		// The new user is now connected
 		Cache.set( Application.getUuid() + "connectedUser", user );
@@ -123,6 +143,19 @@ public class AuthentificationController extends Controller {
 		Cache.set( Application.getUuid() + "connectedUser", null );	
 		
 		return redirect(routes.Application.welcome());
+	}
+	
+	/**
+	 * WS allows to modify the user picture
+	 * 
+	 * @return the html status ok
+	 */
+	public static Result modifyUserPicture() {
+		User 					user 	= 	(User) Cache.get( Application.getUuid() + "connectedUser" );
+		Map<String, String[]> 	data 	= 	request().body().asFormUrlEncoded();
+		user.picture					= 	data.get("image")[0];	
+		Ebean.save( user );
+		return ok("{image: " + user.picture + "}");
 	}
 	
 	
@@ -182,7 +215,7 @@ public class AuthentificationController extends Controller {
 	 */
 	public static boolean isAuthenticatedUserAdmin() {
 		User	user 	=	getUser();
-		return ROLE_ADMIN.equals( user != null ? user.getRole() : null);
+		return ROLE_ADMIN.equals( user != null ? user.role : null);
 	}
 	
 	/**
@@ -199,8 +232,8 @@ public class AuthentificationController extends Controller {
 			return false;
 		}
 		
-		return user.getFirstName().equals( session.getSpeaker().getFirstName() ) 
-				&& user.getLastName().equals( session.getSpeaker().getLastName() ) ;
+		return user.firstName.equals( session.speaker.firstName ) 
+				&& user.lastName.equals( session.speaker.lastName ) ;
 	}
 	
 	/**
@@ -213,12 +246,12 @@ public class AuthentificationController extends Controller {
 	public static boolean isAuthor( Workshop worshop ) {
 		User	user 	=	getUser();
 		
-		if ( user == null || worshop == null || worshop.getAuthor() == null) {
+		if ( user == null || worshop == null || worshop.author == null) {
 			return false;
 		}
 		
-		return user.getFirstName().equals( worshop.getAuthor().getFirstName() ) 
-				&& user.getLastName().equals( worshop.getAuthor().getLastName() ) ;
+		return user.firstName.equals( worshop.author.firstName ) 
+				&& user.lastName.equals( worshop.author.lastName ) ;
 	}
 	
 	

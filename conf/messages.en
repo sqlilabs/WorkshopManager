@@ -2,22 +2,34 @@
 # @see https://github.com/playframework/Play20/blob/master/framework/src/play/src/main/resources/messages 
 constraint.required=Required
 
+
+# Commun
+unknow.date=No one really knows...
+last.actions=Last actions
+action.login=Login
+
 # Menu
 application.title=Workshops Manager
-menu.home=Home
+menu.home=Workshops planned
 menu.search=Search
-menu.alreadydone=Already Played
+menu.alreadydone=Workshops Already Played
+menu.new=New Workshops
 action.submit.a.workshop=Submit a Workshop
-action.login=Logn
 
 # Page d'accueil
 welcome.no.workshops=There's no workshops in that list
 welcome.workshop.delete=Delete
 welcome.workshop.edit=Edit
 welcome.workshop.plan=Schedule
+welcome.workshop.become.speaker=Propose as Speaker
+welcome.workshop.removeme.speaker=Withdraw from the list of Speakers
+welcome.workshop.i.am.interested=I am interested in this Workshop
+welcome.workshop.i.am.not.interested=I would like to remove myself from the list of people interested in this Workshop
 welcome.there.is.some.people.intersted=There is {0} people(s) interested by this workshop
 welcome.workshop.foreseen.speaker=The foreseen Speaker is {0}
 welcome.workshop.no.speaker=There is no Speaker for this workshop yet
+created.date=Created the
+by.author=by
 
 # Modal de suppression de workshop
 welcome.workshop.delete.modal.title=Confirm Deletion
@@ -34,6 +46,7 @@ form.add.workshop.page.title=Add a workshop
 form.add.workshop.subject.button= Go !
 form.add.workshop.submit.button = Submit this workshop
 form.add.workshop.cancel.button = Cancel
+form.add.workshop.summary.label=Summary
 
 # Formulaire de planification
 form.plan.page.title=Schedule a workshop
@@ -48,11 +61,12 @@ form.plan.workshop.submit.button=Schedule this workshop
 form.plan.workshop.cancel.button=Cancel
 
 # Page already played
-form.plan.workshop.last.speaker=Last session presented by
+form.plan.workshop.last.speaker=presented by
 form.plan.workshop.last.date=Last session date
 form.plan.workshop.plan.again=Re-Planning
 plan.workshop.people.want.replay={0} people(s) wish that someone present this workshop again
 form.plan.workshop.add.comment=Add comment
+form.plan.workshop.add.ressources=Add ressources
 
 # Zone Commentaire
 form.comment.title=Add comment
@@ -64,6 +78,29 @@ view.comments=View comments
 comments.number.sentence=There is {0} comment(s) for this workshop
 comments.title={0} {1} comment's posted the {2}
 
+# Add Ressources
+form.ressources.title=Resources to add to the workshop
+form.ressources.submit.button=Add resources
+form.ressources.cancel.button=Cancel
+form.ressources.subject.label=Link to external site: 
+form.ressources.label=Workshop slides
+link.to.workshop.ressources=Workshop slides (cloud)
+workshop.ressources.file=Workshop slides
+
 # Charter
 action.ok=That''s cool ;) I understand and I agree
 action.ko=No way!!! Are you crazy guys??
+
+
+# Workshops planed
+workshop.planned.on=Planned on
+workshop.speaker=Speaker
+workshop.location=Location
+workshop.join=Join
+workshop.planned.edit.session=Modify session
+workshop.planned.edit.add.session=Add session
+
+# Errors messages
+error.speaker.limit.reached=The speakers limit is reached!!
+error.google.authentification.refused=You refused to identify via your Google account, you can not enjoy the privileges to authenticated users. Google has returned the following error: [{0}]
+

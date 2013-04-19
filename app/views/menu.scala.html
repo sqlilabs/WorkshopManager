@@ -6,6 +6,9 @@
 				<li @Application.isActive("home")>
 					<a href="@routes.Application.welcome()">@Messages("menu.home")</a>
 				</li>
+				<li @Application.isActive("newWorkshops")>
+					<a href="@routes.Application.newWorkshops()">@Messages("menu.new")</a>
+				</li>
 				<li @Application.isActive("alreadyPlayed")>
 					<a href="@routes.Application.workshops()">@Messages("menu.alreadydone")</a>
 				</li>
