@@ -6,9 +6,9 @@ package models.utils.formatter;
 import java.text.ParseException;
 import java.util.Locale;
 
-import dao.UserDAO;
 
 import play.data.format.Formatters.SimpleFormatter;
+import repository.UserDAO;
 import models.User;
 
 /**
@@ -45,7 +45,7 @@ public class UserFormatter extends SimpleFormatter<User>{
 	 */
 	@Override
 	public String print(User user, Locale loc) {
-		return user.getFirstName() + " " + user.getLastName();
+		return user.firstName+ " " + user.lastName;
 	}
 
 }

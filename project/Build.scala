@@ -1,6 +1,6 @@
 import sbt._
 import Keys._
-import PlayProject._
+import play.Project._
 
 object ApplicationBuild extends Build {
 
@@ -11,18 +11,21 @@ object ApplicationBuild extends Build {
 	 * Versions des dépendances, quand il définir plusieurs
 	 * composants avec les mêmes numéros de version.
 	 */
-	val hibernateVersion	= "4.1.6.Final"
 
 	// Add your project dependencies here,
 	val appDependencies = Seq(
-
-		"org.webjars" 					% "webjars-play" 					% "2.0",
+		javaCore, javaJdbc, javaEbean,
+		"org.webjars" 					% "webjars-play" 					% "2.1.0",
     	"org.webjars" 					% "bootstrap" 						% "2.1.1",
-		"org.hibernate" 				% "hibernate-entitymanager"			% hibernateVersion,
+    	"org.easytesting" 				% "fest-assert-core" 				% "2.0M7",
+    	"commons-lang" 					% "commons-lang" 					% "2.6",
+    	"org.apache.commons" 			% "commons-io" 						% "1.3.2",
 		"mysql" 						% "mysql-connector-java" 			% "5.1.20"
 	)
 
-  	val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings(
-	 	ebeanEnabled := false
+  	val main = play.Project(appName, appVersion, appDependencies).settings(
+  		resolvers += Resolver.url("Objectify Play Repository", url("http://schaloner.github.com/releases/"))(Resolver.ivyStylePatterns),
+  		resolvers += Resolver.url("Objectify Play Snapshot Repository", url("http://schaloner.github.com/snapshots/"))(Resolver.ivyStylePatterns),
+	 	ebeanEnabled := true
 	 )
 }

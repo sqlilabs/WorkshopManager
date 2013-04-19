@@ -2,20 +2,23 @@ package controllers;
 
 import static models.utils.constants.ApplicationConstants.UUID;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import models.Workshop;
+import models.WorkshopSession;
 import play.Play;
-import play.db.jpa.Transactional;
+import play.db.ebean.Transactional;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Http.Context;
 import play.mvc.Result;
+import repository.WorkshopRepository;
 import views.html.welcome.charter;
 import views.html.welcome.welcome;
 import views.html.workshops.alreadyPlayed;
-import dao.WorkshopDAO;
+import views.html.workshops.newWorkshops;
+import controllers.data.SessionData;
 
 public class Application extends Controller {
     
@@ -28,18 +31,28 @@ public class Application extends Controller {
 	 * 
 	 * @return Result the http response
 	 */
-	@Transactional(readOnly = true)
+	@Transactional()
 	public static Result welcome() {
-		Context.current().args.put("wsPlanifie", WorkshopDAO.getWorkshopsPlanifie()); 
 		Context.current().args.put("ongletActif", "home");
 		// We render the welcome page
-		return ok(welcome.render("Accueil", WorkshopDAO.getWorkshops()));
+		return ok(welcome.render("Les prochains Workshops", WorkshopRepository.getWorkshopsPlanifie()));
 	}
 	
-	@Transactional(readOnly = true)
+	/**
+	 * This a REST webservice which return the planned workshops list
+	 * 
+	 * @return Result the http response
+	 */
+	@Transactional()
 	@BodyParser.Of(play.mvc.BodyParser.Json.class)
 	public static Result wsWorkshopsPlanifies() {
-		List<Workshop> wsPlanifies = WorkshopDAO.getWorkshopsPlanifie();
+		List<WorkshopSession> workshopSessionList = WorkshopRepository.getWorkshopsPlanifie();
+		List<SessionData> wsPlanifies = new ArrayList<SessionData>(workshopSessionList.size());
+		// conversion des sessions en données à sérialiser en json
+		for (WorkshopSession workshopSession : workshopSessionList) {
+			wsPlanifies.add(new SessionData(workshopSession));
+		}
+		
 		return ok(play.libs.Json.toJson(wsPlanifies));
 	}
 	
@@ -48,14 +61,30 @@ public class Application extends Controller {
 	 * 
 	 * @return Result the http response
 	 */
-	@Transactional(readOnly = true)
+	@Transactional()
 	public static Result workshops() {
-		Context.current().args.put("wsPlanifie", WorkshopDAO.getWorkshopsPlanifie());
 		Context.current().args.put("ongletActif", "alreadyPlayed");
 		// We render the welcome page
-		return ok(alreadyPlayed.render("Les Workshops déjà présentés", WorkshopDAO.getWorkshopsAlreadyPlayed()));
+		return ok(alreadyPlayed.render("Les Workshops déjà présentés", WorkshopRepository.getWorkshopsAlreadyPlayed()));
 	}
 	
+	/**
+	 * This action allow to display the list of the already played workshop
+	 * 
+	 * @return Result the http response
+	 */
+	@Transactional()
+	public static Result newWorkshops() {
+		Context.current().args.put("ongletActif", "newWorkshops");
+		// We render the welcome page
+		return ok( newWorkshops.render("Les Workshops qui n'ont jamais été présentés", WorkshopRepository.getWorkshops()) );
+	}
+	
+	/**
+	 * This action allow to display the charter agreement page
+	 * 
+	 * @return the charter agreement page
+	 */
 	public static Result charter() {
 		// We render the charter page
 		return ok( charter.render(false) );

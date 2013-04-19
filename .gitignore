@@ -15,3 +15,7 @@ dist
 /.settings
 /.classpath
 /.project
+/nbproject/private/
+/nbproject
+/build.xml
+/build/

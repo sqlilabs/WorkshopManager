@@ -3,13 +3,13 @@
  */
 package models;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import play.db.ebean.Model;
 
 /**
  * Un utilisateur dans l'application
@@ -18,7 +18,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "USER")
-public class User implements Serializable {
+public class User extends Model {
 	
 	/**
 	 * serialVersionUID
@@ -30,43 +30,48 @@ public class User implements Serializable {
 	 */
 	@Id
 	@GeneratedValue
-	private Long id;
+	public Long id;
 
 	/**
 	 * Le prénom.
 	 */
 	@Column(name = "first_name")
-	private String firstName;
+	public String firstName;
 	
 	/**
 	 * Le nom de famille
 	 */
 	@Column(name = "last_name")
-	private String lastName;
+	public String lastName;
 	
 	/**
 	 * Le mail.
 	 */
 	@Column(name = "email")
-	private String email;
+	public String email;
 	
 	/**
 	 * the link to the profile picture
 	 */
 	@Column(name = "picture")
-	private String picture;
+	public String picture;
 	
 	/**
 	 * the role of the user
 	 */
-	@Column(name = "role")
-	private String role;
+	@Column(name = "role", nullable=false )
+	public String role;
 	
 	/**
 	 * boolean to know if the user had accepted the charter
 	 */
 	@Column(name = "charterAgree")
-	private boolean charterAgree;
+	public boolean charterAgree;
+	
+	/**
+	 * Définition d'un finder qui va permettre de faire les accès à la base
+	 */
+	public static Finder<Long, User> find = new Finder<Long, User>(Long.class, User.class);
 	
 	
 	//<--------------------------------------------------------------------------->
@@ -127,112 +132,5 @@ public class User implements Serializable {
 			return false;
 		return true;
 	}
-
-
-	//<--------------------------------------------------------------------------->
-	//-							Setter/Getter	        
-	//<--------------------------------------------------------------------------->		
-	/**
-	 * @return the id
-	 */
-	public Long getId() {
-		return id;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	/**
-	 * @return the firstName
-	 */
-	public String getFirstName() {
-		return firstName;
-	}
-
-	/**
-	 * @param firstName the firstName to set
-	 */
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	/**
-	 * @return the lastName
-	 */
-	public String getLastName() {
-		return lastName;
-	}
-
-	/**
-	 * @param lastName the lastName to set
-	 */
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	/**
-	 * @return the email
-	 */
-	public String getEmail() {
-		return email;
-	}
-
-	/**
-	 * @param email the email to set
-	 */
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	/**
-	 * @return the picture
-	 */
-	public String getPicture() {
-		return picture;
-	}
-
-	/**
-	 * @param picture the picture to set
-	 */
-	public void setPicture(String picture) {
-		this.picture = picture;
-	}
-
-	/**
-	 * @return the role
-	 */
-	public String getRole() {
-		return role;
-	}
-
-	/**
-	 * @param role the role to set
-	 */
-	public void setRole(String role) {
-		this.role = role;
-	}
-
-
-	/**
-	 * @return the charterAgree
-	 */
-	public boolean isCharterAgree() {
-		return charterAgree;
-	}
-
-
-	/**
-	 * @param charterAgree the charterAgree to set
-	 */
-	public void setCharterAgree(boolean charterAgree) {
-		this.charterAgree = charterAgree;
-	}
-
-
-	
 
 }

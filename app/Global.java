@@ -1,13 +1,8 @@
 
 import models.User;
 import models.utils.formatter.UserFormatter;
-
-import org.hibernate.cfg.Configuration;
-import org.hibernate.tool.hbm2ddl.SchemaExport;
-
 import play.Application;
 import play.GlobalSettings;
-import play.Play;
 import play.data.format.Formatters;
 
 /**
@@ -21,18 +16,7 @@ public class Global extends GlobalSettings {
 	 * @see play.GlobalSettings#onStart(play.Application)
 	 */
 	@Override
-	public void onStart(Application arg0) {
-		/*
-		 * Recréé la BDD avec les informations des mappings
-		 * décrits dans hibernate.cfg.xml
-		 */
-//		if ( Play.application().isProd() ) {
-			Configuration cfg = new Configuration().configure();
-			SchemaExport export = new SchemaExport(cfg);
-			
-			export.create(true,true);
-//		}
-		
+	public void onStart(Application arg0) {	
 		// add a formater which takes you field and convert it to the proper object
     	// this will be called autmaticaly when you call bindFromRequest()
 		Formatters.register(User.class, new UserFormatter());

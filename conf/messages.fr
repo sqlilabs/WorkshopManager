@@ -2,16 +2,21 @@
 # @see https://github.com/playframework/Play20/blob/master/framework/src/play/src/main/resources/messages 
 constraint.required=Obligatoire
 
-# Menu
-application.title=Workshops Manager
-menu.home=Accueil
-menu.search=Rechercher
-menu.alreadydone=Déjà présentés
-action.submit.a.workshop=Soumettre un workshop
+# Commun
+unknow.date=Personne ne le sais plus vraiment...
+last.actions=Les dernières actions
 action.login=Se connecter
 
+# Menu
+application.title=Workshops Manager
+menu.home=Workshops Planifiés
+menu.search=Rechercher
+menu.alreadydone=Workshops déjà présentés
+menu.new=Nouveaux Workshops
+action.submit.a.workshop=Soumettre un workshop
+
 # Page d'accueil
-welcome.no.workshops=Il n'y a pas de workshops dans la liste
+welcome.no.workshops=Il n''y a pas de workshops dans la liste
 welcome.workshop.delete=Supprimer
 welcome.workshop.edit=Modifier
 welcome.workshop.plan=Planifier
@@ -22,6 +27,8 @@ welcome.workshop.i.am.not.interested=J'aimerai me retirer de la liste des gens i
 welcome.there.is.some.people.intersted=Il y a {0} personne(s) intéressée(s) par ce workshop
 welcome.workshop.foreseen.speaker=Le Speaker pressenti est {0}
 welcome.workshop.no.speaker=Il n''y a pas encore de Speaker pour ce workshop
+created.date=Crée le
+by.author=par
 
 # Modal de suppression de workshop
 welcome.workshop.delete.modal.title=Confirmation de suppression
@@ -38,12 +45,13 @@ form.add.workshop.page.title=Ajouter un workshop
 form.add.workshop.subject.button= Aller ...
 form.add.workshop.submit.button = Soumettre ...
 form.add.workshop.cancel.button = Annuler
+form.add.workshop.summary.label=Résumé
 
 # Formulaire de planification
 form.plan.page.title=Planifier un workshop
 form.plan.workshop.title=Saisir les détails de la session
 form.plan.workshop.doodleUrl.label=Url du Doodle
-form.plan.workshop.doodleUrl.help=Il faut saisir l'url complete (avec http://). <br />L''url doit être valide.
+form.plan.workshop.doodleUrl.help=Il faut saisir l''url complete (avec http://). <br />L''url doit être valide.
 form.plan.workshop.location.label=Lieu du Workshop
 form.plan.workshop.nextPlay.label=Date de la prochaine séance
 form.plan.workshop.nextPlay.error=La date de prochaine séance est obligatoire
@@ -53,11 +61,12 @@ form.plan.workshop.submit.button=Planifier ce workshop
 form.plan.workshop.cancel.button=Annuler
 
 # Page already played
-form.plan.workshop.last.speaker=Dernière session présenté par
+form.plan.workshop.last.speaker=présenté par
 form.plan.workshop.last.date=Dernière session le
 form.plan.workshop.plan.again=Re-Planifier
 plan.workshop.people.want.replay={0} personne(s) aimerai(en)t que l''on rejoue ce workshop
 form.plan.workshop.add.comment=Ajouter un commentaire
+form.plan.workshop.add.ressources=Ajout support
 
 # Zone Commentaire
 form.comment.title=Ajouter un commentaire
@@ -69,6 +78,29 @@ view.comments=Voir les commentaires
 comments.number.sentence=Il y a {0} commentaire(s) pour ce workshop
 comments.title=Commentaire de {0} {1} laissé le {2}
 
+# Add Ressources
+form.ressources.title=Ressources à ajouter au workshop
+form.ressources.submit.button=Ajouter les ressources
+form.ressources.cancel.button=Annuler
+form.ressources.subject.label=Lien vers site externe: 
+form.ressources.label=Support du workshop
+link.to.workshop.ressources=Support du workshop externe (cloud)
+workshop.ressources.file=Support du workshop interne
+
+
 # Charte
 action.ok=C''est cool! Je comprends et j''accepte ces termes
 action.ko=Vous avez craqués, même par en rêve !!
+
+# Workshops planed
+workshop.planned.on=Planifié le
+workshop.speaker=Speaker
+workshop.location=Lieu
+workshop.join=S'inscrire
+workshop.planned.edit.session=Modifier session
+workshop.planned.edit.add.session=Ajouter session
+
+# Errors messages
+error.speaker.limit.reached=Le nombre de speaker maximum est atteint
+error.google.authentification.refused=Vous avez refusé l'identification via votre compte Google, vous ne pourrez pas profiter des privilèges liés aux utilisateurs identifiés. Google nous a retourné l'erreur suivante: [{0}]
+constraint.workshopsession.url=Il faut saisir l''url complete (avec http://)

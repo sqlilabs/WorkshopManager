@@ -4,7 +4,8 @@ import static models.utils.constants.AuthentificationConstants.*;
 
 import org.codehaus.jackson.JsonNode;
 
-import dao.UserDAO;
+import repository.UserDAO;
+
 
 import models.User;
 
@@ -44,15 +45,15 @@ public class UserService {
 		
 		// If not, we create it
 		if ( user == null ) {
-			user				=	new User();
-			user.setFirstName( googleResponse.get(GOOGLE_FIRST_NAME).asText() );
-			user.setLastName( googleResponse.get(GOOGLE_LAST_NAME).asText()  );
+			user					=	new User();
+			user.firstName			=	googleResponse.get(GOOGLE_FIRST_NAME).asText();
+			user.lastName			=	googleResponse.get(GOOGLE_LAST_NAME).asText();
+			JsonNode 	picture		=	googleResponse.get(GOOGLE_PICTURE);
+			user.picture			=	picture != null ? picture.asText() : "/assets/images/avatar-default.png";
 		}
 		
-		// Dans tous les cas on met son email et sa photo à jour
-		JsonNode 	picture		=	googleResponse.get(GOOGLE_PICTURE);
-		user.setPicture( picture != null ? picture.asText() : "/assets/images/avatar-default.png");
-		user.setEmail( googleResponse.get(GOOGLE_EMAIL).asText() );
+		// Dans tous les cas on met son email à jour
+		user.email				=	googleResponse.get(GOOGLE_EMAIL).asText();
 		
 		return user;
 	}

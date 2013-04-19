@@ -1,7 +1,7 @@
 @(commentForm: Form[Comment], id: Long )
 
 @import helper._
-@import dao._
+@import repository._
 
 @implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInputHorizontal.render) } 
 
@@ -19,6 +19,7 @@
 				commentForm("comment"), 
 				'_label -> Messages("form.add.comment.description.label"),
 				'class  -> "input-xlarge",
+				'maxlength -> 1000,
 				'rows 	-> 5, 
 				'col 	-> 50
 			) 

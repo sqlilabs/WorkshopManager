@@ -1,21 +1,40 @@
 <div class="container-fluid">
-	
-	@if( AuthentificationController.getUser() == null ) {
+<!-- 	@AuthentificationController.buildGoogleOAuthLink -->
+	@if( AuthentificationController.getUser == null ) {
 		<div class="row-fluid">
 			<div class="span12 ">
-	 			<a id="authenticationButton" class="btn btn-primary" href="@AuthentificationController.buildGoogleOAuthLink()"><i class="icon-user icon-white"></i> Se connecter</a>
+	 			<a id="authenticationButton" class="btn btn-primary" href="@AuthentificationController.buildGoogleOAuthLink"><i class="icon-user icon-white"></i> @Messages("action.login") </a>
 	 		</div>
 	 	</div>
 	} else {
 		<div class="row-fluid littleMarginTop">
 			<div class="span3">
-				<img width="48" height=48" src="@AuthentificationController.getUser().getPicture()" />
+				<a id="user-picture-link" href="#">
+					<img id="user-picture-img" src="@AuthentificationController.getUser.picture" />
+					<i class="icon-edit"></i> edit
+				</a>
 			</div>
 			
 			<div class="span9">
-				<div>@AuthentificationController.getUser().getFirstName() @AuthentificationController.getUser().getLastName()</div>
-				<div class="emailStyle">@AuthentificationController.getUser().getEmail()</div>
-				<div><a href="@routes.AuthentificationController.deconnection()">logout</a></div>
+				<div>@AuthentificationController.getUser.firstName @AuthentificationController.getUser.lastName</div>
+				<div class="emailStyle">@AuthentificationController.getUser.email</div>
+				<div><a href="@routes.AuthentificationController.deconnection">logout</a></div>
+			</div>
+		</div>
+		
+		<div id="user-picture" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-header">
+			  	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			  	<h3 id="myModalLabel">@Messages("modify.picture")</h3>
+			</div>
+			<div class="modal-body">
+				<div class="input-append">
+				  <input class="span10" id="imageURL" maxlength="100">
+				  <button class="btn" id="user-picture-submit" type="button">Submit</button>
+				</div>
+			</div>
+			<div class="modal-footer">
+			  	
 			</div>
 		</div>
 		
