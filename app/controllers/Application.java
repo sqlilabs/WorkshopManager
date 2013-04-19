@@ -2,9 +2,9 @@ package controllers;
 
 import static models.utils.constants.ApplicationConstants.UUID;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import models.Workshop;
 import models.WorkshopSession;
 import play.Play;
 import play.db.ebean.Transactional;
@@ -18,6 +18,7 @@ import views.html.welcome.charter;
 import views.html.welcome.welcome;
 import views.html.workshops.alreadyPlayed;
 import views.html.workshops.newWorkshops;
+import controllers.data.SessionData;
 
 public class Application extends Controller {
     
@@ -45,7 +46,13 @@ public class Application extends Controller {
 	@Transactional()
 	@BodyParser.Of(play.mvc.BodyParser.Json.class)
 	public static Result wsWorkshopsPlanifies() {
-		List<WorkshopSession> wsPlanifies = WorkshopRepository.getWorkshopsPlanifie();
+		List<WorkshopSession> workshopSessionList = WorkshopRepository.getWorkshopsPlanifie();
+		List<SessionData> wsPlanifies = new ArrayList<SessionData>(workshopSessionList.size());
+		// conversion des sessions en données à sérialiser en json
+		for (WorkshopSession workshopSession : workshopSessionList) {
+			wsPlanifies.add(new SessionData(workshopSession));
+		}
+		
 		return ok(play.libs.Json.toJson(wsPlanifies));
 	}
 	
