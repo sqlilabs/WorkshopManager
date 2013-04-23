@@ -73,31 +73,35 @@ public class WorkshopController extends Controller {
 		}
 
 		// On récupère le workshop depuis le formulaire
-		Workshop 		workshopNew 		= 	workshopForm.get();
+		Workshop 		workshopNew 			= 	workshopForm.get();
 		
 		// Et le workshop depuis la base si c'est une modification
 		if ( id != ID_NOT_IN_TABLE ) {
-			Workshop 	ws 					= 	Workshop.find.byId(id);
+			Workshop 	ws 						= 	Workshop.find.byId(id);
 			// on met à jour la nouvelle instance avec les anciennes données
 			workshopNew.speakers				=	ws.speakers;
 			workshopNew.potentialParticipants	=	ws.potentialParticipants ;
 			workshopNew.author 					=	ws.author;
 			workshopNew.creationDate			=	ws.creationDate;
+			
+			MultipartFormData 		body 		= 	request().body().asMultipartFormData(); 
+	 		workshopNew.image					=	body.getFile("image").getFilename().equals("") ? ws.image : uploadImage() ;
 		}
 		else {
 			// On affecte l'auteur connecté
-			workshopNew.author 				=	AuthentificationController.getUser() ;
+			workshopNew.author 					=	AuthentificationController.getUser() ;
+			
 			// et la date de création
-			workshopNew.creationDate		= 	new Date();
+			workshopNew.creationDate			= 	new Date();
+			
+			// On set l'image du workshop
+			workshopNew.image					=	uploadImage();
 		}
-        
-		// On set l'image du workshop
-		workshopNew.image					=	uploadImage();
 
 		if (id == ID_NOT_IN_TABLE) {
 			Ebean.save(workshopNew);
 		} else {
-			workshopNew.id					=	id;
+			workshopNew.id						=	id;
 			Ebean.update(workshopNew);
 		}
 
@@ -394,11 +398,23 @@ public class WorkshopController extends Controller {
     	// Get the workshop from base
     	Workshop 		ws 				= 	Workshop.find.byId(id);
     	
-    	boolean			update			=	 ws.workshopRessources != null;
+    	boolean			update			=	ws.workshopRessources != null;
     	
     	//We create the Ressources instance
     	Ressources 		ressources 		= 	filledForm.get();
-    	ressources.workshopSupportFile	=	uploadRessources( ws );
+    	
+    	// We check if the user indicate a path to a ressource
+    	MultipartFormData 		body 	= 	request().body().asMultipartFormData(); 
+    	
+    	if ( body.getFile("workshopSupportFile").getFilename().equals("") ) {
+    		if ( ws.workshopRessources != null ) {
+    			ressources.workshopSupportFile = ws.workshopRessources.workshopSupportFile ;
+    		}
+    	}
+    	else {
+    		ressources.workshopSupportFile	=	uploadRessources( ws );
+    	}
+
     	if ( update ) {
     		ressources.id				=	ws.workshopRessources.id;
     	}
