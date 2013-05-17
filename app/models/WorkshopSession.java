@@ -19,6 +19,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.avaje.ebean.validation.NotNull;
+
 import play.data.validation.Constraints.Pattern;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
@@ -60,6 +62,13 @@ public class WorkshopSession extends Model {
 	@Required
 	@Column(length=50)
 	public String location;
+	
+	/**
+	 * Limite de place de la session
+	 */ 
+	@Column(name = "limite_place",length=2)
+	@NotNull
+	public int limitePlace;
 	
 	/**
 	 * Date à laquelle le workshop est planifié ou a été joué. Si null alors c'est 

@@ -46,6 +46,7 @@ create table WORKSHOP_SESSION (
   id                        bigint auto_increment not null,
   doodle_url                varchar(255),
   location                  varchar(50),
+  limite_place              integer(2) not null,
   next_play                 datetime,
   speaker_id                bigint,
   workshop_id               bigint,

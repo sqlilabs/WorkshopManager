@@ -30,6 +30,7 @@ welcome.workshop.foreseen.speaker=The foreseen Speaker is {0}
 welcome.workshop.no.speaker=There is no Speaker for this workshop yet
 created.date=Created the
 by.author=by
+welcome.workshop.places.available=There are {0} places availables on {1} initialy opened
 
 # Modal de suppression de workshop
 welcome.workshop.delete.modal.title=Confirm Deletion
@@ -54,6 +55,8 @@ form.plan.workshop.title=Please enter session details
 form.plan.workshop.doodleUrl.label=Doodle Url
 form.plan.workshop.doodleUrl.help=You need to enter the whole URL (ie with http://).<br />Url must be valid.
 form.plan.workshop.location.label=Workshop location
+form.plan.workshop.limitePlace.label=Number of places
+form.plan.workshop.limitePlace.help=0 is for unlimited places
 form.plan.workshop.nextPlay.label=Next session date
 form.plan.workshop.speaker.label=Speaker
 form.plan.workshop.speaker.default=--- Choose a Speaker ---

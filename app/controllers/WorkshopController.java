@@ -182,18 +182,17 @@ public class WorkshopController extends Controller {
 		// We get the Workshop
 		Workshop workshopToPlan 	= 	Workshop.find.byId(idWorkshop);
 		boolean newSession 			= 	idSession == -1;
-		
-		if ( !newSession ) {
-			workshopToPlan.workshopSession.remove( WorkshopSession.find.byId( idSession ) );
-		}		
 
 		// We set the WorkshopSession to the Workshop to Plan
-		WorkshopSession workshopSession = filledForm.get();
+		WorkshopSession workshopSession 	= filledForm.get();
 		if ( !newSession ) {
-			workshopSession.id			=	idSession ;
+			WorkshopSession	oldSession		=	WorkshopSession.find.byId( idSession ) ;
+			workshopSession.id				=	idSession ;
+			workshopSession.participants	=	new HashSet<User>(oldSession.participants);
+			workshopToPlan.workshopSession.remove( oldSession );
 		}
 		workshopToPlan.workshopSession.add(workshopSession);
-		workshopSession.workshop		=	workshopToPlan;
+		workshopSession.workshop			=	workshopToPlan;
 		
 		// We empty the potentialParticipants List
 		workshopToPlan.potentialParticipants	= 	new HashSet<User>();
