@@ -96,7 +96,7 @@ action.ko=Vous avez craqués, même par en rêve !!
 workshop.planned.on=Planifié le
 workshop.speaker=Speaker
 workshop.location=Lieu
-workshop.join=S'inscrire
+workshop.join=S''inscrire
 workshop.planned.edit.session=Modifier session
 workshop.planned.edit.add.session=Ajouter session
 

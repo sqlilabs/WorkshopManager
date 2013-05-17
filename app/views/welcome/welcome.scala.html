@@ -58,7 +58,7 @@
 									@if( AuthentificationController.isAuthenticatedUserAdmin || AuthentificationController.isSessionSpeaker( session ) ) {
 										<a href="@routes.WorkshopController.planWorkshop(session.workshop.id)" class="btn btn-warning">@Messages("workshop.planned.edit.add.session")</a>
 									}
-									<a class="btn btn-success" href="session.doodleUrl">@Messages("workshop.join")</a>
+									<a class="btn btn-success" href="@session.doodleUrl">@Messages("workshop.join")</a>
 								</div>
 							</div>
 						}
