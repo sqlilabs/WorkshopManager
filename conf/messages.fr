@@ -6,6 +6,7 @@ constraint.required=Obligatoire
 unknow.date=Personne ne le sais plus vraiment...
 last.actions=Les dernières actions
 action.login=Se connecter
+modify.picture=Vous pouvez renseigner un lien vers une image de profil, ce lien doit être http...
 
 # Menu
 application.title=Workshops Manager
@@ -29,6 +30,9 @@ welcome.workshop.foreseen.speaker=Le Speaker pressenti est {0}
 welcome.workshop.no.speaker=Il n''y a pas encore de Speaker pour ce workshop
 created.date=Crée le
 by.author=par
+welcome.workshop.places.available=Il reste {0} places disponibles sur {1} places ouvertes
+welcome.workshop.places.unlimited=Places illimitée pour cette session. Inscrivez-vous quand même pour dimensionner la salle !
+
 
 # Modal de suppression de workshop
 welcome.workshop.delete.modal.title=Confirmation de suppression
@@ -53,6 +57,8 @@ form.plan.workshop.title=Saisir les détails de la session
 form.plan.workshop.doodleUrl.label=Url du Doodle
 form.plan.workshop.doodleUrl.help=Il faut saisir l''url complete (avec http://). <br />L''url doit être valide.
 form.plan.workshop.location.label=Lieu du Workshop
+form.plan.workshop.limitePlace.label=Nombre de place
+form.plan.workshop.limitePlace.help=0 correspond à un nombre de place illimités
 form.plan.workshop.nextPlay.label=Date de la prochaine séance
 form.plan.workshop.nextPlay.error=La date de prochaine séance est obligatoire
 form.plan.workshop.speaker.label=Speaker
@@ -96,11 +102,22 @@ action.ko=Vous avez craqués, même par en rêve !!
 workshop.planned.on=Planifié le
 workshop.speaker=Speaker
 workshop.location=Lieu
-workshop.join=S'inscrire
+workshop.subscribe=S''inscrire
+workshop.unsubscribe=Se désinscrire
 workshop.planned.edit.session=Modifier session
 workshop.planned.edit.add.session=Ajouter session
 
 # Errors messages
 error.speaker.limit.reached=Le nombre de speaker maximum est atteint
 error.google.authentification.refused=Vous avez refusé l'identification via votre compte Google, vous ne pourrez pas profiter des privilèges liés aux utilisateurs identifiés. Google nous a retourné l'erreur suivante: [{0}]
-constraint.workshopsession.url=Il faut saisir l''url complete (avec http://)
+error.participants.limit.reached=Le nombre maximum de participant est atteind ou vous êtes déjà inscrit à une autres session de ce workshop ce mois ci.
+
+# Actions
+action.add.new.workshop=Nouveau Workshop !
+action.modify.new.workshop=Workshop modifié
+action.delete.new.workshop=Workshop supprimé
+action.add.session=Nouvelle session
+action.modify.session=Session modifiée
+action.new.comment=Nouveau commentaire
+action.new.support=Nouveau support
+

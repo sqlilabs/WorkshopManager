@@ -4,7 +4,7 @@ import static models.utils.constants.AuthentificationConstants.*;
 
 import org.codehaus.jackson.JsonNode;
 
-import repository.UserDAO;
+import repository.UserRepository;
 
 
 import models.User;
@@ -41,7 +41,7 @@ public class UserService {
 	public User handleUserFromGoogleResponse( JsonNode googleResponse ) {
 		
 		// We get the user from the database if it exists
-		User		user 		=	UserDAO.getUserWithName( googleResponse.get(GOOGLE_FIRST_NAME).asText()  + " " + googleResponse.get(GOOGLE_LAST_NAME).asText() ) ;
+		User		user 		=	UserRepository.getUserWithName( googleResponse.get(GOOGLE_FIRST_NAME).asText()  + " " + googleResponse.get(GOOGLE_LAST_NAME).asText() ) ;
 		
 		// If not, we create it
 		if ( user == null ) {

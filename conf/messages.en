@@ -7,6 +7,7 @@ constraint.required=Required
 unknow.date=No one really knows...
 last.actions=Last actions
 action.login=Login
+modify.picture=You can give a link to a picture, must be an http link...
 
 # Menu
 application.title=Workshops Manager
@@ -30,6 +31,9 @@ welcome.workshop.foreseen.speaker=The foreseen Speaker is {0}
 welcome.workshop.no.speaker=There is no Speaker for this workshop yet
 created.date=Created the
 by.author=by
+welcome.workshop.places.available=There are {0} places availables on {1} initialy opened
+welcome.workshop.places.unlimited=There is unlimited places for this session. Take the time to join anyway, which help us to choose the right conference room.
+
 
 # Modal de suppression de workshop
 welcome.workshop.delete.modal.title=Confirm Deletion
@@ -54,6 +58,8 @@ form.plan.workshop.title=Please enter session details
 form.plan.workshop.doodleUrl.label=Doodle Url
 form.plan.workshop.doodleUrl.help=You need to enter the whole URL (ie with http://).<br />Url must be valid.
 form.plan.workshop.location.label=Workshop location
+form.plan.workshop.limitePlace.label=Number of places
+form.plan.workshop.limitePlace.help=0 is for unlimited places
 form.plan.workshop.nextPlay.label=Next session date
 form.plan.workshop.speaker.label=Speaker
 form.plan.workshop.speaker.default=--- Choose a Speaker ---
@@ -96,11 +102,21 @@ action.ko=No way!!! Are you crazy guys??
 workshop.planned.on=Planned on
 workshop.speaker=Speaker
 workshop.location=Location
-workshop.join=Join
+workshop.subscribe=Subscribe
+workshop.unsubscribe=Unsubscribe
 workshop.planned.edit.session=Modify session
 workshop.planned.edit.add.session=Add session
 
 # Errors messages
 error.speaker.limit.reached=The speakers limit is reached!!
 error.google.authentification.refused=You refused to identify via your Google account, you can not enjoy the privileges to authenticated users. Google has returned the following error: [{0}]
+error.participants.limit.reached=The number of participant is reached for this session or you are already join an other session of this workshop this month.
 
+# Actions
+action.add.new.workshop=New Workshop !
+action.modify.new.workshop=Workshop modified
+action.delete.new.workshop=Workshop deleted
+action.add.session=New session
+action.modify.session=Session modified
+action.new.comment=New comment
+action.new.support=New support

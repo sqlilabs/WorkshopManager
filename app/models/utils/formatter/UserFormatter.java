@@ -8,7 +8,7 @@ import java.util.Locale;
 
 
 import play.data.format.Formatters.SimpleFormatter;
-import repository.UserDAO;
+import repository.UserRepository;
 import models.User;
 
 /**
@@ -37,7 +37,7 @@ public class UserFormatter extends SimpleFormatter<User>{
 	 */
 	@Override
 	public User parse(String completeName, Locale loc) throws ParseException {
-		return UserDAO.getUserWithName( completeName );
+		return UserRepository.getUserWithName( completeName );
 	}
 
 	/* (non-Javadoc)

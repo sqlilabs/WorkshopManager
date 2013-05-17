@@ -39,7 +39,7 @@ public class SessionData {
 	 * @return doodlUrl
 	 */
 	public String getDoodleUrl() {
-		return workshopSession.doodleUrl;
+		return "";
 	}
 
 	/**

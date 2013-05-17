@@ -5,7 +5,9 @@ import static models.utils.constants.WorkShopConstants.*;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -18,7 +20,9 @@ import models.Ressources;
 import models.User;
 import models.Workshop;
 import models.WorkshopSession;
+import models.utils.enums.ActionEnum;
 import models.utils.formatter.UserFormatter;
+import models.utils.helpers.ActionsUtils;
 import models.utils.helpers.FilesUtils;
 import play.Play;
 import play.data.Form;
@@ -36,8 +40,8 @@ import views.html.workshops.addComment;
 import views.html.workshops.addRessources;
 
 /**
- * Ce controller regroupe toutes les actions qui sont liées au opérations sur les 
- * workshops
+ * Ce controller regroupe toutes les actions qui sont liées à l'ajout d'un
+ * nouveau Workshop
  * 
  * @author ychartois
  * @version 0.1
@@ -73,35 +77,43 @@ public class WorkshopController extends Controller {
 		}
 
 		// On récupère le workshop depuis le formulaire
-		Workshop 		workshopNew 			= 	workshopForm.get();
+		Workshop 		workshopNew 		= 	workshopForm.get();
 		
 		// Et le workshop depuis la base si c'est une modification
 		if ( id != ID_NOT_IN_TABLE ) {
-			Workshop 	ws 						= 	Workshop.find.byId(id);
+			Workshop 	ws 					= 	Workshop.find.byId(id);
 			// on met à jour la nouvelle instance avec les anciennes données
 			workshopNew.speakers				=	ws.speakers;
 			workshopNew.potentialParticipants	=	ws.potentialParticipants ;
 			workshopNew.author 					=	ws.author;
 			workshopNew.creationDate			=	ws.creationDate;
 			
-			MultipartFormData 		body 		= 	request().body().asMultipartFormData(); 
-	 		workshopNew.image					=	body.getFile("image").getFilename().equals("") ? ws.image : uploadImage() ;
+			// On set l'image du workshop. Si on ne remplace pas l'image par une nouvelle,
+			// on n'ecrase pas l'ancienne par celle par défaut
+			String		image					=	uploadImage();
+			workshopNew.image					=	image.endsWith("default.png") ? ws.image : image ;
+			
+			// On log l'action
+			ActionsUtils.logAction( ActionEnum.MODIFY_WORKSHOP, AuthentificationController.getUser(), workshopNew.subject, "");
 		}
 		else {
 			// On affecte l'auteur connecté
-			workshopNew.author 					=	AuthentificationController.getUser() ;
-			
+			workshopNew.author 				=	AuthentificationController.getUser() ;
 			// et la date de création
-			workshopNew.creationDate			= 	new Date();
-			
+			workshopNew.creationDate		= 	new Date();
 			// On set l'image du workshop
 			workshopNew.image					=	uploadImage();
+			
+			// On log l'action
+			ActionsUtils.logAction( ActionEnum.NEW_WORKSHOP, AuthentificationController.getUser(), workshopNew.subject, "");
+			
 		}
-
+        
 		if (id == ID_NOT_IN_TABLE) {
 			Ebean.save(workshopNew);
-		} else {
-			workshopNew.id						=	id;
+		} 
+		else {
+			workshopNew.id					=	id;
 			Ebean.update(workshopNew);
 		}
 
@@ -130,12 +142,9 @@ public class WorkshopController extends Controller {
 	public static Result deleteWorkshop(Long id) {
 		Workshop ws = Workshop.find.byId(id);
 		Ebean.delete(ws);
+		ActionsUtils.logAction( ActionEnum.DELETE_WORKSHOP, AuthentificationController.getUser(), ws.subject, "");
 
-		for (String key : request().headers().keySet()) {
-			System.out.println(key);
-		}
-
-		return redirect( routes.Application.welcome() );
+		return redirect( routes.Application.newWorkshops() );
 	}
 
 	/**
@@ -186,18 +195,21 @@ public class WorkshopController extends Controller {
 		// We get the Workshop
 		Workshop workshopToPlan 	= 	Workshop.find.byId(idWorkshop);
 		boolean newSession 			= 	idSession == -1;
-		
-		if ( !newSession ) {
-			workshopToPlan.workshopSession.remove( WorkshopSession.find.byId( idSession ) );
-		}		
 
 		// We set the WorkshopSession to the Workshop to Plan
-		WorkshopSession workshopSession = filledForm.get();
+		WorkshopSession workshopSession 	= filledForm.get();
 		if ( !newSession ) {
-			workshopSession.id			=	idSession ;
+			WorkshopSession	oldSession		=	WorkshopSession.find.byId( idSession ) ;
+			workshopSession.id				=	idSession ;
+			workshopSession.participants	=	new HashSet<User>(oldSession.participants);
+			workshopToPlan.workshopSession.remove( oldSession );
+			ActionsUtils.logAction( ActionEnum.MODIFY_SESSION, AuthentificationController.getUser(), workshopToPlan.subject, "");
+		}
+		else {
+			ActionsUtils.logAction( ActionEnum.ADD_SESSION, AuthentificationController.getUser(), workshopToPlan.subject, "");
 		}
 		workshopToPlan.workshopSession.add(workshopSession);
-		workshopSession.workshop		=	workshopToPlan;
+		workshopSession.workshop			=	workshopToPlan;
 		
 		// We empty the potentialParticipants List
 		workshopToPlan.potentialParticipants	= 	new HashSet<User>();
@@ -266,13 +278,93 @@ public class WorkshopController extends Controller {
     }
     
     /**
-     * Allow to add a participant to the potential participants List for a selected workshop
+     * Allow to add a participant to the potential participants List for a selected session
      * 
      * @param id workshop id
      * @return the welcome page
      */
     @Transactional
     public static Result addParticipant( Long id ) {
+    	// We get the Workshop
+    	WorkshopSession		currentSession 		= 	WorkshopSession.find.byId(id);
+        
+        // Get the connected User
+        User				user				=	AuthentificationController.getUser();
+        
+        // It's a Set, so no duplicate
+        if ( currentSession.limitePlace != 0 && currentSession.participants.size() < currentSession.limitePlace && notInOtherSession( currentSession ) ) {
+        	currentSession.participants.add( user );
+        }
+        else {
+        	return ok ( error.render( Messages.get("error.participants.limit.reached")) );
+        }
+        
+        // We save the new Workshop
+        Ebean.save(currentSession);
+    	
+        return redirect(routes.Application.welcome() + "#" + id);
+	}
+    
+    /**
+     * Check if the user is not in an other session which is planned or just played 
+     * during the month
+     * 
+     * @param currentSession the surrent workshop session
+     * @return true if the user has not already join an other session
+     */
+    private static boolean notInOtherSession( WorkshopSession currentSession ) {
+		Workshop 			workshop 	= 	currentSession.workshop;
+		
+		// On calcule la date du mois dernier
+		GregorianCalendar	calendar	=	new GregorianCalendar();
+		calendar.add(Calendar.DAY_OF_MONTH, -30);
+		Date				lastMonth	=	calendar.getTime(); 
+		
+		for ( WorkshopSession session : workshop.workshopSession ) {
+			// On ne check pas les sessions qui ont déjà eu lieu les mois précédent
+			if ( session.nextPlay.before( lastMonth ) ) {
+				continue;
+			}
+			
+			if ( session.participants.contains( AuthentificationController.getUser() ) ) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+
+	/**
+     * Allow to remove a participant to the potential participants List for a selected session
+     * 
+     * @param id workshop id
+     * @return the welcome page
+     */
+    @Transactional
+    public static Result removeParticipant( Long id ) {
+    	// We get the Workshop
+    	WorkshopSession		currentSession 		= 	WorkshopSession.find.byId(id);
+        
+        // Get the connected User
+        User				user				=	AuthentificationController.getUser();
+        
+        // It's a Set, so no duplicate
+        currentSession.participants.remove( user );
+        
+        // We save the new Workshop
+        Ebean.save(currentSession);
+    	
+        return redirect(routes.Application.welcome() + "#" + id);
+    }
+    
+    /**
+     * Allow to add a participant to the potential participants List for a selected workshop
+     * 
+     * @param id workshop id
+     * @return the welcome page
+     */
+    @Transactional
+    public static Result addPotentialParticipant( Long id ) {
     	// We get the Workshop
         Workshop	currentWorkshop 	= 	Workshop.find.byId(id);
         
@@ -285,7 +377,7 @@ public class WorkshopController extends Controller {
         // We save the new Workshop
         Ebean.save(currentWorkshop);
     	
-        return redirect(routes.Application.welcome() + "#" + id);
+        return redirect(routes.Application.newWorkshops() + "#" + id);
 	}
     
     /**
@@ -295,7 +387,7 @@ public class WorkshopController extends Controller {
      * @return the welcome page
      */
     @Transactional
-    public static Result removeParticipant( Long id ) {
+    public static Result removePotentialParticipant( Long id ) {
     	// We get the Workshop
         Workshop	currentWorkshop 	= 	Workshop.find.byId(id);
         
@@ -308,9 +400,54 @@ public class WorkshopController extends Controller {
         // We save the new Workshop
         Ebean.save(currentWorkshop);
     	
-        return redirect(routes.Application.welcome() + "#" + id);
+        return redirect(routes.Application.newWorkshops() + "#" + id);
     }
     
+    /**
+     * Allow to add a participant to the potential participants List for a selected workshop
+     * 
+     * @param id workshop id
+     * @return the welcome page
+     */
+    @Transactional
+    public static Result addInterrestedParticipant( Long id ) {
+    	// We get the Workshop
+        Workshop	currentWorkshop 	= 	Workshop.find.byId(id);
+        
+        // Get the connected User
+        User		user				=	AuthentificationController.getUser();
+        
+        // It's a Set, so no duplicate
+        currentWorkshop.potentialParticipants.add( user );
+        
+        // We save the new Workshop
+        Ebean.save(currentWorkshop);
+    	
+        return redirect(routes.Application.workshops() + "#" + id);
+	}
+    
+    /**
+     * Allow to remove a participant to the potential participants List for a selected workshop
+     * 
+     * @param id workshop id
+     * @return the welcome page
+     */
+    @Transactional
+    public static Result removeInterrestedParticipant( Long id ) {
+    	// We get the Workshop
+        Workshop	currentWorkshop 	= 	Workshop.find.byId(id);
+        
+        // Get the connected User
+        User		user				=	AuthentificationController.getUser();
+        
+        // It's a Set, so no duplicate
+        currentWorkshop.potentialParticipants.remove( user );
+        
+        // We save the new Workshop
+        Ebean.save(currentWorkshop);
+    	
+        return redirect(routes.Application.workshops() + "#" + id);
+    }
 
 	/**
 	 * Prepare the form to add comments
@@ -353,6 +490,7 @@ public class WorkshopController extends Controller {
     	// We save the objects in base
     	Ebean.save( comment );
         Ebean.update( ws );
+        ActionsUtils.logAction( ActionEnum.COMMENT, AuthentificationController.getUser(), ws.subject, "");
     	
         return redirect( routes.Application.workshops() + "#" + id);
     }
@@ -398,23 +536,11 @@ public class WorkshopController extends Controller {
     	// Get the workshop from base
     	Workshop 		ws 				= 	Workshop.find.byId(id);
     	
-    	boolean			update			=	ws.workshopRessources != null;
+    	boolean			update			=	 ws.workshopRessources != null;
     	
     	//We create the Ressources instance
     	Ressources 		ressources 		= 	filledForm.get();
-    	
-    	// We check if the user indicate a path to a ressource
-    	MultipartFormData 		body 	= 	request().body().asMultipartFormData(); 
-    	
-    	if ( body.getFile("workshopSupportFile").getFilename().equals("") ) {
-    		if ( ws.workshopRessources != null ) {
-    			ressources.workshopSupportFile = ws.workshopRessources.workshopSupportFile ;
-    		}
-    	}
-    	else {
-    		ressources.workshopSupportFile	=	uploadRessources( ws );
-    	}
-
+    	ressources.workshopSupportFile	=	uploadRessources( ws );
     	if ( update ) {
     		ressources.id				=	ws.workshopRessources.id;
     	}
@@ -430,6 +556,7 @@ public class WorkshopController extends Controller {
     		Ebean.save( ressources );
     	}
     	Ebean.update( ws );
+    	ActionsUtils.logAction( ActionEnum.ADD_SUPPORT, AuthentificationController.getUser(), ws.subject, "");
     	
         return redirect( routes.Application.workshops() + "#" + id );
     }

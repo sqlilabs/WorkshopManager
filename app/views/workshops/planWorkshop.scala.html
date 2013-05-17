@@ -14,15 +14,6 @@
     	action = routes.WorkshopController.saveWorkshopSession( idWs, idSession ),
     	'class   -> "form form-horizontal"
     ) {
-        
-            @inputText(
-            	workshopSessionForm("doodleUrl"), 
-            	'_label -> Messages("form.plan.workshop.doodleUrl.label"),
-            	'class  -> "input-xlarge",
-            	'_help -> Messages("form.plan.workshop.doodleUrl.help"),
-            	'maxlength -> 255,
-				'_showConstraints -> false
-            )
             
             @inputText(
             	workshopSessionForm("location"), 
@@ -31,25 +22,25 @@
             	'maxlength -> 50,
             	'_showConstraints -> false
             )
-            
-          
-<!-- 			<div class="control-group"> -->
-<!-- 				<label class="control-label">@Messages("form.plan.workshop.nextPlay.label")</label> -->
-<!-- 				<div class="controls"> -->
-<!-- 					<input class="input-xlarge" name="date" id="nextPlay" disabled type="date" /> -->
-<!-- 					<div class='btn' id="nextPlayButton"><i class='icon-calendar'></i></div> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
+
+			@inputText(
+            	workshopSessionForm("limitePlace"), 
+            	'_label -> Messages("form.plan.workshop.limitePlace.label"),
+            	'_help -> Messages("form.plan.workshop.limitePlace.help"),
+            	'maxlength -> 2,
+            	'_showConstraints -> false
+            )
 
 			@inputDate(
             	workshopSessionForm("nextPlay"), 
             	'_label -> Messages("form.plan.workshop.nextPlay.label"),
-            	'_error -> workshopSessionForm("nextPlay").error.map(_.withMessage(Messages("form.plan.workshop.nextPlay.error")))
+            	'_error -> workshopSessionForm("nextPlay").error.map(_.withMessage(Messages("form.plan.workshop.nextPlay.error"))),
+            	'_showConstraints -> false
             )
 
             @select(
             	workshopSessionForm("Speaker"), 
-                options = options( UserDAO.getSpeakers ),
+                options = options( UserRepository.getSpeakers ),
                 '_default -> Messages("form.plan.workshop.speaker.default"),
                 '_label -> Messages("form.plan.workshop.speaker.label"),
                 'class  -> "input-xlarge",

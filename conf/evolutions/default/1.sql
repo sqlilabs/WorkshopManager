@@ -3,6 +3,15 @@
 
 # --- !Ups
 
+create table ACTION (
+  id                        bigint auto_increment not null,
+  author_id                 bigint,
+  creation_date             datetime,
+  title                     varchar(1000),
+  description               varchar(1000),
+  constraint pk_ACTION primary key (id))
+;
+
 create table COMMENT (
   id                        bigint auto_increment not null,
   author_id                 bigint,
@@ -44,8 +53,8 @@ create table WORKSHOP (
 
 create table WORKSHOP_SESSION (
   id                        bigint auto_increment not null,
-  doodle_url                varchar(255),
   location                  varchar(50),
+  limite_place              integer(2) not null,
   next_play                 datetime,
   speaker_id                bigint,
   workshop_id               bigint,
@@ -64,18 +73,26 @@ create table POTENTIAL_PARTICIPANTS (
   user_id                        bigint not null,
   constraint pk_POTENTIAL_PARTICIPANTS primary key (workshop_id, user_id))
 ;
-alter table COMMENT add constraint fk_COMMENT_author_1 foreign key (author_id) references USER (id) on delete restrict on update restrict;
-create index ix_COMMENT_author_1 on COMMENT (author_id);
-alter table COMMENT add constraint fk_COMMENT_workshop_2 foreign key (workshop_id) references WORKSHOP (id) on delete restrict on update restrict;
-create index ix_COMMENT_workshop_2 on COMMENT (workshop_id);
-alter table WORKSHOP add constraint fk_WORKSHOP_author_3 foreign key (author_id) references USER (id) on delete restrict on update restrict;
-create index ix_WORKSHOP_author_3 on WORKSHOP (author_id);
-alter table WORKSHOP add constraint fk_WORKSHOP_workshopRessources_4 foreign key (workshop_ressources_id) references RESSOURCE (id) on delete restrict on update restrict;
-create index ix_WORKSHOP_workshopRessources_4 on WORKSHOP (workshop_ressources_id);
-alter table WORKSHOP_SESSION add constraint fk_WORKSHOP_SESSION_speaker_5 foreign key (speaker_id) references USER (id) on delete restrict on update restrict;
-create index ix_WORKSHOP_SESSION_speaker_5 on WORKSHOP_SESSION (speaker_id);
-alter table WORKSHOP_SESSION add constraint fk_WORKSHOP_SESSION_workshop_6 foreign key (workshop_id) references WORKSHOP (id) on delete restrict on update restrict;
-create index ix_WORKSHOP_SESSION_workshop_6 on WORKSHOP_SESSION (workshop_id);
+
+create table PARTICIPANTS (
+  workshop_id                    bigint not null,
+  user_id                        bigint not null,
+  constraint pk_PARTICIPANTS primary key (workshop_id, user_id))
+;
+alter table ACTION add constraint fk_ACTION_author_1 foreign key (author_id) references USER (id) on delete restrict on update restrict;
+create index ix_ACTION_author_1 on ACTION (author_id);
+alter table COMMENT add constraint fk_COMMENT_author_2 foreign key (author_id) references USER (id) on delete restrict on update restrict;
+create index ix_COMMENT_author_2 on COMMENT (author_id);
+alter table COMMENT add constraint fk_COMMENT_workshop_3 foreign key (workshop_id) references WORKSHOP (id) on delete restrict on update restrict;
+create index ix_COMMENT_workshop_3 on COMMENT (workshop_id);
+alter table WORKSHOP add constraint fk_WORKSHOP_author_4 foreign key (author_id) references USER (id) on delete restrict on update restrict;
+create index ix_WORKSHOP_author_4 on WORKSHOP (author_id);
+alter table WORKSHOP add constraint fk_WORKSHOP_workshopRessources_5 foreign key (workshop_ressources_id) references RESSOURCE (id) on delete restrict on update restrict;
+create index ix_WORKSHOP_workshopRessources_5 on WORKSHOP (workshop_ressources_id);
+alter table WORKSHOP_SESSION add constraint fk_WORKSHOP_SESSION_speaker_6 foreign key (speaker_id) references USER (id) on delete restrict on update restrict;
+create index ix_WORKSHOP_SESSION_speaker_6 on WORKSHOP_SESSION (speaker_id);
+alter table WORKSHOP_SESSION add constraint fk_WORKSHOP_SESSION_workshop_7 foreign key (workshop_id) references WORKSHOP (id) on delete restrict on update restrict;
+create index ix_WORKSHOP_SESSION_workshop_7 on WORKSHOP_SESSION (workshop_id);
 
 
 
@@ -87,9 +104,15 @@ alter table POTENTIAL_PARTICIPANTS add constraint fk_POTENTIAL_PARTICIPANTS_WORK
 
 alter table POTENTIAL_PARTICIPANTS add constraint fk_POTENTIAL_PARTICIPANTS_USER_02 foreign key (user_id) references USER (id) on delete restrict on update restrict;
 
+alter table PARTICIPANTS add constraint fk_PARTICIPANTS_WORKSHOP_SESSION_01 foreign key (workshop_id) references WORKSHOP_SESSION (id) on delete restrict on update restrict;
+
+alter table PARTICIPANTS add constraint fk_PARTICIPANTS_USER_02 foreign key (user_id) references USER (id) on delete restrict on update restrict;
+
 # --- !Downs
 
 SET FOREIGN_KEY_CHECKS=0;
+
+drop table ACTION;
 
 drop table COMMENT;
 
@@ -104,6 +127,8 @@ drop table WORKSHOP_SPEAKERS;
 drop table POTENTIAL_PARTICIPANTS;
 
 drop table WORKSHOP_SESSION;
+
+drop table PARTICIPANTS;
 
 SET FOREIGN_KEY_CHECKS=1;
 

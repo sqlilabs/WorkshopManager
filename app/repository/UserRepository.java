@@ -13,7 +13,7 @@ import play.data.format.Formatters;
  * @author ychartois
  *
  */
-public class UserDAO {
+public class UserRepository {
 
 	
 	//<--------------------------------------------------------------------------->
@@ -22,7 +22,7 @@ public class UserDAO {
 	/**
 	 * Constructor
 	 */
-	public UserDAO() {
+	public UserRepository() {
 		super();
 	}
 	
