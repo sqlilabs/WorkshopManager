@@ -20,7 +20,9 @@ import models.Ressources;
 import models.User;
 import models.Workshop;
 import models.WorkshopSession;
+import models.utils.enums.ActionEnum;
 import models.utils.formatter.UserFormatter;
+import models.utils.helpers.ActionsUtils;
 import models.utils.helpers.FilesUtils;
 import play.Play;
 import play.data.Form;
@@ -85,12 +87,16 @@ public class WorkshopController extends Controller {
 			workshopNew.potentialParticipants	=	ws.potentialParticipants ;
 			workshopNew.author 					=	ws.author;
 			workshopNew.creationDate			=	ws.creationDate;
+			// On log l'action
+			ActionsUtils.logAction( ActionEnum.MODIFY_WORKSHOP, AuthentificationController.getUser(), workshopNew.subject, "");
 		}
 		else {
 			// On affecte l'auteur connecté
 			workshopNew.author 				=	AuthentificationController.getUser() ;
 			// et la date de création
 			workshopNew.creationDate		= 	new Date();
+			// On log l'action
+			ActionsUtils.logAction( ActionEnum.NEW_WORKSHOP, AuthentificationController.getUser(), workshopNew.subject, "");
 		}
         
 		// On set l'image du workshop
@@ -128,10 +134,7 @@ public class WorkshopController extends Controller {
 	public static Result deleteWorkshop(Long id) {
 		Workshop ws = Workshop.find.byId(id);
 		Ebean.delete(ws);
-
-		for (String key : request().headers().keySet()) {
-			System.out.println(key);
-		}
+		ActionsUtils.logAction( ActionEnum.DELETE_WORKSHOP, AuthentificationController.getUser(), ws.subject, "");
 
 		return redirect( routes.Application.welcome() );
 	}
@@ -192,6 +195,10 @@ public class WorkshopController extends Controller {
 			workshopSession.id				=	idSession ;
 			workshopSession.participants	=	new HashSet<User>(oldSession.participants);
 			workshopToPlan.workshopSession.remove( oldSession );
+			ActionsUtils.logAction( ActionEnum.MODIFY_SESSION, AuthentificationController.getUser(), workshopToPlan.subject, "");
+		}
+		else {
+			ActionsUtils.logAction( ActionEnum.ADD_SESSION, AuthentificationController.getUser(), workshopToPlan.subject, "");
 		}
 		workshopToPlan.workshopSession.add(workshopSession);
 		workshopSession.workshop			=	workshopToPlan;
@@ -430,6 +437,7 @@ public class WorkshopController extends Controller {
     	// We save the objects in base
     	Ebean.save( comment );
         Ebean.update( ws );
+        ActionsUtils.logAction( ActionEnum.COMMENT, AuthentificationController.getUser(), ws.subject, "");
     	
         return redirect( routes.Application.workshops() + "#" + id);
     }
@@ -495,6 +503,7 @@ public class WorkshopController extends Controller {
     		Ebean.save( ressources );
     	}
     	Ebean.update( ws );
+    	ActionsUtils.logAction( ActionEnum.ADD_SUPPORT, AuthentificationController.getUser(), ws.subject, "");
     	
         return redirect( routes.Application.workshops() + "#" + id );
     }

@@ -40,7 +40,7 @@
 
             @select(
             	workshopSessionForm("Speaker"), 
-                options = options( UserDAO.getSpeakers ),
+                options = options( UserRepository.getSpeakers ),
                 '_default -> Messages("form.plan.workshop.speaker.default"),
                 '_label -> Messages("form.plan.workshop.speaker.label"),
                 'class  -> "input-xlarge",

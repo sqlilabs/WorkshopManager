@@ -32,6 +32,7 @@ welcome.workshop.no.speaker=There is no Speaker for this workshop yet
 created.date=Created the
 by.author=by
 welcome.workshop.places.available=There are {0} places availables on {1} initialy opened
+welcome.workshop.places.unlimited=There is unlimited places for this session. Take the time to join anyway, which help us to choose the right conference room.
 
 
 # Modal de suppression de workshop
@@ -110,3 +111,12 @@ workshop.planned.edit.add.session=Add session
 error.speaker.limit.reached=The speakers limit is reached!!
 error.google.authentification.refused=You refused to identify via your Google account, you can not enjoy the privileges to authenticated users. Google has returned the following error: [{0}]
 error.participants.limit.reached=The number of participant is reached for this session or you are already join an other session of this workshop this month.
+
+# Actions
+action.add.new.workshop=New Workshop !
+action.modify.new.workshop=Workshop modified
+action.delete.new.workshop=Workshop deleted
+action.add.session=New session
+action.modify.session=Session modified
+action.new.comment=New comment
+action.new.support=New support
