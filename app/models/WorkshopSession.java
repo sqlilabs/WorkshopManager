@@ -4,6 +4,8 @@
 package models;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,6 +14,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -76,6 +80,16 @@ public class WorkshopSession extends Model {
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "workshop_id")
 	public Workshop workshop; 
+	
+	/**
+	 * Les personnes inscritent au workshop
+	 */
+	@ManyToMany()
+	@JoinTable(
+			name="PARTICIPANTS",
+			joinColumns = @JoinColumn(name="workshop_id"),
+			inverseJoinColumns = @JoinColumn(name = "user_id"))
+	public Set<User> participants = new HashSet<User>();
 	
 	/**
 	 * Définition d'un finder qui va permettre de faire les accès à la base

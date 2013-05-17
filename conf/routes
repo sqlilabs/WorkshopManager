@@ -16,17 +16,26 @@ GET     /workshops/modif/session/:idWorkshop/:idSession	controllers.WorkshopCont
 GET		/workshops/supprimer/:id						controllers.WorkshopController.deleteWorkshop(id: Long)
 GET		/workshops/modifier/:id							controllers.WorkshopController.modifyWorkshop(id: Long)
 POST    /workshops/planifier/:idWorkshop/:idSession		controllers.WorkshopController.saveWorkshopSession(idWorkshop: Long, idSession: Long)
+
 GET     /workshops/addSpeaker/id						controllers.WorkshopController.addSpeaker(id: Long)
-GET     /workshops/addParticipant/id					controllers.WorkshopController.addParticipant(id: Long)
 GET     /workshops/removeSpeaker/id						controllers.WorkshopController.removeSpeaker(id: Long)
+
+GET     /workshops/addParticipant/id					controllers.WorkshopController.addParticipant(id: Long)
 GET     /workshops/removeParticipant/id					controllers.WorkshopController.removeParticipant(id: Long)
+
+GET     /workshops/addPotentialParticipant/id			controllers.WorkshopController.addPotentialParticipant(id: Long)
+GET     /workshops/removePotentialParticipant/id		controllers.WorkshopController.removePotentialParticipant(id: Long)
+
 GET     /workshop/addComment/:id						controllers.WorkshopController.addComment(id: Long)
 POST    /workshop/saveComment/:id						controllers.WorkshopController.saveComment(id: Long)
+
 GET     /workshop/addRessources/:id						controllers.WorkshopController.addWorkshopRessources(id: Long)
 POST    /workshop/saveRessources/:id					controllers.WorkshopController.saveWorkshopRessources(id: Long)
 
+
 # Application
 GET     /webjars/*file              					controllers.WebJarAssets.at(file)
+
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/images/workshops/:file_name        		controllers.ServeImage.at(file_name)
@@ -37,7 +46,7 @@ GET     /assets/*file               					controllers.Assets.at(path="/public", f
 GET 	/oauth2callback									controllers.AuthentificationController.callback()
 GET     /logout											controllers.AuthentificationController.deconnection()	
 GET		/createNewUser									controllers.AuthentificationController.createNewUser()
-# GET 	/bouchon										controllers.AuthentificationController.userBouchon()			
+GET 	/bouchon										controllers.AuthentificationController.userBouchon()			
 
 # WS Workshop
 GET		/ws/workshopsPlanifies							controllers.Application.wsWorkshopsPlanifies()

@@ -270,6 +270,52 @@ public class WorkshopController extends Controller {
     @Transactional
     public static Result addParticipant( Long id ) {
     	// We get the Workshop
+    	WorkshopSession		currentSession 		= 	WorkshopSession.find.byId(id);
+        
+        // Get the connected User
+        User				user				=	AuthentificationController.getUser();
+        
+        // It's a Set, so no duplicate
+        currentSession.participants.add( user );
+        
+        // We save the new Workshop
+        Ebean.save(currentSession);
+    	
+        return redirect(routes.Application.welcome() + "#" + id);
+	}
+    
+    /**
+     * Allow to remove a participant to the potential participants List for a selected workshop
+     * 
+     * @param id workshop id
+     * @return the welcome page
+     */
+    @Transactional
+    public static Result removeParticipant( Long id ) {
+    	// We get the Workshop
+    	WorkshopSession		currentSession 		= 	WorkshopSession.find.byId(id);
+        
+        // Get the connected User
+        User				user				=	AuthentificationController.getUser();
+        
+        // It's a Set, so no duplicate
+        currentSession.participants.remove( user );
+        
+        // We save the new Workshop
+        Ebean.save(currentSession);
+    	
+        return redirect(routes.Application.welcome() + "#" + id);
+    }
+    
+    /**
+     * Allow to add a participant to the potential participants List for a selected workshop
+     * 
+     * @param id workshop id
+     * @return the welcome page
+     */
+    @Transactional
+    public static Result addPotentialParticipant( Long id ) {
+    	// We get the Workshop
         Workshop	currentWorkshop 	= 	Workshop.find.byId(id);
         
         // Get the connected User
@@ -291,7 +337,7 @@ public class WorkshopController extends Controller {
      * @return the welcome page
      */
     @Transactional
-    public static Result removeParticipant( Long id ) {
+    public static Result removePotentialParticipant( Long id ) {
     	// We get the Workshop
         Workshop	currentWorkshop 	= 	Workshop.find.byId(id);
         

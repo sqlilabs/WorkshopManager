@@ -96,7 +96,8 @@ action.ko=No way!!! Are you crazy guys??
 workshop.planned.on=Planned on
 workshop.speaker=Speaker
 workshop.location=Location
-workshop.join=Join
+workshop.subscribe=Subscribe
+workshop.unsubscribe=Unsubscribe
 workshop.planned.edit.session=Modify session
 workshop.planned.edit.add.session=Add session
 

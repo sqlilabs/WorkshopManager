@@ -64,6 +64,12 @@ create table POTENTIAL_PARTICIPANTS (
   user_id                        bigint not null,
   constraint pk_POTENTIAL_PARTICIPANTS primary key (workshop_id, user_id))
 ;
+
+create table PARTICIPANTS (
+  workshop_id                    bigint not null,
+  user_id                        bigint not null,
+  constraint pk_PARTICIPANTS primary key (workshop_id, user_id))
+;
 alter table COMMENT add constraint fk_COMMENT_author_1 foreign key (author_id) references USER (id) on delete restrict on update restrict;
 create index ix_COMMENT_author_1 on COMMENT (author_id);
 alter table COMMENT add constraint fk_COMMENT_workshop_2 foreign key (workshop_id) references WORKSHOP (id) on delete restrict on update restrict;
@@ -87,6 +93,10 @@ alter table POTENTIAL_PARTICIPANTS add constraint fk_POTENTIAL_PARTICIPANTS_WORK
 
 alter table POTENTIAL_PARTICIPANTS add constraint fk_POTENTIAL_PARTICIPANTS_USER_02 foreign key (user_id) references USER (id) on delete restrict on update restrict;
 
+alter table PARTICIPANTS add constraint fk_PARTICIPANTS_WORKSHOP_SESSION_01 foreign key (workshop_id) references WORKSHOP_SESSION (id) on delete restrict on update restrict;
+
+alter table PARTICIPANTS add constraint fk_PARTICIPANTS_USER_02 foreign key (user_id) references USER (id) on delete restrict on update restrict;
+
 # --- !Downs
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -104,6 +114,8 @@ drop table WORKSHOP_SPEAKERS;
 drop table POTENTIAL_PARTICIPANTS;
 
 drop table WORKSHOP_SESSION;
+
+drop table PARTICIPANTS;
 
 SET FOREIGN_KEY_CHECKS=1;
 

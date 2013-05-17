@@ -8,7 +8,7 @@ $(document).ready(function(){
 		$('#add-workshop-form #appendedInputButton').val($('#add-workshop-form #image-workshop').val());
 	});
 	
-	$('.workshop-bloc a.btn-danger').click(function(e){
+	$('.workshop-bloc a.btn-danger.delete').click(function(e){
 		e.preventDefault();
 		$('#valid-suppression').attr('data-link',$(this).attr('data-link')); 
 		$('#modal-suppression-confirm').modal();
