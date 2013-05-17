@@ -87,6 +87,12 @@ public class WorkshopController extends Controller {
 			workshopNew.potentialParticipants	=	ws.potentialParticipants ;
 			workshopNew.author 					=	ws.author;
 			workshopNew.creationDate			=	ws.creationDate;
+			
+			// On set l'image du workshop. Si on ne remplace pas l'image par une nouvelle,
+			// on n'ecrase pas l'ancienne par celle par défaut
+			String		image					=	uploadImage();
+			workshopNew.image					=	image.endsWith("default.png") ? ws.image : image ;
+			
 			// On log l'action
 			ActionsUtils.logAction( ActionEnum.MODIFY_WORKSHOP, AuthentificationController.getUser(), workshopNew.subject, "");
 		}
@@ -95,13 +101,14 @@ public class WorkshopController extends Controller {
 			workshopNew.author 				=	AuthentificationController.getUser() ;
 			// et la date de création
 			workshopNew.creationDate		= 	new Date();
+			// On set l'image du workshop
+			workshopNew.image					=	uploadImage();
+			
 			// On log l'action
 			ActionsUtils.logAction( ActionEnum.NEW_WORKSHOP, AuthentificationController.getUser(), workshopNew.subject, "");
+			
 		}
         
-		// On set l'image du workshop
-		workshopNew.image					=	uploadImage();
-
 		if (id == ID_NOT_IN_TABLE) {
 			Ebean.save(workshopNew);
 		} else {
@@ -136,7 +143,7 @@ public class WorkshopController extends Controller {
 		Ebean.delete(ws);
 		ActionsUtils.logAction( ActionEnum.DELETE_WORKSHOP, AuthentificationController.getUser(), ws.subject, "");
 
-		return redirect( routes.Application.welcome() );
+		return redirect( routes.Application.newWorkshops() );
 	}
 
 	/**
@@ -369,7 +376,7 @@ public class WorkshopController extends Controller {
         // We save the new Workshop
         Ebean.save(currentWorkshop);
     	
-        return redirect(routes.Application.welcome() + "#" + id);
+        return redirect(routes.Application.newWorkshops() + "#" + id);
 	}
     
     /**
@@ -392,9 +399,54 @@ public class WorkshopController extends Controller {
         // We save the new Workshop
         Ebean.save(currentWorkshop);
     	
-        return redirect(routes.Application.welcome() + "#" + id);
+        return redirect(routes.Application.newWorkshops() + "#" + id);
     }
     
+    /**
+     * Allow to add a participant to the potential participants List for a selected workshop
+     * 
+     * @param id workshop id
+     * @return the welcome page
+     */
+    @Transactional
+    public static Result addInterrestedParticipant( Long id ) {
+    	// We get the Workshop
+        Workshop	currentWorkshop 	= 	Workshop.find.byId(id);
+        
+        // Get the connected User
+        User		user				=	AuthentificationController.getUser();
+        
+        // It's a Set, so no duplicate
+        currentWorkshop.potentialParticipants.add( user );
+        
+        // We save the new Workshop
+        Ebean.save(currentWorkshop);
+    	
+        return redirect(routes.Application.workshops() + "#" + id);
+	}
+    
+    /**
+     * Allow to remove a participant to the potential participants List for a selected workshop
+     * 
+     * @param id workshop id
+     * @return the welcome page
+     */
+    @Transactional
+    public static Result removeInterrestedParticipant( Long id ) {
+    	// We get the Workshop
+        Workshop	currentWorkshop 	= 	Workshop.find.byId(id);
+        
+        // Get the connected User
+        User		user				=	AuthentificationController.getUser();
+        
+        // It's a Set, so no duplicate
+        currentWorkshop.potentialParticipants.remove( user );
+        
+        // We save the new Workshop
+        Ebean.save(currentWorkshop);
+    	
+        return redirect(routes.Application.workshops() + "#" + id);
+    }
 
 	/**
 	 * Prepare the form to add comments

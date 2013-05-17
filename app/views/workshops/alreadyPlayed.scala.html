@@ -30,7 +30,7 @@
 							</div>
 							<div class="span8 spaceAfter">
 								<h4>
-									<a href="#" workshop-id="@workshop.id"><i class="icon-zoom-in"></i>@workshop.subject</a>
+									<a href="#" workshop-id="@workshop.id"><i class="icon-zoom-in"></i> @workshop.subject</a>
 								</h4>
 								<div class="spaceAfter">
 									<p>@Html( workshop.summary )<p>
@@ -69,13 +69,13 @@
 						<div class="row-fluid">
 							<div class="span10 participantPicture">
 								@if( AuthentificationController.getUser != null && !workshop.potentialParticipants.contains(AuthentificationController.getUser) ) {
-									<a href="@routes.WorkshopController.addParticipant( workshop.id )" title="@Messages("welcome.workshop.i.am.interested")" >
+									<a href="@routes.WorkshopController.addInterrestedParticipant( workshop.id )" title="@Messages("welcome.workshop.i.am.interested")" >
 										<img width="32" height="32"
 											src="@routes.Assets.at("images/addUser.png")" />
 									</a>
 								}
 								@if( AuthentificationController.getUser != null && workshop.potentialParticipants.contains(AuthentificationController.getUser) ) {
-									<a href="@routes.WorkshopController.removeParticipant( workshop.id )" title="@Messages("welcome.workshop.i.am.not.interested")" >
+									<a href="@routes.WorkshopController.removeInterrestedParticipant( workshop.id )" title="@Messages("welcome.workshop.i.am.not.interested")" >
 										<img width="32" height="32"
 											src="@routes.Assets.at("images/removeUser.png")" />
 									</a>

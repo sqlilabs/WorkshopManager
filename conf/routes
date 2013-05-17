@@ -26,6 +26,9 @@ GET     /workshops/removeParticipant/id					controllers.WorkshopController.remov
 GET     /workshops/addPotentialParticipant/id			controllers.WorkshopController.addPotentialParticipant(id: Long)
 GET     /workshops/removePotentialParticipant/id		controllers.WorkshopController.removePotentialParticipant(id: Long)
 
+GET     /workshops/addInterrestedParticipant/id			controllers.WorkshopController.addInterrestedParticipant(id: Long)
+GET     /workshops/removeInterrestedParticipant/id		controllers.WorkshopController.removeInterrestedParticipant(id: Long)
+
 GET     /workshop/addComment/:id						controllers.WorkshopController.addComment(id: Long)
 POST    /workshop/saveComment/:id						controllers.WorkshopController.saveComment(id: Long)
 
