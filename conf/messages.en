@@ -7,6 +7,7 @@ constraint.required=Required
 unknow.date=No one really knows...
 last.actions=Last actions
 action.login=Login
+modify.picture=You can give a link to a picture, must be an http link...
 
 # Menu
 application.title=Workshops Manager
@@ -31,7 +32,7 @@ welcome.workshop.no.speaker=There is no Speaker for this workshop yet
 created.date=Created the
 by.author=by
 welcome.workshop.places.available=There are {0} places availables on {1} initialy opened
-error.participants.limit.reached=The number of participant is reached for this session or you are already join an other session of this workshop this month.
+
 
 # Modal de suppression de workshop
 welcome.workshop.delete.modal.title=Confirm Deletion
@@ -108,4 +109,4 @@ workshop.planned.edit.add.session=Add session
 # Errors messages
 error.speaker.limit.reached=The speakers limit is reached!!
 error.google.authentification.refused=You refused to identify via your Google account, you can not enjoy the privileges to authenticated users. Google has returned the following error: [{0}]
-
+error.participants.limit.reached=The number of participant is reached for this session or you are already join an other session of this workshop this month.

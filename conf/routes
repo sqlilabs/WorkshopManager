@@ -39,6 +39,7 @@ GET     /webjars/*file              					controllers.WebJarAssets.at(file)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/images/workshops/:file_name        		controllers.ServeImage.at(file_name)
+GET     /assets/ressources/*file        				controllers.ServeRessources.at(file)
 GET     /assets/*file               					controllers.Assets.at(path="/public", file)
 
 
