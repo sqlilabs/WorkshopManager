@@ -49,14 +49,14 @@ INSERT INTO `WORKSHOP` (`id`, `subject`, `summary`, `description`, `image`, `aut
 (26, 'Développeur connecté :  organiser sa veille technologique ', 'Devant la multitude d''informations disponibles (RSS, forum, vidéos présentations, etc), comment organiser sa veille techno ? ', '', 'images/workshops/3602683294_4c9c688bbc-300x300.jpg', 1, '2013-04-16 21:42:21', NULL);
 
 
-INSERT INTO `WORKSHOP_SESSION` (`id`, `doodle_url`, `location`, `limite_place`, `next_play`, `speaker_id`, `workshop_id`) VALUES
-(1, 'http://www.doodle.com/iy59zs2bfxkdry28', 'Smith Haut Lafitte', 10, '2013-04-30 00:00:00', 7, 1),
-(2, 'http://www.doodle.com/iy59zs2bfxkdry28', 'Smith Haut Lafitte',10, '2013-04-25 00:00:00', 1, 2),
-(3, 'http://www.doodle.com/iy59zs2bfxkdry28', 'test',10, '2013-02-20 00:00:00', 4, 7),
-(4, 'http://www.doodle.com/iy59zs2bfxkdry28', 'Smith Haut Lafitte',10, '2013-02-02 00:00:00', 1, 3),
-(5, 'http://www.doodle.com/iy59zs2bfxkdry28', 'Smith Haut Lafitte',10, '2013-12-02 00:00:00', 2, 4),
-(6, 'http://www.doodle.com/iy59zs2bfxkdry28', 'Smith Haut Lafitte',10, '2013-10-02 00:00:00', 7, 5),
-(7, 'http://www.doodle.com/iy59zs2bfxkdry28', 'Smith Haut Lafitte',10, '2013-04-26 00:00:00', 10, 6);
+INSERT INTO `WORKSHOP_SESSION` (`id`, `location`, `limite_place`, `next_play`, `speaker_id`, `workshop_id`) VALUES
+(1, 'Smith Haut Lafitte', 10, '2013-04-30 00:00:00', 7, 1),
+(2, 'Smith Haut Lafitte',10, '2013-04-25 00:00:00', 1, 2),
+(3, 'test',10, '2013-02-20 00:00:00', 4, 7),
+(4, 'Smith Haut Lafitte',10, '2013-02-02 00:00:00', 1, 3),
+(5, 'Smith Haut Lafitte',10, '2013-12-02 00:00:00', 2, 4),
+(6, 'Smith Haut Lafitte',10, '2013-10-02 00:00:00', 7, 5),
+(7, 'Smith Haut Lafitte',10, '2013-04-26 00:00:00', 10, 6);
 
 INSERT INTO `COMMENT` (`id`, `author_id`, `creation_date`, `comment`, `workshop_id`) VALUES
 (1, 1, '2013-04-09 08:27:13', 'omment calculer la position et la normale dans le vertex shader - deuxième partie : les performances, une tra... http://bit.ly/16L51Nl ', 5),

@@ -5,7 +5,9 @@ import static models.utils.constants.WorkShopConstants.*;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -261,7 +263,7 @@ public class WorkshopController extends Controller {
     }
     
     /**
-     * Allow to add a participant to the potential participants List for a selected workshop
+     * Allow to add a participant to the potential participants List for a selected session
      * 
      * @param id workshop id
      * @return the welcome page
@@ -275,7 +277,12 @@ public class WorkshopController extends Controller {
         User				user				=	AuthentificationController.getUser();
         
         // It's a Set, so no duplicate
-        currentSession.participants.add( user );
+        if ( currentSession.limitePlace != 0 && currentSession.participants.size() < currentSession.limitePlace && notInOtherSession( currentSession ) ) {
+        	currentSession.participants.add( user );
+        }
+        else {
+        	return ok ( error.render( Messages.get("error.participants.limit.reached")) );
+        }
         
         // We save the new Workshop
         Ebean.save(currentSession);
@@ -284,7 +291,36 @@ public class WorkshopController extends Controller {
 	}
     
     /**
-     * Allow to remove a participant to the potential participants List for a selected workshop
+     * Check if the user is not in an other session which is planned or just played 
+     * during the month
+     * 
+     * @param currentSession the surrent workshop session
+     * @return true if the user has not already join an other session
+     */
+    private static boolean notInOtherSession( WorkshopSession currentSession ) {
+		Workshop 			workshop 	= 	currentSession.workshop;
+		
+		// On calcule la date du mois dernier
+		GregorianCalendar	calendar	=	new GregorianCalendar();
+		calendar.add(Calendar.DAY_OF_MONTH, -30);
+		Date				lastMonth	=	calendar.getTime(); 
+		
+		for ( WorkshopSession session : workshop.workshopSession ) {
+			// On ne check pas les sessions qui ont déjà eu lieu les mois précédent
+			if ( session.nextPlay.before( lastMonth ) ) {
+				continue;
+			}
+			
+			if ( session.participants.contains( AuthentificationController.getUser() ) ) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+
+	/**
+     * Allow to remove a participant to the potential participants List for a selected session
      * 
      * @param id workshop id
      * @return the welcome page

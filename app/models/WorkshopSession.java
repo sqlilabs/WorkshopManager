@@ -49,14 +49,6 @@ public class WorkshopSession extends Model {
 	public Long id;
 	
 	/**
-	 * L'url du doodle qui contient les participants à cette séance.
-	 */
-	@Required
-	@Pattern(value="http://(.*)",message="constraint.workshopsession.url")
-	@Column(name = "doodle_url", length=255)
-	public String doodleUrl;
-	
-	/**
 	 * L'endroit où le workshop va se dérouler.
 	 */
 	@Required

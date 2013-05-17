@@ -14,15 +14,6 @@
     	action = routes.WorkshopController.saveWorkshopSession( idWs, idSession ),
     	'class   -> "form form-horizontal"
     ) {
-        
-            @inputText(
-            	workshopSessionForm("doodleUrl"), 
-            	'_label -> Messages("form.plan.workshop.doodleUrl.label"),
-            	'class  -> "input-xlarge",
-            	'_help -> Messages("form.plan.workshop.doodleUrl.help"),
-            	'maxlength -> 255,
-				'_showConstraints -> false
-            )
             
             @inputText(
             	workshopSessionForm("location"), 

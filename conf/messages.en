@@ -31,6 +31,7 @@ welcome.workshop.no.speaker=There is no Speaker for this workshop yet
 created.date=Created the
 by.author=by
 welcome.workshop.places.available=There are {0} places availables on {1} initialy opened
+error.participants.limit.reached=The number of participant is reached for this session or you are already join an other session of this workshop this month.
 
 # Modal de suppression de workshop
 welcome.workshop.delete.modal.title=Confirm Deletion
