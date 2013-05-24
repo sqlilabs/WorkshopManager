@@ -106,6 +106,12 @@ public class AuthentificationController extends Controller {
 		}
 	}
 	
+	/**
+	 * Permet de se passer de l'identification Google pour travailler en mode déconnecté
+	 * Uniquement pour le test
+	 * 
+	 * @return la page d'accueil
+	 */
 	public static Result userBouchon() {
 		Cache.set( Application.getUuid() + "connectedUser", User.find.byId(1l) );
 		

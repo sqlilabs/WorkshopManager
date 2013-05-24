@@ -30,7 +30,7 @@
 						</div>
 						<div class="span7 spaceAfter">
 							<h4>
-								<a href="#" workshop-id="@workshop.id"><i class="icon-zoom-in"></i>@workshop.subject</a>
+								<a href="#" workshop-id="@workshop.id"><i class="icon-zoom-in"></i> @workshop.subject</a>
 							</h4>
 							<div>
 								<p>@Html( workshop.summary )<p>
@@ -65,13 +65,13 @@
 					<div class="row-fluid">
 						<div class="span10 participantPicture">
 							@if( AuthentificationController.getUser != null && !workshop.potentialParticipants.contains(AuthentificationController.getUser) ) {
-								<a href="@routes.WorkshopController.addParticipant( workshop.id )" title="@Messages("welcome.workshop.i.am.interested")" >
+								<a href="@routes.WorkshopController.addPotentialParticipant( workshop.id )" title="@Messages("welcome.workshop.i.am.interested")" >
 									<img width="32" height="32"
 										src="@routes.Assets.at("images/addUser.png")" />
 								</a>
 							}
 							@if( AuthentificationController.getUser != null && workshop.potentialParticipants.contains(AuthentificationController.getUser) ) {
-								<a href="@routes.WorkshopController.removeParticipant( workshop.id )" title="@Messages("welcome.workshop.i.am.not.interested")" >
+								<a href="@routes.WorkshopController.removePotentialParticipant( workshop.id )" title="@Messages("welcome.workshop.i.am.not.interested")" >
 									<img width="32" height="32"
 										src="@routes.Assets.at("images/removeUser.png")" />
 								</a>
@@ -85,7 +85,7 @@
 					@if( AuthentificationController.isAuthenticatedUserAdmin || AuthentificationController.isAuthor( workshop ) ) {
 						<div class="row-fluid">
 							<div class="span12 alignToRight">
-								<a href="#" data-link="@routes.WorkshopController.deleteWorkshop(workshop.id)" class="btn btn-danger">@Messages("welcome.workshop.delete")</a>
+								<a href="#" data-link="@routes.WorkshopController.deleteWorkshop(workshop.id)" class="btn btn-danger delete">@Messages("welcome.workshop.delete")</a>
 								<a href="@routes.WorkshopController.modifyWorkshop(workshop.id)" class="btn btn-info">@Messages("welcome.workshop.edit")</a>
 								
 								@if( AuthentificationController.isAuthenticatedUserAdmin ) {

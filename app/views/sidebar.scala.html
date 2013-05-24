@@ -1,5 +1,7 @@
 @( page:String )
 @import helper._
+@import repository._
+@import models.utils.helpers._
 
 @if( AuthentificationController.getUser != null ) {
 	<div class="row-fluid spaceAfter">
@@ -11,14 +13,25 @@
 
 <div class="row-fluid">
 	<p class="alert alert-info sidebarTitle"><img src="@routes.Assets.at("images/RSS-journal.png")" /> @Messages("last.actions") </p>
-	<div class="span12 well well-border-only">
-		wcwxvxvcwxvwxv
-	</div>
-	<div class="span12 well well-border-only">
-		wcwxvxvcwxvwxv
-	</div>
-	<div class="span12 well well-border-only">
-		wcwxvxvcwxvwxv
-	</div>
 </div>
+@for(action <- ActionsRepository.getActions) {
+	<div class="row-fluid spaceAfter">
+		<div class="span3 center-text">
+			<div style="">
+				<img width="32" height="32" title="@action.author.firstName @action.author.lastName" src="@action.author.picture" />
+			</div>
+			<div >
+				<span>@ActionsUtils.getDay( action ) @ActionsUtils.getMonth( action )</span>
+			</div>
+			<div >
+				<span>@ActionsUtils.getTime( action )</span>
+			</div>
+		</div>
+		
+		<div class="span9 well content">
+			<h5 class="center-text" style="margin:0px;">@action.title</h5>
+			@action.description
+		</div>
+	</div>
+}
 	
