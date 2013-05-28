@@ -28,13 +28,6 @@ create table RESSOURCE (
   constraint pk_RESSOURCE primary key (id))
 ;
 
-create table SESSION (
-  id                        bigint auto_increment not null,
-  uuid                      varchar(255),
-  username                  varchar(255),
-  constraint pk_SESSION primary key (id))
-;
-
 create table USER (
   id                        bigint auto_increment not null,
   first_name                varchar(255),
@@ -124,8 +117,6 @@ drop table ACTION;
 drop table COMMENT;
 
 drop table RESSOURCE;
-
-drop table SESSION;
 
 drop table USER;
 
