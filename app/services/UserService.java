@@ -4,6 +4,8 @@ import static models.utils.constants.AuthentificationConstants.*;
 
 import org.codehaus.jackson.JsonNode;
 
+import play.libs.WS;
+
 import repository.UserRepository;
 
 
@@ -30,6 +32,21 @@ public class UserService {
 	//<--------------------------------------------------------------------------->
 	//-							 Service(s)	        
 	//<--------------------------------------------------------------------------->
+	
+	/**
+	 * <p>
+	 * Return user info from oAuth token.
+	 * </p>
+	 * 
+	 * @param accessToken
+	 *            access token
+	 * @return json that represents the user info
+	 */
+	public JsonNode getUserInfo(String accessToken) {
+		return WS.url(GOOGLE_USER_INFO_URL).setQueryParameter(GOOGLE_ACCESS_TOKEN, accessToken).get().get().asJson(); 
+	}
+	
+	
 	/**
 	 * Get the user from the database, update it or creat it with the informations 
 	 * returned by the user info link

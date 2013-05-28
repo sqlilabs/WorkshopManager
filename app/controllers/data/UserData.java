@@ -36,5 +36,9 @@ public class UserData {
 	public String getEmail() {
 		return user.email;
 	}
+	
+	public String getPicture() {
+		return user.picture;
+	}
 
 }

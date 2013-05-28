@@ -19,11 +19,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.avaje.ebean.validation.NotNull;
-
-import play.data.validation.Constraints.Pattern;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
+
+import com.avaje.ebean.validation.NotNull;
 
 
 /**
