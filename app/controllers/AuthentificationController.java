@@ -33,18 +33,6 @@ import views.html.welcome.charter;
  */
 public class AuthentificationController extends Controller {
 	
-	
-	//<--------------------------------------------------------------------------->
-	//-							 Constructeur(s)	        
-	//<--------------------------------------------------------------------------->
-	/**
-	 * Constructeur par defaut
-	 */
-	public AuthentificationController() {
-		super();
-	}
-	
-	
 	//<--------------------------------------------------------------------------->
 	//-							 Actions(s)	        
 	//<--------------------------------------------------------------------------->	
@@ -76,11 +64,7 @@ public class AuthentificationController extends Controller {
 		JsonNode 	resultAccessToken		= 	responseAccessToken.asJson();
 		
 		// Get the user information
-		Response 	response 				= 	WS.url(GOOGLE_USER_INFO_URL)
-													.setQueryParameter(GOOGLE_ACCESS_TOKEN, resultAccessToken.get(GOOGLE_ACCESS_TOKEN).asText())
-													.get().get();
-		
-		JsonNode 	result 					= 	response.asJson();
+		JsonNode 	result 					= 	new UserService().getUserInfo(resultAccessToken.get(GOOGLE_ACCESS_TOKEN).asText());
 		
 		// Call the service that handle the user
 		User 		user 					= 	new UserService().handleUserFromGoogleResponse( result );

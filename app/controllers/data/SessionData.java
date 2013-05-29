@@ -3,8 +3,11 @@
  */
 package controllers.data;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import models.User;
 import models.WorkshopSession;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -66,9 +69,26 @@ public class SessionData {
 
 	/**
 	 * the workshop related to this comment
+	 * @return the workshop
 	 */
 	public WorkshopData getWorkshop() {
 		return new WorkshopData(workshopSession.workshop);
+	}
+	
+	/**
+	 * The participants of this session.
+	 * 
+	 * @return the participants
+	 */
+	public List<UserData> getParticipants() {
+		if (workshopSession.participants == null) {
+			return null;
+		}
+		List<UserData> participants = new ArrayList<UserData>(workshopSession.participants.size());
+		for (User participant : workshopSession.participants) {
+			participants.add(new UserData(participant));
+		}
+		return participants;
 	}
 
 	@JsonIgnore
