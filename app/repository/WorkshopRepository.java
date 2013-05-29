@@ -1,8 +1,10 @@
 package repository;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import models.Workshop;
@@ -53,13 +55,20 @@ public class WorkshopRepository {
 	 * @return la liste des workshops planifiés
 	 */
 	public static List<WorkshopSession> getWorkshopsPlanifie() {
+		
+		// On calcule la date du lendemain
+		GregorianCalendar	calendar	=	new GregorianCalendar();
+		calendar.setTime( new Date() );
+		calendar.add(Calendar.DAY_OF_MONTH, -1);
+		Date				yesterday	=	calendar.getTime();
+		
 		return WorkshopSession.find
 				.fetch("workshop")
 				.fetch("speaker")
 				.fetch("workshop.potentialParticipants")
 				.fetch("workshop.speakers")
 				.where()
-					.gt("nextPlay", new Date() )
+					.gt("nextPlay", yesterday )
 				.orderBy("nextPlay asc")
 				.findList();
 	}
@@ -69,13 +78,19 @@ public class WorkshopRepository {
 	 */
 	public static List<Workshop> getWorkshopsAlreadyPlayed() {
 		
+		// On calcule la date de la veille
+		GregorianCalendar	calendar	=	new GregorianCalendar();
+		calendar.setTime( new Date() );
+		calendar.add(Calendar.DAY_OF_MONTH, -1);
+		Date				yesterday	=	calendar.getTime();
+		
 		List<Workshop> list		=	Workshop.find
 										.fetch("workshopSession")
 										.fetch("workshopSession.speaker")
 										.fetch("comments")
 										.fetch("workshopRessources")
 										.where()
-											.lt("workshopSession.nextPlay", new Date() )
+											.lt("workshopSession.nextPlay", yesterday )
 										.findList();
 		
 		Collections.sort(list, new WorkshopsPlayedComparator() );
