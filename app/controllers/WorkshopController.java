@@ -292,7 +292,7 @@ public class WorkshopController extends Controller {
         User				user				=	AuthentificationController.getUser();
         
         // It's a Set, so no duplicate
-        if ( currentSession.limitePlace != 0 && currentSession.participants.size() < currentSession.limitePlace && notInOtherSession( currentSession ) ) {
+        if ( (currentSession.limitePlace == 0  || currentSession.limitePlace != 0 && currentSession.participants.size() < currentSession.limitePlace) && notInOtherSession( currentSession ) ) {
         	currentSession.participants.add( user );
         }
         else {
