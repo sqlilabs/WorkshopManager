@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.avaje.ebean.Ebean;
 
 import models.Comment;
@@ -688,7 +690,7 @@ public class WorkshopController extends Controller {
  		MultipartFormData 	body 				= 	request().body().asMultipartFormData(); 
  		FilePart 			ressource 			= 	body.getFile("workshopSupportFile");
  		
- 		if (ressource != null) {
+ 		if (ressource != null && !StringUtils.EMPTY.equals( ressource.getFilename()) ) {
  			String 			fileName 			= 	ressource.getFilename();
  			File 			file 				= 	ressource.getFile();
 
