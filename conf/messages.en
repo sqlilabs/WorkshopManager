@@ -31,8 +31,8 @@ welcome.workshop.foreseen.speaker=The foreseen Speaker is {0}
 welcome.workshop.no.speaker=There is no Speaker for this workshop yet
 created.date=Created the
 by.author=by
-welcome.workshop.places.available=There are {0} places availables on {1} initialy opened
-welcome.workshop.places.unlimited=There is unlimited places for this session. Take the time to join anyway, which help us to choose the right conference room.
+welcome.workshop.places.available=There are {0} place(s) available on {1} initialy opened
+welcome.workshop.places.unlimited=There is unlimited places for this session. Take the time to join anyway, which help us to choose the right conference room. Aready {0} people(s) registered
 
 
 # Modal de suppression de workshop

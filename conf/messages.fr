@@ -30,8 +30,8 @@ welcome.workshop.foreseen.speaker=Le Speaker pressenti est {0}
 welcome.workshop.no.speaker=Il n''y a pas encore de Speaker pour ce workshop
 created.date=Crée le
 by.author=par
-welcome.workshop.places.available=Il reste {0} places disponibles sur {1} places ouvertes
-welcome.workshop.places.unlimited=Places illimitée pour cette session. Inscrivez-vous quand même pour dimensionner la salle !
+welcome.workshop.places.available=Il reste {0} place(s) disponible(s) sur {1} places ouvertes
+welcome.workshop.places.unlimited=Places illimitée pour cette session. Inscrivez-vous quand même pour dimensionner la salle ! Déjà {0} personne(s) inscrite(s)
 
 
 # Modal de suppression de workshop
@@ -110,7 +110,7 @@ workshop.planned.edit.add.session=Ajouter session
 # Errors messages
 error.speaker.limit.reached=Le nombre de speaker maximum est atteint
 error.google.authentification.refused=Vous avez refusé l'identification via votre compte Google, vous ne pourrez pas profiter des privilèges liés aux utilisateurs identifiés. Google nous a retourné l'erreur suivante: [{0}]
-error.participants.limit.reached=Le nombre maximum de participant est atteind ou vous êtes déjà inscrit à une autres session de ce workshop ce mois ci.
+error.participants.limit.reached=Le nombre maximum de participant est atteint ou vous êtes déjà inscrit à une autres session de ce workshop ce mois ci.
 
 # Actions
 action.add.new.workshop=Nouveau Workshop !

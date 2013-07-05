@@ -51,7 +51,7 @@
 									<i class="icon-hand-right"></i> @Messages("welcome.workshop.places.available", session.limitePlace - session.participants.size, session.limitePlace)
 								}
 								@if( session.limitePlace == 0 ) {
-									<i class="icon-hand-right"></i> @Messages("welcome.workshop.places.unlimited")
+									<i class="icon-hand-right"></i> @Messages("welcome.workshop.places.unlimited", session.participants.size)
 								}
 							</div>
 						</div>
