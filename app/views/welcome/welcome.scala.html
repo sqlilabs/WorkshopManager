@@ -58,7 +58,7 @@
 						<div class="row-fluid">
 							<div class="span10 participantPicture">
 								@for(participant <- session.participants) { 
-									<img width="32" height="32" title="@participant.firstName @participant.lastName"
+									<img class="participantPicture" title="@participant.firstName @participant.lastName"
 										src="@participant.picture" />
 								}
 							</div>
