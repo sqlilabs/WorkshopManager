@@ -44,13 +44,13 @@
 							@if( AuthentificationController.getUser != null && !workshop.speakers.contains(AuthentificationController.getUser)) {
 								<a href="@routes.WorkshopController.addSpeaker( workshop.id )" title="@Messages("welcome.workshop.become.speaker")" >
 									<img width="48" height="48"
-										src="@routes.Assets.at("images/addUser.png")" />
+										src="@routes.Assets.at("images/addSpeaker.png")" />
 								</a>
 							}
 							@if( AuthentificationController.getUser != null && workshop.speakers.contains(AuthentificationController.getUser)) {
 								<a href="@routes.WorkshopController.removeSpeaker( workshop.id )" title="@Messages("welcome.workshop.removeme.speaker")" >
 									<img width="48" height="48"
-										src="@routes.Assets.at("images/removeUser.png")" />
+										src="@routes.Assets.at("images/removeSpeaker.png")" />
 								</a>
 							}
 						</div>
