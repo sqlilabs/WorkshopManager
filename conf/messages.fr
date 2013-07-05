@@ -96,7 +96,7 @@ workshop.ressources.file=Support du workshop interne
 
 # Charte
 action.ok=C''est cool! Je comprends et j''accepte ces termes
-action.ko=Vous avez craqués, même par en rêve !!
+action.ko=Vous avez craqué, même pas en rêve !!
 
 # Workshops planed
 workshop.planned.on=Planifié le
