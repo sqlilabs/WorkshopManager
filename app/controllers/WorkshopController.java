@@ -215,6 +215,12 @@ public class WorkshopController extends Controller {
 		
 		// We empty the potentialParticipants List
 		workshopToPlan.potentialParticipants	= 	new HashSet<User>();
+		
+		// On ajoute 13h à la date de nextSession
+		GregorianCalendar	calendar	=	new GregorianCalendar();
+		calendar.setTime( workshopSession.nextPlay );
+		calendar.add(Calendar.HOUR_OF_DAY, 13);
+		workshopSession.nextPlay		=	calendar.getTime();
 
 		// Sauver l'objet en base 
 		if (!newSession) {
