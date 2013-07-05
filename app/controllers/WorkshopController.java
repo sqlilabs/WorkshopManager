@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.avaje.ebean.Ebean;
 
 import models.Comment;
@@ -111,7 +113,8 @@ public class WorkshopController extends Controller {
         
 		if (id == ID_NOT_IN_TABLE) {
 			Ebean.save(workshopNew);
-		} else {
+		} 
+		else {
 			workshopNew.id					=	id;
 			Ebean.update(workshopNew);
 		}
@@ -291,7 +294,7 @@ public class WorkshopController extends Controller {
         User				user				=	AuthentificationController.getUser();
         
         // It's a Set, so no duplicate
-        if ( currentSession.limitePlace != 0 && currentSession.participants.size() < currentSession.limitePlace && notInOtherSession( currentSession ) ) {
+        if ( (currentSession.limitePlace == 0  || currentSession.limitePlace != 0 && currentSession.participants.size() < currentSession.limitePlace) && notInOtherSession( currentSession ) ) {
         	currentSession.participants.add( user );
         }
         else {
@@ -312,21 +315,34 @@ public class WorkshopController extends Controller {
      * @return true if the user has not already join an other session
      */
     private static boolean notInOtherSession( WorkshopSession currentSession ) {
+    	String username = AuthentificationController.getUser().email;
+		return notInOtherSession(currentSession, username);
+	}
+    
+    /**
+     * Check if the user is not in an other session which is planned or just played 
+     * during the month
+     * 
+     * @param currentSession the surrent workshop session
+     * @return true if the user has not already join an other session
+     */
+    static boolean notInOtherSession( WorkshopSession currentSession, String username) {
 		Workshop 			workshop 	= 	currentSession.workshop;
 		
-		// On calcule la date du mois dernier
+		// On calcule la date un mois avant la date du workshop courant
 		GregorianCalendar	calendar	=	new GregorianCalendar();
+		calendar.setTime(currentSession.nextPlay);
 		calendar.add(Calendar.DAY_OF_MONTH, -30);
 		Date				lastMonth	=	calendar.getTime(); 
-		
 		for ( WorkshopSession session : workshop.workshopSession ) {
-			// On ne check pas les sessions qui ont déjà eu lieu les mois précédent
-			if ( session.nextPlay.before( lastMonth ) ) {
-				continue;
-			}
-			
-			if ( session.participants.contains( AuthentificationController.getUser() ) ) {
-				return false;
+			for (User user : session.participants) {
+				if (user.email.equals(username)) {
+					// On ne check pas les sessions qui ont déjà eu lieu les mois précédent
+					if ( session.nextPlay.before( lastMonth ) ) {
+						continue;
+					}
+					return false;
+				}
 			}
 		}
 		
@@ -569,6 +585,7 @@ public class WorkshopController extends Controller {
 	 * @return la liste des Workshops planifiés qui a été placé dans le context
 	 */
 	public static List<Workshop> getWorkshopsPlanifieFromContext() {
+		@SuppressWarnings("unchecked")
 		List<Workshop> listWsPlanifie = (List<Workshop>) Http.Context.current().args.get("wsPlanifie");
 		return listWsPlanifie != null ? listWsPlanifie
 				: new ArrayList<Workshop>();
@@ -673,7 +690,7 @@ public class WorkshopController extends Controller {
  		MultipartFormData 	body 				= 	request().body().asMultipartFormData(); 
  		FilePart 			ressource 			= 	body.getFile("workshopSupportFile");
  		
- 		if (ressource != null) {
+ 		if (ressource != null && !StringUtils.EMPTY.equals( ressource.getFilename()) ) {
  			String 			fileName 			= 	ressource.getFilename();
  			File 			file 				= 	ressource.getFile();
 

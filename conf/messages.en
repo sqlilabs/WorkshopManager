@@ -53,7 +53,7 @@ form.add.workshop.cancel.button = Cancel
 form.add.workshop.summary.label=Summary
 
 # Formulaire de planification
-form.plan.page.title=Schedule a workshop
+form.plan.workshop.page.title=Schedule a workshop
 form.plan.workshop.title=Please enter session details
 form.plan.workshop.doodleUrl.label=Doodle Url
 form.plan.workshop.doodleUrl.help=You need to enter the whole URL (ie with http://).<br />Url must be valid.

@@ -53,7 +53,8 @@ GET		/createNewUser									controllers.AuthentificationController.createNewUser
 GET 	/bouchon										controllers.AuthentificationController.userBouchon()			
 
 # WS Workshop
-GET		/ws/workshopsPlanifies							controllers.Application.wsWorkshopsPlanifies()
+GET		/ws/workshopsPlanifies							controllers.Api.wsWorkshopsPlanifies()
+POST	/ws/register									controllers.Api.wsRegister()
 
 # WS user
 PUT		/ws/modifyUserPicture							controllers.AuthentificationController.modifyUserPicture() 

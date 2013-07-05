@@ -1,14 +1,8 @@
 package controllers;
 
 import static models.utils.constants.ApplicationConstants.UUID;
-
-import java.util.List;
-
-import models.Workshop;
-import models.WorkshopSession;
 import play.Play;
 import play.db.ebean.Transactional;
-import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Http.Context;
@@ -35,18 +29,6 @@ public class Application extends Controller {
 		Context.current().args.put("ongletActif", "home");
 		// We render the welcome page
 		return ok(welcome.render("Les prochains Workshops", WorkshopRepository.getWorkshopsPlanifie()));
-	}
-	
-	/**
-	 * This a REST webservice which return the planned workshops list
-	 * 
-	 * @return Result the http response
-	 */
-	@Transactional()
-	@BodyParser.Of(play.mvc.BodyParser.Json.class)
-	public static Result wsWorkshopsPlanifies() {
-		List<WorkshopSession> wsPlanifies = WorkshopRepository.getWorkshopsPlanifie();
-		return ok(play.libs.Json.toJson(wsPlanifies));
 	}
 	
 	/**
@@ -90,6 +72,8 @@ public class Application extends Controller {
 	/**
 	 * @param tabName le nom du tab à tester
 	 * @return le code html du style css à appliquer si c'est l'onglet selectionné
+	 * @return le code html du style css à appliquer si c'est l'onglet
+	 *         selectionné
 	 */
 	public static String isActive( String tabName ) {
 		String currentTab = (String) Http.Context.current().args.get("ongletActif");

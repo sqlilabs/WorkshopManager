@@ -45,7 +45,7 @@
 								</div>
 								@if( AuthentificationController.getUser != null ) {
 									<div class="ressourcesPicture">
-										@if( workshop.workshopRessources != null && workshop.workshopRessources.workshopSupportLink != null ) { 
+										@if( workshop.workshopRessources != null && workshop.workshopRessources.workshopSupportLink != "" ) { 
 											<a href="@workshop.workshopRessources.workshopSupportLink" target="_blank">
 												<img width="36" height="36"	title="@Messages("link.to.workshop.ressources")" src="@routes.Assets.at("images/internet-icon.png")" />
 											</a>
