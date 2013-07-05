@@ -176,8 +176,11 @@ hr.soften {
 	margin-right: 10px;
 }
 .plannedTitle p {
-	padding: 2px 5px 2px 10px;
+	padding: 5px 5px 5px 10px;
 	vertical-align: middle;
+	font-family: 'Dancing Script', Georgia, Times, serif;
+    font-size: 20px;
+    line-height: 20px;
 }
 .plannedTitle span {
 	font-family: 'Dancing Script', Georgia, Times, serif;
