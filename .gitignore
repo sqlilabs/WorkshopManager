@@ -22,4 +22,8 @@ dist
 /public/ressources/
 /public/images/workshops/
 
+#ignore idea files
+.idea
+.idea_modules
+
 
