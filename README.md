@@ -13,7 +13,7 @@ Two quick start options are available:
 * [Download the latest release](https://github.com/sqlilabs/WorkshopManager/releases/tag/v1.0.0) (Coming soon).
 * Clone the repo: `git clone https://github.com/sqlilabs/WorkshopManager.git`.
 
-Read the [Getting Started page](http://sqlilabs.github.io/WorkshopManager/getting-started/) for install information and description of the functionality.
+Read the [Getting Started section](http://sqlilabs.github.io/WorkshopManager/#getting-started) for install information and description of the functionality.
 
 
 ## History
@@ -22,7 +22,7 @@ This project was originally build to create a tools and learn Play! framework at
 
 It was also an internal project at that time, so some comments are in French (which will be fixed quickly) but sadly most of the GIT commit comments too, and that can't be fixed...
 
-Finally, the project was hosted in Bitbucket, and during the import of bug trackers some errors occured (because of our french accents ^^), then the ID in Github are (Bitbucket ID + 2) which help to understand some GIT comments
+Finally, the project was hosted in Bitbucket, and during the import of bug trackers some errors occurred (because of our french accents ^^), then the ID in Github are (Bitbucket ID + 2) which help to understand some GIT comments
 
 
 ## Bugs and feature requests
@@ -36,7 +36,7 @@ WorkshopManager's documentation, included in this repo in the gh-pages branch, i
 
 
 ## Install
-To run this project you have to download [Play! framework 2.1.0](http://downloads.typesafe.com/play/2.1.0/play-2.1.0.zip)
+Read the [Getting Started section](http://sqlilabs.github.io/WorkshopManager/#getting-started)
 
 
 ## Versioning
