@@ -70,7 +70,7 @@ public class AuthentificationController extends Controller {
 		User 		user 					= 	new UserService().handleUserFromGoogleResponse( result );
 		
 		// If the user is not from sqli he can't connect
-		if ( !StringUtils.endsWith( user.email, "@sqli.com" ) ) {
+		if ( !StringUtils.endsWith( user.email, Play.application().configuration().getString("mail.filter")) ) {
 			//TODO un pop-up pour expliquer pourquoi ça serai sympa
 			return forbidden();
 		}
