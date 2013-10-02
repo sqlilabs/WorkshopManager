@@ -61,9 +61,9 @@ public class Api extends Controller {
 		String accessToken = json.findPath("accessToken").getTextValue();
 
 		// get user info
-		JsonNode oAuth = new UserService().getUserInfo(accessToken);
-
-		String username = oAuth.findPath("email").getTextValue();
+//		JsonNode oAuth = new UserService().getUserInfo(accessToken);
+//
+//		String username = oAuth.findPath("email").getTextValue();
 
 		Long workshopSessionId = json.findPath("workshopSessionId")
 				.getLongValue();
@@ -72,13 +72,14 @@ public class Api extends Controller {
 				.byId(workshopSessionId);
 
 		// Get the connected User
-		User user = User.find.where().eq("email", username).findUnique();
+		//User user = User.find.where().eq("email", username).findUnique();
+        User user = Secured.getUser();
 
 		// It's a Set, so no duplicate
 		if (currentSession.limitePlace != 0
 				&& currentSession.participants.size() < currentSession.limitePlace
 				&& WorkshopController.notInOtherSession(currentSession,
-						username)) {
+                    user.email)) {
 			currentSession.participants.add(user);
 		} else {
 			result.put("result", "error");

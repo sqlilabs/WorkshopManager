@@ -1,24 +1,24 @@
 <div class="container-fluid">
-<!-- 	@AuthentificationController.buildGoogleOAuthLink -->
-	@if( AuthentificationController.getUser == null ) {
+
+	@if( AuthenticationController.getUser == null ) {
 		<div class="row-fluid">
 			<div class="span12 ">
-	 			<a id="authenticationButton" class="btn btn-primary" href="@AuthentificationController.buildGoogleOAuthLink"><i class="icon-user icon-white"></i> @Messages("action.login") </a>
+	 			<a id="authenticationButton" class="btn btn-primary" href="@routes.AuthenticationController.auth()"><i class="icon-user icon-white"></i> @Messages("action.login") </a>
 	 		</div>
 	 	</div>
 	} else {
 		<div class="row-fluid littleMarginTop">
 			<div class="span3">
 				<a id="user-picture-link" href="#">
-					<img id="user-picture-img" src="@AuthentificationController.getUser.picture" />
+					<img id="user-picture-img" src="@AuthenticationController.getUser.picture" />
 					<i class="icon-edit"></i> edit
 				</a>
 			</div>
 			
 			<div class="span9">
-				<div>@AuthentificationController.getUser.firstName @AuthentificationController.getUser.lastName</div>
-				<div class="emailStyle">@AuthentificationController.getUser.email</div>
-				<div><a href="@routes.AuthentificationController.deconnection">logout</a></div>
+				<div>@AuthenticationController.getUser.firstName @AuthenticationController.getUser.lastName</div>
+				<div class="emailStyle">@AuthenticationController.getUser.email</div>
+				<div><a href="@routes.AuthenticationController.logout">logout</a></div>
 			</div>
 		</div>
 		

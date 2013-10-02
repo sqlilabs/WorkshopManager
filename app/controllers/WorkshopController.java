@@ -96,18 +96,18 @@ public class WorkshopController extends Controller {
 			workshopNew.image					=	image.endsWith("default.png") ? ws.image : image ;
 			
 			// On log l'action
-			ActionsUtils.logAction( ActionEnum.MODIFY_WORKSHOP, AuthentificationController.getUser(), workshopNew.subject, "");
+			ActionsUtils.logAction( ActionEnum.MODIFY_WORKSHOP, AuthenticationController.getUser(), workshopNew.subject, "");
 		}
 		else {
 			// On affecte l'auteur connecté
-			workshopNew.author 				=	AuthentificationController.getUser() ;
+			workshopNew.author 				=	AuthenticationController.getUser() ;
 			// et la date de création
 			workshopNew.creationDate		= 	new Date();
 			// On set l'image du workshop
 			workshopNew.image					=	uploadImage();
 			
 			// On log l'action
-			ActionsUtils.logAction( ActionEnum.NEW_WORKSHOP, AuthentificationController.getUser(), workshopNew.subject, "");
+			ActionsUtils.logAction( ActionEnum.NEW_WORKSHOP, AuthenticationController.getUser(), workshopNew.subject, "");
 			
 		}
         
@@ -144,7 +144,7 @@ public class WorkshopController extends Controller {
 	public static Result deleteWorkshop(Long id) {
 		Workshop ws = Workshop.find.byId(id);
 		Ebean.delete(ws);
-		ActionsUtils.logAction( ActionEnum.DELETE_WORKSHOP, AuthentificationController.getUser(), ws.subject, "");
+		ActionsUtils.logAction( ActionEnum.DELETE_WORKSHOP, AuthenticationController.getUser(), ws.subject, "");
 
 		return redirect( routes.Application.newWorkshops() );
 	}
@@ -205,10 +205,10 @@ public class WorkshopController extends Controller {
 			workshopSession.id				=	idSession ;
 			workshopSession.participants	=	new HashSet<User>(oldSession.participants);
 			workshopToPlan.workshopSession.remove( oldSession );
-			ActionsUtils.logAction( ActionEnum.MODIFY_SESSION, AuthentificationController.getUser(), workshopToPlan.subject, "");
+			ActionsUtils.logAction( ActionEnum.MODIFY_SESSION, AuthenticationController.getUser(), workshopToPlan.subject, "");
 		}
 		else {
-			ActionsUtils.logAction( ActionEnum.ADD_SESSION, AuthentificationController.getUser(), workshopToPlan.subject, "");
+			ActionsUtils.logAction( ActionEnum.ADD_SESSION, AuthenticationController.getUser(), workshopToPlan.subject, "");
 		}
 		workshopToPlan.workshopSession.add(workshopSession);
 		workshopSession.workshop			=	workshopToPlan;
@@ -247,7 +247,7 @@ public class WorkshopController extends Controller {
         
         if ( currentWorkshop.speakers.size() < Play.application().configuration().getInt( "speaker.limit" )) {
         	// Get the connected User
-            User		user				=	AuthentificationController.getUser();
+            User		user				=	AuthenticationController.getUser();
             
             // It's a Set, so no duplicate
             currentWorkshop.speakers.add( user );
@@ -274,7 +274,7 @@ public class WorkshopController extends Controller {
         Workshop	currentWorkshop 	= 	Workshop.find.byId(id);
         
         // Get the connected User
-        User		user				=	AuthentificationController.getUser();
+        User		user				=	AuthenticationController.getUser();
         
         // It's a Set, so no duplicate
         currentWorkshop.speakers.remove( user );
@@ -297,7 +297,7 @@ public class WorkshopController extends Controller {
     	WorkshopSession		currentSession 		= 	WorkshopSession.find.byId(id);
         
         // Get the connected User
-        User				user				=	AuthentificationController.getUser();
+        User				user				=	AuthenticationController.getUser();
         
         // It's a Set, so no duplicate
         if ( (currentSession.limitePlace == 0  || currentSession.limitePlace != 0 && currentSession.participants.size() < currentSession.limitePlace) && notInOtherSession( currentSession ) ) {
@@ -321,7 +321,7 @@ public class WorkshopController extends Controller {
      * @return true if the user has not already join an other session
      */
     private static boolean notInOtherSession( WorkshopSession currentSession ) {
-    	String username = AuthentificationController.getUser().email;
+    	String username = AuthenticationController.getUser().email;
 		return notInOtherSession(currentSession, username);
 	}
     
@@ -367,7 +367,7 @@ public class WorkshopController extends Controller {
     	WorkshopSession		currentSession 		= 	WorkshopSession.find.byId(id);
         
         // Get the connected User
-        User				user				=	AuthentificationController.getUser();
+        User				user				=	AuthenticationController.getUser();
         
         // It's a Set, so no duplicate
         currentSession.participants.remove( user );
@@ -390,7 +390,7 @@ public class WorkshopController extends Controller {
         Workshop	currentWorkshop 	= 	Workshop.find.byId(id);
         
         // Get the connected User
-        User		user				=	AuthentificationController.getUser();
+        User		user				=	AuthenticationController.getUser();
         
         // It's a Set, so no duplicate
         currentWorkshop.potentialParticipants.add( user );
@@ -413,7 +413,7 @@ public class WorkshopController extends Controller {
         Workshop	currentWorkshop 	= 	Workshop.find.byId(id);
         
         // Get the connected User
-        User		user				=	AuthentificationController.getUser();
+        User		user				=	AuthenticationController.getUser();
         
         // It's a Set, so no duplicate
         currentWorkshop.potentialParticipants.remove( user );
@@ -436,7 +436,7 @@ public class WorkshopController extends Controller {
         Workshop	currentWorkshop 	= 	Workshop.find.byId(id);
         
         // Get the connected User
-        User		user				=	AuthentificationController.getUser();
+        User		user				=	AuthenticationController.getUser();
         
         // It's a Set, so no duplicate
         currentWorkshop.potentialParticipants.add( user );
@@ -459,7 +459,7 @@ public class WorkshopController extends Controller {
         Workshop	currentWorkshop 	= 	Workshop.find.byId(id);
         
         // Get the connected User
-        User		user				=	AuthentificationController.getUser();
+        User		user				=	AuthenticationController.getUser();
         
         // It's a Set, so no duplicate
         currentWorkshop.potentialParticipants.remove( user );
@@ -502,7 +502,7 @@ public class WorkshopController extends Controller {
     	//We create the comment instance
     	Comment 		comment 	= 	filledForm.get();
     	comment.creationDate 		= 	new Date();
-    	comment.author				=	AuthentificationController.getUser();
+    	comment.author				=	AuthenticationController.getUser();
     	comment.workshop			=	ws;
     	
     	// We add the new comment
@@ -511,7 +511,7 @@ public class WorkshopController extends Controller {
     	// We save the objects in base
     	Ebean.save( comment );
         Ebean.update( ws );
-        ActionsUtils.logAction( ActionEnum.COMMENT, AuthentificationController.getUser(), ws.subject, "");
+        ActionsUtils.logAction( ActionEnum.COMMENT, AuthenticationController.getUser(), ws.subject, "");
     	
         return redirect( routes.Application.workshops() + "#" + id);
     }
@@ -577,7 +577,7 @@ public class WorkshopController extends Controller {
     		Ebean.save( ressources );
     	}
     	Ebean.update( ws );
-    	ActionsUtils.logAction( ActionEnum.ADD_SUPPORT, AuthentificationController.getUser(), ws.subject, "");
+    	ActionsUtils.logAction( ActionEnum.ADD_SUPPORT, AuthenticationController.getUser(), ws.subject, "");
     	
         return redirect( routes.Application.workshops() + "#" + id );
     }

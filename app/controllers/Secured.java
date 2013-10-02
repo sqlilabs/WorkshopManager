@@ -36,15 +36,19 @@ public class Secured extends Security.Authenticator {
 	 * 
 	 * @return l'utilisateur connecté
 	 */
-	public static User getUser() {
-		User user = (User) Cache.get(Context.current().request().username());
-		if (user == null) {
-			user = User.find.where()
-					.eq("email", Context.current().request().username())
-					.findUnique();
-			Cache.set(Context.current().request().username(), user);
-		}
-		return user;
-	}
+    public static User getUser() {
+        String 	userId 	= 	Context.current().session().get("email");
+
+        // We get the user from cache if it exists
+        User 	user 	= 	(User) Cache.get( userId );
+
+        // Otherwise, we get it from the database
+        if (user == null) {
+            user = User.find.where().eq("email", userId).findUnique();
+            Cache.set( userId, user );
+        }
+
+        return user;
+    }
 
 }
