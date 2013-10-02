@@ -113,7 +113,7 @@ public class AuthentificationController extends Controller {
 		// We retreive the new user from cache and persist it
 		User 	user 		= 	(User) Cache.get( Application.getUuid() + "newUser" );
 		user.charterAgree	=	true;
-		user.role			=	"standard";
+		user.role			=	Play.application().configuration().getString("default.role");
 		Ebean.save( user );
 		
 		// The new user is now connected
