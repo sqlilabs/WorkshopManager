@@ -74,6 +74,10 @@ For more information on SemVer, please visit [http://semver.org/](http://semver.
 + [http://twitter.com/cachavezley](http://twitter.com/cachavezley)
 + [https://github.com/cachavezley](https://github.com/cachavezley)
 
+**Miguel Diez Garcia**
+
++ [http://twitter.com/mdiezgarcia](http://twitter.com/mdiezgarcia)
+
 **Christophe Opoix**
 
 + [https://github.com/copoix](https://github.com/copoix)
