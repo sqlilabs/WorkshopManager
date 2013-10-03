@@ -104,6 +104,18 @@ public class Application extends Controller {
 	public static String getBugManagerUrl() {
 		return Play.application().configuration().getString("bug.manager.link");
 	}
+
+    /**
+     * Simply the call to properties in application.conf
+     *
+     * @param properties the property to retrieve
+     *
+     * @return the value of the property in the application.conf file
+     */
+    public static String conf( String properties ) {
+        return Play.application().configuration().getString(properties);
+    }
+
 	
 	
 	
