@@ -34,8 +34,9 @@ create table USER (
   last_name                 varchar(255),
   email                     varchar(255),
   picture                   varchar(255),
-  role                      varchar(255) not null,
+  role                      varchar(8) not null,
   charterAgree              tinyint(1) default 0,
+  constraint ck_USER_role check (role in ('admin','standard')),
   constraint pk_USER primary key (id))
 ;
 

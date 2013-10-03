@@ -38,13 +38,13 @@
 								<img width="48" height="48" title="@speaker.firstName @speaker.lastName"
 									src="@speaker.picture" />
 							}
-							@if( AuthentificationController.getUser != null && !workshop.speakers.contains(AuthentificationController.getUser)) {
+							@if( Secured.getUser != null && !workshop.speakers.contains(Secured.getUser)) {
 								<a href="@routes.WorkshopController.addSpeaker( workshop.id )" title="@Messages("welcome.workshop.become.speaker")" >
 									<img width="48" height="48"
 										src="@routes.Assets.at("images/addSpeaker.png")" />
 								</a>
 							}
-							@if( AuthentificationController.getUser != null && workshop.speakers.contains(AuthentificationController.getUser)) {
+							@if( Secured.getUser != null && workshop.speakers.contains(Secured.getUser)) {
 								<a href="@routes.WorkshopController.removeSpeaker( workshop.id )" title="@Messages("welcome.workshop.removeme.speaker")" >
 									<img width="48" height="48"
 										src="@routes.Assets.at("images/removeSpeaker.png")" />
@@ -61,13 +61,13 @@
 					
 					<div class="row-fluid">
 						<div class="span10 participantPicture">
-							@if( AuthentificationController.getUser != null && !workshop.potentialParticipants.contains(AuthentificationController.getUser) ) {
+							@if( Secured.getUser != null && !workshop.potentialParticipants.contains(Secured.getUser) ) {
 								<a href="@routes.WorkshopController.addPotentialParticipant( workshop.id )" title="@Messages("welcome.workshop.i.am.interested")" >
 									<img width="32" height="32"
 										src="@routes.Assets.at("images/addUser.png")" />
 								</a>
 							}
-							@if( AuthentificationController.getUser != null && workshop.potentialParticipants.contains(AuthentificationController.getUser) ) {
+							@if( Secured.getUser != null && workshop.potentialParticipants.contains(Secured.getUser) ) {
 								<a href="@routes.WorkshopController.removePotentialParticipant( workshop.id )" title="@Messages("welcome.workshop.i.am.not.interested")" >
 									<img width="32" height="32"
 										src="@routes.Assets.at("images/removeUser.png")" />
@@ -79,13 +79,13 @@
 							}
 						</div>
 					</div>
-					@if( AuthentificationController.isAuthenticatedUserAdmin || AuthentificationController.isAuthor( workshop ) ) {
+					@if( Secured.getUser != null && (Secured.isMemberOf( Roles.ADMIN ) || UsersController.isAuthor( workshop )) ) {
 						<div class="row-fluid">
 							<div class="span12 alignToRight">
 								<a href="#" data-link="@routes.WorkshopController.deleteWorkshop(workshop.id)" class="btn btn-danger delete">@Messages("welcome.workshop.delete")</a>
 								<a href="@routes.WorkshopController.modifyWorkshop(workshop.id)" class="btn btn-info">@Messages("welcome.workshop.edit")</a>
 								
-								@if( AuthentificationController.isAuthenticatedUserAdmin ) {
+								@if( Secured.isMemberOf( Roles.ADMIN ) ) {
 									<a href="@routes.WorkshopController.planWorkshop(workshop.id)" class="btn btn-success">@Messages("welcome.workshop.plan")</a>
 								}
 							</div>

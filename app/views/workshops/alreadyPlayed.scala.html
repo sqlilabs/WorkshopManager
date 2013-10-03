@@ -40,7 +40,7 @@
 									</a>
 									<h4 class="alignToRight" title="@Messages("comments.number")">@workshop.comments.size</h4>
 								</div>
-								@if( AuthentificationController.getUser != null ) {
+								@if( Secured.getUser != null ) {
 									<div class="ressourcesPicture">
 										@if( workshop.workshopRessources != null && workshop.workshopRessources.workshopSupportLink != "" ) { 
 											<a href="@workshop.workshopRessources.workshopSupportLink" target="_blank">
@@ -65,13 +65,13 @@
 						
 						<div class="row-fluid">
 							<div class="span10 participantPicture">
-								@if( AuthentificationController.getUser != null && !workshop.potentialParticipants.contains(AuthentificationController.getUser) ) {
+								@if( Secured.getUser != null && !workshop.potentialParticipants.contains(Secured.getUser) ) {
 									<a href="@routes.WorkshopController.addInterrestedParticipant( workshop.id )" title="@Messages("welcome.workshop.i.am.interested")" >
 										<img width="32" height="32"
 											src="@routes.Assets.at("images/addUser.png")" />
 									</a>
 								}
-								@if( AuthentificationController.getUser != null && workshop.potentialParticipants.contains(AuthentificationController.getUser) ) {
+								@if( Secured.getUser != null && workshop.potentialParticipants.contains(Secured.getUser) ) {
 									<a href="@routes.WorkshopController.removeInterrestedParticipant( workshop.id )" title="@Messages("welcome.workshop.i.am.not.interested")" >
 										<img width="32" height="32"
 											src="@routes.Assets.at("images/removeUser.png")" />
@@ -83,10 +83,10 @@
 								}
 							</div>
 						</div>
-						@if( AuthentificationController.isAuthenticatedUserAdmin || AuthentificationController.getUser != null ) {
+						@if( Secured.getUser != null ) {
 							<div class="row">
 								<div class="span12 alignToRight">
-									@if( AuthentificationController.isAuthenticatedUserAdmin ) {
+									@if( Secured.isMemberOf( Roles.ADMIN ) ) {
 										<a href="@routes.WorkshopController.addWorkshopRessources(workshop.id)" class="btn btn-inverse" >
 											@Messages("form.plan.workshop.add.ressources")
 										</a>
@@ -94,7 +94,7 @@
 											@Messages("form.plan.workshop.plan.again")
 										</a>
 									}
-									@if( AuthentificationController.getUser != null ) {
+									@if( Secured.getUser != null ) {
 										<a href="@routes.WorkshopController.addComment( workshop.id )" class="btn btn-info" >
 											@Messages("form.plan.workshop.add.comment")
 										</a>

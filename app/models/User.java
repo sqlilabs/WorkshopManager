@@ -60,7 +60,7 @@ public class User extends Model {
 	 * the role of the user
 	 */
 	@Column(name = "role", nullable=false )
-	public String role;
+	public Roles role;
 	
 	/**
 	 * boolean to know if the user had accepted the charter

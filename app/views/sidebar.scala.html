@@ -3,7 +3,7 @@
 @import repository._
 @import models.utils.helpers._
 
-@if( AuthentificationController.getUser != null ) {
+@if( Secured.getUser != null ) {
 	<div class="row-fluid spaceAfter">
 		<div class="span12 center-text">
 		<a href="@routes.WorkshopController.blankWorkshop" class="btn btn-large btn-primary">@Messages("action.submit.a.workshop")</a>

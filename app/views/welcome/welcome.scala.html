@@ -63,25 +63,25 @@
 						</div>
 					
 						<!-- Contrôles -->
-						@if( AuthentificationController.getUser != null ) {
+						@if( Secured.getUser != null ) {
 							<div class="row-fluid">
 								<div class="span12 alignToRight">
-									@if( AuthentificationController.isAuthenticatedUserAdmin || AuthentificationController.isSessionSpeaker( session ) ) {
+									@if( Secured.isMemberOf( Roles.ADMIN ) || UsersController.isSessionSpeaker( session ) ) {
 										<a href="@routes.WorkshopController.modifyPlannedWorkshop(session.workshop.id, session.id)" class="btn btn-info">
 											@Messages("workshop.planned.edit.session")
 										</a>
 									}
-									@if( AuthentificationController.isAuthenticatedUserAdmin || AuthentificationController.isSessionSpeaker( session ) ) {
+									@if( Secured.isMemberOf( Roles.ADMIN ) || UsersController.isSessionSpeaker( session ) ) {
 										<a href="@routes.WorkshopController.planWorkshop(session.workshop.id)" class="btn btn-warning">
 											@Messages("workshop.planned.edit.add.session")
 										</a>
 									}
-									@if( !session.participants.contains(AuthentificationController.getUser) ) {
+									@if( !session.participants.contains(Secured.getUser) ) {
 										<a class="btn btn-success" href="@routes.WorkshopController.addParticipant( session.id )"  >
 											@Messages("workshop.subscribe")
 										</a>
 									}
-									@if( session.participants.contains(AuthentificationController.getUser) ) {
+									@if( session.participants.contains(Secured.getUser) ) {
 										<a class="btn btn-danger" href="@routes.WorkshopController.removeParticipant( session.id )" >
 											@Messages("workshop.unsubscribe")
 										</a>

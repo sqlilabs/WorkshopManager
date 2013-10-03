@@ -49,13 +49,14 @@ GET         /assets/*file                                          controllers.A
 # OpenID
 GET         /login/auth                                            controllers.AuthenticationController.auth()
 GET         /login/verify                                          controllers.AuthenticationController.verify()
-GET         /login/createUser                                      controllers.AuthenticationController.createNewUser()
 GET         /logout                                                controllers.AuthenticationController.logout()
 
 
-# WS Workshop
+# WS API
 GET         /ws/workshopsPlanifies                                 controllers.Api.wsWorkshopsPlanifies()
 POST        /ws/register                                           controllers.Api.wsRegister()
 
-# WS user
-PUT         /ws/modifyUserPicture                                  controllers.AuthenticationController.modifyUserPicture()
+
+# User Controller
+PUT         /ws/modifyUserPicture                                  controllers.UsersController.modifyUserPicture()
+GET         /login/createUser                                      controllers.UsersController.createNewUser()

@@ -32,7 +32,7 @@ import views.html.errors.error;
 import views.html.welcome.charter;
 
 /**
- * Ce controller regroupe toutes les actions qui sont liées à l'authentification via Google API
+ * This controller got the action that allow the user to authenticate
  * 
  * @author ychartois
  */
@@ -107,26 +107,6 @@ public class AuthenticationController extends Controller {
         }
     }
 
-	/**
-	 * Create a new user after his acceptance to the charter
-	 * 
-	 * @return the welcome page
-	 */
-	@Transactional
-	public static Result createNewUser() {
-		
-		// We retreive the new user from cache and persist it
-		User 	user 		= 	(User) Cache.get( Application.getUuid() + "newUser" );
-		user.charterAgree	=	true;
-		user.role			=	Play.application().configuration().getString("default.role");
-		Ebean.save( user );
-		
-		// The new user is now connected
-		Cache.set( Application.getUuid() + "connectedUser", user );
-
-		return redirect(routes.Application.welcome());
-	}
-
     /**
      * Allow to quit the app
      *
@@ -138,77 +118,5 @@ public class AuthenticationController extends Controller {
 
         return ok();
     }
-	
-	/**
-	 * WS allows to modify the user picture
-	 * 
-	 * @return the html status ok
-	 */
-	public static Result modifyUserPicture() {
-		User 					user 	= 	(User) Cache.get( Application.getUuid() + "connectedUser" );
-		Map<String, String[]> 	data 	= 	request().body().asFormUrlEncoded();
-		user.picture					= 	data.get("image")[0];	
-		Ebean.save( user );
-		return ok("{image: " + user.picture + "}");
-	}
-	
-	
-	// <--------------------------------------------------------------------------->
-	// - 							helper methods
-	// <--------------------------------------------------------------------------->
-	/**
-	 * Allow to acess to the authentificated user
-	 * 
-	 * @return the authentificated user
-	 */
-	public static User getUser() {
-		return (User) Cache.get( Application.getUuid() + "connectedUser");
-	}
-	
-	/**
-	 * Allow to identify if the user is an admin
-	 * 
-	 * @return true if the user is admin
-	 */
-	public static boolean isAuthenticatedUserAdmin() {
-		User	user 	=	getUser();
-		return ROLE_ADMIN.equals( user != null ? user.role : null);
-	}
-	
-	/**
-	 * Determine if the connected user is the speaker of the session
-	 * 
-	 * @param session the workshop session
-	 * 
-	 * @return true if the connected user is the speaker of the session
-	 */
-	public static boolean isSessionSpeaker( WorkshopSession session ) {
-		User	user 	=	getUser();
-		
-		if ( user == null ) {
-			return false;
-		}
-		
-		return user.firstName.equals( session.speaker.firstName ) 
-				&& user.lastName.equals( session.speaker.lastName ) ;
-	}
-	
-	/**
-	 * Determine if the connected user is the author of the workshop
-	 * 
-	 * @param worshop a workshop
-	 * 
-	 * @return true if the connected user is the author of the workshop
-	 */
-	public static boolean isAuthor( Workshop worshop ) {
-		User	user 	=	getUser();
-		
-		if ( user == null || worshop == null || worshop.author == null) {
-			return false;
-		}
-		
-		return user.firstName.equals( worshop.author.firstName ) 
-				&& user.lastName.equals( worshop.author.lastName ) ;
-	}
-	
+
 }

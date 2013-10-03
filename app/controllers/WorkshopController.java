@@ -13,15 +13,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import models.*;
 import org.apache.commons.lang.StringUtils;
 
 import com.avaje.ebean.Ebean;
 
-import models.Comment;
-import models.Ressources;
-import models.User;
-import models.Workshop;
-import models.WorkshopSession;
 import models.utils.enums.ActionEnum;
 import models.utils.formatter.UserFormatter;
 import models.utils.helpers.ActionsUtils;
@@ -35,6 +31,7 @@ import play.mvc.Http;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
+import play.mvc.Security;
 import views.html.errors.error;
 import views.html.workshops.addWorkshop;
 import views.html.workshops.planWorkshop;
@@ -71,6 +68,7 @@ public class WorkshopController extends Controller {
 	 *         errors
 	 */
 	@Transactional
+    @Security.Authenticated(Secured.class)
 	public static Result saveWorkshop(Long id) {
 		Form<Workshop> workshopForm = play.data.Form.form(Workshop.class).bindFromRequest();
 
@@ -96,18 +94,18 @@ public class WorkshopController extends Controller {
 			workshopNew.image					=	image.endsWith("default.png") ? ws.image : image ;
 			
 			// On log l'action
-			ActionsUtils.logAction( ActionEnum.MODIFY_WORKSHOP, AuthenticationController.getUser(), workshopNew.subject, "");
+			ActionsUtils.logAction( ActionEnum.MODIFY_WORKSHOP, Secured.getUser(), workshopNew.subject, "");
 		}
 		else {
 			// On affecte l'auteur connecté
-			workshopNew.author 				=	AuthenticationController.getUser() ;
+			workshopNew.author 				=	Secured.getUser() ;
 			// et la date de création
 			workshopNew.creationDate		= 	new Date();
 			// On set l'image du workshop
 			workshopNew.image					=	uploadImage();
 			
 			// On log l'action
-			ActionsUtils.logAction( ActionEnum.NEW_WORKSHOP, AuthenticationController.getUser(), workshopNew.subject, "");
+			ActionsUtils.logAction( ActionEnum.NEW_WORKSHOP, Secured.getUser(), workshopNew.subject, "");
 			
 		}
         
@@ -128,9 +126,15 @@ public class WorkshopController extends Controller {
 	 * @return la page permettant de modifier le workshop
 	 */
 	@Transactional
+    @Security.Authenticated(Secured.class)
 	public static Result modifyWorkshop(Long id) {
-		Workshop ws = Workshop.find.byId(id);
-		Form<Workshop> workshopForm = play.data.Form.form(Workshop.class).fill(ws);
+        Workshop ws = Workshop.find.byId(id);
+
+        if (!Secured.isMemberOf(Roles.ADMIN) && !UsersController.isAuthor(ws)) {
+            return forbidden();
+        }
+
+        Form<Workshop> workshopForm = play.data.Form.form(Workshop.class).fill(ws);
 
 		return ok( addWorkshop.render(workshopForm, id) );
 	}
@@ -141,10 +145,16 @@ public class WorkshopController extends Controller {
 	 * @return the welcome page
 	 */
 	@Transactional
+    @Security.Authenticated(Secured.class)
 	public static Result deleteWorkshop(Long id) {
 		Workshop ws = Workshop.find.byId(id);
+
+        if (!Secured.isMemberOf(Roles.ADMIN) && !UsersController.isAuthor(ws)) {
+            return forbidden();
+        }
+
 		Ebean.delete(ws);
-		ActionsUtils.logAction( ActionEnum.DELETE_WORKSHOP, AuthenticationController.getUser(), ws.subject, "");
+		ActionsUtils.logAction( ActionEnum.DELETE_WORKSHOP, Secured.getUser(), ws.subject, "");
 
 		return redirect( routes.Application.newWorkshops() );
 	}
@@ -155,20 +165,32 @@ public class WorkshopController extends Controller {
 	 * @return the planWorkshop page
 	 */
 	@Transactional
+    @Security.Authenticated(Secured.class)
 	public static Result planWorkshop(Long id) {
+
+        if (!Secured.isMemberOf(Roles.ADMIN)) {
+            return forbidden();
+        }
+
 		Form<WorkshopSession> workshopSessionForm = play.data.Form.form(WorkshopSession.class);
 
 		return ok(planWorkshop.render(workshopSessionForm, id, -1l));
 	}
 	
 	/**
-	 * @param id
+	 * @param idWorkshop
 	 *            l'identifiant du workshop
 	 * @return the planWorkshop page
 	 */
 	@Transactional
+    @Security.Authenticated(Secured.class)
 	public static Result modifyPlannedWorkshop(Long idWorkshop, Long idSession) {
-		WorkshopSession		session		= WorkshopSession.find.byId( idSession );
+
+        if (!Secured.isMemberOf(Roles.ADMIN)) {
+            return forbidden();
+        }
+
+        WorkshopSession		session		= WorkshopSession.find.byId( idSession );
 				
 		Form<WorkshopSession> workshopSessionForm;
 		if (session != null) {
@@ -181,13 +203,19 @@ public class WorkshopController extends Controller {
 	}
 
 	/**
-	 * @param id
+	 * @param idWorkshop
 	 *            l'identifiant du workshop
 	 * @return the welcome page or the planWorkshop page if the validation has
 	 *         errors
 	 */
 	@Transactional
+    @Security.Authenticated(Secured.class)
 	public static Result saveWorkshopSession(Long idWorkshop, Long idSession) {
+
+        if (!Secured.isMemberOf(Roles.ADMIN)) {
+            return forbidden();
+        }
+
 		Form<WorkshopSession> filledForm = play.data.Form.form(WorkshopSession.class).bindFromRequest();
 
 		if (filledForm.hasErrors()) {
@@ -205,10 +233,10 @@ public class WorkshopController extends Controller {
 			workshopSession.id				=	idSession ;
 			workshopSession.participants	=	new HashSet<User>(oldSession.participants);
 			workshopToPlan.workshopSession.remove( oldSession );
-			ActionsUtils.logAction( ActionEnum.MODIFY_SESSION, AuthenticationController.getUser(), workshopToPlan.subject, "");
+			ActionsUtils.logAction( ActionEnum.MODIFY_SESSION, Secured.getUser(), workshopToPlan.subject, "");
 		}
 		else {
-			ActionsUtils.logAction( ActionEnum.ADD_SESSION, AuthenticationController.getUser(), workshopToPlan.subject, "");
+			ActionsUtils.logAction( ActionEnum.ADD_SESSION, Secured.getUser(), workshopToPlan.subject, "");
 		}
 		workshopToPlan.workshopSession.add(workshopSession);
 		workshopSession.workshop			=	workshopToPlan;
@@ -240,6 +268,7 @@ public class WorkshopController extends Controller {
      * @return the welcome page
      */
     @Transactional
+    @Security.Authenticated(Secured.class)
     public static Result addSpeaker( Long id ) {
     	
     	// We get the Workshop
@@ -247,7 +276,7 @@ public class WorkshopController extends Controller {
         
         if ( currentWorkshop.speakers.size() < Play.application().configuration().getInt( "speaker.limit" )) {
         	// Get the connected User
-            User		user				=	AuthenticationController.getUser();
+            User		user				=	Secured.getUser();
             
             // It's a Set, so no duplicate
             currentWorkshop.speakers.add( user );
@@ -269,12 +298,13 @@ public class WorkshopController extends Controller {
      * @return the welcome page
      */
     @Transactional
+    @Security.Authenticated(Secured.class)
     public static Result removeSpeaker( Long id ) {
     	// We get the Workshop
         Workshop	currentWorkshop 	= 	Workshop.find.byId(id);
         
         // Get the connected User
-        User		user				=	AuthenticationController.getUser();
+        User		user				=	Secured.getUser();
         
         // It's a Set, so no duplicate
         currentWorkshop.speakers.remove( user );
@@ -292,12 +322,13 @@ public class WorkshopController extends Controller {
      * @return the welcome page
      */
     @Transactional
+    @Security.Authenticated(Secured.class)
     public static Result addParticipant( Long id ) {
     	// We get the Workshop
     	WorkshopSession		currentSession 		= 	WorkshopSession.find.byId(id);
         
         // Get the connected User
-        User				user				=	AuthenticationController.getUser();
+        User				user				=	Secured.getUser();
         
         // It's a Set, so no duplicate
         if ( (currentSession.limitePlace == 0  || currentSession.limitePlace != 0 && currentSession.participants.size() < currentSession.limitePlace) && notInOtherSession( currentSession ) ) {
@@ -321,7 +352,7 @@ public class WorkshopController extends Controller {
      * @return true if the user has not already join an other session
      */
     private static boolean notInOtherSession( WorkshopSession currentSession ) {
-    	String username = AuthenticationController.getUser().email;
+    	String username = Secured.getUser().email;
 		return notInOtherSession(currentSession, username);
 	}
     
@@ -362,12 +393,13 @@ public class WorkshopController extends Controller {
      * @return the welcome page
      */
     @Transactional
+    @Security.Authenticated(Secured.class)
     public static Result removeParticipant( Long id ) {
     	// We get the Workshop
     	WorkshopSession		currentSession 		= 	WorkshopSession.find.byId(id);
         
         // Get the connected User
-        User				user				=	AuthenticationController.getUser();
+        User				user				=	Secured.getUser();
         
         // It's a Set, so no duplicate
         currentSession.participants.remove( user );
@@ -385,12 +417,13 @@ public class WorkshopController extends Controller {
      * @return the welcome page
      */
     @Transactional
+    @Security.Authenticated(Secured.class)
     public static Result addPotentialParticipant( Long id ) {
     	// We get the Workshop
         Workshop	currentWorkshop 	= 	Workshop.find.byId(id);
         
         // Get the connected User
-        User		user				=	AuthenticationController.getUser();
+        User		user				=	Secured.getUser();
         
         // It's a Set, so no duplicate
         currentWorkshop.potentialParticipants.add( user );
@@ -408,12 +441,13 @@ public class WorkshopController extends Controller {
      * @return the welcome page
      */
     @Transactional
+    @Security.Authenticated(Secured.class)
     public static Result removePotentialParticipant( Long id ) {
     	// We get the Workshop
         Workshop	currentWorkshop 	= 	Workshop.find.byId(id);
         
         // Get the connected User
-        User		user				=	AuthenticationController.getUser();
+        User		user				=	Secured.getUser();
         
         // It's a Set, so no duplicate
         currentWorkshop.potentialParticipants.remove( user );
@@ -431,12 +465,13 @@ public class WorkshopController extends Controller {
      * @return the welcome page
      */
     @Transactional
+    @Security.Authenticated(Secured.class)
     public static Result addInterrestedParticipant( Long id ) {
     	// We get the Workshop
         Workshop	currentWorkshop 	= 	Workshop.find.byId(id);
         
         // Get the connected User
-        User		user				=	AuthenticationController.getUser();
+        User		user				=	Secured.getUser();
         
         // It's a Set, so no duplicate
         currentWorkshop.potentialParticipants.add( user );
@@ -454,12 +489,13 @@ public class WorkshopController extends Controller {
      * @return the welcome page
      */
     @Transactional
+    @Security.Authenticated(Secured.class)
     public static Result removeInterrestedParticipant( Long id ) {
     	// We get the Workshop
         Workshop	currentWorkshop 	= 	Workshop.find.byId(id);
         
         // Get the connected User
-        User		user				=	AuthenticationController.getUser();
+        User		user				=	Secured.getUser();
         
         // It's a Set, so no duplicate
         currentWorkshop.potentialParticipants.remove( user );
@@ -476,6 +512,7 @@ public class WorkshopController extends Controller {
 	 * @param id the workshop ID
 	 * @return the comment form view
 	 */
+    @Security.Authenticated(Secured.class)
 	public static Result addComment(Long id) {
 		Form<Comment> commentForm = play.data.Form.form(Comment.class);
 
@@ -488,6 +525,7 @@ public class WorkshopController extends Controller {
      * @param id the workshop ID
      * @return redirect on workshop already played view
      */
+    @Security.Authenticated(Secured.class)
     @Transactional
     public static Result saveComment( Long id ) {
     	Form<Comment> 	filledForm 	= 	play.data.Form.form(Comment.class).bindFromRequest();
@@ -502,7 +540,7 @@ public class WorkshopController extends Controller {
     	//We create the comment instance
     	Comment 		comment 	= 	filledForm.get();
     	comment.creationDate 		= 	new Date();
-    	comment.author				=	AuthenticationController.getUser();
+    	comment.author				=	Secured.getUser();
     	comment.workshop			=	ws;
     	
     	// We add the new comment
@@ -511,7 +549,7 @@ public class WorkshopController extends Controller {
     	// We save the objects in base
     	Ebean.save( comment );
         Ebean.update( ws );
-        ActionsUtils.logAction( ActionEnum.COMMENT, AuthenticationController.getUser(), ws.subject, "");
+        ActionsUtils.logAction( ActionEnum.COMMENT, Secured.getUser(), ws.subject, "");
     	
         return redirect( routes.Application.workshops() + "#" + id);
     }
@@ -524,8 +562,14 @@ public class WorkshopController extends Controller {
 	 * @return the ressources form view
 	 */
     @Transactional
+    @Security.Authenticated(Secured.class)
     public static Result addWorkshopRessources(Long id) {
     	Workshop 	ws 			= 	Workshop.find.byId(id);
+
+        if (!Secured.isMemberOf(Roles.ADMIN) && !UsersController.isAuthor(ws)) {
+            return forbidden();
+        }
+
     	Ressources 	ressources	=	ws.workshopRessources;
     	
     	// if we already set ressources, we want to fill the form with our old datas
@@ -547,6 +591,7 @@ public class WorkshopController extends Controller {
      * @return redirect on workshop already played view
      */
     @Transactional
+    @Security.Authenticated(Secured.class)
     public static Result saveWorkshopRessources( Long id ) {
     	Form<Ressources> 	filledForm 	= 	play.data.Form.form(Ressources.class).bindFromRequest();
     	
@@ -556,7 +601,11 @@ public class WorkshopController extends Controller {
     	
     	// Get the workshop from base
     	Workshop 		ws 				= 	Workshop.find.byId(id);
-    	
+
+        if (!Secured.isMemberOf(Roles.ADMIN) && !UsersController.isAuthor(ws)) {
+            return forbidden();
+        }
+
     	boolean			update			=	 ws.workshopRessources != null;
     	
     	//We create the Ressources instance
@@ -577,7 +626,7 @@ public class WorkshopController extends Controller {
     		Ebean.save( ressources );
     	}
     	Ebean.update( ws );
-    	ActionsUtils.logAction( ActionEnum.ADD_SUPPORT, AuthenticationController.getUser(), ws.subject, "");
+    	ActionsUtils.logAction( ActionEnum.ADD_SUPPORT, Secured.getUser(), ws.subject, "");
     	
         return redirect( routes.Application.workshops() + "#" + id );
     }
