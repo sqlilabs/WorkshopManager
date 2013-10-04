@@ -1,26 +1,20 @@
 package repository;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.List;
-
+import com.avaje.ebean.Ebean;
 import models.Workshop;
 import models.WorkshopSession;
-
 import org.fest.assertions.Assertions;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 import play.test.FakeApplication;
 import play.test.Helpers;
-import repository.WorkshopRepository;
 
-import com.avaje.ebean.Ebean;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.List;
 
-import utils.BaseModel;
-
-public class WorkshopRepositoryTest extends BaseModel {
+public class WorkshopRepositoryTest  {
 
 	public static FakeApplication app;
 	 
@@ -29,53 +23,47 @@ public class WorkshopRepositoryTest extends BaseModel {
 	    app = Helpers.fakeApplication( Helpers.inMemoryDatabase() );
 	    Helpers.start(app);
 	    
-	    // Un workshop sans session
+	    // Workshop without session
         Workshop			wsWithoutSession 	= 	new Workshop();
 		wsWithoutSession.subject 				= 	"With no session";
 		Ebean.save(wsWithoutSession);
 		
-		// Un Workshop avec session
+		// Workshop with session
 		Workshop 			wsWithSession		= 	new Workshop();
 		wsWithSession.subject 					= 	"With session";
 		WorkshopSession 	session0			=	new WorkshopSession();
 		wsWithSession.workshopSession.add( session0 );
-		Ebean.save(session0);
 		Ebean.save(wsWithSession);
 		
-		// Un workshop sans date next Play
+		// Workshop with session but not planned
         Workshop			wsWithoutDate 		= 	new Workshop();
         wsWithoutDate.subject 					= 	"With no date";
         WorkshopSession 	session				=	new WorkshopSession();
         wsWithoutDate.workshopSession.add( session );
-		Ebean.save(session);
 		Ebean.save(wsWithoutDate);
 		
-		// Un workshop avec date next Play
+		// Workshop with session and planned in the future
         Workshop			wsWithDate 			= 	new Workshop();
         wsWithDate.subject 						= 	"With date";
         WorkshopSession 	session2			=	new WorkshopSession();
         try {
 			session2.nextPlay						=	new SimpleDateFormat("dd-MM-yyyy").parse("07-12-5872");
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
 		}
         wsWithDate.workshopSession.add(session2);
-		Ebean.save(session2);
 		Ebean.save(wsWithDate);
 		
-		// Un workshop avec date passée next Play
+		// Workshop with session and planned in the past
         Workshop			wsWithOldDate 		= 	new Workshop();
         wsWithOldDate.subject 					= 	"With old date";
         WorkshopSession 	session3			=	new WorkshopSession();
         try {
 			session3.nextPlay						=	new SimpleDateFormat("dd-MM-yyyy").parse("07-12-1980");
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
 		}
         wsWithOldDate.workshopSession.add(session3);
-		Ebean.save(session3);
 		Ebean.save(wsWithOldDate);
 	  }
 	 
@@ -91,9 +79,9 @@ public class WorkshopRepositoryTest extends BaseModel {
     public void testGetWorkshops() {
 		List<Workshop> list = WorkshopRepository.getWorkshops();
 		
-		// On vérifie qu'il y a bien un seul workshop
+		// We check that there is only one Workshop
 		Assertions.assertThat(list.size()).isEqualTo(1);
-		// On vérifie bien que c'est celui sans session
+		// And we chack that it's the good one
 		Assertions.assertThat(list.get(0).subject).isEqualTo("With no session");
     }
 
@@ -104,10 +92,10 @@ public class WorkshopRepositoryTest extends BaseModel {
     @Test
     public void testGetWorkshopsPlanifie() throws ParseException {
 		List<WorkshopSession> list = WorkshopRepository.getWorkshopsPlanifie();
-		
-		// On vérifie qu'il y a bien un seul workshop
+
+        // We check that there is only one Workshop
 		Assertions.assertThat(list.size()).isEqualTo(1);
-		// On vérifie bien que c'est celui avec une date
+        // And we chack that it's the good one
 		Assertions.assertThat(list.get(0).workshop.subject).isEqualTo("With date");
     }
 
@@ -119,10 +107,10 @@ public class WorkshopRepositoryTest extends BaseModel {
     public void testGetWorkshopsAlreadyPlayed() throws ParseException {
 		
 		List<Workshop> list = WorkshopRepository.getWorkshopsAlreadyPlayed();
-		
-		// On vérifie qu'il y a bien un seul workshop
+
+        // We check that there is only one Workshop
 		Assertions.assertThat(list.size()).isEqualTo(1);
-		// On vérifie bien que c'est celui avec une date
+        // And we chack that it's the good one
 		Assertions.assertThat(list.get(0).subject).isEqualTo("With old date");
     }
 

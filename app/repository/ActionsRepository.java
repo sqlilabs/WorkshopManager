@@ -31,12 +31,12 @@ public class ActionsRepository {
 	//-								Méthodes DAO
 	//<--------------------------------------------------------------------------->	
 	/**
-	 * @return la liste des actions
+	 * @return the action list
 	 */
 	public static List<Action> getActions() {
 		PagingList<Action> 		list 	= 	Action.find.where()
 											.orderBy("creationDate desc")
-											.findPagingList(20); // On limite au 20 dernières actions	
+											.findPagingList(15); // Only the 15 last actions
 		return list.getPage(0).getList();
 	}
 
