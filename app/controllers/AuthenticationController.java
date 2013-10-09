@@ -1,35 +1,19 @@
 package controllers;
 
-import static models.utils.constants.AuthentificationConstants.*;
-import static models.utils.constants.UserConstants.*;
+import com.avaje.ebean.Ebean;
+import models.User;
+import org.apache.commons.lang.StringUtils;
+import play.Play;
+import play.cache.Cache;
+import play.libs.F;
+import play.libs.OpenID;
+import play.mvc.Controller;
+import play.mvc.Result;
+import services.UserService;
+import views.html.welcome.charter;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import models.User;
-import models.Workshop;
-import models.WorkshopSession;
-
-import org.apache.commons.lang.StringUtils;
-import org.codehaus.jackson.JsonNode;
-
-import com.avaje.ebean.Ebean;
-
-import play.Play;
-import play.cache.Cache;
-import play.db.ebean.Transactional;
-import play.i18n.Messages;
-import play.libs.F;
-import play.libs.Json;
-import play.libs.OpenID;
-import play.libs.WS;
-import play.libs.WS.Response;
-import play.mvc.Controller;
-import play.mvc.Http;
-import play.mvc.Result;
-import services.UserService;
-import views.html.errors.error;
-import views.html.welcome.charter;
 
 /**
  * This controller got the action that allow the user to authenticate

@@ -13,14 +13,14 @@ public class WorkShopConstants {
 	//-							 	Constants	        
 	//<--------------------------------------------------------------------------->
 	/**
-	 * Fake ID pour dire que l'objet n'existe pas.
+	 * Fake ID when the Object doesn't exist
 	 */
 	public static final long		ID_NOT_IN_TABLE		=	-1;
 	
 	/**
 	 * DATE_PATTERN pattern to convert date to String
 	 */
-	public static final String 	DATE_PATTERN 		= 	"dd/MM/yyyy";
+	public static final String 	    DATE_PATTERN 		= 	"dd/MM/yyyy";
 	
 	
 	

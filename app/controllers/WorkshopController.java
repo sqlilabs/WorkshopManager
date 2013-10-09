@@ -94,7 +94,7 @@ public class WorkshopController extends Controller {
 			workshopNew.image					=	image.endsWith("default.png") ? ws.image : image ;
 			
 			// On log l'action
-			ActionsUtils.logAction( ActionEnum.MODIFY_WORKSHOP, Secured.getUser(), workshopNew.subject, "");
+			ActionsUtils.logAction( ActionEnum.MODIFY_WORKSHOP, Secured.getUser(), workshopNew.subject);
 		}
 		else {
 			// On affecte l'auteur connecté
@@ -105,7 +105,7 @@ public class WorkshopController extends Controller {
 			workshopNew.image					=	uploadImage();
 			
 			// On log l'action
-			ActionsUtils.logAction( ActionEnum.NEW_WORKSHOP, Secured.getUser(), workshopNew.subject, "");
+			ActionsUtils.logAction( ActionEnum.NEW_WORKSHOP, Secured.getUser(), workshopNew.subject);
 			
 		}
         
@@ -154,7 +154,7 @@ public class WorkshopController extends Controller {
         }
 
 		Ebean.delete(ws);
-		ActionsUtils.logAction( ActionEnum.DELETE_WORKSHOP, Secured.getUser(), ws.subject, "");
+		ActionsUtils.logAction( ActionEnum.DELETE_WORKSHOP, Secured.getUser(), ws.subject);
 
 		return redirect( routes.Application.newWorkshops() );
 	}
@@ -233,10 +233,10 @@ public class WorkshopController extends Controller {
 			workshopSession.id				=	idSession ;
 			workshopSession.participants	=	new HashSet<User>(oldSession.participants);
 			workshopToPlan.workshopSession.remove( oldSession );
-			ActionsUtils.logAction( ActionEnum.MODIFY_SESSION, Secured.getUser(), workshopToPlan.subject, "");
+			ActionsUtils.logAction( ActionEnum.MODIFY_SESSION, Secured.getUser(), workshopToPlan.subject);
 		}
 		else {
-			ActionsUtils.logAction( ActionEnum.ADD_SESSION, Secured.getUser(), workshopToPlan.subject, "");
+			ActionsUtils.logAction( ActionEnum.ADD_SESSION, Secured.getUser(), workshopToPlan.subject);
 		}
 		workshopToPlan.workshopSession.add(workshopSession);
 		workshopSession.workshop			=	workshopToPlan;
@@ -549,7 +549,7 @@ public class WorkshopController extends Controller {
     	// We save the objects in base
     	Ebean.save( comment );
         Ebean.update( ws );
-        ActionsUtils.logAction( ActionEnum.COMMENT, Secured.getUser(), ws.subject, "");
+        ActionsUtils.logAction( ActionEnum.COMMENT, Secured.getUser(), ws.subject);
     	
         return redirect( routes.Application.workshops() + "#" + id);
     }
@@ -626,7 +626,7 @@ public class WorkshopController extends Controller {
     		Ebean.save( ressources );
     	}
     	Ebean.update( ws );
-    	ActionsUtils.logAction( ActionEnum.ADD_SUPPORT, Secured.getUser(), ws.subject, "");
+    	ActionsUtils.logAction( ActionEnum.ADD_SUPPORT, Secured.getUser(), ws.subject);
     	
         return redirect( routes.Application.workshops() + "#" + id );
     }
