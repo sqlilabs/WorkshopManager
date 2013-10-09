@@ -1,7 +1,7 @@
 /**
  * 
  */
-package controllers.data;
+package models.apidatas;
 
 /**
  * @author Christophe

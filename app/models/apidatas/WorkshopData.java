@@ -1,7 +1,7 @@
 /**
  * 
  */
-package controllers.data;
+package models.apidatas;
 
 import java.util.Date;
 import java.util.HashSet;

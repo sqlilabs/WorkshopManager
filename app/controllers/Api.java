@@ -16,11 +16,10 @@ import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
 import repository.WorkshopRepository;
-import services.UserService;
 
 import com.avaje.ebean.Ebean;
 
-import controllers.data.SessionData;
+import models.apidatas.SessionData;
 
 public class Api extends Controller {
 
