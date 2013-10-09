@@ -17,15 +17,15 @@ import play.i18n.Messages;
  */
 public class ActionsUtils {
 
-	/**
-	 * Action utilitaire permettant de logguer une novuelle action et la sauver en base.
-	 * 
-	 * @param actionCode
-	 * @param user
-	 * @param workshop
-	 */
+    /**
+     * Allow to log and store a user action
+     *
+     * @param actionCode the action type
+     * @param user the user responsible for the action
+     * @param description the action description
+     */
 	@Transactional
-	public static void logAction( ActionEnum actionCode, User user, String description, String parameter ) {
+	public static void logAction( ActionEnum actionCode, User user, String description ) {
         Action 			action 	= 	new Action();
         action.title			=	Messages.get( actionCode.getMessage() );
         action.description		=	description;
@@ -34,17 +34,38 @@ public class ActionsUtils {
         
         action.save();
     }
-	
+
+    /**
+     * Help to format day of the action creation date
+     *
+     * @param action the logged action
+     *
+     * @return tha formatted date
+     */
 	public static String getDay( Action action ) {
 		SimpleDateFormat 	sdf	 	= 	new SimpleDateFormat("dd");
 		return sdf.format(action.creationDate);
 	}
-	
+
+    /**
+     * Help to format month of the action creation date
+     *
+     * @param action the logged action
+     *
+     * @return tha formatted date
+     */
 	public static String getMonth( Action action ) {
 		SimpleDateFormat 	sdf	 	= 	new SimpleDateFormat("MMM");
 		return sdf.format(action.creationDate);
 	}
-	
+
+    /**
+     * Help to format time of the action creation date
+     *
+     * @param action the logged action
+     *
+     * @return tha formatted date
+     */
 	public static String getTime( Action action ) {
 		SimpleDateFormat 	sdf	 	= 	new SimpleDateFormat("HH:mm");
 		return sdf.format(action.creationDate);
@@ -52,10 +73,10 @@ public class ActionsUtils {
 	
 	
 	//<--------------------------------------------------------------------------->
-	//-							 Constructeur(s)	        
+	//-							 constructor(s)
 	//<--------------------------------------------------------------------------->		
 	/**
-	 * <constructor
+	 * constructor
 	 */
 	private ActionsUtils() {
 		super();
