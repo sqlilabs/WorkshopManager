@@ -1,0 +1,24 @@
+# Users
+
+- &alain !!models.User
+     firstName: alain
+     lastName: dupont
+     email: alain.dupont@test.com
+     role: ADMIN
+
+- !!models.User
+     firstName: greg
+     lastName: dupont
+     email: greg.dupont@test.com
+     role: ADMIN
+
+- !!models.User
+     firstName: marie
+     lastName: dupont
+     role: ADMIN
+
+- !!models.User
+     firstName: sylvie
+     lastName: dupont
+     email: sylvie.dupont@test.com
+     role: ADMIN

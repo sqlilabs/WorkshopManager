@@ -1,31 +1,21 @@
 package services;
 
-import static models.utils.constants.AuthentificationConstants.*;
-
-import com.avaje.ebean.Ebean;
-import org.codehaus.jackson.JsonNode;
-
-import play.cache.Cache;
-import play.libs.OpenID;
-import play.libs.WS;
-
-import repository.UserRepository;
-
-
 import models.User;
+import play.libs.OpenID;
 
 /**
- * Cette classe regroupe les services lié aux Users
+ * This class contains the methods relative to Users
+ *
  * @author ychartois
  *
  */
 public class UserService {
 
 	//<--------------------------------------------------------------------------->
-	//-							 Constructeur(s)	        
+	//-							 Constructor(s)
 	//<--------------------------------------------------------------------------->
 	/**
-	 * Constructeur par defaut
+	 * Constructor
 	 */
 	public UserService() {
 		super();
