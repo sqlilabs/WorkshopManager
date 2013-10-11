@@ -14,8 +14,8 @@ object ApplicationBuild extends Build {
 
 	// Add your project dependencies here,
 	val appDependencies = Seq(
-		javaCore, javaJdbc, javaEbean,
-		"org.webjars" 					% "webjars-play" 					% "2.1.0",
+		javaCore, javaJdbc, javaEbean, cache,
+		"org.webjars" 					% "webjars-play" 					% "2.1.0-1",
     	"org.webjars" 					% "bootstrap" 						% "2.1.1",
     	"org.easytesting" 				% "fest-assert-core" 				% "2.0M7",
     	"commons-lang" 					% "commons-lang" 					% "2.6",

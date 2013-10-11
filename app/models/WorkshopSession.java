@@ -18,11 +18,10 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
-
-import com.avaje.ebean.validation.NotNull;
 
 
 /**
@@ -73,13 +72,13 @@ public class WorkshopSession extends Model {
 	 */
 	@ManyToOne(cascade=CascadeType.PERSIST)
 	public User speaker;
-	
+
 	/**
 	 * the workshop related to this comment
 	 */
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "workshop_id")
-	public Workshop workshop; 
+	public Workshop workshop;
 	
 	/**
 	 * Les personnes inscritent au workshop

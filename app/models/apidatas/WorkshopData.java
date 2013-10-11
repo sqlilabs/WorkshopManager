@@ -7,12 +7,11 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import models.Comment;
 import models.Ressources;
 import models.User;
 import models.Workshop;
-
-import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  * @author Christophe

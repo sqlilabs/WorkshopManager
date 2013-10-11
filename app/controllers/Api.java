@@ -1,14 +1,11 @@
 package controllers;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.avaje.ebean.Ebean;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.User;
 import models.WorkshopSession;
-
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.node.ObjectNode;
-
+import models.apidatas.SessionData;
 import play.db.ebean.Transactional;
 import play.i18n.Messages;
 import play.libs.Json;
@@ -17,9 +14,8 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import repository.WorkshopRepository;
 
-import com.avaje.ebean.Ebean;
-
-import models.apidatas.SessionData;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Api extends Controller {
 
@@ -57,7 +53,7 @@ public class Api extends Controller {
 		ObjectNode result = Json.newObject();
 
 		JsonNode json = request().body().asJson();
-		String accessToken = json.findPath("accessToken").getTextValue();
+		String accessToken = json.findPath("accessToken").textValue();
 
 		// get user info
 //		JsonNode oAuth = new UserService().getUserInfo(accessToken);
@@ -65,7 +61,7 @@ public class Api extends Controller {
 //		String username = oAuth.findPath("email").getTextValue();
 
 		Long workshopSessionId = json.findPath("workshopSessionId")
-				.getLongValue();
+				.longValue();
 		// We get the Workshop
 		WorkshopSession currentSession = WorkshopSession.find
 				.byId(workshopSessionId);

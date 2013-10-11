@@ -57,13 +57,12 @@ public class Secured extends Security.Authenticator {
 	 * @return the connected user
 	 */
     public static User getUser() {
-        String 	userId 	= 	Context.current().session().get("email");
-
         // We get the user from cache if it exists
         User 	user 	= 	(User) Cache.get( Application.getUuid() + "connectedUser" );
 
         // Otherwise, we get it from the database
         if (user == null) {
+            String 	userId 	= 	Context.current().session().get("email");
             user = User.find.where().eq("email", userId).findUnique();
             Cache.set( userId, user );
         }

@@ -5,19 +5,13 @@ import models.Roles;
 import models.User;
 import models.Workshop;
 import models.WorkshopSession;
-import org.apache.commons.lang.StringUtils;
-import play.Play;
 import play.cache.Cache;
 import play.db.ebean.Transactional;
-import play.libs.F;
-import play.libs.OpenID;
+import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
-import services.UserService;
-import views.html.welcome.charter;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -42,7 +36,7 @@ public class UsersController extends Controller {
 		User 	user 		= 	(User) Cache.get( Application.getUuid() + "newUser" );
 		user.charterAgree	=	true;
 		user.role			=	Roles.valueOf( Application.conf("default.role") );
-		Ebean.save( user );
+		user.save();
 		
 		// The new user is now connected
 		Cache.set( Application.getUuid() + "connectedUser", user );
@@ -56,8 +50,9 @@ public class UsersController extends Controller {
 	 * @return the html status ok
 	 */
     @Security.Authenticated(Secured.class)
+    @BodyParser.Of(BodyParser.Json.class)
 	public static Result modifyUserPicture() {
-		User 					user 	= 	(User) Cache.get( Application.getUuid() + "connectedUser" );
+		User 					user 	= 	Secured.getUser();
 		Map<String, String[]> 	data 	= 	request().body().asFormUrlEncoded();
 		user.picture					= 	data.get("image")[0];	
 		Ebean.save( user );
