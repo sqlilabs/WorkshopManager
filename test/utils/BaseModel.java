@@ -6,7 +6,7 @@ import org.junit.BeforeClass;
 
 import play.libs.Yaml;
 import play.test.FakeApplication;
-import play.test.Helpers;
+import static play.test.Helpers.*;
 
 import java.util.List;
 
@@ -15,8 +15,8 @@ public class BaseModel {
 
     @BeforeClass
     public static void startApp() {
-        app = Helpers.fakeApplication(Helpers.inMemoryDatabase());
-        Helpers.start(app);
+        app = fakeApplication(inMemoryDatabase());
+        start(app);
 
         //We load the mock datas
         Ebean.save((List) Yaml.load("test-data.yml"));
@@ -24,6 +24,6 @@ public class BaseModel {
 
     @AfterClass
     public static void stopApp() {
-        Helpers.stop(app);
+        stop(app);
     }
 }

@@ -50,13 +50,12 @@ public class UsersController extends Controller {
 	 * @return the html status ok
 	 */
     @Security.Authenticated(Secured.class)
-    @BodyParser.Of(BodyParser.Json.class)
 	public static Result modifyUserPicture() {
 		User 					user 	= 	Secured.getUser();
 		Map<String, String[]> 	data 	= 	request().body().asFormUrlEncoded();
 		user.picture					= 	data.get("image")[0];	
 		Ebean.save( user );
-		return ok("{image: " + user.picture + "}");
+		return ok("{image: " + user.picture + "}").as("application/json");
 	}
 	
 	

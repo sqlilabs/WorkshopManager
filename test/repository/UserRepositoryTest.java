@@ -1,24 +1,11 @@
 package repository;
 
-import com.avaje.ebean.Ebean;
-import models.Roles;
 import models.User;
-import models.Workshop;
-import models.WorkshopSession;
 import org.fest.assertions.Assertions;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.specs2.internal.scalaz.Alpha;
-import play.libs.Yaml;
-import play.test.FakeApplication;
-import play.test.Helpers;
 import utils.BaseModel;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -46,7 +33,7 @@ public class UserRepositoryTest extends BaseModel {
     public void testGetSpeakers_no_user_without_email() {
         List<String> list = UserRepository.getSpeakers();
 
-        Assertions.assertThat(list.size()).isEqualTo(3);
+        Assertions.assertThat(list.size()).isEqualTo(4);
     }
 
     /**
@@ -57,8 +44,9 @@ public class UserRepositoryTest extends BaseModel {
         List<String> list = UserRepository.getSpeakers();
 
         Assertions.assertThat(list.get(0)).isEqualTo("alain dupont");
-        Assertions.assertThat(list.get(1)).isEqualTo("greg dupont");
-        Assertions.assertThat(list.get(2)).isEqualTo("sylvie dupont");
+        Assertions.assertThat(list.get(1)).isEqualTo("delete dupont");
+        Assertions.assertThat(list.get(2)).isEqualTo("greg dupont");
+        Assertions.assertThat(list.get(3)).isEqualTo("sylvie dupont");
     }
 
     /**

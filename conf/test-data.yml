@@ -6,19 +6,97 @@
      email: alain.dupont@test.com
      role: ADMIN
 
-- !!models.User
+- &greg !!models.User
      firstName: greg
      lastName: dupont
      email: greg.dupont@test.com
      role: ADMIN
 
-- !!models.User
+- &marie !!models.User
      firstName: marie
      lastName: dupont
      role: ADMIN
 
-- !!models.User
+- &sylvie !!models.User
      firstName: sylvie
      lastName: dupont
      email: sylvie.dupont@test.com
      role: ADMIN
+
+- &delete !!models.User
+     firstName: delete
+     lastName: dupont
+     email: delete.dupont@test.com
+     role: ADMIN
+
+# Workshops
+
+- &workshop1 !!models.Workshop
+      subject: first workshop
+      summary: summary first workshop
+      description: description first workshop
+      speakers:
+        - *marie
+        - *greg
+      workshopSession:
+        - &session1 !!models.WorkshopSession
+               nextPlay: 2013-12-07
+               speaker: *marie
+               limitePlace: 0
+               workshop: *workshop1
+               participants:
+                  - *sylvie
+                  - *greg
+      author: *marie
+      creationDate: 2013-07-01
+      potentialParticipants:
+        - *greg
+        - *alain
+
+- &workshop2 !!models.Workshop
+      subject: second workshop
+      summary: summary second workshop
+      description: description second workshop
+      speakers:
+        - *alain
+      workshopSession:
+        - !!models.WorkshopSession
+               nextPlay: 2013-12-08
+               speaker: *greg
+               limitePlace: 10
+               workshop: *workshop2
+      author: *marie
+      creationDate: 2013-08-01
+      potentialParticipants:
+        - *greg
+        - *marie
+        - *sylvie
+
+- &workshop3 !!models.Workshop
+      subject: third workshop
+      summary: summary third workshop
+      description: description third workshop
+      speakers:
+        - *sylvie
+      workshopSession:
+        - !!models.WorkshopSession
+               nextPlay: 2013-12-08
+               speaker: *alain
+               limitePlace: 10
+               workshop: *workshop3
+               participants:
+                     - *sylvie
+                     - *greg
+                     - *marie
+        - !!models.WorkshopSession
+               nextPlay: 2013-12-04
+               speaker:  *sylvie
+               limitePlace: 20
+               workshop: *workshop3
+               participants:
+                     - *sylvie
+      author: *sylvie
+      creationDate: 2013-07-01
+      potentialParticipants:
+              - *greg
+
