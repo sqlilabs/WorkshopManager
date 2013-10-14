@@ -13,15 +13,16 @@ object ApplicationBuild extends Build {
 	 */
 
 	// Add your project dependencies here,
-	val appDependencies = Seq(
-		javaCore, javaJdbc, javaEbean, cache,
-		"org.webjars" 					% "webjars-play" 					% "2.1.0-1",
-    	"org.webjars" 					% "bootstrap" 						% "2.1.1",
-    	"org.easytesting" 				% "fest-assert-core" 				% "2.0M7",
-    	"commons-lang" 					% "commons-lang" 					% "2.6",
-    	"org.apache.commons" 			% "commons-io" 						% "1.3.2",
-		"mysql" 						% "mysql-connector-java" 			% "5.1.20"
-	)
+  val appDependencies = Seq(
+    javaCore, javaJdbc, javaEbean, cache,
+    "org.webjars" % "webjars-play" % "2.1.0-1",
+    "org.webjars" % "bootstrap" % "2.1.1",
+    "org.easytesting" % "fest-assert-core" % "2.0M7",
+    "commons-lang" % "commons-lang" % "2.6",
+    "org.apache.commons" % "commons-io" % "1.3.2",
+    "mysql" % "mysql-connector-java" % "5.1.20",
+    "org.mockito" % "mockito-core" % "1.8.5"
+  )
 
   	val main = play.Project(appName, appVersion, appDependencies).settings(
   		resolvers += Resolver.url("Objectify Play Repository", url("http://schaloner.github.com/releases/"))(Resolver.ivyStylePatterns),

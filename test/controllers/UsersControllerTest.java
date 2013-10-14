@@ -1,15 +1,21 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+
 import models.Roles;
 import models.User;
 import models.Workshop;
+
 import org.fest.assertions.Assertions;
 import org.junit.Before;
 import org.junit.Test;
+
+import play.api.mvc.RequestHeader;
 import play.cache.Cache;
 import play.libs.Json;
 import play.mvc.Call;
+import play.mvc.Http;
+import play.mvc.Http.Context;
 import play.mvc.Result;
 import utils.BaseModel;
 
@@ -17,6 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static play.test.Helpers.*;
+import static org.mockito.Mockito.mock;
 
 /**
  * Created with IntelliJ IDEA.
@@ -43,10 +50,10 @@ public class UsersControllerTest extends BaseModel {
     @Test
     public void testCreateNewUser() throws Exception {
         // Prepare data
-        Cache.set("123456" + "newUser", user);
+        cacheNewUser(user);
 
         // the action
-        Result result = route(fakeRequest(GET, "/login/createUser").withSession("uuid", "123456"));
+        Result result = route(fakeRequest(GET, "/login/createUser").withSession("uuid", UUID));
 
         // test after action
         Assertions.assertThat(status(result)).isEqualTo(SEE_OTHER);
@@ -62,13 +69,13 @@ public class UsersControllerTest extends BaseModel {
     public void testModifyUserPicture() throws Exception {
         // Prepare data
         user.save();
-        Cache.set("123456" + "connectedUser", user);
+        cacheConnectedUser(user);
         Map<String, String> form = new HashMap<>();
         form.put("image", "newPath/newPicture.gif");
 
         // the action
         Result result = route(fakeRequest(PUT, "/ws/modifyUserPicture")
-                .withSession("uuid", "123456")
+                .withSession("uuid", UUID)
                 .withSession("email", user.email)
                 .withFormUrlEncodedBody(form));
 
@@ -93,36 +100,69 @@ public class UsersControllerTest extends BaseModel {
 
     @Test
     public void testIsSessionSpeaker_true() throws Exception {
-        // /!\ Wait the reverse route to works: controllers.routes.ref
-
-
+        // Fake the session
+    	fakeSession();
+    	
         // Prepare data
         User connectedUser = User.find.where().eq("email", "greg.dupont@test.com").findUnique();
-        Cache.set("123456" + "connectedUser", connectedUser);
+        cacheConnectedUser( connectedUser );
         Workshop workshop =  Workshop.find.byId(2l);
 
         // the action
-        Result result = callAction( controllers.routes.ref.UsersController.isSessionSpeaker(workshop.workshopSession.get(0)),
-                                    fakeRequest().withSession("uuid", "123456"));
-
-        //boolean result = UsersController.isSessionSpeaker( workshop.workshopSession.get(0) );
+        boolean result = UsersController.isSessionSpeaker( workshop.workshopSession.get(0) );
 
         // test after action
-        Assertions.assertThat(true).isFalse();
+        Assertions.assertThat(result).isTrue();
     }
 
     @Test
     public void testIsSessionSpeaker_false() throws Exception {
+        // Fake the session
+        fakeSession();
 
+        // Prepare data
+        User connectedUser = User.find.where().eq("email", "sylvie.dupont@test.com").findUnique();
+        cacheConnectedUser( connectedUser );
+        Workshop workshop =  Workshop.find.byId(2l);
+
+        // the action
+        boolean result = UsersController.isSessionSpeaker( workshop.workshopSession.get(0) );
+
+        // test after action
+        Assertions.assertThat(result).isFalse();
     }
 
     @Test
     public void testIsAuthor_true() throws Exception {
+        // Fake the session
+        fakeSession();
 
+        // Prepare data
+        User connectedUser = User.find.where().eq("email", "sylvie.dupont@test.com").findUnique();
+        cacheConnectedUser( connectedUser );
+        Workshop workshop =  Workshop.find.byId(3l);
+
+        // the action
+        boolean result = UsersController.isAuthor( workshop );
+
+        // test after action
+        Assertions.assertThat(result).isTrue();
     }
 
     @Test
     public void testIsAuthor_false() throws Exception {
+        // Fake the session
+        fakeSession();
 
+        // Prepare data
+        User connectedUser = User.find.where().eq("email", "greg.dupont@test.com").findUnique();
+        cacheConnectedUser( connectedUser );
+        Workshop workshop =  Workshop.find.byId(3l);
+
+        // the action
+        boolean result = UsersController.isAuthor( workshop );
+
+        // test after action
+        Assertions.assertThat(result).isFalse();
     }
 }
