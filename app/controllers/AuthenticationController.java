@@ -50,17 +50,26 @@ public class AuthenticationController extends Controller {
     }
 
     /**
-     * this method verify the userInfo, get the user from the database or cache or
-     * create it if it does not exist
+     * this method verify the userInfo,
      *
      * @return @return to welcome page or the charter agreement page
      */
     public static Result verify() {
-
         // We get the OpenID info of the user
         F.Promise<OpenID.UserInfo> userInfoPromise = OpenID.verifiedId();
-        OpenID.UserInfo userInfo = userInfoPromise.get();
 
+        return verify( userInfoPromise.get() );
+    }
+
+
+    /**
+     *  get the user from the database or cache or create it if it does not exist
+     *  this method is outside verify() to simplify tests ( OpenID.verifiedId() is not easy to test)
+     *
+     * @param userInfo  userInfo given by the provider
+     * @return @return to welcome page or the charter agreement page
+     */
+    public static Result verify( OpenID.UserInfo userInfo ) {
         // If the user is not from the specified domain he can't connect
         if ( !StringUtils.endsWith( userInfo.attributes.get("Email"), Play.application().configuration().getString("mail.filter")) ) {
             return forbidden();
@@ -82,7 +91,7 @@ public class AuthenticationController extends Controller {
             Ebean.save( user );
             Cache.set( Application.getUuid() + "connectedUser", user );
 
-            return redirect(routes.Application.welcome());
+            return redirect(controllers.routes.Application.welcome());
         }
         else {
             // We save the new user in cache and redirect to charter page
