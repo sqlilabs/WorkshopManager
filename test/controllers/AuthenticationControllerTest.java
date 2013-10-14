@@ -6,11 +6,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import play.Configuration;
+import play.api.Play;
 import play.cache.Cache;
 import play.libs.F;
 import play.libs.OpenID;
 import play.mvc.Http;
 import play.mvc.Result;
+import play.test.FakeApplication;
 import services.UserService;
 import utils.BaseModel;
 
@@ -100,6 +103,30 @@ public class AuthenticationControllerTest extends BaseModel {
         assertThat(status(result)).isEqualTo(SEE_OTHER);
         User userSaved = User.find.where().eq("email", user.email).findUnique();
         assertThat( userSaved ).isNotNull();
+    }
+
+    @Test
+    public void testVerify_new_user_not_with_good_domain() {
+        // Prepare data
+        mockVerify();
+
+        // We have to modify the app conf (override the default application.conf)
+        Map<String, String> conf = new HashMap<>();
+        conf.putAll(inMemoryDatabase());
+        conf.put("mail.filter", "@domain.com"); // the key we want to override
+
+        start( fakeApplication( conf ) );
+
+
+        //fake the session
+        fakeSession();
+        Http.Context.current().session().put("email", user.email);
+
+        // call the action
+        Result result = AuthenticationController.verify( userInfo );
+
+        // Tests
+        assertThat(status(result)).isEqualTo(FORBIDDEN);
     }
 
     @Test
