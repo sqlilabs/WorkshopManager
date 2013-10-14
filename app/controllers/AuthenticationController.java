@@ -91,7 +91,7 @@ public class AuthenticationController extends Controller {
             Ebean.save( user );
             Cache.set( Application.getUuid() + "connectedUser", user );
 
-            return redirect(controllers.routes.Application.welcome());
+            return redirect(routes.Application.welcome());
         }
         else {
             // We save the new user in cache and redirect to charter page
