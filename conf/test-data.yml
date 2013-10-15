@@ -10,24 +10,24 @@
      firstName: greg
      lastName: dupont
      email: greg.dupont@test.com
-     role: ADMIN
+     role: STANDARD
 
 - &marie !!models.User
      firstName: marie
      lastName: dupont
-     role: ADMIN
+     role: STANDARD
 
 - &sylvie !!models.User
      firstName: sylvie
      lastName: dupont
      email: sylvie.dupont@test.com
-     role: ADMIN
+     role: STANDARD
 
 - &delete !!models.User
      firstName: delete
      lastName: dupont
      email: delete.dupont@test.com
-     role: ADMIN
+     role: STANDARD
 
 # Workshops
 
@@ -41,13 +41,13 @@
       workshopSession:
         - &session1 !!models.WorkshopSession
                nextPlay: 2013-12-07
-               speaker: *marie
+               speaker: *sylvie
                limitePlace: 0
                workshop: *workshop1
                participants:
-                  - *sylvie
+                  - *marie
                   - *greg
-      author: *marie
+      author: *greg
       creationDate: 2013-07-01
       potentialParticipants:
         - *greg
