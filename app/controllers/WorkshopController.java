@@ -706,7 +706,7 @@ public class WorkshopController extends Controller {
     	
     	// Gestion de la sauvegarde des fichiers uploadés (images)
  		MultipartFormData body = request().body().asMultipartFormData(); 
- 		FilePart picture = body.getFile("image");
+ 		FilePart picture = body != null ? body.getFile("image") : null;
  		if (picture != null) {
  			String fileName = picture.getFilename();
  			File file = picture.getFile();
