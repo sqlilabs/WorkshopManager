@@ -54,8 +54,6 @@ form.add.workshop.summary.label=Résumé
 # Formulaire de planification
 form.plan.workshop.page.title=Planifier un workshop
 form.plan.workshop.title=Saisir les détails de la session
-form.plan.workshop.doodleUrl.label=Url du Doodle
-form.plan.workshop.doodleUrl.help=Il faut saisir l''url complete (avec http://). <br />L''url doit être valide.
 form.plan.workshop.location.label=Lieu du Workshop
 form.plan.workshop.limitePlace.label=Nombre de place
 form.plan.workshop.limitePlace.help=0 correspond à un nombre de place illimités
@@ -63,6 +61,7 @@ form.plan.workshop.nextPlay.label=Date de la prochaine séance
 form.plan.workshop.nextPlay.error=La date de prochaine séance est obligatoire
 form.plan.workshop.speaker.label=Speaker
 form.plan.workshop.speaker.default=--- Choisir un Speaker ---
+form.plan.workshop.speaker.error=Le choix d'un Speaker est obligatoire
 form.plan.workshop.submit.button=Planifier ce workshop 
 form.plan.workshop.cancel.button=Annuler
 

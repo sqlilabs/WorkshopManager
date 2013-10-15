@@ -45,7 +45,7 @@
                 '_label -> Messages("form.plan.workshop.speaker.label"),
                 'class  -> "input-xlarge",
                 '_showConstraints -> false,
-                '_error -> workshopSessionForm("Speaker").error.map(_.withMessage("Le choix d'un Speaker est obligatoire"))
+                '_error -> workshopSessionForm("Speaker").error.map(_.withMessage(Messages("form.plan.workshop.speaker.error")))
             )
          
         <div class="actions center-text spaceBefore">

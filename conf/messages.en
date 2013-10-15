@@ -55,14 +55,13 @@ form.add.workshop.summary.label=Summary
 # Formulaire de planification
 form.plan.workshop.page.title=Schedule a workshop
 form.plan.workshop.title=Please enter session details
-form.plan.workshop.doodleUrl.label=Doodle Url
-form.plan.workshop.doodleUrl.help=You need to enter the whole URL (ie with http://).<br />Url must be valid.
 form.plan.workshop.location.label=Workshop location
 form.plan.workshop.limitePlace.label=Number of places
 form.plan.workshop.limitePlace.help=0 is for unlimited places
 form.plan.workshop.nextPlay.label=Next session date
 form.plan.workshop.speaker.label=Speaker
 form.plan.workshop.speaker.default=--- Choose a Speaker ---
+form.plan.workshop.speaker.error=You have to choose a Speaker
 form.plan.workshop.submit.button=Schedule this workshop 
 form.plan.workshop.cancel.button=Cancel
 
