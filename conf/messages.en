@@ -8,6 +8,7 @@ unknow.date=No one really knows...
 last.actions=Last actions
 action.login=Login
 modify.picture=You can give a link to a picture, must be an http link...
+and.or=and/or
 
 # Menu
 application.title=Workshops Manager

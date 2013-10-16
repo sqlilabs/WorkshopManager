@@ -351,7 +351,7 @@ public class WorkshopController extends Controller {
      * @param currentSession the surrent workshop session
      * @return true if the user has not already join an other session
      */
-    private static boolean notInOtherSession( WorkshopSession currentSession ) {
+    static boolean notInOtherSession( WorkshopSession currentSession ) {
     	String username = Secured.getUser().email;
 		return notInOtherSession(currentSession, username);
 	}
@@ -681,14 +681,24 @@ public class WorkshopController extends Controller {
 	 * @param speakers the list of speakers
 	 * @return the nam of the foorseen User
 	 */
-	public static String getForseenSpeaker( Set<User> speakers ) {
-		
-		if ( speakers.isEmpty() ) {
-			return "";
-		}
-		
-		User user = (User) speakers.toArray()[speakers.size()-1];
-		return new UserFormatter().print(user, Locale.FRANCE);
+	public static String getForeseenSpeaker( Set<User> speakers ) {
+
+        if ( speakers.isEmpty() ) {
+            return "";
+        }
+
+        User[] speakerArray = new User[speakers.size()];
+        speakerArray =  speakers.toArray( speakerArray );
+
+        StringBuffer toReturn = new StringBuffer( new UserFormatter().print(speakerArray[0], Locale.FRANCE) );
+        for ( int i = 1; i < speakerArray.length; i++ ) {
+            toReturn.append( " " );
+            toReturn.append( Messages.get("and.or") );
+            toReturn.append( " " );
+            toReturn.append( new UserFormatter().print( speakerArray[i], Locale.FRANCE) );
+        }
+
+		return toReturn.toString();
 	}
 	
 	
@@ -743,7 +753,7 @@ public class WorkshopController extends Controller {
     	
     	// Gestion de la sauvegarde des fichiers uploadés (images)
  		MultipartFormData 	body 				= 	request().body().asMultipartFormData(); 
- 		FilePart 			ressource 			= 	body.getFile("workshopSupportFile");
+ 		FilePart 			ressource 			= 	body != null ? body.getFile("workshopSupportFile") : null;
  		
  		if (ressource != null && !StringUtils.EMPTY.equals( ressource.getFilename()) ) {
  			String 			fileName 			= 	ressource.getFilename();
