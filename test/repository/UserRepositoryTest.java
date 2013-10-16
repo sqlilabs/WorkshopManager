@@ -33,7 +33,7 @@ public class UserRepositoryTest extends BaseModel {
     public void testGetSpeakers_no_user_without_email() {
         List<String> list = UserRepository.getSpeakers();
 
-        Assertions.assertThat(list.size()).isEqualTo(4);
+        Assertions.assertThat(list.size()).isEqualTo( User.find.all().size() - 1);
     }
 
     /**
@@ -46,7 +46,7 @@ public class UserRepositoryTest extends BaseModel {
         Assertions.assertThat(list.get(0)).isEqualTo("alain dupont");
         Assertions.assertThat(list.get(1)).isEqualTo("delete dupont");
         Assertions.assertThat(list.get(2)).isEqualTo("greg dupont");
-        Assertions.assertThat(list.get(3)).isEqualTo("sylvie dupont");
+        Assertions.assertThat(list.get(3)).isEqualTo("marie dupont");
     }
 
     /**

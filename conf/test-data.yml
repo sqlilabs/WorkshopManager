@@ -15,6 +15,7 @@
 - &marie !!models.User
      firstName: marie
      lastName: dupont
+     email: marie.dupont@test.com
      role: STANDARD
 
 - &sylvie !!models.User
@@ -29,6 +30,11 @@
      email: delete.dupont@test.com
      role: STANDARD
 
+- &noMail !!models.User
+     firstName: noMail
+     lastName: dupont
+     role: STANDARD
+
 # Workshops
 
 - &workshop1 !!models.Workshop
@@ -36,7 +42,6 @@
       summary: summary first workshop
       description: description first workshop
       speakers:
-        - *marie
         - *greg
       workshopSession:
         - &session1 !!models.WorkshopSession
@@ -59,6 +64,7 @@
       description: description second workshop
       speakers:
         - *alain
+        - *greg
       workshopSession:
         - !!models.WorkshopSession
                nextPlay: 2013-12-08
@@ -70,7 +76,7 @@
       potentialParticipants:
         - *greg
         - *marie
-        - *sylvie
+        - *alain
 
 - &workshop3 !!models.Workshop
       subject: third workshop
@@ -82,10 +88,10 @@
         - !!models.WorkshopSession
                nextPlay: 2013-12-08
                speaker: *alain
-               limitePlace: 10
+               limitePlace: 3
                workshop: *workshop3
                participants:
-                     - *sylvie
+                     - *alain
                      - *greg
                      - *marie
         - !!models.WorkshopSession

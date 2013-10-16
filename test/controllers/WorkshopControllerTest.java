@@ -1,18 +1,21 @@
 package controllers;
 
+import models.Comment;
 import models.User;
 import models.Workshop;
 import models.WorkshopSession;
 import org.junit.Before;
 import org.junit.Test;
+import play.i18n.Messages;
 import play.mvc.Result;
 import utils.BaseModel;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static org.fest.assertions.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.stub;
+import static org.mockito.Mockito.when;
 import static play.mvc.Http.Status.OK;
 import static play.test.Helpers.*;
 import static play.test.Helpers.contentType;
@@ -291,7 +294,6 @@ public class WorkshopControllerTest extends BaseModel {
         assertThat(newWorkshop.workshopSession.get(0).speaker.firstName).isEqualTo(workshopSession.speaker.firstName);
 
         //cleaning
-        newWorkshop.workshopSession.get(0).delete();
         newWorkshop.delete();
     }
 
@@ -351,92 +353,372 @@ public class WorkshopControllerTest extends BaseModel {
     }
 
     @Test
-    public void testAddSpeaker() throws Exception {
+    public void testAddSpeaker_in_speaker_limit() throws Exception {
+        // before action
+        assertThat( Workshop.find.byId(1l).speakers.size() ).isEqualTo(1);
 
+        // the action
+        Result result = route(fakeRequest(GET, "/workshops/addSpeaker/1")
+                .withSession("uuid", UUID)
+                .withSession("email", "sylvie.dupont@test.com"));
+
+        // after action
+        assertThat(status(result)).isEqualTo(SEE_OTHER);
+        Workshop workshop1 = Workshop.find.byId(1l);
+        assertThat( workshop1.speakers.size() ).isEqualTo(2);
+
+        // cleaning
+        workshop1.speakers.remove( User.find.where().eq("email", "sylvie.dupont@test.com").findUnique() );
+        workshop1.save();
+    }
+
+    @Test
+    public void testAddSpeaker_out_off_speaker_limit() throws Exception {
+                // the action
+        Result result = route(fakeRequest(GET, "/workshops/addSpeaker/2")
+                .withSession("uuid", UUID)
+                .withSession("email", "sylvie.dupont@test.com"));
+
+        // after action
+        assertThat(status(result)).isEqualTo(OK);
     }
 
     @Test
     public void testRemoveSpeaker() throws Exception {
+        // prepare data
+        Workshop workshop = Workshop.find.byId(1l);
+        workshop.speakers.add( User.find.where().eq("email", "sylvie.dupont@test.com").findUnique() );
+        workshop.save();
+
+        // before action
+        assertThat( workshop.speakers.size() ).isEqualTo(2);
+
+        // the action
+        Result result = route(fakeRequest(GET, "/workshops/removeSpeaker/1")
+                .withSession("uuid", UUID)
+                .withSession("email", "sylvie.dupont@test.com"));
+
+        // after action
+        assertThat(status(result)).isEqualTo(SEE_OTHER);
+        assertThat( Workshop.find.byId(1l).speakers.size() ).isEqualTo(1);
 
     }
 
     @Test
-    public void testAddParticipant() throws Exception {
+    public void testAddParticipant_and_place_available() throws Exception {
+        // Mocks
+        Workshop workshop = Workshop.find.byId(1l);
+        WorkshopSession mockSession = mock( WorkshopSession.class );
+        when( mockSession.nextPlay ).thenReturn( new Date());
+        when( mockSession.workshop ).thenReturn(workshop);
 
+        // before action
+        assertThat( workshop.workshopSession.get(0).participants.size() ).isEqualTo(2);
+
+        // the action
+        Result result = route(fakeRequest(GET, "/workshops/addParticipant/1")
+                .withSession("uuid", UUID)
+                .withSession("email", "sylvie.dupont@test.com"));
+
+        // after action
+        assertThat(status(result)).isEqualTo(SEE_OTHER);
+        Workshop workshop1 = Workshop.find.byId(1l);
+        assertThat( workshop1.workshopSession.get(0).participants.size() ).isEqualTo(3);
+
+        // cleaning
+        workshop1.workshopSession.get(0).participants.remove( User.find.where().eq("email", "sylvie.dupont@test.com").findUnique() );
+        workshop1.workshopSession.get(0).save();
     }
 
     @Test
-    public void testNotInOtherSession() throws Exception {
+    public void testAddParticipant_and_place_unavailable() throws Exception {
+        // before action
+        assertThat( Workshop.find.byId(3l).workshopSession.get(0).participants.size() ).isEqualTo(3);
+        assertThat( Workshop.find.byId(3l).workshopSession.get(0).limitePlace ).isEqualTo(3);
 
+        // the action
+        Result result = route(fakeRequest(GET, "/workshops/addParticipant/3")
+                .withSession("uuid", UUID)
+                .withSession("email", "sylvie.dupont@test.com"));
+
+        // after action
+        assertThat(status(result)).isEqualTo(OK);
+    }
+
+    @Test
+    public void testNotInOtherSession_false() throws Exception {
+        // Mocks
+        fakeSession();
+        Workshop workshop = Workshop.find.byId(3l);
+        WorkshopSession mockSession = mock( WorkshopSession.class );
+        when( mockSession.nextPlay ).thenReturn( workshop.workshopSession.get(1).nextPlay );
+        when( mockSession.workshop ).thenReturn(workshop);
+
+        // the action
+        boolean result = WorkshopController.notInOtherSession( mockSession, "sylvie.dupont@test.com" );
+
+        // after action
+        assertThat(result).isEqualTo(false);
+    }
+
+    @Test
+    public void testNotInOtherSession_true() throws Exception {
+        // Mocks
+        fakeSession();
+        Workshop workshop = Workshop.find.byId(3l);
+        WorkshopSession mockSession = mock( WorkshopSession.class );
+        when( mockSession.nextPlay ).thenReturn( workshop.workshopSession.get(1).nextPlay );
+        when( mockSession.workshop ).thenReturn(workshop);
+
+        // the action
+        boolean result = WorkshopController.notInOtherSession( mockSession, "delete.dupont@test.com" );
+
+        // after action
+        assertThat(result).isEqualTo(true);
     }
 
     @Test
     public void testRemoveParticipant() throws Exception {
+        // prepare data
+        Workshop workshop = Workshop.find.byId(3l);
+        workshop.workshopSession.get(0).participants.add( User.find.where().eq("email", "sylvie.dupont@test.com").findUnique() );
+        workshop.workshopSession.get(0).save();
+        workshop.save();
+
+        // before action
+        assertThat( workshop.workshopSession.get(0).participants.size() ).isEqualTo(4);
+
+        // the action
+        Result result = route(fakeRequest(GET, "/workshops/removeParticipant/3")
+                .withSession("uuid", UUID)
+                .withSession("email", "sylvie.dupont@test.com"));
+
+        // after action
+        assertThat(status(result)).isEqualTo(SEE_OTHER);
+        assertThat( Workshop.find.byId(3l).workshopSession.get(0).participants.size() ).isEqualTo(3);
 
     }
 
     @Test
     public void testAddPotentialParticipant() throws Exception {
+        // before action
+        assertThat( Workshop.find.byId(1l).potentialParticipants.size() ).isEqualTo(2);
 
+        // the action
+        Result result = route(fakeRequest(GET, "/workshops/addPotentialParticipant/1")
+                .withSession("uuid", UUID)
+                .withSession("email", "sylvie.dupont@test.com"));
+
+        // after action
+        assertThat(status(result)).isEqualTo(SEE_OTHER);
+        Workshop workshop1 = Workshop.find.byId(1l);
+        assertThat( workshop1.potentialParticipants.size() ).isEqualTo(3);
+
+        // cleaning
+        workshop1.potentialParticipants.remove( User.find.where().eq("email", "sylvie.dupont@test.com").findUnique() );
+        workshop1.save();
     }
 
     @Test
     public void testRemovePotentialParticipant() throws Exception {
+        // prepare data
+        Workshop workshop = Workshop.find.byId(1l);
+        workshop.potentialParticipants.add( User.find.where().eq("email", "sylvie.dupont@test.com").findUnique() );
+        workshop.save();
 
+        // before action
+        assertThat(workshop.potentialParticipants.size()).isEqualTo(3);
+
+        // the action
+        Result result = route(fakeRequest(GET, "/workshops/removePotentialParticipant/1")
+                .withSession("uuid", UUID)
+                .withSession("email", "sylvie.dupont@test.com"));
+
+        // after action
+        assertThat(status(result)).isEqualTo(SEE_OTHER);
+        assertThat( Workshop.find.byId(1l).potentialParticipants.size() ).isEqualTo(2);
     }
 
     @Test
-    public void testAddInterrestedParticipant() throws Exception {
+    public void testAddInterestedParticipant() throws Exception {
+        // before action
+        assertThat( Workshop.find.byId(1l).potentialParticipants.size() ).isEqualTo(2);
 
+        // the action
+        Result result = route(fakeRequest(GET, "/workshops/addPotentialParticipant/1")
+                .withSession("uuid", UUID)
+                .withSession("email", "sylvie.dupont@test.com"));
+
+        // after action
+        assertThat(status(result)).isEqualTo(SEE_OTHER);
+        Workshop workshop1 = Workshop.find.byId(1l);
+        assertThat( workshop1.potentialParticipants.size() ).isEqualTo(3);
+
+        // cleaning
+        workshop1.potentialParticipants.remove( User.find.where().eq("email", "sylvie.dupont@test.com").findUnique() );
+        workshop1.save();
     }
 
     @Test
-    public void testRemoveInterrestedParticipant() throws Exception {
+    public void testRemoveInterestedParticipant() throws Exception {
+        // prepare data
+        Workshop workshop = Workshop.find.byId(1l);
+        workshop.potentialParticipants.add( User.find.where().eq("email", "sylvie.dupont@test.com").findUnique() );
+        workshop.save();
 
+        // before action
+        assertThat( workshop.potentialParticipants.size() ).isEqualTo(3);
+
+        // the action
+        Result result = route(fakeRequest(GET, "/workshops/removePotentialParticipant/1")
+                .withSession("uuid", UUID)
+                .withSession("email", "sylvie.dupont@test.com"));
+
+        // after action
+        assertThat(status(result)).isEqualTo(SEE_OTHER);
+        assertThat( Workshop.find.byId(1l).potentialParticipants.size() ).isEqualTo(2);
     }
 
     @Test
     public void testAddComment() throws Exception {
-
+        Result result = route(fakeRequest(GET, "/workshop/addComment/1")
+                            .withSession("uuid", UUID)
+                            .withSession("email", "sylvie.dupont@test.com"));
+        assertThat(status(result)).isEqualTo(OK);
+        assertThat(contentType(result)).isEqualTo("text/html");
     }
 
     @Test
     public void testSaveComment() throws Exception {
+        // prepare data
+        Map<String, String> form = new HashMap<>();
+        form.put("comment", "a great comment");
 
+        // before action
+        assertThat( Workshop.find.byId(1l).comments.size() ).isEqualTo(0);
+
+        // the action
+        Result result = route(fakeRequest(POST, "/workshop/saveComment/1")
+                .withFormUrlEncodedBody(form)
+                .withSession("uuid", UUID)
+                .withSession("email", "sylvie.dupont@test.com"));
+
+        // after action
+        Workshop workshop = Workshop.find.byId(1l);
+        assertThat(status(result)).isEqualTo(SEE_OTHER);
+        assertThat( workshop.comments.size() ).isEqualTo(1);
+        assertThat( workshop.comments.iterator().next().author.firstName).isEqualTo("sylvie");
+        assertThat( workshop.comments.iterator().next().comment).isEqualTo("a great comment");
     }
 
     @Test
-    public void testAddWorkshopRessources() throws Exception {
+    public void testAddWorkshopResources_as_admin() throws Exception {
+        // the action
+        Result result = route(fakeRequest(GET, "/workshop/addRessources/1")
+                .withSession("uuid", UUID)
+                .withSession("email", "alain.dupont@test.com"));
 
+        // the tests
+        assertThat(status(result)).isEqualTo(OK);
     }
 
     @Test
-    public void testSaveWorkshopRessources() throws Exception {
+    public void testAddWorkshopResources_as_author() throws Exception {
+        // the action
+        Result result = route(fakeRequest(GET, "/workshop/addRessources/1")
+                .withSession("uuid", UUID)
+                .withSession("email", "greg.dupont@test.com"));
 
+        // the tests
+        assertThat(status(result)).isEqualTo(OK);
     }
 
     @Test
-    public void testGetWorkshopsPlanifieFromContext() throws Exception {
+    public void testAddWorkshopResources_as_standard() throws Exception {
+        // the action
+        Result result = route(fakeRequest(GET, "/workshop/addRessources/1")
+                .withSession("uuid", UUID)
+                .withSession("email", "marie.dupont@test.com"));
 
+        // the tests
+        assertThat(status(result)).isEqualTo(FORBIDDEN);
     }
 
     @Test
-    public void testDecorateDate() throws Exception {
+    public void testSaveWorkshopResources_as_admin() throws Exception {
+        // prepare data
+        Map<String, String> form = new HashMap<>();
+        form.put("workshopSupportLink", "http://google.com");
+        form.put("workshopSupportFile", "");
 
+        // before action
+        assertThat( Workshop.find.byId(1l).workshopRessources ).isNull();
+
+        // the action
+        Result result = route(fakeRequest(POST, "/workshop/saveRessources/1")
+                .withFormUrlEncodedBody(form)
+                .withSession("uuid", UUID)
+                .withSession("email", "alain.dupont@test.com"));
+
+        // after action
+        Workshop workshop = Workshop.find.byId(1l);
+        assertThat(status(result)).isEqualTo(SEE_OTHER);
+        assertThat( workshop.workshopRessources ).isNotNull();
+        assertThat( workshop.workshopRessources.workshopSupportLink).isEqualTo("http://google.com");
+        assertThat( workshop.workshopRessources.workshopSupportFile).isNullOrEmpty();
     }
 
     @Test
-    public void testGetWorkshopDescription() throws Exception {
+    public void testSaveWorkshopResources_as_standard() throws Exception {
+        // prepare data
+        Map<String, String> form = new HashMap<>();
+        form.put("workshopSupportLink", "http://google.com");
+        form.put("workshopSupportFile", "");
 
+        // the action
+        Result result = route(fakeRequest(POST, "/workshop/saveRessources/1")
+                .withFormUrlEncodedBody(form)
+                .withSession("uuid", UUID)
+                .withSession("email", "sylvie.dupont@test.com"));
+
+        // after action
+        assertThat(status(result)).isEqualTo(FORBIDDEN);
+    }
+
+
+    @Test
+    public void testGetForeseenSpeaker_noSpeaker() throws Exception {
+        // the action
+        String result = WorkshopController.getForeseenSpeaker( new HashSet<User>() );
+
+        // after action
+        assertThat(result).isEmpty();
     }
 
     @Test
-    public void testGetFullWorkshopDescription() throws Exception {
+    public void testGetForeseenSpeaker_oneSpeaker() throws Exception {
+        // prepare data
+        Set<User> users = new HashSet<>();
+        users.add( User.find.where().eq("email", "marie.dupont@test.com").findUnique() );
 
+        // the action
+        String result = WorkshopController.getForeseenSpeaker( users );
+
+        // after action
+        assertThat(result).isEqualTo("marie dupont");
     }
 
     @Test
-    public void testGetForseenSpeaker() throws Exception {
+    public void testGetForeseenSpeaker_twoSpeaker() throws Exception {
+        // prepare data
+        Set<User> users = new HashSet<>();
+        users.add( User.find.where().eq("email", "marie.dupont@test.com").findUnique() );
+        users.add( User.find.where().eq("email", "sylvie.dupont@test.com").findUnique() );
 
+        // the action
+        String result = WorkshopController.getForeseenSpeaker( users );
+
+        // after action
+        assertThat(result).isEqualTo("marie dupont " + Messages.get("and.or") + " sylvie dupont");
     }
 }
