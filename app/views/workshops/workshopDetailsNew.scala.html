@@ -16,7 +16,7 @@
   	<div>
 		<p>@Messages("welcome.there.is.some.people.intersted", workshop.potentialParticipants.size)</p>
 		@if( workshop.speakers.size > 0 ) {
-			<p>@Messages("welcome.workshop.foreseen.speaker", WorkshopController.getForseenSpeaker(workshop.speakers) )</p>
+			<p>@Messages("welcome.workshop.foreseen.speaker", WorkshopController.getForeseenSpeaker(workshop.speakers) )</p>
 		}
 		@if( workshop.speakers.size == 0 ) {
 			<p>@Messages("welcome.workshop.no.speaker")</p>
