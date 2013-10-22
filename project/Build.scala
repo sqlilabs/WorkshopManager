@@ -5,12 +5,7 @@ import play.Project._
 object ApplicationBuild extends Build {
 
 	val appName         = "Workshop-Manager"
-	val appVersion      = "1.0-SNAPSHOT"
-
-	/*
-	 * Versions des dépendances, quand il définir plusieurs
-	 * composants avec les mêmes numéros de version.
-	 */
+	val appVersion      = "1.1.0-SNAPSHOT"
 
 	// Add your project dependencies here,
   val appDependencies = Seq(

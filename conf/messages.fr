@@ -1,8 +1,8 @@
-# Surcharge des messages par défaut du framework
+# Override the default framework messages
 # @see https://github.com/playframework/Play20/blob/master/framework/src/play/src/main/resources/messages 
 constraint.required=Obligatoire
 
-# Commun
+# Common
 unknown.date=Personne ne le sais plus vraiment...
 last.actions=Les dernières actions
 action.login=Se connecter
@@ -22,7 +22,7 @@ application.home=Les prochains événements
 application.alreadyPlayed=Les événements déjà présentés
 application.newWorkshops=Les événements qui n'ont jamais été présentés
 
-# Page d'accueil
+# Home page
 welcome.no.workshops=Il n''y a pas d'événements dans la liste
 welcome.workshop.delete=Supprimer
 welcome.workshop.edit=Modifier
@@ -31,7 +31,7 @@ welcome.workshop.become.speaker=Se proposer en tant que Speaker
 welcome.workshop.removeme.speaker=Se retirer de la liste des Speakers
 welcome.workshop.i.am.interested=Je suis intéressé par cet événement
 welcome.workshop.i.am.not.interested=J'aimerai me retirer de la liste des gens intéressés par cet événement
-welcome.there.is.some.people.intersted=Il y a {0} personne(s) intéressée(s) par cet événement
+welcome.there.is.some.people.interested=Il y a {0} personne(s) intéressée(s) par cet événement
 welcome.workshop.foreseen.speaker=Le Speaker pressenti est {0}
 welcome.workshop.no.speaker=Il n''y a pas encore de Speaker pour cet événement
 created.date=Crée le
@@ -40,13 +40,13 @@ welcome.workshop.places.available=Il reste {0} place(s) disponible(s) sur {1} pl
 welcome.workshop.places.unlimited=Places illimitée pour cette session. Actuellement {0} personne(s) inscrite(s). 
 
 
-# Modal de suppression de workshop
+# Suppression modal window
 welcome.workshop.delete.modal.title=Confirmation de suppression
 welcome.workshop.delete.modal.text=Etes-vous sur de vouloir supprimer cet événement ?
 welcome.workshop.delete.modal.yes=Oui
 welcome.workshop.delete.modal.no=Non
 
-# Formulaire ajout de workshop
+# add event form
 form.add.workshop.title=Saisir les informations de l'événement :
 form.add.workshop.subject.label = Sujet
 form.add.workshop.description.label = Description
@@ -57,7 +57,7 @@ form.add.workshop.submit.button = Soumettre ...
 form.add.workshop.cancel.button = Annuler
 form.add.workshop.summary.label=Résumé
 
-# Formulaire de planification
+# planning event form
 form.plan.workshop.page.title=Planifier un événement
 form.plan.workshop.title=Saisir les détails de la session
 form.plan.workshop.location.label=Lieu de l'événement
@@ -79,7 +79,7 @@ plan.workshop.people.want.replay={0} personne(s) aimerai(en)t que l''on rejoue c
 form.plan.workshop.add.comment=Ajouter un commentaire
 form.plan.workshop.add.ressources=Ajout support
 
-# Zone Commentaire
+# Comments view
 form.comment.title=Ajouter un commentaire
 form.comment.submit.button=Ajouter le commentaire
 form.comment.cancel.button=Annuler
@@ -99,11 +99,11 @@ link.to.workshop.ressources=Support de l'événement externe (cloud)
 workshop.ressources.file=Support de l'événement interne
 
 
-# Charte
+# Charter
 action.ok=C''est cool! Je comprends et j''accepte ces termes
 action.ko=Vous avez craqué, même pas en rêve !!
 
-# Workshops planed
+# Workshops planned
 workshop.planned.on=Planifié le
 workshop.speaker=Speaker
 workshop.location=Lieu

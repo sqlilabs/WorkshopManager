@@ -6,7 +6,7 @@ import play.GlobalSettings;
 import play.data.format.Formatters;
 
 /**
- * Permet de définir les opérations globales à l'Application.
+ * Allows to define Global method for the app
  * 
  * @author cachavezley
  */
@@ -17,8 +17,8 @@ public class Global extends GlobalSettings {
 	 */
 	@Override
 	public void onStart(Application arg0) {	
-		// add a formater which takes you field and convert it to the proper object
-    	// this will be called autmaticaly when you call bindFromRequest()
+		// add a formater which takes your field and convert it to the proper object
+    	// this will be called automatically when you call bindFromRequest()
 		Formatters.register(User.class, new UserFormatter());
 	}
 

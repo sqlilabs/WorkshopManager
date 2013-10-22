@@ -1,9 +1,9 @@
-# Surcharge des messages par défaut du framework
+# Override the default framework messages
 # @see https://github.com/playframework/Play20/blob/master/framework/src/play/src/main/resources/messages 
 constraint.required=Required
 
 
-# Commun
+# Common
 unknown.date=No one really knows...
 last.actions=Last actions
 action.login=Login
@@ -23,7 +23,7 @@ application.home=The next events
 application.alreadyPlayed=The already played events
 application.newWorkshops=The possible events
 
-# Page d'accueil
+# Home page
 welcome.no.workshops=There's no events in that list
 welcome.workshop.delete=Delete
 welcome.workshop.edit=Edit
@@ -32,7 +32,7 @@ welcome.workshop.become.speaker=Propose as Speaker
 welcome.workshop.removeme.speaker=Withdraw from the list of Speakers
 welcome.workshop.i.am.interested=I am interested in this Workshop
 welcome.workshop.i.am.not.interested=I would like to remove myself from the list of people interested in this Workshop
-welcome.there.is.some.people.intersted=There is {0} people(s) interested by this event
+welcome.there.is.some.people.interested=There is {0} people(s) interested by this event
 welcome.workshop.foreseen.speaker=The foreseen Speaker is {0}
 welcome.workshop.no.speaker=There is no Speaker for this event yet
 created.date=Created the
@@ -41,13 +41,13 @@ welcome.workshop.places.available=There are {0} place(s) available on {1} initia
 welcome.workshop.places.unlimited=There is unlimited places for this session. Currently {0} people(s) registered.
 
 
-# Modal de suppression de workshop
+# Suppression modal window
 welcome.workshop.delete.modal.title=Confirm Deletion
 welcome.workshop.delete.modal.text=Do you really want to delete this Workshop ?
 welcome.workshop.delete.modal.yes=Yes
 welcome.workshop.delete.modal.no=No
 
-# Formulaire ajout de workshop
+# add event form
 form.add.workshop.title=Please, enter event details
 form.add.workshop.subject.label = Subject
 form.add.workshop.description.label = Description
@@ -58,7 +58,7 @@ form.add.workshop.submit.button = Submit this event
 form.add.workshop.cancel.button = Cancel
 form.add.workshop.summary.label=Summary
 
-# Formulaire de planification
+# planning event form
 form.plan.workshop.page.title=Schedule an event
 form.plan.workshop.title=Please enter session details
 form.plan.workshop.location.label=Workshop location
@@ -79,7 +79,7 @@ plan.workshop.people.want.replay={0} people(s) wish that someone present this ev
 form.plan.workshop.add.comment=Add comment
 form.plan.workshop.add.ressources=Add ressources
 
-# Zone Commentaire
+# Comments view
 form.comment.title=Add comment
 form.comment.submit.button=Add this comment
 form.comment.cancel.button=Cancel
@@ -103,7 +103,7 @@ action.ok=That''s cool ;) I understand and I agree
 action.ko=No way!!! Are you crazy guys??
 
 
-# Workshops planed
+# Workshops planned
 workshop.planned.on=Planned on
 workshop.speaker=Speaker
 workshop.location=Location
