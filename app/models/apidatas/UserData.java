@@ -13,8 +13,7 @@ public class UserData {
 	private User user;
 
 	/**
-	 * @param user
-	 *            utilisateur mappé
+	 * @param user the user
 	 */
 	public UserData(User user) {
 		super();

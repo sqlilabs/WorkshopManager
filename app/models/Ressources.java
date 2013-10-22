@@ -10,7 +10,7 @@ import play.data.validation.Constraints.Pattern;
 import play.db.ebean.Model;
 
 /**
- * This Object represent a comments on a Workshop
+ * This Object represent an event ressource
  * 
  * @author ychartois
  *
@@ -25,7 +25,7 @@ public class Ressources extends Model {
 	private static final long serialVersionUID = -7924212583471038287L;
 
 	/**
-	 * L'identifiant
+	 * id
 	 */
 	@Id
 	@GeneratedValue
@@ -45,16 +45,16 @@ public class Ressources extends Model {
 	public String workshopSupportLink;
 	 
 	/**
-	 * Définition d'un finder qui va permettre de faire les accès à la base
+	 * the Finder definition which allows to request the object in database
 	 */
 	public static Finder<Long, Ressources> find = new Finder<Long, Ressources>(Long.class, Ressources.class);
 	
 	
 	//<--------------------------------------------------------------------------->
-	//-							 Constructeur(s)	        
+	//-							 Constructor(s)
 	//<--------------------------------------------------------------------------->		
 	/**
-	 * Constructeur
+	 * Constructor
 	 */
 	public Ressources() {
 		super();

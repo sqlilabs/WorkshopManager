@@ -12,9 +12,9 @@ import javax.persistence.Table;
 import play.db.ebean.Model;
 
 /**
- * Un utilisateur dans l'application
+ * it represent an app user
  * 
- * @author cachavezley
+ * @author cachavezley, ychartois
  */
 @Entity
 @Table(name = "USER")
@@ -26,26 +26,26 @@ public class User extends Model {
 	private static final long serialVersionUID = 7097349530301633288L;
 
 	/**
-	 * L'identifiant
+	 * id
 	 */
 	@Id
 	@GeneratedValue
 	public Long id;
 
 	/**
-	 * Le prénom.
+	 * firstName
 	 */
 	@Column(name = "first_name")
 	public String firstName;
 	
 	/**
-	 * Le nom de famille
+	 * lastName
 	 */
 	@Column(name = "last_name")
 	public String lastName;
 	
 	/**
-	 * Le mail.
+	 * email
 	 */
 	@Column(name = "email")
 	public String email;
@@ -69,16 +69,16 @@ public class User extends Model {
 	public boolean charterAgree;
 	
 	/**
-	 * Définition d'un finder qui va permettre de faire les accès à la base
+	 * the Finder definition which allows to request the object in database
 	 */
 	public static Finder<Long, User> find = new Finder<Long, User>(Long.class, User.class);
 	
 	
 	//<--------------------------------------------------------------------------->
-	//-							 Constructeur(s)
+	//-							 Constructor(s)
 	//<--------------------------------------------------------------------------->
 	/**
-	 * Constructeur par défaut.
+	 * Constructor
 	 */
 	public User() {
 	}

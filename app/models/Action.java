@@ -12,7 +12,8 @@ import javax.persistence.Table;
 import play.db.ebean.Model;
 
 /**
- * This Object represent a comments on a Workshop
+ * This Object represent an action. It's use to log the user action and
+ * displayed them on the left column
  * 
  * @author ychartois
  *
@@ -27,7 +28,7 @@ public class Action extends Model {
 	private static final long serialVersionUID = 1227920506796496166L;
 
 	/**
-	 * L'identifiant
+	 * the id
 	 */
 	@Id
 	@GeneratedValue
@@ -58,16 +59,16 @@ public class Action extends Model {
 	public String description;
 	
 	/**
-	 * Définition d'un finder qui va permettre de faire les accès à la base
+	 * the Finder definition which allows to request the object in database
 	 */
 	public static Finder<Long, Action> find = new Finder<Long, Action>(Long.class, Action.class);
 	
 	
 	//<--------------------------------------------------------------------------->
-	//-							 Constructeur(s)	        
+	//-							 Constructor(s)
 	//<--------------------------------------------------------------------------->		
 	/**
-	 * Constructeur
+	 * Constructor
 	 */
 	public Action() {
 		super();

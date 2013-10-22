@@ -33,42 +33,42 @@ public class WorkshopData {
 	}
 
 	/**
-	 * L'identifiant
+	 * @return the event id
 	 */
 	public Long getId() {
 		return workshop.id;
 	}
 
 	/**
-	 * Le sujet du workshop.
+	 * @return the event subject
 	 */
 	public String getSubject() {
 		return workshop.subject;
 	}
 
 	/**
-	 * Résumé court du workshop
+	 * @return the event summary
 	 */
 	public String getSummary() {
 		return workshop.summary;
 	}
 
 	/**
-	 * La description du contenu du workshop.
+	 * @return the event description
 	 */
 	public String getDescription() {
 		return workshop.description;
 	}
 
 	/**
-	 * L'url de l'image à utiliser.
+	 * @return the event url image
 	 */
 	public String getImage() {
 		return workshop.image;
 	}
 
 	/**
-	 * Les speakers proposé du workshop
+	 * @return the foreseen speakers
 	 */
 	public Set<UserData> getSpeakers() {
 		Set<UserData> speakers = new HashSet<UserData>();
@@ -79,14 +79,14 @@ public class WorkshopData {
 	}
 
 	/**
-	 * Who created the workshop
+	 * @return Who created the workshop
 	 */
 	public UserData getAuthor() {
 		return new UserData(workshop.author);
 	}
 
 	/**
-	 * When it as been created
+	 * @return When it as been created
 	 */
 	public Date getCreationDate() {
 		return workshop.creationDate;
@@ -94,7 +94,7 @@ public class WorkshopData {
 
 
 	/**
-	 * Les personnes intéressées par le workshop
+	 * @return the user interested by this event
 	 */
 	public Set<User> getPotentialParticipants() {
 		return workshop.potentialParticipants;
@@ -102,7 +102,7 @@ public class WorkshopData {
 
 
 	/**
-	 * Les commentaires du workshop
+	 * @return the event comments
 	 */
 	public Set<Comment> getComments() {
 		return null;//workshop.comments;
@@ -110,7 +110,7 @@ public class WorkshopData {
 
 
 	/**
-	 * Ressources of the workshop (file/link to the workshop support)
+	 * @return Ressources of the workshop (file/link to the workshop support)
 	 */
 	public Ressources getWorkshopRessources() {
 		return workshop.workshopRessources;

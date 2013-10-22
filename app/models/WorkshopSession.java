@@ -25,9 +25,9 @@ import play.db.ebean.Model;
 
 
 /**
- * Une séance d'un Workshop.
+ * This class represents a planned session of an event
  * 
- * @author cachavezley
+ * @author cachavezley, ychartois
  *
  */
 @Entity
@@ -40,35 +40,34 @@ public class WorkshopSession extends Model {
 	private static final long serialVersionUID = 9112271812179769416L;
 
 	/**
-	 * L'identifiant
+	 * id
 	 */
 	@Id
 	@GeneratedValue
 	public Long id;
 	
 	/**
-	 * L'endroit où le workshop va se dérouler.
+	 * The event location
 	 */
 	@Required
 	@Column(length=50)
 	public String location;
 	
 	/**
-	 * Limite de place de la session
+	 * the limit of participants for this event session
 	 */ 
 	@Column(name = "limite_place",length=2)
 	@NotNull
 	public int limitePlace;
 	
 	/**
-	 * Date à laquelle le workshop est planifié ou a été joué. Si null alors c'est 
-	 * que le workshop n'a jamais été planifié
+	 * the event nextPlay or lastPlay. If null the event has never been played
 	 */
 	@Required
 	public Date nextPlay;	
 	
 	/**
-	 * La personne qui donnera cette séance du workshop.
+	 * the event speaker
 	 */
 	@ManyToOne(cascade=CascadeType.PERSIST)
 	public User speaker;
@@ -81,7 +80,7 @@ public class WorkshopSession extends Model {
 	public Workshop workshop;
 	
 	/**
-	 * Les personnes inscritent au workshop
+	 * The participants of this session.
 	 */
 	@ManyToMany()
 	@JoinTable(
@@ -91,16 +90,16 @@ public class WorkshopSession extends Model {
 	public Set<User> participants = new HashSet<User>();
 	
 	/**
-	 * Définition d'un finder qui va permettre de faire les accès à la base
+	 * the Finder definition which allows to request the object in database
 	 */
 	public static Finder<Long, WorkshopSession> find = new Finder<Long, WorkshopSession>(Long.class, WorkshopSession.class);
 	
 	
 	//<--------------------------------------------------------------------------->
-	//-							 Constructeur(s)	        
+	//-							 Constructor(s)
 	//<--------------------------------------------------------------------------->
 	/**
-	 * Constructeur par défaut.
+	 * Constructor
 	 */
 	public WorkshopSession() {
 	}

@@ -37,31 +37,21 @@ public class SessionData {
 	}
 
 	/**
-	 * L'url du doodle qui contient les participants à cette séance.
-	 * 
-	 * @return doodlUrl
-	 */
-	public String getDoodleUrl() {
-		return "";
-	}
-
-	/**
-	 * L'endroit où le workshop va se dérouler.
+     * @return The event location
 	 */
 	public String getLocation() {
 		return workshopSession.location;
 	}
 
 	/**
-	 * Date à laquelle le workshop est planifié ou a été joué. Si null alors
-	 * c'est que le workshop n'a jamais été planifié
-	 */
+     * @return the event nextPlay or lastPlay. If null the event has never been played
+     */
 	public Date getNextPlay() {
 		return workshopSession.nextPlay;
 	}
 
 	/**
-	 * La personne qui donnera cette séance du workshop.
+	 * @return the event speaker
 	 */
 	public UserData getSpeaker() {
 		return new UserData(workshopSession.speaker);

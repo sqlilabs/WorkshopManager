@@ -14,7 +14,7 @@ import javax.persistence.Table;
 import play.db.ebean.Model;
 
 /**
- * This Object represent a comments on a Workshop
+ * This Object represent a comment on an event
  * 
  * @author ychartois
  *
@@ -29,7 +29,7 @@ public class Comment extends Model {
 	private static final long serialVersionUID = -8881854974752539059L;
 
 	/**
-	 * L'identifiant
+	 * id
 	 */
 	@Id
 	@GeneratedValue
@@ -61,16 +61,16 @@ public class Comment extends Model {
 	public Workshop workshop; 
 	
 	/**
-	 * Définition d'un finder qui va permettre de faire les accès à la base
+	 * the Finder definition which allows to request the object in database
 	 */
 	public static Finder<Long, Comment> find = new Finder<Long, Comment>(Long.class, Comment.class);
 	
 	
 	//<--------------------------------------------------------------------------->
-	//-							 Constructeur(s)	        
+	//-							 Constructor(s)
 	//<--------------------------------------------------------------------------->		
 	/**
-	 * Constructeur
+	 * Constructor
 	 */
 	public Comment() {
 		super();

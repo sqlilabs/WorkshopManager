@@ -23,9 +23,10 @@ import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
 /**
- * Le Java Bean contenant les informations génériques du Workshop.
+ * It represent an event in the app. Originally it was designed to handle workshops,
+ * not for generic events, which explains the name !
  * 
- * @author cachavezley
+ * @author cachavezley, ychartois
  * @see WorkshopSession
  */
 @Entity
@@ -38,39 +39,39 @@ public class Workshop extends Model {
 	private static final long serialVersionUID = -6669398454928349805L;
 
 	/**
-	 * L'identifiant
+	 * id
 	 */
 	@Id
     @GeneratedValue
     public Long id;
 
 	/**
-	 * Le sujet du workshop.
+	 * the subject of the event
 	 */
 	@Required
 	@Column(length=100)
 	public String subject;
 	
 	/**
-	 * Résumé court du workshop
+	 * A short summary of the event
 	 */
 	@Column(length=300)
 	@Required
 	public String summary;
 	
 	/**
-	 * La description du contenu du workshop.
+	 * The event description
 	 */
 	@Column(length = 1000)
 	public String description;
 	
 	/**
-	 * L'url de l'image à utiliser.
+	 * the link to the image event
 	 */
 	public String image;
 	
 	/**
-	 * Les speakers proposé du workshop
+	 * The foreseen speaker
 	 */
 	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(
@@ -80,7 +81,7 @@ public class Workshop extends Model {
 	public Set<User> speakers = new HashSet<User>();
 	
 	/**
-	 * La WorkshopSession contient les informations relatives à la planification du Workshop
+	 * The session contains all the information of the planned event
 	 */
 	@OneToMany(mappedBy="workshop", cascade=CascadeType.ALL)
 	public List<WorkshopSession> workshopSession = new ArrayList<WorkshopSession>();
@@ -92,12 +93,12 @@ public class Workshop extends Model {
 	public User author;
 	
 	/**
-	 * When it as created
+	 * When it has been created
 	 */
 	public Date creationDate;
 	
 	/**
-	 * Les personnes intéressées par le workshop
+	 * The users interested by this event
 	 */
 	@ManyToMany()
 	@JoinTable(
@@ -107,7 +108,7 @@ public class Workshop extends Model {
 	public Set<User> potentialParticipants = new HashSet<User>();
 	
 	/**
-	 * Les commentaires du workshop
+	 * The event comments
 	 */
 	@OneToMany(mappedBy="workshop", cascade=CascadeType.ALL)
 	public Set<Comment> comments = new HashSet<Comment>();
@@ -119,16 +120,16 @@ public class Workshop extends Model {
 	public Ressources workshopRessources;
 	
 	/**
-	 * Définition d'un finder qui va permettre de faire les accès à la base
+	 * the Finder definition which allows to request the object in database
 	 */
 	public static Finder<Long, Workshop> find = new Finder<Long, Workshop>(Long.class, Workshop.class);
 	
 	
 	//<--------------------------------------------------------------------------->
-	//-							 Constructeur(s)	        
+	//-							 Constructor(s)
 	//<--------------------------------------------------------------------------->
 	/**
-	 * Constructeur par défaut
+	 * Constructor
 	 */
 	public Workshop() {
 		super();
