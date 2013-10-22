@@ -87,7 +87,7 @@ form.add.comment.description.label=Your comment
 comments.number=Number of comments
 view.comments=View comments
 comments.number.sentence=There is {0} comment(s) for this event
-comments.title={0} {1} comment's posted the {2}
+comments.title={0} {1} comment''s posted the {2}
 
 # Add Ressources
 form.ressources.title=Resources to add to the event
