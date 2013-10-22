@@ -10,6 +10,12 @@ import org.apache.commons.io.IOUtils;
 import play.mvc.Controller;
 import play.mvc.Result;
 
+
+/**
+ * This controller allows to serve uploaded images resources as the image of the event
+ *
+ * @author ychartois
+ */
 public class ServeImage extends Controller {
 
 	
@@ -17,10 +23,11 @@ public class ServeImage extends Controller {
 	// - 							Actions(s)
 	// <--------------------------------------------------------------------------->
 	/**
-	 * Action qui retourne l'image passé en paramètre de la route
+     * Action which return the image given as route parameter
 	 * 
-	 * @param filename le nom du fichier
-	 * @return l'image
+	 * @param filename the file name
+     *
+	 * @return the image given as route parameter
 	 */
 	public static Result at( String filename ) {
         response().setContentType("image");     
@@ -40,10 +47,10 @@ public class ServeImage extends Controller {
     }   
 	
 	// <--------------------------------------------------------------------------->
-	// - 							Constructeur(s)
+	// - 							Constructor(s)
 	// <--------------------------------------------------------------------------->
 	/**
-	 * Constructeur
+	 * Constructor
 	 */
 	private ServeImage() {
 		super();

@@ -9,24 +9,30 @@ import org.apache.commons.io.IOUtils;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-public class ServeRessources extends Controller {
+/**
+ * This controller allows to serve files resources as event slides
+ *
+ * @author ychartois
+ */
+public class ServeResources extends Controller {
 
 	
 	// <--------------------------------------------------------------------------->
 	// - 							Actions(s)
 	// <--------------------------------------------------------------------------->
 	/**
-	 * Action qui retourne l'image passé en paramètre de la route
+	 * Action which return the file given as route parameter
 	 * 
-	 * @param filename le nom du fichier
-	 * @return l'image
+	 * @param filename the file name
+     *
+	 * @return the file given as route parameter
 	 */
 	public static Result at( String filename ) {
 		
 		byte[] file = null;
 
         try {
-            file = IOUtils.toByteArray( new FileInputStream( new File("public/ressources/"+filename ) ) );
+            file = IOUtils.toByteArray( new FileInputStream( new File("public/resources/"+filename ) ) );
         } 
         catch (FileNotFoundException e) {
             return notFound();
@@ -46,12 +52,12 @@ public class ServeRessources extends Controller {
     }   
 	
 	// <--------------------------------------------------------------------------->
-	// - 							Constructeur(s)
+	// - 							Constructor(s)
 	// <--------------------------------------------------------------------------->
 	/**
-	 * Constructeur
+	 * Constructor
 	 */
-	private ServeRessources() {
+	private ServeResources() {
 		super();
 	}
 

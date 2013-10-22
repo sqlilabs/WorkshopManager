@@ -17,6 +17,10 @@ import repository.WorkshopRepository;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * The API provided for user who want to build other apps (like Android, ...)
+ */
 public class Api extends Controller {
 
 	// <--------------------------------------------------------------------------->
@@ -34,7 +38,7 @@ public class Api extends Controller {
 				.getWorkshopsPlanifie();
 		List<SessionData> wsPlanifies = new ArrayList<SessionData>(
 				workshopSessionList.size());
-		// conversion des sessions en données à sérialiser en json
+		// we convert the workshopSession in sessionData to export in JSON
 		for (WorkshopSession workshopSession : workshopSessionList) {
 			wsPlanifies.add(new SessionData(workshopSession));
 		}

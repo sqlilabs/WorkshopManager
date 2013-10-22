@@ -3,7 +3,7 @@
 constraint.required=Obligatoire
 
 # Commun
-unknow.date=Personne ne le sais plus vraiment...
+unknown.date=Personne ne le sais plus vraiment...
 last.actions=Les dernières actions
 action.login=Se connecter
 modify.picture=Vous pouvez renseigner un lien vers une image de profil, ce lien doit être http...
@@ -11,24 +11,29 @@ and.or=et/ou
 
 # Menu
 application.title=Workshops Manager
-menu.home=Workshops Planifiés
+menu.home=Evénements Planifiés
 menu.search=Rechercher
-menu.alreadydone=Workshops déjà présentés
-menu.new=Nouveaux Workshops
-action.submit.a.workshop=Soumettre un workshop
+menu.alreadydone=Evénements déjà présentés
+menu.new=Nouveaux événements
+action.submit.a.workshop=Soumettre un événement
+
+# Application
+application.home=Les prochains événements
+application.alreadyPlayed=Les événements déjà présentés
+application.newWorkshops=Les événements qui n'ont jamais été présentés
 
 # Page d'accueil
-welcome.no.workshops=Il n''y a pas de workshops dans la liste
+welcome.no.workshops=Il n''y a pas d'événements dans la liste
 welcome.workshop.delete=Supprimer
 welcome.workshop.edit=Modifier
 welcome.workshop.plan=Planifier
 welcome.workshop.become.speaker=Se proposer en tant que Speaker
 welcome.workshop.removeme.speaker=Se retirer de la liste des Speakers
-welcome.workshop.i.am.interested=Je suis intéressé par ce Workshop
-welcome.workshop.i.am.not.interested=J'aimerai me retirer de la liste des gens intéressés par ce Workshop
-welcome.there.is.some.people.intersted=Il y a {0} personne(s) intéressée(s) par ce workshop
+welcome.workshop.i.am.interested=Je suis intéressé par cet événement
+welcome.workshop.i.am.not.interested=J'aimerai me retirer de la liste des gens intéressés par cet événement
+welcome.there.is.some.people.intersted=Il y a {0} personne(s) intéressée(s) par cet événement
 welcome.workshop.foreseen.speaker=Le Speaker pressenti est {0}
-welcome.workshop.no.speaker=Il n''y a pas encore de Speaker pour ce workshop
+welcome.workshop.no.speaker=Il n''y a pas encore de Speaker pour cet événement
 created.date=Crée le
 by.author=par
 welcome.workshop.places.available=Il reste {0} place(s) disponible(s) sur {1} places ouvertes
@@ -37,25 +42,25 @@ welcome.workshop.places.unlimited=Places illimitée pour cette session. Actuelle
 
 # Modal de suppression de workshop
 welcome.workshop.delete.modal.title=Confirmation de suppression
-welcome.workshop.delete.modal.text=Etes-vous sur de vouloir supprimer ce workshop ?
+welcome.workshop.delete.modal.text=Etes-vous sur de vouloir supprimer cet événement ?
 welcome.workshop.delete.modal.yes=Oui
 welcome.workshop.delete.modal.no=Non
 
 # Formulaire ajout de workshop
-form.add.workshop.title=Saisir les informations du workshop :
+form.add.workshop.title=Saisir les informations de l'événement :
 form.add.workshop.subject.label = Sujet
 form.add.workshop.description.label = Description
 form.add.workshop.image.label = Image
-form.add.workshop.page.title=Ajouter un workshop
+form.add.workshop.page.title=Ajouter un événement
 form.add.workshop.subject.button= Aller ...
 form.add.workshop.submit.button = Soumettre ...
 form.add.workshop.cancel.button = Annuler
 form.add.workshop.summary.label=Résumé
 
 # Formulaire de planification
-form.plan.workshop.page.title=Planifier un workshop
+form.plan.workshop.page.title=Planifier un événement
 form.plan.workshop.title=Saisir les détails de la session
-form.plan.workshop.location.label=Lieu du Workshop
+form.plan.workshop.location.label=Lieu de l'événement
 form.plan.workshop.limitePlace.label=Nombre de place
 form.plan.workshop.limitePlace.help=0 correspond à un nombre de place illimités
 form.plan.workshop.nextPlay.label=Date de la prochaine séance
@@ -63,14 +68,14 @@ form.plan.workshop.nextPlay.error=La date de prochaine séance est obligatoire
 form.plan.workshop.speaker.label=Speaker
 form.plan.workshop.speaker.default=--- Choisir un Speaker ---
 form.plan.workshop.speaker.error=Le choix d'un Speaker est obligatoire
-form.plan.workshop.submit.button=Planifier ce workshop 
+form.plan.workshop.submit.button=Planifier cet événement
 form.plan.workshop.cancel.button=Annuler
 
 # Page already played
 form.plan.workshop.last.speaker=présenté par
 form.plan.workshop.last.date=Dernière session le
 form.plan.workshop.plan.again=Re-Planifier
-plan.workshop.people.want.replay={0} personne(s) aimerai(en)t que l''on rejoue ce workshop
+plan.workshop.people.want.replay={0} personne(s) aimerai(en)t que l''on rejoue cet événement
 form.plan.workshop.add.comment=Ajouter un commentaire
 form.plan.workshop.add.ressources=Ajout support
 
@@ -81,17 +86,17 @@ form.comment.cancel.button=Annuler
 form.add.comment.description.label=Votre commentaire
 comments.number=Nombre de commentaires
 view.comments=Voir les commentaires
-comments.number.sentence=Il y a {0} commentaire(s) pour ce workshop
+comments.number.sentence=Il y a {0} commentaire(s) pour cet événement
 comments.title=Commentaire de {0} {1} laissé le {2}
 
 # Add Ressources
-form.ressources.title=Ressources à ajouter au workshop
+form.ressources.title=Ressources à ajouter à l'événement
 form.ressources.submit.button=Ajouter les ressources
 form.ressources.cancel.button=Annuler
 form.ressources.subject.label=Lien vers site externe: 
-form.ressources.label=Support du workshop
-link.to.workshop.ressources=Support du workshop externe (cloud)
-workshop.ressources.file=Support du workshop interne
+form.ressources.label=Support de l'événement
+link.to.workshop.ressources=Support de l'événement externe (cloud)
+workshop.ressources.file=Support de l'événement interne
 
 
 # Charte
@@ -110,12 +115,12 @@ workshop.planned.edit.add.session=Ajouter session
 # Errors messages
 error.speaker.limit.reached=Le nombre de speaker maximum est atteint
 error.google.authentification.refused=Vous avez refusé l'identification via votre compte Google, vous ne pourrez pas profiter des privilèges liés aux utilisateurs identifiés. Google nous a retourné l'erreur suivante: [{0}]
-error.participants.limit.reached=Le nombre maximum de participant est atteint ou vous êtes déjà inscrit à une autres session de ce workshop ce mois ci.
+error.participants.limit.reached=Le nombre maximum de participant est atteint ou vous êtes déjà inscrit à une autres session de cet événement ce mois ci.
 
 # Actions
-action.add.new.workshop=Nouveau Workshop !
-action.modify.new.workshop=Workshop modifié
-action.delete.new.workshop=Workshop supprimé
+action.add.new.workshop=Nouvel événement !
+action.modify.new.workshop=Evénement modifié
+action.delete.new.workshop=Evénement supprimé
 action.add.session=Nouvelle session
 action.modify.session=Session modifiée
 action.new.comment=Nouveau commentaire

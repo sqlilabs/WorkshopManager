@@ -3,6 +3,7 @@ package controllers;
 import static models.utils.constants.ApplicationConstants.UUID;
 import play.Play;
 import play.db.ebean.Transactional;
+import play.i18n.Messages;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Http.Context;
@@ -13,6 +14,12 @@ import views.html.welcome.welcome;
 import views.html.workshops.alreadyPlayed;
 import views.html.workshops.newWorkshops;
 
+
+/**
+ * The main controller of the app which redirect to the main views
+ *
+ * @author ychartois
+ */
 public class Application extends Controller {
     
 
@@ -26,9 +33,9 @@ public class Application extends Controller {
 	 */
 	@Transactional()
 	public static Result welcome() {
-		Context.current().args.put("ongletActif", "home");
+		Context.current().args.put("activeTab", "home");
 		// We render the welcome page
-		return ok(welcome.render("Les prochains Workshops", WorkshopRepository.getWorkshopsPlanifie()));
+		return ok(welcome.render(Messages.get("application.home"), WorkshopRepository.getWorkshopsPlanifie()));
 	}
 	
 	/**
@@ -38,9 +45,9 @@ public class Application extends Controller {
 	 */
 	@Transactional()
 	public static Result workshops() {
-		Context.current().args.put("ongletActif", "alreadyPlayed");
+		Context.current().args.put("activeTab", "alreadyPlayed");
 		// We render the welcome page
-		return ok(alreadyPlayed.render("Les Workshops déjà présentés", WorkshopRepository.getWorkshopsAlreadyPlayed()));
+		return ok(alreadyPlayed.render(Messages.get("application.alreadyPlayed"), WorkshopRepository.getWorkshopsAlreadyPlayed()));
 	}
 	
 	/**
@@ -50,9 +57,9 @@ public class Application extends Controller {
 	 */
 	@Transactional()
 	public static Result newWorkshops() {
-		Context.current().args.put("ongletActif", "newWorkshops");
+		Context.current().args.put("activeTab", "newWorkshops");
 		// We render the welcome page
-		return ok( newWorkshops.render("Les Workshops qui n'ont jamais été présentés", WorkshopRepository.getWorkshops()) );
+		return ok( newWorkshops.render(Messages.get("application.newWorkshops"), WorkshopRepository.getWorkshops()) );
 	}
 	
 	/**
@@ -70,13 +77,14 @@ public class Application extends Controller {
 	// - 							helper methods
 	// <--------------------------------------------------------------------------->
 	/**
-	 * @param tabName le nom du tab à tester
-	 * @return le code html du style css à appliquer si c'est l'onglet selectionné
-	 * @return le code html du style css à appliquer si c'est l'onglet
-	 *         selectionné
+	 * Test if the current tab is active
+     *
+     * @param tabName the tab name
+     *
+	 * @return the HTML code which apply the css active property on the selected tab
 	 */
 	public static String isActive( String tabName ) {
-		String currentTab = (String) Http.Context.current().args.get("ongletActif");
+		String currentTab = (String) Http.Context.current().args.get("activeTab");
 		return tabName.equals( currentTab ) ? "class=active" : "";
 	}
 	
@@ -116,7 +124,4 @@ public class Application extends Controller {
         return Play.application().configuration().getString(properties);
     }
 
-	
-	
-	
 }

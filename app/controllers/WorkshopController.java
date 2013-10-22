@@ -39,18 +39,16 @@ import views.html.workshops.addComment;
 import views.html.workshops.addRessources;
 
 /**
- * Ce controller regroupe toutes les actions qui sont liées à l'ajout d'un
- * nouveau Workshop
+ * The controller contains the actions allowed on events
  * 
  * @author ychartois
- * @version 0.1
  */
 public class WorkshopController extends Controller {
 
 
 
 	// <--------------------------------------------------------------------------->
-	// - 							Actions(s)
+	// - 							      Actions(s)
 	// <--------------------------------------------------------------------------->
 	/**
 	 * Display a blank form for Workshop.
@@ -76,35 +74,28 @@ public class WorkshopController extends Controller {
 			return badRequest(addWorkshop.render(workshopForm, id));
 		}
 
-		// On récupère le workshop depuis le formulaire
 		Workshop 		workshopNew 		= 	workshopForm.get();
 		
-		// Et le workshop depuis la base si c'est une modification
+		// We get the event from the database if it's a modification
 		if ( id != ID_NOT_IN_TABLE ) {
 			Workshop 	ws 					= 	Workshop.find.byId(id);
-			// on met à jour la nouvelle instance avec les anciennes données
+			// we update the new instance
 			workshopNew.speakers				=	ws.speakers;
 			workshopNew.potentialParticipants	=	ws.potentialParticipants ;
 			workshopNew.author 					=	ws.author;
 			workshopNew.creationDate			=	ws.creationDate;
-			
-			// On set l'image du workshop. Si on ne remplace pas l'image par une nouvelle,
-			// on n'ecrase pas l'ancienne par celle par défaut
+
+            // We set the event image. If it's not a new image, we keep the old one
 			String		image					=	uploadImage();
 			workshopNew.image					=	image.endsWith("default.png") ? ws.image : image ;
-			
-			// On log l'action
+
 			ActionsUtils.logAction( ActionEnum.MODIFY_WORKSHOP, Secured.getUser(), workshopNew.subject);
 		}
 		else {
-			// On affecte l'auteur connecté
 			workshopNew.author 				=	Secured.getUser() ;
-			// et la date de création
 			workshopNew.creationDate		= 	new Date();
-			// On set l'image du workshop
-			workshopNew.image					=	uploadImage();
-			
-			// On log l'action
+			workshopNew.image				=	uploadImage();
+
 			ActionsUtils.logAction( ActionEnum.NEW_WORKSHOP, Secured.getUser(), workshopNew.subject);
 			
 		}
@@ -121,9 +112,10 @@ public class WorkshopController extends Controller {
 	}
 
 	/**
-	 * @param id
-	 *            id du workshop
-	 * @return la page permettant de modifier le workshop
+     * Return the event modification form
+     *
+	 * @param id  event id
+	 * @return the event modification form
 	 */
 	@Transactional
     @Security.Authenticated(Secured.class)
@@ -140,8 +132,9 @@ public class WorkshopController extends Controller {
 	}
 
 	/**
-	 * @param id
-	 *            l'identifiant du workshop
+     * Allows to delete a Workshop
+     *
+	 * @param id  event id
 	 * @return the welcome page
 	 */
 	@Transactional
@@ -160,8 +153,9 @@ public class WorkshopController extends Controller {
 	}
 
 	/**
-	 * @param id
-	 *            l'identifiant du workshop
+     * Return the event planning form
+     *
+	 * @param id  event id
 	 * @return the planWorkshop page
 	 */
 	@Transactional
@@ -178,8 +172,9 @@ public class WorkshopController extends Controller {
 	}
 	
 	/**
-	 * @param idWorkshop
-	 *            l'identifiant du workshop
+     * Return the event planning form for modification of a already planned event
+     *
+	 * @param idWorkshop event id
 	 * @return the planWorkshop page
 	 */
 	@Transactional
@@ -203,8 +198,9 @@ public class WorkshopController extends Controller {
 	}
 
 	/**
-	 * @param idWorkshop
-	 *            l'identifiant du workshop
+	 * Allows to save an event session
+     *
+     * @param idWorkshop event id
 	 * @return the welcome page or the planWorkshop page if the validation has
 	 *         errors
 	 */
@@ -244,13 +240,13 @@ public class WorkshopController extends Controller {
 		// We empty the potentialParticipants List
 		workshopToPlan.potentialParticipants	= 	new HashSet<User>();
 		
-		// On ajoute 13h à la date de nextSession
+		// We add 13h nextSession date
 		GregorianCalendar	calendar	=	new GregorianCalendar();
 		calendar.setTime( workshopSession.nextPlay );
 		calendar.add(Calendar.HOUR_OF_DAY, 13);
 		workshopSession.nextPlay		=	calendar.getTime();
 
-		// Sauver l'objet en base 
+		// We save the new session
 		if (!newSession) {
 			Ebean.update(workshopSession);
 		} else {
@@ -262,7 +258,7 @@ public class WorkshopController extends Controller {
     }
 
     /**
-     * Allow to add a proposal Speaker to the speaker List for a selected workshop
+     * Allows to add a proposal Speaker to the speaker List for a selected workshop
      * 
      * @param id workshop id
      * @return the welcome page
@@ -292,7 +288,7 @@ public class WorkshopController extends Controller {
     }
     
     /**
-     * Allow to remove a proposal Speaker to the speaker List for a selected workshop
+     * Allows to remove a proposal Speaker to the speaker List for a selected workshop
      * 
      * @param id workshop id
      * @return the welcome page
@@ -316,7 +312,7 @@ public class WorkshopController extends Controller {
     }
     
     /**
-     * Allow to add a participant to the potential participants List for a selected session
+     * Allows to add a participant to the potential participants List for a selected session
      * 
      * @param id workshop id
      * @return the welcome page
@@ -387,7 +383,7 @@ public class WorkshopController extends Controller {
 	}
 
 	/**
-     * Allow to remove a participant to the potential participants List for a selected session
+     * Allows to remove a participant to the potential participants List for a selected session
      * 
      * @param id workshop id
      * @return the welcome page
@@ -411,7 +407,7 @@ public class WorkshopController extends Controller {
     }
     
     /**
-     * Allow to add a participant to the potential participants List for a selected workshop
+     * Allows to add a participant to the potential participants List for a selected workshop
      * 
      * @param id workshop id
      * @return the welcome page
@@ -435,7 +431,7 @@ public class WorkshopController extends Controller {
 	}
     
     /**
-     * Allow to remove a participant to the potential participants List for a selected workshop
+     * Allows to remove a participant to the potential participants List for a selected workshop
      * 
      * @param id workshop id
      * @return the welcome page
@@ -459,7 +455,7 @@ public class WorkshopController extends Controller {
     }
     
     /**
-     * Allow to add a participant to the potential participants List for a selected workshop
+     * Allows to add a participant to the potential participants List for a selected workshop
      * 
      * @param id workshop id
      * @return the welcome page
@@ -483,7 +479,7 @@ public class WorkshopController extends Controller {
 	}
     
     /**
-     * Allow to remove a participant to the potential participants List for a selected workshop
+     * Allows to remove a participant to the potential participants List for a selected workshop
      * 
      * @param id workshop id
      * @return the welcome page
@@ -556,10 +552,10 @@ public class WorkshopController extends Controller {
     
     
     /**
-     * Prepare the form to add ressources
+     * Prepare the form to add resources
      * 
 	 * @param id the workshop ID
-	 * @return the ressources form view
+	 * @return the resources form view
 	 */
     @Transactional
     @Security.Authenticated(Secured.class)
@@ -572,20 +568,20 @@ public class WorkshopController extends Controller {
 
     	Ressources 	ressources	=	ws.workshopRessources;
     	
-    	// if we already set ressources, we want to fill the form with our old datas
-    	Form<Ressources> ressourcesForm = null;
+    	// if we already set resources, we want to fill the form with our old data
+    	Form<Ressources> resourcesForm = null;
     	if ( ressources != null ) {
-    		ressourcesForm 		= 	play.data.Form.form(Ressources.class).fill(ressources);
+    		resourcesForm 		= 	play.data.Form.form(Ressources.class).fill(ressources);
     	}
     	else {
-    		ressourcesForm 		= 	play.data.Form.form(Ressources.class);
+    		resourcesForm 		= 	play.data.Form.form(Ressources.class);
     	}
 
-		return ok( addRessources.render(ressourcesForm, id) );
+		return ok( addRessources.render(resourcesForm, id) );
 	}
     
     /**
-     * Save the new ressources
+     * Save the new resources
      * 
      * @param id the workshop ID
      * @return redirect on workshop already played view
@@ -608,7 +604,7 @@ public class WorkshopController extends Controller {
 
     	boolean			update			=	 ws.workshopRessources != null;
     	
-    	//We create the Ressources instance
+    	//We create the Resources instance
     	Ressources 		ressources 		= 	filledForm.get();
     	ressources.workshopSupportFile	=	uploadRessources( ws );
     	if ( update ) {
@@ -634,10 +630,10 @@ public class WorkshopController extends Controller {
     
     
 	// <--------------------------------------------------------------------------->
-	// - helper methods
+	// -                             helper methods
 	// <--------------------------------------------------------------------------->
 	/**
-	 * @return la liste des Workshops planifiés qui a été placé dans le context
+	 * @return the planned workshops list which is stored in the context
 	 */
 	public static List<Workshop> getWorkshopsPlanifieFromContext() {
 		@SuppressWarnings("unchecked")
@@ -647,39 +643,19 @@ public class WorkshopController extends Controller {
 	}
 
 	/**
-	 * @return la date décorée
+     * Allows to format date
+     *
+	 * @return the decorated date
 	 */
 	public static String decorateDate(Date date) {
-		return date != null ? new SimpleDateFormat(DATE_PATTERN).format(date) : Messages.get("unknow.date") ;
+		return date != null ? new SimpleDateFormat(DATE_PATTERN).format(date) : Messages.get("unknown.date") ;
 	}
 	
 	/**
-	 * Permet de découper la description du workshop courte
-	 * 
-	 * @param workshop un workshop
-	 * @return la description du workshop tronquée
-	 */
-	public static String getWorkshopDescription( Workshop workshop ) {
-		int maxlength = Play.application().configuration().getInt( "detail.workshop.main.view" );
-
-		return ( workshop.description.length() > maxlength ) 
-				? workshop.description.substring(0, maxlength) + "..." 
-				:  workshop.description ;
-	}
-	
-	/**
-	 * Permet de découper la description du workshop complète
-	 * 
-	 * @param workshop un workshop
-	 * @return la description du workshop tronquée
-	 */
-	public static String getFullWorkshopDescription( Workshop workshop ) {
-		return workshop.description ;
-	}
-	
-	/**
+     * Get the foreseen Speaker (i.e. user who volunteered as speaker )
+     *
 	 * @param speakers the list of speakers
-	 * @return the nam of the foorseen User
+	 * @return the full name of the foreseen User
 	 */
 	public static String getForeseenSpeaker( Set<User> speakers ) {
 
@@ -703,25 +679,24 @@ public class WorkshopController extends Controller {
 	
 	
 	// <--------------------------------------------------------------------------->
-	// - helper methods private
+	// -                        helper methods private
 	// <--------------------------------------------------------------------------->	
 	/**
-	 * Upload l'image spécifié et retourne le lien vers cette image
+     * Upload the specified image and return the link to it
 	 * 
-	 * @return le chemin vers l'image qui a été uploader dans le système
+	 * @return the image link in the system
 	 */
 	private static String uploadImage() {
     	String imageLocation 	= 	Play.application().configuration().getString("workshop.images.url") + File.separator;
     	String defaultImage 	= 	imageLocation + "default.png";
     	
-    	// Gestion de la sauvegarde des fichiers uploadés (images)
- 		MultipartFormData body = request().body().asMultipartFormData(); 
+ 		MultipartFormData body = request().body().asMultipartFormData();
  		FilePart picture = body != null ? body.getFile("image") : null;
  		if (picture != null) {
  			String fileName = picture.getFilename();
  			File file = picture.getFile();
 
- 			// On sauvegarde le fichier
+            // We save the file
 			String myUploadPath = Play.application().path()
 					+ File.separator
 					+ Play.application().configuration().getString("workshop.images.directory");
@@ -742,25 +717,23 @@ public class WorkshopController extends Controller {
     }
 	
 	/**
-	 * Upload la ressource spécifiée et retourne le lien vers cette ressource
+	 * Upload the specified File and return the link to it
 	 * 
-	 * @return le chemin vers la ressource qui a été uploadée dans le système
+	 * @return the File link in the system
 	 */
 	private static String uploadRessources( Workshop workshop ) {
 		SimpleDateFormat 	simpleDateFormat	=	new SimpleDateFormat("[yyyy-MM]");
 		String				destFolderName		=	simpleDateFormat.format( workshop.workshopSession.get(0).nextPlay ) + " - " + workshop.subject;
     	String 				ressourceLocation 	= 	Play.application().configuration().getString("workshop.ressources.url") + File.separator + destFolderName + File.separator;
     	
-    	// Gestion de la sauvegarde des fichiers uploadés (images)
- 		MultipartFormData 	body 				= 	request().body().asMultipartFormData(); 
+ 		MultipartFormData 	body 				= 	request().body().asMultipartFormData();
  		FilePart 			ressource 			= 	body != null ? body.getFile("workshopSupportFile") : null;
  		
  		if (ressource != null && !StringUtils.EMPTY.equals( ressource.getFilename()) ) {
  			String 			fileName 			= 	ressource.getFilename();
  			File 			file 				= 	ressource.getFile();
 
- 			// On sauvegarde le fichier
- 				
+ 			// We save the file
 			String 			myUploadPath 		= 	Play.application().path() + File.separator
 														+ Play.application().configuration().getString("workshop.ressources.directory")
 														+ File.separator + destFolderName;
@@ -783,10 +756,10 @@ public class WorkshopController extends Controller {
     }
 	
 	// <--------------------------------------------------------------------------->
-	// - Constructeur(s)
+	// -                                Constructor(s)
 	// <--------------------------------------------------------------------------->
 	/**
-	 * Constructeur par defaut
+	 * Default Constructor
 	 */
 	private WorkshopController() {
 		super();
