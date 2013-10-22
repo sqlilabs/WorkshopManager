@@ -1,0 +1,23 @@
+@(field: play.api.data.Field, args: (Symbol,Any)*)(implicit lang: play.api.i18n.Lang)
+
+@*
+  from: http://stackoverflow.com/questions/13709987/play-2-0-framework-custom-form-field
+*@
+
+@import play.api.i18n._
+@import views.html.helper._
+
+@elements = @{ new FieldElements(field.id, field, null, args.toMap, lang) }
+
+<div class="control-group @if(elements.hasErrors) {error}">
+    <label class="control-label" for="@field.name">@elements.args.get('_label)</label>
+    <div class="controls">
+        <div class="input-append date form_datetime" id="@field.id-picker" data-date="@field.value" data-date-format="@elements.args.get('format).getOrElse( Application.conf("date.format.long"))">
+            <input size="16" type="text" value="@field.value" readonly name="@field.name" id="@field.id">
+            <span class="add-on"><i class="icon-remove"></i></span>
+            <span class="add-on"><i class="icon-calendar"></i></span>
+        </div>
+        <span class="help-inline">@elements.errors(elements.lang).mkString(", ")</span>
+        <span class="help-block">@elements.infos(elements.lang).mkString(", ")</span>
+    </div>
+</div>

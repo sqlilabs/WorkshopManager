@@ -6,7 +6,8 @@
 <div class="control-group @if(elements.hasErrors) {error}">
     <label class="control-label" for="@elements.id">@elements.label</label>
     <div class="controls">
-        @elements.input        
+        @elements.input
+        <span class="help-inline">@elements.errors(elements.lang).mkString(", ")</span>
 		<span class="help-block muted">
 			@Html(elements.infos.mkString(", "))
 		</span>

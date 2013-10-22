@@ -7,10 +7,20 @@
 
 @mainNoSidebar(Messages("form.plan.workshop.page.title")) {
 <div class="row">
+
+
 	<div class="span6 offset3">
+
+        @if(workshopSessionForm.hasGlobalErrors) {
+            <div class="alert alert-error">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>Error: </strong> @workshopSessionForm.globalError.message
+            </div>
+        }
+
 	    <h3 class="spaceBefore">@Messages("form.plan.workshop.title")</h3>
-    
-    @form( 
+
+    @form(
     	action = routes.WorkshopController.saveWorkshopSession( idWs, idSession ),
     	'class   -> "form form-horizontal"
     ) {
@@ -31,11 +41,12 @@
             	'_showConstraints -> false
             )
 
-			@inputDate(
-            	workshopSessionForm("nextPlay"), 
-            	'_label -> Messages("form.plan.workshop.nextPlay.label"),
-            	'_error -> workshopSessionForm("nextPlay").error.map(_.withMessage(Messages("form.plan.workshop.nextPlay.error"))),
-            	'_showConstraints -> false
+            @views.html.template.calendar(
+                workshopSessionForm("nextPlay"),
+                '_label -> Messages("form.plan.workshop.nextPlay.label"),
+                '_error -> Messages("form.plan.workshop.nextPlay.error"),
+                'format -> "dd/mm/yyyy",
+                '_showConstraints -> false
             )
 
             @select(
@@ -44,10 +55,9 @@
                 '_default -> Messages("form.plan.workshop.speaker.default"),
                 '_label -> Messages("form.plan.workshop.speaker.label"),
                 'class  -> "input-xlarge",
-                '_showConstraints -> false,
-                '_error -> workshopSessionForm("Speaker").error.map(_.withMessage(Messages("form.plan.workshop.speaker.error")))
+                '_showConstraints -> false
             )
-         
+
         <div class="actions center-text spaceBefore">
             <input type="submit" value="@Messages("form.plan.workshop.submit.button")" class="btn-success btn primary"> 
             <a href="@routes.Application.welcome()" class="btn">@Messages("form.plan.workshop.cancel.button")</a> 
@@ -55,7 +65,8 @@
     }
 	 </div>
 </div>
-    
-<link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/datepicker.css")">
-<script src="@routes.Assets.at("javascripts/bootstrap-datepicker.js")" type="text/javascript"></script>
+
+<link rel="stylesheet" media="screen" href='@routes.WebJarAssets.at(WebJarAssets.locate("css/datetimepicker.css"))'>
+<script src='@routes.WebJarAssets.at(WebJarAssets.locate("js/bootstrap-datetimepicker.min.js"))' type="text/javascript"></script>
+<script src="@routes.Assets.at("javascripts/form.js")" type="text/javascript"></script>
 }

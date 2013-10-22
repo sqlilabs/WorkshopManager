@@ -20,8 +20,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import controllers.Application;
+import play.data.format.Formats;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
+import play.i18n.Messages;
 
 
 /**
@@ -64,6 +67,7 @@ public class WorkshopSession extends Model {
 	 * the event nextPlay or lastPlay. If null the event has never been played
 	 */
 	@Required
+    @Formats.DateTime(pattern="dd/MM/yyyy HH:mm")
 	public Date nextPlay;	
 	
 	/**
@@ -93,7 +97,21 @@ public class WorkshopSession extends Model {
 	 * the Finder definition which allows to request the object in database
 	 */
 	public static Finder<Long, WorkshopSession> find = new Finder<Long, WorkshopSession>(Long.class, WorkshopSession.class);
-	
+
+    //<--------------------------------------------------------------------------->
+    //-							    Validation
+    //<--------------------------------------------------------------------------->
+    /**
+     * Call after the field validation by the framework
+     *
+     * @return null if nothing goes wrong, a error message otherwise
+     */
+    public String validate() {
+        if (speaker == null) {
+            return Messages.get("form.plan.workshop.speaker.error");
+        }
+        return null;
+    }
 	
 	//<--------------------------------------------------------------------------->
 	//-							 Constructor(s)

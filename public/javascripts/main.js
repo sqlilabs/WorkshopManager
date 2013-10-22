@@ -79,40 +79,5 @@ $(document).ready(function(){
         $('#user-picture').modal('hide');
         
 	});
-	
 
-	
-	// ------------------------------------------
-	// handle something else
-	// ------------------------------------------
-	$('#nextPlayButton').click(function(){
-		$("#nextPlay").datepicker({
-			format:'dd-mm-yyyy',
-			weekStart:1,
-		}).on('changeDate', function(ev){
-			var now = new Date();
-			if(ev.date.valueOf() < now.valueOf()){
-				var $alert = $('<div class="alert alert-error fade in" id="changed-date-alert-error">La date choisie est inférieure à la date du jour<a class="close" data-dismiss="alert" href="#">&times;</a></div>')
-				$alert.css({
-					'position':'fixed',
-					'bottom':'15px',
-					'right' :'15px',
-					'border' : '1px solid',
-					'font-weight':'bolder'
-					
-					
-				}).appendTo('body');
-				$alert.alert();
-				setTimeout(function(){
-					$('#changed-date-alert-error').alert('close');
-				},2000);
-			} else {
-				$("#nextPlay").datepicker('hide');
-				if( $('#changed-date-alert-error').length > 0){
-					$('#changed-date-alert-error').alert('close');
-				}
-			}
-		});
-		$("#nextPlay").datepicker('show');
-	});
 });
