@@ -19,10 +19,10 @@ public class WorkshopRepository {
 
 	
 	//<--------------------------------------------------------------------------->
-	//-							 Constructeur(s)	        
+	//-							 Constructor(s)
 	//<--------------------------------------------------------------------------->	
 	/**
-	 * Constructeur
+	 * Constructor
 	 */
 	public WorkshopRepository() {
 		super();
@@ -33,7 +33,7 @@ public class WorkshopRepository {
 	//-									Queries
 	//<--------------------------------------------------------------------------->	
 	/**
-	 * @return la liste des workshops non joué
+	 * @return The list of events with no workshopSession
 	 */
 	public static List<Workshop> getWorkshops() {
 		List<Workshop> 		unfilter 	= 	Workshop.find
@@ -52,7 +52,7 @@ public class WorkshopRepository {
 	}
 	
 	/**
-	 * @return la liste des workshops planifiés
+	 * @return The list of events with a workshopSession which is not yet gone
 	 */
 	public static List<WorkshopSession> getWorkshopsPlanifie() {	
 
@@ -68,7 +68,7 @@ public class WorkshopRepository {
 	}
 	
 	/**
-	 * @return la liste des workshops déjà présentés
+	 * @return The list of events with a workshopSession which is gone
 	 */
 	public static List<Workshop> getWorkshopsAlreadyPlayed() {
 		

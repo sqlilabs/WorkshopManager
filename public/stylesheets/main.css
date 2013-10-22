@@ -9,18 +9,18 @@
 	float:right;
 }
 
-/** Styles pour mise en forme globales **/
+/** global formatting **/
 .center-text {
 	text-align: center;
 }
 .right-text, .alignToRight{
 	text-align:right;	
 }
-/** Mise en forme des formulaires **/
+/** Forms formatting **/
 .help-block.muted{
 	color:#999;
 }
-/** Styles Sp�cifiques **/
+/** Specific style **/
 .header .application-title img{
 	float:left;	
 }
@@ -42,7 +42,7 @@ a.copyright{
 	color:#C50011;
 }
 
-/** Fenetre de confirmation de suppresion **/
+/** Suppression confirmation windows **/
 #modal-suppression-confirm .modal-body img{
 	float:left;
 	margin-left:48px;
@@ -51,7 +51,7 @@ a.copyright{
 	padding:15px 10px;
 }
 
-/** Bare horizontale **/ 
+/** the horizontal bar **/
 hr.soften {
   height: 1px;
   margin: 70px 0;
@@ -68,7 +68,7 @@ hr.soften {
 }
 
 /* ************************** */
-/*  Gestion marge et padding  */
+/*     margin and padding     */
 /* ************************** */
 .littleMarginTop {
 	margin-top: 10px;
@@ -84,9 +84,9 @@ hr.soften {
 }
 
 
-/* ******************* */
-/* Surcharge bootsrap  */
-/* ******************* */
+/* ********************** */
+/* Override of bootstrap  */
+/* ********************** */
 .well {
 	padding: 8px;
 	margin-bottom: 10px;
@@ -139,9 +139,9 @@ hr.soften {
 	text-align: center;
 }
 
-/* ******************* */
-/*   Particip Picture  */
-/* ******************* */
+/* ********************** */
+/*   Participant Picture  */
+/* ********************** */
 .participantPicture img {
 	width: 32px;
 	height: 32px;
@@ -169,7 +169,7 @@ hr.soften {
 }
 
 /* ******************* */
-/*vWorkshops plannifie */
+/* Workshops planned   */
 /* ******************* */
 .plannedTitle img {
 	height: 25px;

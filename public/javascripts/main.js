@@ -64,12 +64,11 @@ $(document).ready(function(){
 	});
 	
 	/**
-	 * Requête ajax permettant de mettre à jour l'image de l'utilisateur
-	 * connecté
+     * Ajax request to update the connected user image
 	 */
 	$('#user-picture-submit').click( function(e) {
 		e.preventDefault();
-		// dans les autres cas on appelle le WS d'update
+
     	$.ajax({
           type: "PUT",
           url: '/ws/modifyUserPicture',
@@ -104,9 +103,6 @@ $(document).ready(function(){
 					
 				}).appendTo('body');
 				$alert.alert();
-				/*
-				On peut vouloir supprimer l'alerte au bout d'un certain temp, ou alors seulement lorsque le choix de la date est ok
-				*/
 				setTimeout(function(){
 					$('#changed-date-alert-error').alert('close');
 				},2000);

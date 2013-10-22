@@ -10,14 +10,15 @@ import com.avaje.ebean.PagingList;
 import models.Action;
 
 /**
- * @author ychartois
+ * The repository class for Actions
  *
+ * @author ychartois
  */
 public class ActionsRepository {
 
 	
 	//<--------------------------------------------------------------------------->
-	//-							 Constructeur(s)	        
+	//-							 Constructor(s)
 	//<--------------------------------------------------------------------------->	
 	/**
 	 * Constructor
@@ -28,7 +29,7 @@ public class ActionsRepository {
 	
 	
 	//<--------------------------------------------------------------------------->
-	//-								Méthodes DAO
+	//-							Repository methods
 	//<--------------------------------------------------------------------------->	
 	/**
 	 * @return the action list

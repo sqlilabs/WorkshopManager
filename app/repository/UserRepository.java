@@ -17,7 +17,7 @@ public class UserRepository {
 
 	
 	//<--------------------------------------------------------------------------->
-	//-							 Constructeur(s)	        
+	//-							 Constructor(s)
 	//<--------------------------------------------------------------------------->	
 	/**
 	 * Constructor
@@ -28,10 +28,10 @@ public class UserRepository {
 	
 	
 	//<--------------------------------------------------------------------------->
-	//-								Méthodes DAO
+	//-								Repository methods
 	//<--------------------------------------------------------------------------->	
 	/**
-	 * @return la liste des users
+	 * @return the list of user (because all the user can be speakers)
 	 */
 	public static List<String> getSpeakers() {
 		List<User> 			list 	= 	User.find.where()
@@ -53,11 +53,11 @@ public class UserRepository {
 	 * @return the selected user
 	 */
 	public static User getUserWithName( String completeName ) {
-		String[] 			splittedName 	=	completeName.split(" ");
+		String[] 			splitName 	=	completeName.split(" ");
 		
 		return 	User.find.where()			
-					.contains("firstName", splittedName[0])
-					.contains("lastName", splittedName[ splittedName.length-1 ])
+					.contains("firstName", splitName[0])
+					.contains("lastName", splitName[ splitName.length-1 ])
 					.findUnique();
 		
 	}
