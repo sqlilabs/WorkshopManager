@@ -19,7 +19,7 @@
 	</div>
 </div>
 <div class="modal-footer">
-  	<p><b>@Messages("workshop.planned.on")</b>: @WorkshopController.decorateDate( session.nextPlay ) --  <b>@Messages("workshop.location")</b>: @session.location</p>
+  	<p><b>@Messages("workshop.planned.on")</b>: @WorkshopController.decorateDate( session.nextPlay, Application.conf("date.format.long") ) --  <b>@Messages("workshop.location")</b>: @session.location</p>
 	<p><b>@Messages("workshop.speaker")</b>: @session.speaker.firstName @session.speaker.lastName</p>
 </div>
 

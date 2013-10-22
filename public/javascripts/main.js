@@ -36,13 +36,13 @@ $(document).ready(function(){
 	// ------------------------------------------
 	$('.workshop-bloc h4').click( function(e) {
 		e.preventDefault();
-		var id = "#workshop-details-" + $(this.innerHTML).attr("workshop-id") ;
+		var id = "#workshop-details-" + e.target.getAttribute("workshop-id") ;
 		$(id).modal();
 	});
-	
-	$('#sidebar h4').click( function(e) {
+
+    $('#sidebar h4').click( function(e) {
 		e.preventDefault();
-		var id = "#workshop-details-" + $(this.innerHTML).attr("workshop-id") ;
+		var id = "#workshop-details-" + e.target.getAttribute("workshop-id") ;
 		$(id).modal();
 	});
 	

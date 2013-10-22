@@ -38,6 +38,8 @@ import views.html.workshops.planWorkshop;
 import views.html.workshops.addComment;
 import views.html.workshops.addRessources;
 
+import javax.naming.Context;
+
 /**
  * The controller contains the actions allowed on events
  * 
@@ -647,8 +649,8 @@ public class WorkshopController extends Controller {
      *
 	 * @return the decorated date
 	 */
-	public static String decorateDate(Date date) {
-		return date != null ? new SimpleDateFormat(DATE_PATTERN).format(date) : Messages.get("unknown.date") ;
+	public static String decorateDate(Date date, String format) {
+		return date != null ? new SimpleDateFormat( format ).format(date) : Messages.get("unknown.date") ;
 	}
 	
 	/**

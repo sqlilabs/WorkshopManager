@@ -11,7 +11,9 @@
   		@for(comment <- workshop.comments) { 
 			<div class="row-fluid">
 				<div class="span12 spaceAfter">
-					<h5 class="commentsTitle">@Messages("comments.title", comment.author.firstName, comment.author.lastName, WorkshopController.decorateDate(comment.creationDate))</h5>
+					<h5 class="commentsTitle">
+                        @Messages("comments.title", comment.author.firstName, comment.author.lastName, WorkshopController.decorateDate(comment.creationDate, Application.conf("date.format.long")))
+                    </h5>
 					<div class="well">
 						@comment.comment
 					</div>
