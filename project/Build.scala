@@ -1,11 +1,15 @@
 import sbt._
 import Keys._
 import play.Project._
+import com.typesafe.config._
 
 object ApplicationBuild extends Build {
 
-	val appName         = "Workshop-Manager"
-	val appVersion      = "1.1.0-SNAPSHOT"
+  // We get the application.conf file to read some properties
+  val conf = ConfigFactory.parseFile(new File("conf/application.conf")).resolve()
+
+  val appName    = conf.getString("app.name")
+  val appVersion = conf.getString("app.version")
 
 	// Add your project dependencies here,
   val appDependencies = Seq(
