@@ -1,6 +1,7 @@
 @( workshop : Workshop )
 
 @import helper._
+@import views.helpers._
 
 <div class="modal-header">
   	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -16,7 +17,7 @@
   	<div>
 		<p>@Messages("welcome.there.is.some.people.interested", workshop.potentialParticipants.size)</p>
 		@if( workshop.speakers.size > 0 ) {
-			<p>@Messages("welcome.workshop.foreseen.speaker", WorkshopController.getForeseenSpeaker(workshop.speakers) )</p>
+			<p>@Messages("welcome.workshop.foreseen.speaker", ViewsHelper.getForeseenSpeaker(workshop.speakers) )</p>
 		}
 		@if( workshop.speakers.size == 0 ) {
 			<p>@Messages("welcome.workshop.no.speaker")</p>

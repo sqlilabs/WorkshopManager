@@ -74,6 +74,7 @@ form.plan.workshop.cancel.button=Annuler
 # Page already played
 form.plan.workshop.last.speaker=présenté par
 form.plan.workshop.last.date=Dernière session le
+form.plan.workshop.next.date=Prochaine session le
 form.plan.workshop.plan.again=Re-Planifier
 plan.workshop.people.want.replay={0} personne(s) aimerai(en)t que l''on rejoue cet événement
 form.plan.workshop.add.comment=Ajouter un commentaire

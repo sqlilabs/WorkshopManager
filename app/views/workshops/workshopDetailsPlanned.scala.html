@@ -1,6 +1,7 @@
 @( workshop : Workshop, session : WorkshopSession )
 
 @import helper._
+@import views.helpers._
 
 <div class="modal-header">
   	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -19,7 +20,7 @@
 	</div>
 </div>
 <div class="modal-footer">
-  	<p><b>@Messages("workshop.planned.on")</b>: @WorkshopController.decorateDate( session.nextPlay, Application.conf("date.format.long") ) --  <b>@Messages("workshop.location")</b>: @session.location</p>
+  	<p><b>@Messages("workshop.planned.on")</b>: @ViewsHelper.decorateDate( session.nextPlay, Application.conf("date.format.long") ) --  <b>@Messages("workshop.location")</b>: @session.location</p>
 	<p><b>@Messages("workshop.speaker")</b>: @session.speaker.firstName @session.speaker.lastName</p>
 </div>
 

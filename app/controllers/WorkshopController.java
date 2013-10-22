@@ -638,43 +638,8 @@ public class WorkshopController extends Controller {
 				: new ArrayList<Workshop>();
 	}
 
-	/**
-     * Allows to format date
-     *
-	 * @return the decorated date
-	 */
-	public static String decorateDate(Date date, String format) {
-		return date != null ? new SimpleDateFormat( format ).format(date) : Messages.get("unknown.date") ;
-	}
-	
-	/**
-     * Get the foreseen Speaker (i.e. user who volunteered as speaker )
-     *
-	 * @param speakers the list of speakers
-	 * @return the full name of the foreseen User
-	 */
-	public static String getForeseenSpeaker( Set<User> speakers ) {
 
-        if ( speakers.isEmpty() ) {
-            return "";
-        }
-
-        User[] speakerArray = new User[speakers.size()];
-        speakerArray =  speakers.toArray( speakerArray );
-
-        StringBuffer toReturn = new StringBuffer( new UserFormatter().print(speakerArray[0], Locale.FRANCE) );
-        for ( int i = 1; i < speakerArray.length; i++ ) {
-            toReturn.append( " " );
-            toReturn.append( Messages.get("and.or") );
-            toReturn.append( " " );
-            toReturn.append( new UserFormatter().print( speakerArray[i], Locale.FRANCE) );
-        }
-
-		return toReturn.toString();
-	}
-	
-	
-	// <--------------------------------------------------------------------------->
+    // <--------------------------------------------------------------------------->
 	// -                        helper methods private
 	// <--------------------------------------------------------------------------->	
 	/**

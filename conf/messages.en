@@ -73,11 +73,12 @@ form.plan.workshop.cancel.button=Cancel
 
 # Page already played
 form.plan.workshop.last.speaker=presented by
-form.plan.workshop.last.date=Last session date
-form.plan.workshop.plan.again=Re-Planning
+form.plan.workshop.last.date=Last session the
+form.plan.workshop.next.date=Next session the
+form.plan.workshop.plan.again=Reschedule
 plan.workshop.people.want.replay={0} people(s) wish that someone present this event again
 form.plan.workshop.add.comment=Add comment
-form.plan.workshop.add.ressources=Add ressources
+form.plan.workshop.add.ressources=Add resources
 
 # Comments view
 form.comment.title=Add comment

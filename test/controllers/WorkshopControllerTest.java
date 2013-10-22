@@ -1,6 +1,5 @@
 package controllers;
 
-import models.Comment;
 import models.User;
 import models.Workshop;
 import models.WorkshopSession;
@@ -9,12 +8,12 @@ import org.junit.Test;
 import play.i18n.Messages;
 import play.mvc.Result;
 import utils.BaseModel;
+import views.helpers.ViewsHelper;
 
 import java.util.*;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.stub;
 import static org.mockito.Mockito.when;
 import static play.mvc.Http.Status.OK;
 import static play.test.Helpers.*;
@@ -273,7 +272,7 @@ public class WorkshopControllerTest extends BaseModel {
         Map<String, String> form = new HashMap<>();
         form.put("location", workshopSession.location);
         form.put("limitePlace", Integer.toString(workshopSession.limitePlace));
-        form.put("nextPlay", "2013-10-16");
+        form.put("nextPlay", "16/10/2013 14:00");
         form.put("Speaker", workshopSession.speaker.firstName + " " + workshopSession.speaker.lastName);
 
         // before action
@@ -307,7 +306,7 @@ public class WorkshopControllerTest extends BaseModel {
         Map<String, String> form = new HashMap<>();
         form.put("location", "a new really great location");
         form.put("limitePlace", Integer.toString(workshopSession.limitePlace));
-        form.put("nextPlay", "2013-10-16");
+        form.put("nextPlay", "16/10/2013 14:00");
         form.put("Speaker", workshopSession.speaker.firstName + " " + workshopSession.speaker.lastName);
 
         // before action
@@ -685,40 +684,4 @@ public class WorkshopControllerTest extends BaseModel {
         assertThat(status(result)).isEqualTo(FORBIDDEN);
     }
 
-
-    @Test
-    public void testGetForeseenSpeaker_noSpeaker() throws Exception {
-        // the action
-        String result = WorkshopController.getForeseenSpeaker( new HashSet<User>() );
-
-        // after action
-        assertThat(result).isEmpty();
-    }
-
-    @Test
-    public void testGetForeseenSpeaker_oneSpeaker() throws Exception {
-        // prepare data
-        Set<User> users = new HashSet<>();
-        users.add( User.find.where().eq("email", "marie.dupont@test.com").findUnique() );
-
-        // the action
-        String result = WorkshopController.getForeseenSpeaker( users );
-
-        // after action
-        assertThat(result).isEqualTo("marie dupont");
-    }
-
-    @Test
-    public void testGetForeseenSpeaker_twoSpeaker() throws Exception {
-        // prepare data
-        Set<User> users = new HashSet<>();
-        users.add( User.find.where().eq("email", "marie.dupont@test.com").findUnique() );
-        users.add( User.find.where().eq("email", "sylvie.dupont@test.com").findUnique() );
-
-        // the action
-        String result = WorkshopController.getForeseenSpeaker( users );
-
-        // after action
-        assertThat(result).isEqualTo("marie dupont " + Messages.get("and.or") + " sylvie dupont");
-    }
 }

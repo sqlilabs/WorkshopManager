@@ -1,6 +1,8 @@
 @( workshop : Workshop )
+@import views.helpers.ViewsHelper
 
 @import helper._
+@import views.helpers._
 
 <div class="modal-header">
   	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -12,7 +14,7 @@
 			<div class="row-fluid">
 				<div class="span12 spaceAfter">
 					<h5 class="commentsTitle">
-                        @Messages("comments.title", comment.author.firstName, comment.author.lastName, WorkshopController.decorateDate(comment.creationDate, Application.conf("date.format.long")))
+                        @Messages("comments.title", comment.author.firstName, comment.author.lastName, ViewsHelper.decorateDate(comment.creationDate, Application.conf("date.format.long")))
                     </h5>
 					<div class="well">
 						@comment.comment

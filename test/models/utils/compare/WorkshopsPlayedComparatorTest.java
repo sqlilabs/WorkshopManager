@@ -54,7 +54,7 @@ public class WorkshopsPlayedComparatorTest extends BaseModel {
         Assertions.assertThat(res1).isPositive();
 
         int res2 = new WorkshopsPlayedComparator().compare(ws2, ws3);
-        Assertions.assertThat(res2).isEqualTo(0);
+        Assertions.assertThat(res2).isPositive();
     }
 
 }

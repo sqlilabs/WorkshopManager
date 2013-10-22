@@ -4,6 +4,8 @@ import java.util.Comparator;
 import java.util.Date;
 
 import models.Workshop;
+import models.WorkshopSession;
+import models.utils.helpers.EventsUtils;
 
 public class WorkshopsPlayedComparator implements Comparator<Workshop>{
 
@@ -27,34 +29,9 @@ public class WorkshopsPlayedComparator implements Comparator<Workshop>{
 	 */
 	@Override
 	public int compare(Workshop o1, Workshop o2) {
-		Date workshop1 = getMostRecentSession( o1 );
-		Date workshop2 = getMostRecentSession( o2 );
+		Date workshop1 = EventsUtils.getMostRecentSession(o1).nextPlay;
+		Date workshop2 = EventsUtils.getMostRecentSession(o2).nextPlay;
 		
 		return -(workshop1.compareTo(workshop2));
-	}
-	
-	//<--------------------------------------------------------------------------->
-	//-								private methods      
-	//<--------------------------------------------------------------------------->		
-	/**
-	 * Return the most recent session from the session list
-	 * 
-	 * @param workshop the workshop to test
-	 * @return the most recent session
-	 */
-	private Date getMostRecentSession( Workshop workshop ) {
-				
-		Date sessionDate	=	workshop.workshopSession.get(0).nextPlay;
-		
-		if ( workshop.workshopSession.size() == 1 )
-			return sessionDate;
-		
-		for ( int i = 1; i < workshop.workshopSession.size(); i++ ) {
-			if ( sessionDate.before( workshop.workshopSession.get(i).nextPlay ) ) {
-				sessionDate	=	workshop.workshopSession.get(i).nextPlay;
-			}
-		}
-		
-		return sessionDate;
 	}
 }

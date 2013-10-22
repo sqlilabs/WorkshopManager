@@ -45,7 +45,7 @@
         - *greg
       workshopSession:
         - &session1 !!models.WorkshopSession
-               nextPlay: 2013-12-07
+               nextPlay: 2013-10-07
                speaker: *sylvie
                limitePlace: 0
                workshop: *workshop1
@@ -67,7 +67,7 @@
         - *greg
       workshopSession:
         - !!models.WorkshopSession
-               nextPlay: 2013-12-08
+               nextPlay: 2013-10-08
                speaker: *greg
                limitePlace: 10
                workshop: *workshop2
@@ -86,7 +86,7 @@
         - *sylvie
       workshopSession:
         - !!models.WorkshopSession
-               nextPlay: 2013-12-08
+               nextPlay: 2013-10-08
                speaker: *alain
                limitePlace: 3
                workshop: *workshop3
@@ -95,7 +95,28 @@
                      - *greg
                      - *marie
         - !!models.WorkshopSession
-               nextPlay: 2013-12-04
+               nextPlay: 2013-10-04
+               speaker:  *sylvie
+               limitePlace: 20
+               workshop: *workshop3
+               participants:
+                     - *sylvie
+        - !!models.WorkshopSession
+               nextPlay: 2400-12-04
+               speaker:  *sylvie
+               limitePlace: 20
+               workshop: *workshop3
+               participants:
+                     - *sylvie
+        - !!models.WorkshopSession
+               nextPlay: 2400-11-04
+               speaker:  *sylvie
+               limitePlace: 20
+               workshop: *workshop3
+               participants:
+                     - *sylvie
+        - !!models.WorkshopSession
+               nextPlay: 2400-12-20
                speaker:  *sylvie
                limitePlace: 20
                workshop: *workshop3
