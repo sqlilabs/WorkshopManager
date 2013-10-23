@@ -80,7 +80,16 @@ public class WorkshopController extends Controller {
 		
 		// We get the event from the database if it's a modification
 		if ( id != ID_NOT_IN_TABLE ) {
-			Workshop 	ws 					= 	Workshop.find.byId(id);
+			Workshop 	ws 					= 	Workshop.find
+                                                    .fetch("author")
+                                                    .fetch("potentialParticipants")
+                                                    .fetch("speakers")
+                                                    .where()
+                                                        .eq("id", id)
+                                                    .findUnique();
+
+			//Workshop.find.byId(id);
+
 			// we update the new instance
 			workshopNew.speakers				=	ws.speakers;
 			workshopNew.potentialParticipants	=	ws.potentialParticipants ;
