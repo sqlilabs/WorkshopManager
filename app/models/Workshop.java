@@ -100,7 +100,7 @@ public class Workshop extends Model {
 	/**
 	 * The users interested by this event
 	 */
-	@ManyToMany()
+	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(
 			name="POTENTIAL_PARTICIPANTS",
 			joinColumns = @JoinColumn(name="workshop_id"),
