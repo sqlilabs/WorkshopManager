@@ -38,7 +38,8 @@ created.date=Crée le
 by.author=par
 welcome.workshop.places.available=Il reste {0} place(s) disponible(s) sur {1} places ouvertes
 welcome.workshop.places.unlimited=Places illimitée pour cette session. Actuellement {0} personne(s) inscrite(s). 
-
+detail.workshop.places=Actuellement {0} personne(s) inscrite(s)
+detail.workshop.session.played=Session du {0} - {1} utilisateurs étaient inscrits
 
 # Suppression modal window
 welcome.workshop.delete.modal.title=Confirmation de suppression

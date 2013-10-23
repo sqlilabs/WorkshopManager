@@ -16,6 +16,30 @@
 					@Html( workshop.description )
 				</div>
 			</div>
+
+            @for(session <- workshop.workshopSession) {
+                @if(session.nextPlay.before(new Date())) { @* We display the session only if it already been played*@
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <h4>@Messages("detail.workshop.session.played", ViewsHelper.decorateDate(session.nextPlay, Application.conf("date.format.short")), session.participants.size)</h4>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span1">
+
+                        </div>
+                        <div class="span11 participantPictureTiny">
+                        @for(participant <- session.participants) {
+                            <p><img title="@participant.firstName @participant.lastName"
+                            src="@participant.picture" />
+                                @participant.firstName @participant.lastName
+                            </p>
+                        }
+                        </div>
+                    </div>
+                }
+            }
+
 		</div>
 	</div>
 </div>

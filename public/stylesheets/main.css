@@ -148,6 +148,12 @@ hr.soften {
 	margin-bottom: 5px;
 }
 
+.participantPictureTiny img {
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+}
+
 /* ******************* */
 /*      Comments       */
 /* ******************* */

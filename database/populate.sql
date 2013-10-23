@@ -32,7 +32,8 @@ INSERT INTO `WORKSHOP_SESSION` (`id`, `location`, `limite_place`, `next_play`, `
 (5, 'A location somewhere',10, '2020-12-02 00:00:00', 1, 3),
 (6, 'A location somewhere',0, '2013-10-02 00:00:00', 2, 5),
 (7, 'A location somewhere',10, '2020-04-26 00:00:00', 4, 1),
-(8, 'A location somewhere',10, '2020-04-28 00:00:00', 4, 1);
+(8, 'A location somewhere',10, '2020-04-28 00:00:00', 4, 1),
+(9, 'A location somewhere',0, '2013-04-26 00:00:00', 4, 1);
 
 INSERT INTO `COMMENT` (`id`, `author_id`, `creation_date`, `comment`, `workshop_id`) VALUES
 (1, 2, '2013-04-09 08:27:13', 'Comment calculer la position et la normale dans le vertex shader - deuxième partie : les performances, une tra... http://bit.ly/16L51Nl ', 1),
@@ -100,6 +101,8 @@ INSERT INTO `PARTICIPANTS` (`workshop_id`, `user_id`) VALUES
 (2, 7),
 (2, 8),
 (3, 3),
+(9, 6),
+(9, 7),
 (5, 4),
 (5, 5),
 (5, 6),
