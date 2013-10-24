@@ -31,6 +31,9 @@ public class BaseModel {
         app = fakeApplication(inMemoryDatabase());
         start(app);
 
+        // We have to delete the default user
+        User.find.byId(1l).delete();
+
         //We load the mock datas
         Ebean.save((List) Yaml.load("test-data.yml"));
     }
