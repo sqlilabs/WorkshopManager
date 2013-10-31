@@ -44,7 +44,7 @@ public final class UsersUtils {
      *
      * @return true if the connected user is the author of the workshop
      */
-    public static boolean isAuthor( Workshop workshop ) {
+    public static boolean isWorkshopAuthor(Workshop workshop) {
         User	user 	=	Secured.getUser();
 
         if ( user == null || workshop == null || workshop.author == null) {

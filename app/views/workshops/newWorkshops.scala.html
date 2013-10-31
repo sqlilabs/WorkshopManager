@@ -81,7 +81,7 @@
 							}
 						</div>
 					</div>
-					@if( Secured.getUser != null && (Secured.isMemberOf( Roles.ADMIN ) || isAuthor( workshop )) ) {
+					@if( Secured.getUser != null && (Secured.isMemberOf( Roles.ADMIN ) || isWorkshopAuthor( workshop )) ) {
 						<div class="row-fluid">
 							<div class="span12 alignToRight">
 								<a href="#" data-link="@routes.WorkshopController.deleteWorkshop(workshop.id)" class="btn btn-danger delete">@Messages("welcome.workshop.delete")</a>

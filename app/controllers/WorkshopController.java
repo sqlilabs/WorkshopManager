@@ -129,7 +129,7 @@ public class WorkshopController extends Controller {
 	public static Result modifyWorkshop(Long id) {
         Workshop ws = Workshop.find.byId(id);
 
-        if (!Secured.isMemberOf(Roles.ADMIN) && !UsersUtils.isAuthor(ws)) {
+        if (!Secured.isMemberOf(Roles.ADMIN) && !UsersUtils.isWorkshopAuthor(ws)) {
             return forbidden();
         }
 
@@ -149,7 +149,7 @@ public class WorkshopController extends Controller {
 	public static Result deleteWorkshop(Long id) {
 		Workshop ws = Workshop.find.byId(id);
 
-        if (!Secured.isMemberOf(Roles.ADMIN) && !UsersUtils.isAuthor(ws)) {
+        if (!Secured.isMemberOf(Roles.ADMIN) && !UsersUtils.isWorkshopAuthor(ws)) {
             return forbidden();
         }
 
@@ -581,7 +581,7 @@ public class WorkshopController extends Controller {
             comment.workshop			=	oldComment.workshop;
 
 
-            Ebean.update( comment );
+            Ebean.update(comment);
         }
 
         return redirect( routes.Application.workshops() + "#" + idWorkshop);
@@ -599,7 +599,7 @@ public class WorkshopController extends Controller {
     public static Result addWorkshopRessources(Long id) {
     	Workshop 	ws 			= 	Workshop.find.byId(id);
 
-        if (!Secured.isMemberOf(Roles.ADMIN) && !UsersUtils.isAuthor(ws)) {
+        if (!Secured.isMemberOf(Roles.ADMIN) && !UsersUtils.isWorkshopAuthor(ws)) {
             return forbidden();
         }
 
@@ -635,7 +635,7 @@ public class WorkshopController extends Controller {
     	// Get the workshop from base
     	Workshop 		ws 				= 	Workshop.find.byId(id);
 
-        if (!Secured.isMemberOf(Roles.ADMIN) && !UsersUtils.isAuthor(ws)) {
+        if (!Secured.isMemberOf(Roles.ADMIN) && !UsersUtils.isWorkshopAuthor(ws)) {
             return forbidden();
         }
 

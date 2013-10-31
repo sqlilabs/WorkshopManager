@@ -61,7 +61,7 @@ public class UsersUtilsTest extends BaseModel {
         Workshop workshop =  Workshop.find.byId(3l);
 
         // the action
-        boolean result = UsersUtils.isAuthor(workshop);
+        boolean result = UsersUtils.isWorkshopAuthor(workshop);
 
         // test after action
         Assertions.assertThat(result).isTrue();
@@ -78,7 +78,7 @@ public class UsersUtilsTest extends BaseModel {
         Workshop workshop =  Workshop.find.byId(3l);
 
         // the action
-        boolean result = UsersUtils.isAuthor(workshop);
+        boolean result = UsersUtils.isWorkshopAuthor(workshop);
 
         // test after action
         Assertions.assertThat(result).isFalse();
