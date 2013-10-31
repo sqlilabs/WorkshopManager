@@ -597,7 +597,7 @@ public class WorkshopControllerTest extends BaseModel {
         assertThat( Workshop.find.byId(1l).comments.size() ).isEqualTo(0);
 
         // the action
-        Result result = route(fakeRequest(POST, "/workshop/saveComment/1")
+        Result result = route(fakeRequest(POST, "/workshop/saveComment/1/-1")
                 .withFormUrlEncodedBody(form)
                 .withSession("uuid", UUID)
                 .withSession("email", "sylvie.dupont@test.com"));

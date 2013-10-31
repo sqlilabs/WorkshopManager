@@ -10,16 +10,14 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
-import java.util.Set;
 
 import models.*;
+import models.utils.helpers.UsersUtils;
 import org.apache.commons.lang.StringUtils;
 
 import com.avaje.ebean.Ebean;
 
 import models.utils.enums.ActionEnum;
-import models.utils.formatter.UserFormatter;
 import models.utils.helpers.ActionsUtils;
 import models.utils.helpers.FilesUtils;
 import play.Play;
@@ -37,8 +35,6 @@ import views.html.workshops.addWorkshop;
 import views.html.workshops.planWorkshop;
 import views.html.workshops.addComment;
 import views.html.workshops.addRessources;
-
-import javax.naming.Context;
 
 /**
  * The controller contains the actions allowed on events
@@ -133,7 +129,7 @@ public class WorkshopController extends Controller {
 	public static Result modifyWorkshop(Long id) {
         Workshop ws = Workshop.find.byId(id);
 
-        if (!Secured.isMemberOf(Roles.ADMIN) && !UsersController.isAuthor(ws)) {
+        if (!Secured.isMemberOf(Roles.ADMIN) && !UsersUtils.isAuthor(ws)) {
             return forbidden();
         }
 
@@ -153,7 +149,7 @@ public class WorkshopController extends Controller {
 	public static Result deleteWorkshop(Long id) {
 		Workshop ws = Workshop.find.byId(id);
 
-        if (!Secured.isMemberOf(Roles.ADMIN) && !UsersController.isAuthor(ws)) {
+        if (!Secured.isMemberOf(Roles.ADMIN) && !UsersUtils.isAuthor(ws)) {
             return forbidden();
         }
 
@@ -353,8 +349,7 @@ public class WorkshopController extends Controller {
      * @return true if the user has not already join an other session
      */
     static boolean notInOtherSession( WorkshopSession currentSession ) {
-    	String username = Secured.getUser().email;
-		return notInOtherSession(currentSession, username);
+		return notInOtherSession(currentSession, Secured.getUser().email);
 	}
     
     /**
@@ -367,7 +362,7 @@ public class WorkshopController extends Controller {
     static boolean notInOtherSession( WorkshopSession currentSession, String username) {
 		Workshop 			workshop 	= 	currentSession.workshop;
 		
-		// On calcule la date un mois avant la date du workshop courant
+		// We get the date 30 earlier the current date
 		GregorianCalendar	calendar	=	new GregorianCalendar();
 		calendar.setTime(currentSession.nextPlay);
 		calendar.add(Calendar.DAY_OF_MONTH, -30);
@@ -375,7 +370,7 @@ public class WorkshopController extends Controller {
 		for ( WorkshopSession session : workshop.workshopSession ) {
 			for (User user : session.participants) {
 				if (user.email.equals(username)) {
-					// On ne check pas les sessions qui ont déjà eu lieu les mois précédent
+                    // We didn't check the session older than a month
 					if ( session.nextPlay.before( lastMonth ) ) {
 						continue;
 					}
@@ -515,44 +510,81 @@ public class WorkshopController extends Controller {
 	 */
     @Security.Authenticated(Secured.class)
 	public static Result addComment(Long id) {
-		Form<Comment> commentForm = play.data.Form.form(Comment.class);
+        Form<Comment> commentForm = play.data.Form.form(Comment.class);
 
-		return ok( addComment.render(commentForm, id) );
+        return ok( addComment.render(commentForm, id, -1l) );
 	}
-    
+
+    /**
+     * Prepare the form to edit comments
+     *
+     * @param id the workshop ID
+     * @return the comment form view
+     */
+    @Security.Authenticated(Secured.class)
+    public static Result editComment(Long id) {
+
+        Comment	comment	= Comment.find.byId( id );
+
+        if ( !UsersUtils.isCommentAuthor( comment ) ) {
+            return forbidden();
+        }
+
+        Form<Comment>  commentForm = play.data.Form.form(Comment.class).fill( comment );
+
+        return ok( addComment.render(commentForm, -1l, id ) );
+    }
+
     /**
      * Save the comments
      * 
-     * @param id the workshop ID
+     * @param idWorkshop the workshop ID
+     * @param idComment the comment ID
      * @return redirect on workshop already played view
      */
     @Security.Authenticated(Secured.class)
     @Transactional
-    public static Result saveComment( Long id ) {
+    public static Result saveComment( Long idWorkshop, Long idComment ) {
     	Form<Comment> 	filledForm 	= 	play.data.Form.form(Comment.class).bindFromRequest();
+        boolean isUpdate = idComment != -1l;
     	
     	if (filledForm.hasErrors()) {
-			return badRequest( addComment.render(filledForm, id) );
+			return badRequest( addComment.render(filledForm, idWorkshop, idComment) );
 		}
-    	
-    	// Get the workshop from base
-    	Workshop 		ws 			= 	Workshop.find.byId(id);
     	
     	//We create the comment instance
     	Comment 		comment 	= 	filledForm.get();
-    	comment.creationDate 		= 	new Date();
-    	comment.author				=	Secured.getUser();
-    	comment.workshop			=	ws;
-    	
-    	// We add the new comment
-    	ws.comments.add( comment );
-    	
-    	// We save the objects in base
-    	Ebean.save( comment );
-        Ebean.update( ws );
-        ActionsUtils.logAction( ActionEnum.COMMENT, Secured.getUser(), ws.subject);
-    	
-        return redirect( routes.Application.workshops() + "#" + id);
+        if ( !isUpdate ) {
+
+            // Get the workshop from base
+            Workshop 		ws 			= 	Workshop.find.byId(idWorkshop);
+
+            comment.creationDate 		= 	new Date();
+            comment.author				=	Secured.getUser();
+            comment.workshop			=	ws;
+
+            // We add the new comment
+            ws.comments.add( comment );
+
+            // We save the objects in base
+            Ebean.save( comment );
+            Ebean.update( ws );
+            ActionsUtils.logAction( ActionEnum.COMMENT, Secured.getUser(), ws.subject);
+        }
+        else {
+            // Get the comment from base
+            Comment 		oldComment  = 	Comment.find.byId(idComment);
+
+            comment.id                  =   oldComment.id;
+            comment.creationDate 		= 	oldComment.creationDate;
+            comment.author				=	oldComment.author;
+            comment.workshop			=	oldComment.workshop;
+
+
+            Ebean.update( comment );
+        }
+
+        return redirect( routes.Application.workshops() + "#" + idWorkshop);
     }
     
     
@@ -567,7 +599,7 @@ public class WorkshopController extends Controller {
     public static Result addWorkshopRessources(Long id) {
     	Workshop 	ws 			= 	Workshop.find.byId(id);
 
-        if (!Secured.isMemberOf(Roles.ADMIN) && !UsersController.isAuthor(ws)) {
+        if (!Secured.isMemberOf(Roles.ADMIN) && !UsersUtils.isAuthor(ws)) {
             return forbidden();
         }
 
@@ -603,7 +635,7 @@ public class WorkshopController extends Controller {
     	// Get the workshop from base
     	Workshop 		ws 				= 	Workshop.find.byId(id);
 
-        if (!Secured.isMemberOf(Roles.ADMIN) && !UsersController.isAuthor(ws)) {
+        if (!Secured.isMemberOf(Roles.ADMIN) && !UsersUtils.isAuthor(ws)) {
             return forbidden();
         }
 

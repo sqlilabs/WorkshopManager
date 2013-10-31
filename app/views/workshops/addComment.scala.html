@@ -1,4 +1,4 @@
-@(commentForm: Form[Comment], id: Long )
+@(commentForm: Form[Comment], idWorkshop: Long, idComment: Long )
 
 @import helper._
 @import repository._
@@ -11,7 +11,7 @@
 		    <h3 class="spaceBefore">@Messages("form.comment.title") :</h3>
 	    
 	    @form( 
-	    	action = routes.WorkshopController.saveComment( id ),
+	    	action = routes.WorkshopController.saveComment( idWorkshop ,idComment ),
 	    	'class   -> "form form-horizontal"
 	    ) {
 	        
@@ -26,7 +26,7 @@
 	         
 	        <div class="actions center-text spaceBefore">
 	            <input type="submit" value="@Messages("form.comment.submit.button")" class="btn-success btn primary"> 
-	            <a href="@routes.Application.workshops()#@id" class="btn">@Messages("form.comment.cancel.button")</a> 
+	            <a href="@routes.Application.workshops()#@idWorkshop" class="btn">@Messages("form.comment.cancel.button")</a>
 	        </div>
 	    }
 		 </div>

@@ -1,8 +1,7 @@
 @( workshop : Workshop )
-@import views.helpers.ViewsHelper
 
-@import helper._
 @import views.helpers._
+@import models.utils.helpers.UsersUtils._
 
 <div class="modal-header">
   	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -17,8 +16,14 @@
                         @Messages("comments.title", comment.author.firstName, comment.author.lastName, ViewsHelper.decorateDate(comment.creationDate, Application.conf("date.format.long")))
                     </h5>
 					<div class="well">
-						@comment.comment
+                        @comment.comment
 					</div>
+                    @if( isCommentAuthor( comment ) ) {
+                        <a class="pull-right label label-info" href="@routes.WorkshopController.editComment( comment.id )">
+                            <i class="icon-edit"></i> edit
+                        </a>
+                    }
+
 				</div>
 			</div>
 		}

@@ -30,7 +30,8 @@ GET         /workshops/addInterrestedParticipant/:id                controllers.
 GET         /workshops/removeInterrestedParticipant/:id             controllers.WorkshopController.removeInterrestedParticipant(id: Long)
 
 GET         /workshop/addComment/:id                               controllers.WorkshopController.addComment(id: Long)
-POST        /workshop/saveComment/:id                              controllers.WorkshopController.saveComment(id: Long)
+GET         /workshop/editComment/:id                              controllers.WorkshopController.editComment(id: Long)
+POST        /workshop/saveComment/:idWorkshop/:idComment           controllers.WorkshopController.saveComment(idWorkshop: Long, idComment: Long)
 
 GET         /workshop/addRessources/:id                            controllers.WorkshopController.addWorkshopRessources(id: Long)
 POST        /workshop/saveRessources/:id                           controllers.WorkshopController.saveWorkshopRessources(id: Long)

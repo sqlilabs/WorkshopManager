@@ -58,6 +58,7 @@
         - *greg
         - *alain
 
+
 - &workshop2 !!models.Workshop
       subject: second workshop
       summary: summary second workshop
@@ -127,3 +128,29 @@
       potentialParticipants:
               - *greg
 
+- &workshop4 !!models.Workshop
+      subject: fourth workshop
+      summary: summary fourth workshop
+      description: description fourth workshop
+      speakers:
+        - *greg
+      workshopSession:
+        - !!models.WorkshopSession
+               nextPlay: 2013-10-07
+               speaker: *sylvie
+               limitePlace: 0
+               workshop: *workshop4
+               participants:
+                  - *marie
+                  - *greg
+      author: *greg
+      creationDate: 2013-07-01
+      potentialParticipants:
+        - *greg
+        - *alain
+      comments:
+        - &comment1 !!models.Comment
+            author: *greg
+            creationDate: 2013-07-01
+            comment: A great comment
+            workshop: *workshop4
