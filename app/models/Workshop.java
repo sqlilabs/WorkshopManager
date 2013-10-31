@@ -1,10 +1,6 @@
 package models;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -19,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import models.utils.compare.CommentByDateComparator;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
@@ -123,7 +120,12 @@ public class Workshop extends Model {
 	 * the Finder definition which allows to request the object in database
 	 */
 	public static Finder<Long, Workshop> find = new Finder<Long, Workshop>(Long.class, Workshop.class);
-	
+
+    public List<Comment> getCommentByDate() {
+        List<Comment> sortedComments = new ArrayList( comments );
+        Collections.sort(sortedComments, new CommentByDateComparator()) ;
+        return sortedComments;
+    }
 	
 	//<--------------------------------------------------------------------------->
 	//-							 Constructor(s)

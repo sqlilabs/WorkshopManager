@@ -4,59 +4,59 @@
 # --- !Ups
 
 create table ACTION (
-  id                        bigint auto_increment not null,
+  id                        bigint not null,
   author_id                 bigint,
-  creation_date             datetime,
+  creation_date             timestamp,
   title                     varchar(1000),
   description               varchar(1000),
   constraint pk_ACTION primary key (id))
 ;
 
 create table COMMENT (
-  id                        bigint auto_increment not null,
+  id                        bigint not null,
   author_id                 bigint,
-  creation_date             datetime,
+  creation_date             timestamp,
   comment                   varchar(1000),
   workshop_id               bigint,
   constraint pk_COMMENT primary key (id))
 ;
 
 create table RESSOURCE (
-  id                        bigint auto_increment not null,
+  id                        bigint not null,
   ws_support_file           varchar(255),
   ws_support_link           varchar(255),
   constraint pk_RESSOURCE primary key (id))
 ;
 
 create table USER (
-  id                        bigint auto_increment not null,
+  id                        bigint not null,
   first_name                varchar(255),
   last_name                 varchar(255),
   email                     varchar(255),
   picture                   varchar(255),
   role                      varchar(8) not null,
-  charterAgree              tinyint(1) default 0,
+  charterAgree              boolean,
   constraint ck_USER_role check (role in ('admin','standard')),
   constraint pk_USER primary key (id))
 ;
 
 create table WORKSHOP (
-  id                        bigint auto_increment not null,
+  id                        bigint not null,
   subject                   varchar(100),
   summary                   varchar(300),
   description               varchar(1000),
   image                     varchar(255),
   author_id                 bigint,
-  creation_date             datetime,
+  creation_date             timestamp,
   workshop_ressources_id    bigint,
   constraint pk_WORKSHOP primary key (id))
 ;
 
 create table WORKSHOP_SESSION (
-  id                        bigint auto_increment not null,
+  id                        bigint not null,
   location                  varchar(50),
   limite_place              integer(2) not null,
-  next_play                 datetime,
+  next_play                 timestamp,
   speaker_id                bigint,
   workshop_id               bigint,
   constraint pk_WORKSHOP_SESSION primary key (id))
@@ -80,6 +80,18 @@ create table PARTICIPANTS (
   user_id                        bigint not null,
   constraint pk_PARTICIPANTS primary key (workshop_id, user_id))
 ;
+create sequence ACTION_seq;
+
+create sequence COMMENT_seq;
+
+create sequence RESSOURCE_seq;
+
+create sequence USER_seq;
+
+create sequence WORKSHOP_seq;
+
+create sequence WORKSHOP_SESSION_seq;
+
 alter table ACTION add constraint fk_ACTION_author_1 foreign key (author_id) references USER (id) on delete restrict on update restrict;
 create index ix_ACTION_author_1 on ACTION (author_id);
 alter table COMMENT add constraint fk_COMMENT_author_2 foreign key (author_id) references USER (id) on delete restrict on update restrict;
@@ -101,35 +113,47 @@ alter table WORKSHOP_SPEAKERS add constraint fk_WORKSHOP_SPEAKERS_WORKSHOP_01 fo
 
 alter table WORKSHOP_SPEAKERS add constraint fk_WORKSHOP_SPEAKERS_USER_02 foreign key (user_id) references USER (id) on delete restrict on update restrict;
 
-alter table POTENTIAL_PARTICIPANTS add constraint fk_POTENTIAL_PARTICIPANTS_WORKSHOP_01 foreign key (workshop_id) references WORKSHOP (id) on delete restrict on update restrict;
+alter table POTENTIAL_PARTICIPANTS add constraint fk_POTENTIAL_PARTICIPANTS_WOR_01 foreign key (workshop_id) references WORKSHOP (id) on delete restrict on update restrict;
 
-alter table POTENTIAL_PARTICIPANTS add constraint fk_POTENTIAL_PARTICIPANTS_USER_02 foreign key (user_id) references USER (id) on delete restrict on update restrict;
+alter table POTENTIAL_PARTICIPANTS add constraint fk_POTENTIAL_PARTICIPANTS_USE_02 foreign key (user_id) references USER (id) on delete restrict on update restrict;
 
-alter table PARTICIPANTS add constraint fk_PARTICIPANTS_WORKSHOP_SESSION_01 foreign key (workshop_id) references WORKSHOP_SESSION (id) on delete restrict on update restrict;
+alter table PARTICIPANTS add constraint fk_PARTICIPANTS_WORKSHOP_SESS_01 foreign key (workshop_id) references WORKSHOP_SESSION (id) on delete restrict on update restrict;
 
 alter table PARTICIPANTS add constraint fk_PARTICIPANTS_USER_02 foreign key (user_id) references USER (id) on delete restrict on update restrict;
 
 # --- !Downs
 
-SET FOREIGN_KEY_CHECKS=0;
+SET REFERENTIAL_INTEGRITY FALSE;
 
-drop table ACTION;
+drop table if exists ACTION;
 
-drop table COMMENT;
+drop table if exists COMMENT;
 
-drop table RESSOURCE;
+drop table if exists RESSOURCE;
 
-drop table USER;
+drop table if exists USER;
 
-drop table WORKSHOP;
+drop table if exists WORKSHOP;
 
-drop table WORKSHOP_SPEAKERS;
+drop table if exists WORKSHOP_SPEAKERS;
 
-drop table POTENTIAL_PARTICIPANTS;
+drop table if exists POTENTIAL_PARTICIPANTS;
 
-drop table WORKSHOP_SESSION;
+drop table if exists WORKSHOP_SESSION;
 
-drop table PARTICIPANTS;
+drop table if exists PARTICIPANTS;
 
-SET FOREIGN_KEY_CHECKS=1;
+SET REFERENTIAL_INTEGRITY TRUE;
+
+drop sequence if exists ACTION_seq;
+
+drop sequence if exists COMMENT_seq;
+
+drop sequence if exists RESSOURCE_seq;
+
+drop sequence if exists USER_seq;
+
+drop sequence if exists WORKSHOP_seq;
+
+drop sequence if exists WORKSHOP_SESSION_seq;
 

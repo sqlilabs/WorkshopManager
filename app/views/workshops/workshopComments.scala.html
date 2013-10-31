@@ -9,7 +9,7 @@
 </div>
 <div class="modal-body">
   	<div class="container-fluid">
-  		@for(comment <- workshop.comments) { 
+  		@for(comment <- workshop.getCommentByDate ) {
 			<div class="row-fluid">
 				<div class="span12 spaceAfter">
 					<h5 class="commentsTitle">
