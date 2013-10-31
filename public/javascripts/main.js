@@ -69,6 +69,8 @@ $(document).ready(function(){
 	$('#user-picture-submit').click( function(e) {
 		e.preventDefault();
 
+        var oldValue = $("#user-picture-img").attr('src');
+
     	$.ajax({
           type: "PUT",
           url: '/ws/modifyUserPicture',
@@ -77,6 +79,14 @@ $(document).ready(function(){
         })
         $("#user-picture-img").attr('src', $("#imageURL").val());
         $('#user-picture').modal('hide');
+
+        var arrayPicture = $(".participantPicture > img");
+        var userName = $("#user-data").text();
+        $.each( arrayPicture, function() {
+            if ( this.src === oldValue && this.title === userName ) {
+                this.src = $("#imageURL").val();
+            }
+        })
         
 	});
 
