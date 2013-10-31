@@ -57,45 +57,4 @@ public class UsersController extends Controller {
 		Ebean.save( user );
 		return ok("{image: " + user.picture + "}").as("application/json");
 	}
-	
-	
-	// <--------------------------------------------------------------------------->
-	// - 							helper methods
-	// <---------------------------------------------------------------------------
-	/**
-	 * Determine if the connected user is the speaker of the session
-	 * 
-	 * @param session the workshop session
-	 * 
-	 * @return true if the connected user is the speaker of the session
-	 */
-	public static boolean isSessionSpeaker( WorkshopSession session ) {
-		User	user 	=	Secured.getUser();
-		
-		if ( user == null ) {
-			return false;
-		}
-		
-		return user.firstName.equals( session.speaker.firstName ) 
-				&& user.lastName.equals( session.speaker.lastName ) ;
-	}
-	
-	/**
-	 * Determine if the connected user is the author of the workshop
-	 * 
-	 * @param workshop a workshop
-	 * 
-	 * @return true if the connected user is the author of the workshop
-	 */
-	public static boolean isAuthor( Workshop workshop ) {
-		User	user 	=	Secured.getUser();
-		
-		if ( user == null || workshop == null || workshop.author == null) {
-			return false;
-		}
-		
-		return user.firstName.equals( workshop.author.firstName )
-				&& user.lastName.equals( workshop.author.lastName ) ;
-	}
-	
 }

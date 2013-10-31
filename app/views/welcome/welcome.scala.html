@@ -1,9 +1,7 @@
-
-
 @(message: String, workshopsSession: List[WorkshopSession])
 
-@import helper._
 @import views.helpers._
+@import models.utils.helpers.UsersUtils._
 
 @main(message) {
 
@@ -69,12 +67,12 @@
 						@if( Secured.getUser != null ) {
 							<div class="row-fluid">
 								<div class="span12 alignToRight">
-									@if( Secured.isMemberOf( Roles.ADMIN ) || UsersController.isSessionSpeaker( session ) ) {
+									@if( Secured.isMemberOf( Roles.ADMIN ) || isSessionSpeaker( session ) ) {
 										<a href="@routes.WorkshopController.modifyPlannedWorkshop(session.workshop.id, session.id)" class="btn btn-info">
 											@Messages("workshop.planned.edit.session")
 										</a>
 									}
-									@if( Secured.isMemberOf( Roles.ADMIN ) || UsersController.isSessionSpeaker( session ) ) {
+									@if( Secured.isMemberOf( Roles.ADMIN ) || isSessionSpeaker( session ) ) {
 										<a href="@routes.WorkshopController.planWorkshop(session.workshop.id)" class="btn btn-warning">
 											@Messages("workshop.planned.edit.add.session")
 										</a>

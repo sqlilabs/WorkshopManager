@@ -12,7 +12,7 @@ import java.nio.channels.FileChannel;
  * 
  * @author ychartois
  */
-public class FilesUtils {
+public final class FilesUtils {
 
 	/**
 	 * Use nio to fast copy a file from a source to a specified target
@@ -47,7 +47,7 @@ public class FilesUtils {
 	
 	
 	/**
-	 * <constructor
+	 * constructor
 	 */
 	private FilesUtils() {
 		super();

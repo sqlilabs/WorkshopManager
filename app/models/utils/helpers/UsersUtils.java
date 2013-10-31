@@ -1,0 +1,67 @@
+package models.utils.helpers;
+
+import controllers.Secured;
+import models.User;
+import models.Workshop;
+import models.WorkshopSession;
+
+/**
+ * Created with IntelliJ IDEA.
+ * @author ychartois
+ * Date: 10/31/13
+ * Time: 3:56 PM
+ * To change this template use File | Settings | File Templates.
+ */
+public final class UsersUtils {
+
+    //<--------------------------------------------------------------------------->
+    //-							helper methods
+    //<--------------------------------------------------------------------------->
+    /**
+     * Determine if the connected user is the speaker of the session
+     *
+     * @param session the workshop session
+     *
+     * @return true if the connected user is the speaker of the session
+     */
+    public static boolean isSessionSpeaker( WorkshopSession session ) {
+        User user 	=	Secured.getUser();
+
+        if ( user == null ) {
+            return false;
+        }
+
+        return user.firstName.equals( session.speaker.firstName )
+                && user.lastName.equals( session.speaker.lastName ) ;
+    }
+
+    /**
+     * Determine if the connected user is the author of the workshop
+     *
+     * @param workshop a workshop
+     *
+     * @return true if the connected user is the author of the workshop
+     */
+    public static boolean isAuthor( Workshop workshop ) {
+        User	user 	=	Secured.getUser();
+
+        if ( user == null || workshop == null || workshop.author == null) {
+            return false;
+        }
+
+        return user.firstName.equals( workshop.author.firstName )
+                && user.lastName.equals( workshop.author.lastName ) ;
+    }
+
+    //<--------------------------------------------------------------------------->
+    //-							 constructor(s)
+    //<--------------------------------------------------------------------------->
+    /**
+     * constructor
+     */
+     private UsersUtils() {
+         super();
+     }
+
+
+}

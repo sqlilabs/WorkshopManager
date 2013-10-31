@@ -1,8 +1,8 @@
 @(message: String, workshops: List[Workshop])
 
 
-@import helper._
 @import views.helpers._
+@import models.utils.helpers.UsersUtils._
 
 @main(message) {
 
@@ -81,7 +81,7 @@
 							}
 						</div>
 					</div>
-					@if( Secured.getUser != null && (Secured.isMemberOf( Roles.ADMIN ) || UsersController.isAuthor( workshop )) ) {
+					@if( Secured.getUser != null && (Secured.isMemberOf( Roles.ADMIN ) || isAuthor( workshop )) ) {
 						<div class="row-fluid">
 							<div class="span12 alignToRight">
 								<a href="#" data-link="@routes.WorkshopController.deleteWorkshop(workshop.id)" class="btn btn-danger delete">@Messages("welcome.workshop.delete")</a>
