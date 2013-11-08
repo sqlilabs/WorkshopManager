@@ -72,6 +72,7 @@ form.plan.workshop.speaker.error=Le choix d'un Speaker est obligatoire
 form.plan.workshop.submit.button=Planifier cet événement
 form.plan.workshop.cancel.button=Annuler
 
+
 # Page already played
 form.plan.workshop.last.speaker=présenté par
 form.plan.workshop.last.date=Dernière session le
@@ -80,6 +81,7 @@ form.plan.workshop.plan.again=Re-Planifier
 plan.workshop.people.want.replay={0} personne(s) aimerai(en)t que l''on rejoue cet événement
 form.plan.workshop.add.comment=Ajouter un commentaire
 form.plan.workshop.add.ressources=Ajout support
+form.resource.workshop.help=Le lien vers la ressource externe: http://....
 
 # Comments view
 form.comment.title=Ajouter un commentaire

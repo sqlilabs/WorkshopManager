@@ -599,7 +599,7 @@ public class WorkshopController extends Controller {
     public static Result addWorkshopRessources(Long id) {
     	Workshop 	ws 			= 	Workshop.find.byId(id);
 
-        if (!Secured.isMemberOf(Roles.ADMIN) && !UsersUtils.isWorkshopAuthor(ws)) {
+        if (!Secured.isMemberOf(Roles.ADMIN) && !UsersUtils.isWorkshopAuthor(ws) && !UsersUtils.isOneWorkshopSpeaker(ws)) {
             return forbidden();
         }
 
@@ -635,7 +635,7 @@ public class WorkshopController extends Controller {
     	// Get the workshop from base
     	Workshop 		ws 				= 	Workshop.find.byId(id);
 
-        if (!Secured.isMemberOf(Roles.ADMIN) && !UsersUtils.isWorkshopAuthor(ws)) {
+        if (!Secured.isMemberOf(Roles.ADMIN) && !UsersUtils.isWorkshopAuthor(ws) && !UsersUtils.isOneWorkshopSpeaker(ws)) {
             return forbidden();
         }
 

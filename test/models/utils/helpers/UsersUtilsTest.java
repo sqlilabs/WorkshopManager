@@ -51,6 +51,40 @@ public class UsersUtilsTest extends BaseModel {
     }
 
     @Test
+    public void testIsOneWorkshopSpeaker_true() throws Exception {
+        // Fake the session
+        fakeSession();
+
+        // Prepare data
+        User connectedUser = User.find.where().eq("email", "greg.dupont@test.com").findUnique();
+        cacheConnectedUser( connectedUser );
+        Workshop workshop =  Workshop.find.byId(2l);
+
+        // the action
+        boolean result = UsersUtils.isOneWorkshopSpeaker(workshop);
+
+        // test after action
+        Assertions.assertThat(result).isTrue();
+    }
+
+    @Test
+    public void testIsOneWorkshopSpeaker_false() throws Exception {
+        // Fake the session
+        fakeSession();
+
+        // Prepare data
+        User connectedUser = User.find.where().eq("email", "sylvie.dupont@test.com").findUnique();
+        cacheConnectedUser( connectedUser );
+        Workshop workshop =  Workshop.find.byId(2l);
+
+        // the action
+        boolean result = UsersUtils.isOneWorkshopSpeaker(workshop);
+
+        // test after action
+        Assertions.assertThat(result).isFalse();
+    }
+
+    @Test
     public void testIsAuthor_true() throws Exception {
         // Fake the session
         fakeSession();

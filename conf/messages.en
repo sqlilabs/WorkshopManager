@@ -80,6 +80,7 @@ form.plan.workshop.plan.again=Reschedule
 plan.workshop.people.want.replay={0} people(s) wish someone presents this event again
 form.plan.workshop.add.comment=Add comment
 form.plan.workshop.add.ressources=Add resources
+form.resource.workshop.help=The link to the external resource: http://....
 
 # Comments view
 form.comment.title=Add comment

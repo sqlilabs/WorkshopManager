@@ -668,7 +668,7 @@ public class WorkshopControllerTest extends BaseModel {
     }
 
     @Test
-    public void testSaveWorkshopResources_as_standard() throws Exception {
+    public void testSaveWorkshopResources_as_OneWorkshopSpeaker() throws Exception {
         // prepare data
         Map<String, String> form = new HashMap<>();
         form.put("workshopSupportLink", "http://google.com");
@@ -679,6 +679,27 @@ public class WorkshopControllerTest extends BaseModel {
                 .withFormUrlEncodedBody(form)
                 .withSession("uuid", UUID)
                 .withSession("email", "sylvie.dupont@test.com"));
+
+        // after action
+        Workshop workshop = Workshop.find.byId(1l);
+        assertThat(status(result)).isEqualTo(SEE_OTHER);
+        assertThat( workshop.workshopRessources ).isNotNull();
+        assertThat( workshop.workshopRessources.workshopSupportLink).isEqualTo("http://google.com");
+        assertThat( workshop.workshopRessources.workshopSupportFile).isNullOrEmpty();
+    }
+
+    @Test
+    public void testSaveWorkshopResources_as_standard() throws Exception {
+        // prepare data
+        Map<String, String> form = new HashMap<>();
+        form.put("workshopSupportLink", "http://google.com");
+        form.put("workshopSupportFile", "");
+
+        // the action
+        Result result = route(fakeRequest(POST, "/workshop/saveRessources/1")
+                .withFormUrlEncodedBody(form)
+                .withSession("uuid", UUID)
+                .withSession("email", "marie.dupont@test.com"));
 
         // after action
         assertThat(status(result)).isEqualTo(FORBIDDEN);

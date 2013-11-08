@@ -38,6 +38,23 @@ public final class UsersUtils {
     }
 
     /**
+     * Determine if the connected user was a speaker in a session of this Workshop
+     *
+     * @param workshop a workshop
+     *
+     * @return  true if the connected user was a speaker in a session of this Workshop
+     */
+    public static boolean isOneWorkshopSpeaker( Workshop workshop ) {
+       for ( WorkshopSession currentSession : workshop.workshopSession ) {
+           if ( isSessionSpeaker(currentSession) ) {
+               return true;
+           }
+       }
+
+       return false;
+    }
+
+    /**
      * Determine if the connected user is the author of the workshop
      *
      * @param workshop a workshop
