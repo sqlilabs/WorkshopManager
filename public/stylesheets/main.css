@@ -219,6 +219,38 @@ hr.soften {
 	padding-top: 40px;
 }
 
+/* ******************* */
+/*        Admin        */
+/* ******************* */
+.admin-side {
+    padding-left: 15px;
+}
+
+.admin-side li {
+    padding-left: 15px;
+    list-style-type: none;
+}
+
+.sidebarAdminTitle {
+    padding: 5px 10px 5px 5px;
+    font-weight: bold;
+    font-size: 18px;
+    text-align: center;
+}
+
+.tableTitle {
+    padding: 5px 10px 5px 5px;
+    font-weight: bold;
+    font-size: 18px;
+    text-align: center;
+}
+
+.selectTable {
+    padding: 0;
+    margin: 0;
+}
+
+.pagination {text-align: center;}
 
 /* ************************** */
 /*          header            */

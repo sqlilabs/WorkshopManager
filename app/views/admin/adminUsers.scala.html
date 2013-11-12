@@ -1,0 +1,44 @@
+@(title: String, users: List[User], currentPage: Int, pageNum: Int)
+
+@import views.helpers._
+@import models.utils.helpers.UsersUtils._
+
+@adminTemplate(title) {
+
+    <div id="divError" class="alert alert-error hide">
+        <strong>Error: </strong> @Messages("no.admin.right.or.failed")
+    </div>
+
+    <table class="table table-bordered table-striped table table-condensed">
+        <thead>
+            <tr class="tableTitle alert alert-success">
+                <th>@Messages("user.name.label")</th>
+                <th>@Messages("user.role.label")</th>
+            </tr>
+        </thead>
+        @for( user <- users ) {
+            <tr>
+                <td>
+                    @user.firstName @user.lastName
+                </td>
+                <td>
+                    <select user-id="@user.email" class="selectTable roleUserSelect">
+                        @for( option <- Roles.values() ) {
+                            <option @if( user.role == option ){ selected } >@option</option>
+                        }
+                    </select>
+                </td>
+            </tr>
+        }
+    </table>
+    <div class="pagination">
+        <ul>
+            <li @if(currentPage == 0){class="disabled"}><a href="/admin/users/@(currentPage-1)">&laquo;</a></li>
+            @for( page <- 0 until pageNum ) {
+                <li @if(currentPage == page){class="active"}><a href="/admin/users/@page">@(page+1)</a></li>
+            }
+            <li @if(currentPage == pageNum || pageNum - 1 == 0){class="disabled"}><a href="/admin/users/@(currentPage+1)">&raquo;</a></li>
+        </ul>
+    </div>
+
+}

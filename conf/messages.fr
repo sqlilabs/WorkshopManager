@@ -130,3 +130,16 @@ action.modify.session=Session modifiée
 action.new.comment=Nouveau commentaire
 action.new.support=Nouveau support
 
+#############################
+#      Administration       #
+#############################
+
+# General
+no.admin.right.or.failed=Vos droits d'accès ne sont pas suffisants ou vous avez un problème avec votre réseau
+
+# Admin users
+users.label=Utilisateurs
+admin.users.title=Administration des utilisateurs
+admin.label=Administration
+user.name.label=Nom
+user.role.label=Rôle

@@ -63,9 +63,9 @@ $(document).ready(function(){
 		$("#user-picture").modal();
 	});
 	
-	/**
-     * Ajax request to update the connected user image
-	 */
+    // ------------------------------------------------
+    // Ajax request to update the connected user image
+    // ------------------------------------------------
 	$('#user-picture-submit').click( function(e) {
 		e.preventDefault();
 
@@ -89,5 +89,23 @@ $(document).ready(function(){
         })
         
 	});
+
+    // ------------------------------------------
+    // ADMIN: Ajax request roles modification
+    // ------------------------------------------
+    $('.roleUserSelect').change( function(e) {
+
+        $('#divError').hide()
+
+        $.ajax({
+            type: "PUT",
+            url: '/ws/admin/userRole',
+            data: {user: e.target.getAttribute("user-id"), role: e.target.value},
+            dataType: 'json'
+        })
+        .fail( function() {
+            $('#divError').show()
+        })
+    });
 
 });

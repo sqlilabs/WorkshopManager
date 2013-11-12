@@ -128,3 +128,17 @@ action.add.session=New session
 action.modify.session=Session modified
 action.new.comment=New comment
 action.new.support=New support
+
+#############################
+#      Administration       #
+#############################
+
+# General
+no.admin.right.or.failed=Your access rights are not sufficient or you have an issue with your network
+
+# Admin users
+users.label=Users
+admin.users.title=Users administration
+admin.label=Administration
+user.name.label=Name
+user.role.label=Role

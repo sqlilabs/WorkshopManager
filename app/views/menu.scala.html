@@ -12,9 +12,15 @@
 				<li @Application.isActive("alreadyPlayed")>
 					<a href="@routes.Application.workshops()">@Messages("menu.alreadydone")</a>
 				</li>
-				
-				
 			</ul>
+
+            @if( Secured.getUser != null && Secured.isMemberOf(Roles.ADMIN) ) {
+                <ul class="navbar-text pull-right">
+                    <a href="@routes.Administration.adminUsers(0)">
+                        <img width="32" height="32" src="@routes.Assets.at("images/admin.png")" />
+                    </a>
+                </ul>
+            }
 			<ul class="navbar-text pull-right">
 				<a target="_blank" href="@Application.conf("bug.manager.link")">
 					<img width="32" height="32" src="@routes.Assets.at("images/Bugs_Icon.png")" />

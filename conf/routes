@@ -8,6 +8,10 @@ GET         /workshops                                             controllers.A
 GET         /newWorkshops                                          controllers.Application.newWorkshops()
 GET         /charter                                               controllers.Application.charter()
 
+# Admin
+GET         /admin/users/:page                                     controllers.Administration.adminUsers( page: Int )
+PUT         /ws/admin/userRole                                     controllers.Administration.updateRole()
+
 # Workshops
 GET         /workshops/add                                         controllers.WorkshopController.blankWorkshop()
 POST        /workshops/add                                         controllers.WorkshopController.saveWorkshop(idWorkshop: Long)
@@ -17,17 +21,17 @@ GET         /workshops/supprimer/:id                               controllers.W
 GET         /workshops/modifier/:id                                controllers.WorkshopController.modifyWorkshop(id: Long)
 POST        /workshops/planifier/:idWorkshop/:idSession            controllers.WorkshopController.saveWorkshopSession(idWorkshop: Long, idSession: Long)
 
-GET         /workshops/addSpeaker/:id                               controllers.WorkshopController.addSpeaker(id: Long)
-GET         /workshops/removeSpeaker/:id                            controllers.WorkshopController.removeSpeaker(id: Long)
+GET         /workshops/addSpeaker/:id                              controllers.WorkshopController.addSpeaker(id: Long)
+GET         /workshops/removeSpeaker/:id                           controllers.WorkshopController.removeSpeaker(id: Long)
 
-GET         /workshops/addParticipant/:id                           controllers.WorkshopController.addParticipant(id: Long)
-GET         /workshops/removeParticipant/:id                        controllers.WorkshopController.removeParticipant(id: Long)
+GET         /workshops/addParticipant/:id                          controllers.WorkshopController.addParticipant(id: Long)
+GET         /workshops/removeParticipant/:id                       controllers.WorkshopController.removeParticipant(id: Long)
 
-GET         /workshops/addPotentialParticipant/:id                  controllers.WorkshopController.addPotentialParticipant(id: Long)
-GET         /workshops/removePotentialParticipant/:id               controllers.WorkshopController.removePotentialParticipant(id: Long)
+GET         /workshops/addPotentialParticipant/:id                 controllers.WorkshopController.addPotentialParticipant(id: Long)
+GET         /workshops/removePotentialParticipant/:id              controllers.WorkshopController.removePotentialParticipant(id: Long)
 
-GET         /workshops/addInterrestedParticipant/:id                controllers.WorkshopController.addInterrestedParticipant(id: Long)
-GET         /workshops/removeInterrestedParticipant/:id             controllers.WorkshopController.removeInterrestedParticipant(id: Long)
+GET         /workshops/addInterrestedParticipant/:id               controllers.WorkshopController.addInterrestedParticipant(id: Long)
+GET         /workshops/removeInterrestedParticipant/:id            controllers.WorkshopController.removeInterrestedParticipant(id: Long)
 
 GET         /workshop/addComment/:id                               controllers.WorkshopController.addComment(id: Long)
 GET         /workshop/editComment/:id                              controllers.WorkshopController.editComment(id: Long)
