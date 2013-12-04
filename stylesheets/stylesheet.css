@@ -365,6 +365,14 @@ footer a:hover {
   height: 0;
 }
 
+.line-through {
+    text-decoration : line-through
+}
+.important {
+    text-decoration: #000000;
+    color: red;
+}
+
 .clearfix {display: inline-block;}
 * html .clearfix {height: 1%;}
 .clearfix {display: block;}

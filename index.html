@@ -36,9 +36,9 @@
                 <a name="welcome-to-workshop-manager" class="anchor" href="#welcome-to-workshop-manager"><span
                         class="octicon octicon-link"></span></a>Welcome to Workshop Manager.</h3>
 
-            <p>This project was originally build to create a tools and learn Play! framework at the same time... some part of the code still smell the sandbox, but we are working to get rid of the ugly parts.</p>
+            <p>This project was originally build to create a tools and learn Play! framework at the same time... some part of the code are maybe not perfect.</p>
 
-            <p>It was also an internal project at that time, so some comments are in French (which will be fixed quickly) but sadly most of the GIT commit comments too, and that can't be fixed...</p>
+            <p>It was also an internal project at that time, <span class="line-through">so some comments are in French (which will be fixed quickly)</span> but sadly most of the GIT commit comments too, and that can't be fixed...</p>
 
             <p>Finally, the project was hosted in Bitbucket, and during the import of bug trackers some errors occured (because of our french accents ^^), then the ID in Github are (Bitbucket ID + 2) which help to understand some GIT comments</p>
 
@@ -48,22 +48,25 @@
 
             <h4>Requirements</h4>
             <ul>
-                <li>Download <a href="http://downloads.typesafe.com/play/2.1.0/play-2.1.0.zip">Play! framework 2.1.0</a> and add it to your path environment variable</li>
+                <li>Download <a href="http://downloads.typesafe.com/play/2.2.0/play-2.2.0.zip">Play! framework 2.2.0</a> and add it to your path environment variable</li>
                 <li>Install a MySQL environment (if your not familiar with Play! Framework it will simplify the WorkshopManager configuration)</li>
             </ul>
 
             <h4>Installation</h4>
             <ul> Two quick start options are available:
-                <li><a href="https://github.com/sqlilabs/WorkshopManager/releases/tag/v1.0.0">Download the latest release</a> (Coming soon).</li>
+                <li><a href="https://github.com/sqlilabs/WorkshopManager/archive/v1.1.0.zip">Download the latest release</a></li>
                 <li>Clone the repo: <code>git clone https://github.com/sqlilabs/WorkshopManager.git</code>.</li>
             </ul>
 
             <h4>Configuration</h4>
             <ul> Edit application.conf:
+                <li><span class="important">CHANGE THE KEY !!!!</span> it's important to change the secret key, you can use that tool for example: <a href="http://randomkeygen.com/">CodeIgniter Encryption Keys</a></li>
                 <li><code>application.langs="en,fr"</code> english and french are available, add yours if needed by translating the <code>conf/messages.en</code> or <code>conf/messages.fr</code></li>
                 <li>Database configuration: you have to set the db properties <code>db.default.driver</code>, <code>db.default.url</code>, <code>db.default.user</code>, <code>db.default.password</code></li>
                 <li>Edit the <code>mail.filter</code> property. No value means everybody can log in, <code>mail.filter="@sqli.com"</code> means that only people from the domain <code>sqli</code> can connect to the application</li>
-                <li>Edit the default role if necessary: <code></code> </li>
+                <li>Edit the default role if necessary: <code>default.role</code> roles are [ADMIN, STANDARD]</li>
+                <li>Change the OpenId properties if you want to use something else than Google: <code>openID.provider.url</code> <code>openID.redirect.url</code></li>
+
             </ul>
 
             <ul> Create the database schema:
@@ -75,7 +78,7 @@
 
             <ul> Users
                 <li>At the first login (the only OpenID provider available for now is Google), the user is created in the database if he accept the agreement with the default role: "standard"</li>
-                <li>There is no user administration page yet, so admin must be declare in the database, just replace "standard" by "admin"</li>
+                <li>There is a user administration page, but the first admin user must be declare in the database, just replace "standard" by "admin" in the table USER</li>
             </ul>
 
             <ul> Need data ?
@@ -86,7 +89,7 @@
                 <a name="online-demo" class="anchor" href="#online-demo"><span
                         class="octicon octicon-link"></span></a>Online demo</h3>
 
-            <p>Coming soon</p>
+            <p>You can find an online demo on <a href="http://workshopmanager-demo.yannig.cloudbees.net/">Cloudbees</a>.</p>
 
             <h3>
                 <a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span
