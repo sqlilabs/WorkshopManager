@@ -58,6 +58,7 @@ form.add.workshop.subject.button= Go !
 form.add.workshop.submit.button = Submit this event
 form.add.workshop.cancel.button = Cancel
 form.add.workshop.summary.label=Summary
+form.add.workshop.type.label=Event type
 
 # planning event form
 form.plan.workshop.page.title=Schedule an event

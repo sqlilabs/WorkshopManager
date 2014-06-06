@@ -17,7 +17,7 @@
 		@for(workshop <- workshops) { 
 			<div id="@workshop.id" class="row-fluid">
 				<div class="span12 plannedTitle ">
-					<p class="alert"> @ViewsHelper.buildAlreadyPlayedTitle(workshop)</p>
+					<p class="alert"><span class="label label-warning">@workshop.eventType.name</span> @ViewsHelper.buildAlreadyPlayedTitle(workshop)</p>
 				</div>
 			</div>
 			<div class="row-fluid workshop-bloc spaceAfter">

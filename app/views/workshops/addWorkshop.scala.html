@@ -1,5 +1,6 @@
-@(workshopForm: Form[Workshop],idWorkshop: Long) @import helper._
-
+@(workshopForm: Form[Workshop],idWorkshop: Long)
+@import helper._
+@import repository._
 
 @implicitFieldConstructor = @{
 FieldConstructor(twitterBootstrapInputHorizontal.render) }
@@ -45,7 +46,15 @@ FieldConstructor(twitterBootstrapInputHorizontal.render) }
 			'maxlength -> 1000,
 			'rows 	-> 10, 
 			'col 	-> 80
-		) 		
+		)
+
+        @select(
+            workshopForm("Type"),
+            options = options( WorkshopRepository.getAllTypes ),
+            '_label -> Messages("form.add.workshop.type.label"),
+            'class  -> "input-xlarge",
+            '_showConstraints -> false
+        )
 		
 		<div class="control-group">			
 			<label class="control-label" for="appendedInputButton">@Messages("form.add.workshop.image.label")</label>

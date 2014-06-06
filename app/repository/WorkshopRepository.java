@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import models.Type;
 import models.Workshop;
 import models.WorkshopSession;
 import models.utils.compare.WorkshopsPlayedComparator;
@@ -85,5 +86,20 @@ public class WorkshopRepository {
 		
 		return list;
 	}
+
+    /**
+     * @return all the event types
+     */
+    public static List<String> getAllTypes() {
+
+        List<Type> types = Type.find.all();
+
+        List<String> toReturn = new ArrayList<>(types.size());
+        for (Type type : types) {
+            toReturn.add( type.name );
+        }
+
+        return toReturn;
+    }
 
 }

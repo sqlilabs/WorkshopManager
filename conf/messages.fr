@@ -57,6 +57,7 @@ form.add.workshop.subject.button= Aller ...
 form.add.workshop.submit.button = Soumettre ...
 form.add.workshop.cancel.button = Annuler
 form.add.workshop.summary.label=Résumé
+form.add.workshop.type.label=Type de l'événement
 
 # planning event form
 form.plan.workshop.page.title=Planifier un événement

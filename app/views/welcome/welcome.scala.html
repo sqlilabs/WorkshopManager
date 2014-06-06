@@ -16,7 +16,7 @@
 		@for(session <- workshopsSession) { 
 			<div id="@session.workshop.id" class="row-fluid">
 				<div class="span12 plannedTitle">
-					<p class="alert"><b>@ViewsHelper.decorateDate( session.nextPlay, Application.conf("date.format.long") )</b> - @session.location</p>
+					<p class="alert"><span class="label label-warning">@session.workshop.eventType.name</span> <b>@ViewsHelper.decorateDate( session.nextPlay, Application.conf("date.format.long") )</b> - @session.location</p>
 				</div>
 			</div>
 			<div class="row-fluid workshop-bloc spaceAfter">

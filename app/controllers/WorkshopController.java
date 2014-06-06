@@ -73,6 +73,9 @@ public class WorkshopController extends Controller {
 		}
 
 		Workshop 		workshopNew 		= 	workshopForm.get();
+        String eventTypeName =  workshopForm.data().get("Type");
+        workshopNew.eventType = Type.find.where().eq("name", eventTypeName).findUnique();
+
 		
 		// We get the event from the database if it's a modification
 		if ( id != ID_NOT_IN_TABLE ) {
