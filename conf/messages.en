@@ -142,3 +142,10 @@ admin.users.title=Users administration
 admin.label=Administration
 user.name.label=Name
 user.role.label=Role
+
+# Admin types
+type.label=Types
+admin.action=Actions
+type.color.label=Color
+type.name.label=Label
+admin.type.add=Add new type

@@ -1,0 +1,44 @@
+@(title: String, types: List[Type])
+
+@import views.helpers._
+@import models.utils.helpers.UsersUtils._
+
+@adminTemplate(title) {
+
+    <div id="divError" class="alert alert-error hide">
+        <strong>Error: </strong> @Messages("no.admin.right.or.failed")
+    </div>
+
+    <table class="table table-bordered table-striped table table-condensed">
+        <thead>
+            <tr class="tableTitle alert alert-success">
+                <th>@Messages("type.name.label")</th>
+                <th>@Messages("type.color.label")</th>
+                <th class="table-action">@Messages("admin.action")</th>
+            </tr>
+        </thead>
+        @for( currentType <- types ) {
+            <tr>
+                <td>
+                    @currentType.name
+                </td>
+                <td>
+                    @currentType.color
+                </td>
+                <td class="table-action">
+                    <a href="@routes.Administration.adminTypes"> <i class="icon-pencil"></i></a>
+                    <a href="@routes.Administration.adminTypes"> <i class="icon-remove"></i></a>
+                </td>
+            </tr>
+        }
+    </table>
+
+    <div class="row-fluid">
+        <div class="span12 alignToRight">
+            <a href="" class="btn btn-info">
+                @Messages("admin.type.add")
+            </a>
+        </div>
+    </div>
+
+}

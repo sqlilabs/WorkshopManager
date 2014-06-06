@@ -2,6 +2,7 @@ package controllers;
 
 import com.avaje.ebean.Ebean;
 import models.Roles;
+import models.Type;
 import models.User;
 import models.utils.helpers.UsersUtils;
 import play.i18n.Messages;
@@ -12,6 +13,7 @@ import play.mvc.Security;
 import repository.WorkshopRepository;
 import scala.Int;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -49,6 +51,24 @@ public final class Administration extends Controller {
         List<User> subList = users.subList(userPerPage * page, lastIndex);
 
         return ok( views.html.admin.adminUsers.render( Messages.get("admin.users.title"), subList , page, pageNum ) );
+    }
+
+    /**
+     * This action redirect on the users administration view
+     *
+     * @return the users administration view
+     */
+    @Security.Authenticated(Secured.class)
+    public static Result adminTypes() {
+
+        if (!Secured.isMemberOf(Roles.ADMIN)) {
+            return forbidden();
+        }
+
+        List<Type> types = Type.find.all();
+
+
+        return ok( views.html.admin.adminTypes.render("", types));
     }
 
     /**

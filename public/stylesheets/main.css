@@ -252,6 +252,11 @@ hr.soften {
 
 .pagination {text-align: center;}
 
+.table-action
+{
+    width:100px;
+}
+
 /* ************************** */
 /*          header            */
 /* ************************** */

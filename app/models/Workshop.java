@@ -88,6 +88,9 @@ public class Workshop extends Model {
 	 */
 	@ManyToOne()
 	public User author;
+
+    @ManyToOne()
+    public Type eventType;
 	
 	/**
 	 * When it has been created

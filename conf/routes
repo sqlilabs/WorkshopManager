@@ -10,6 +10,8 @@ GET         /charter                                               controllers.A
 
 # Admin
 GET         /admin/users/:page                                     controllers.Administration.adminUsers( page: Int )
+GET         /admin/types                                           controllers.Administration.adminTypes()
+
 PUT         /ws/admin/userRole                                     controllers.Administration.updateRole()
 
 # Workshops
