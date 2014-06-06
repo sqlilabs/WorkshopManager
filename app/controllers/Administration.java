@@ -4,7 +4,9 @@ import com.avaje.ebean.Ebean;
 import models.Roles;
 import models.Type;
 import models.User;
+import models.WorkshopSession;
 import models.utils.helpers.UsersUtils;
+import play.data.Form;
 import play.i18n.Messages;
 import play.libs.Akka;
 import play.mvc.Controller;
@@ -26,6 +28,9 @@ import java.util.Map;
  */
 public final class Administration extends Controller {
 
+    // <--------------------------------------------------------------------------->
+    // - 							      Actions(s)
+    // <--------------------------------------------------------------------------->
     /**
      * This action redirect on the users administration view
      *
@@ -67,6 +72,59 @@ public final class Administration extends Controller {
 
         List<Type> types = Type.find.all();
 
+
+        return ok( views.html.admin.adminTypes.render("", types));
+    }
+
+    @Security.Authenticated(Secured.class)
+    public static Result updateTypes( long idType ) {
+
+        if (!Secured.isMemberOf(Roles.ADMIN)) {
+            return forbidden();
+        }
+
+        Type type = Type.find.byId(idType);
+
+        Form<Type> typeForm = play.data.Form.form(Type.class).fill( type );
+
+        return ok( views.html.admin.formType.render(typeForm, idType ));
+    }
+
+    @Security.Authenticated(Secured.class)
+    public static Result addType() {
+
+        if (!Secured.isMemberOf(Roles.ADMIN)) {
+            return forbidden();
+        }
+
+        Form<Type> typeForm = play.data.Form.form(Type.class);
+
+        return ok( views.html.admin.formType.render(typeForm, 0l));
+    }
+
+    @Security.Authenticated(Secured.class)
+    public static Result saveType( long idType ) {
+
+        if (!Secured.isMemberOf(Roles.ADMIN)) {
+            return forbidden();
+        }
+
+        Form<Type> filledForm = play.data.Form.form(Type.class).bindFromRequest();
+
+        if (filledForm.hasErrors()) {
+            return badRequest(views.html.admin.formType.render(filledForm, idType));
+        }
+
+        Type newType = filledForm.get();
+        if ( idType == 0l ) {
+            Ebean.save( newType );
+        }
+        else {
+            newType.id = idType;
+            Ebean.update( newType );
+        }
+
+        List<Type> types = Type.find.all();
 
         return ok( views.html.admin.adminTypes.render("", types));
     }

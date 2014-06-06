@@ -1,0 +1,38 @@
+@(typeForm: Form[Type], idType: Long )
+
+@import helper._
+@import repository._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInputHorizontal.render) } 
+
+@mainNoSidebar(Messages("form.comment.title")) {
+	<div class="row">
+		<div class="span6 offset3">
+		    <h3 class="spaceBefore">@Messages("form.type.title") :</h3>
+	    
+	    @form( 
+	    	action = routes.Administration.saveType( idType ),
+	    	'class   -> "form form-horizontal"
+	    ) {
+
+            @inputText(
+                typeForm("name"),
+                '_label -> Messages("form.type.name.label"),
+                'class  -> "input-xlarge"
+            )
+
+            @inputText(
+                typeForm("color"),
+                '_label -> Messages("form.type.color.label"),
+                '_help -> Messages("form.type.color.help"),
+                'class  -> "input-xlarge"
+            )
+
+            <div class="actions center-text spaceBefore">
+	            <input type="submit" value="@Messages("form.type.submit.button")" class="btn-success btn primary">
+	            <a href="@routes.Administration.adminTypes" class="btn">@Messages("form.comment.cancel.button")</a>
+	        </div>
+	    }
+		 </div>
+	</div>
+}

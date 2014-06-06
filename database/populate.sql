@@ -11,7 +11,7 @@ INSERT INTO `RESSOURCE` (`id`, `ws_support_file`, `ws_support_link`) VALUES
 (1, 'ressources/[2013-02] - Les Certifications Java /Workshop - Design Pattern JEE.pptx', 'http://www.avaje.org/static/javadoc/pub/com/avaje/ebean/Filter.html');
 
 INSERT INTO `TYPE` (`id`, `name`, `color`) VALUES
-  (1, 'Workshop', '#E6EBF0'),
+  (1, 'Workshop', '#EBFAFA'),
   (1, 'Atelier', '#F6F1FF');
 
 INSERT INTO `WORKSHOP` (`id`, `event_type_id`, `subject`, `summary`, `description`, `image`, `author_id`, `creation_date`, `workshop_ressources_id`)  VALUES

@@ -17,7 +17,7 @@
                 <th class="table-action">@Messages("admin.action")</th>
             </tr>
         </thead>
-        @for( currentType <- types ) {
+        @for( (currentType, index) <- types.zipWithIndex ) {
             <tr>
                 <td>
                     @currentType.name
@@ -26,8 +26,7 @@
                     @currentType.color
                 </td>
                 <td class="table-action">
-                    <a href="@routes.Administration.adminTypes"> <i class="icon-pencil"></i></a>
-                    <a href="@routes.Administration.adminTypes"> <i class="icon-remove"></i></a>
+                    <a href="@routes.Administration.updateTypes(index+1)"> <i class="icon-pencil"></i></a>
                 </td>
             </tr>
         }
@@ -35,7 +34,7 @@
 
     <div class="row-fluid">
         <div class="span12 alignToRight">
-            <a href="" class="btn btn-info">
+            <a href="@routes.Administration.addType" class="btn btn-info">
                 @Messages("admin.type.add")
             </a>
         </div>

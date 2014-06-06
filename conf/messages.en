@@ -150,3 +150,9 @@ admin.action=Actions
 type.color.label=Color
 type.name.label=Label
 admin.type.add=Add new type
+
+form.type.title=Add a new type
+form.type.name.label=The label of the type
+form.type.color.label=The background color
+form.type.color.help=like: #E6EBF0 or a css color like 'black'
+form.type.submit.button=Add / Update

@@ -103,9 +103,6 @@ $(document).ready(function(){
             data: {user: e.target.getAttribute("user-id"), role: e.target.value},
             dataType: 'json'
         })
-        .fail( function() {
-            $('#divError').show()
-        })
     });
 
 });

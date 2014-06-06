@@ -11,8 +11,12 @@ GET         /charter                                               controllers.A
 # Admin
 GET         /admin/users/:page                                     controllers.Administration.adminUsers( page: Int )
 GET         /admin/types                                           controllers.Administration.adminTypes()
+GET         /admin/types/update                                    controllers.Administration.updateTypes(index: Long)
+GET         /admin/types/new                                       controllers.Administration.addType()
+POST        /admin/types                                           controllers.Administration.saveType(index: Long)
 
 PUT         /ws/admin/userRole                                     controllers.Administration.updateRole()
+
 
 # Workshops
 GET         /workshops/add                                         controllers.WorkshopController.blankWorkshop()

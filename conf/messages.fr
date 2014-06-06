@@ -151,3 +151,9 @@ admin.action=Actions
 type.color.label=Couleur
 type.name.label=Label
 admin.type.add=Ajouter un nouveau type
+
+form.type.title=Ajouter un nouveau type
+form.type.name.label=Le label du type
+form.type.color.label=La couleur de fond de l'évenement
+form.type.color.help=Par exemple: #E6EBF0 ou une couleur css comme 'black'
+form.type.submit.button=Ajouter / Modifier
