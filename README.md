@@ -10,7 +10,7 @@ To get started, check out [http://sqlilabs.github.io/WorkshopManager](http://sql
 
 Two quick start options are available:
 
-* [Download the latest release](https://github.com/sqlilabs/WorkshopManager/releases/tag/v1.0.0) (Coming soon).
+* [Download the latest release](https://github.com/sqlilabs/WorkshopManager/releases/tag/v1.1.0).
 * Clone the repo: `git clone https://github.com/sqlilabs/WorkshopManager.git`.
 
 Read the [Getting Started section](http://sqlilabs.github.io/WorkshopManager/#getting-started) for install information and description of the functionality.
@@ -18,9 +18,9 @@ Read the [Getting Started section](http://sqlilabs.github.io/WorkshopManager/#ge
 
 ## History
 
-This project was originally build to create a tools and learn Play! framework at the same time... some part of the code still smell the sandbox, but we are working to get rid of the ugly parts.
+This project was originally build to create a tools and learn Play! framework at the same time... ~~some part of the code still smell the sandbox, but we are working to get rid of the ugly parts~~ **DONE**.
 
-It was also an internal project at that time, so some comments are in French (which will be fixed quickly) but sadly most of the GIT commit comments too, and that can't be fixed...
+It was also an internal project at that time, so ~~some comments are in French (which will be fixed quickly)~~ **(DONE)** but sadly most of the GIT commit comments too, and that can't be fixed...
 
 Finally, the project was hosted in Bitbucket, and during the import of bug trackers some errors occurred (because of our french accents ^^), then the ID in Github are (Bitbucket ID + 2) which help to understand some GIT comments
 
