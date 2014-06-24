@@ -12,7 +12,7 @@ INSERT INTO `RESSOURCE` (`id`, `ws_support_file`, `ws_support_link`) VALUES
 
 INSERT INTO `TYPE` (`id`, `name`, `color`) VALUES
   (1, 'Workshop', '#EBFAFA'),
-  (1, 'Atelier', '#F6F1FF');
+  (2, 'Atelier', '#F6F1FF');
 
 INSERT INTO `WORKSHOP` (`id`, `event_type_id`, `subject`, `summary`, `description`, `image`, `author_id`, `creation_date`, `workshop_ressources_id`)  VALUES
   (1, 1, 'Test-Driven Developpement', 'Tests de Dev, Tests Non-Régression, Behavior Driven-Developpement, Data Driven Testing', 'Un petit aperçu de la TDD', 'images/workshops/sTEyF.jpg', 2, '2013-04-16 21:42:21', 1),
