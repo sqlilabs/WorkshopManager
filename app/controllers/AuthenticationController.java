@@ -109,7 +109,7 @@ public class AuthenticationController extends Controller {
         // We clear the session
         session().clear();
 
-        return ok();
+        return redirect(routes.Application.welcome());
     }
 
 }
