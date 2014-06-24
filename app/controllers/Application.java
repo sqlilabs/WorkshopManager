@@ -14,6 +14,8 @@ import views.html.welcome.welcome;
 import views.html.workshops.alreadyPlayed;
 import views.html.workshops.newWorkshops;
 
+import java.util.Map;
+
 
 /**
  * The main controller of the app which redirect to the main views
@@ -21,7 +23,12 @@ import views.html.workshops.newWorkshops;
  * @author ychartois
  */
 public class Application extends Controller {
-    
+
+
+    /**
+     * We have to define a timeout when using WS.url().get(), we use the same for the all app
+     */
+    public static final long TIMEOUT_WS = 5000l;
 
 	// <--------------------------------------------------------------------------->
 	// - 							Actions Methods
@@ -122,6 +129,25 @@ public class Application extends Controller {
      */
     public static String conf( String properties ) {
         return Play.application().configuration().getString(properties);
+    }
+
+    /**
+     * Convenient method to create a post body with WS.url()
+     *
+     * @param params map of all the post parameters
+     *
+     * @return a String that reduce the map
+     */
+    public static String postParams(Map<String, String> params) {
+        StringBuilder reduce = null;
+
+        for (String key : params.keySet()) {
+            reduce = reduce == null ?
+                    new StringBuilder(key).append("=").append(params.get(key)) :
+                    reduce.append("&").append(key).append("=").append(params.get(key));
+        }
+
+        return reduce != null ? reduce.toString() : "";
     }
 
 }

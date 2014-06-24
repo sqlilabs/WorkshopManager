@@ -21,7 +21,8 @@ object ApplicationBuild extends Build {
     "commons-lang" % "commons-lang" % "2.6",
     "org.apache.commons" % "commons-io" % "1.3.2",
     "mysql" % "mysql-connector-java" % "5.1.20",
-    "org.mockito" % "mockito-core" % "1.8.5"
+    "org.mockito" % "mockito-core" % "1.8.5",
+    "org.apache.httpcomponents" % "httpclient" % "4.3.3"
   )
 
   	val main = play.Project(appName, appVersion, appDependencies).settings(

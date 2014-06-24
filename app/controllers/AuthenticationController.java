@@ -1,19 +1,19 @@
 package controllers;
 
 import com.avaje.ebean.Ebean;
+import com.fasterxml.jackson.databind.JsonNode;
 import models.User;
 import org.apache.commons.lang.StringUtils;
 import play.Play;
 import play.cache.Cache;
-import play.libs.F;
-import play.libs.OpenID;
+import play.libs.Crypto;
 import play.mvc.Controller;
 import play.mvc.Result;
-import services.UserService;
+import services.Google;
 import views.html.welcome.charter;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 
 /**
  * This controller got the action that allow the user to authenticate
@@ -21,6 +21,8 @@ import java.util.Map;
  * @author ychartois
  */
 public class AuthenticationController extends Controller {
+
+    private static Google provider = new Google();
 	
 	//<--------------------------------------------------------------------------->
 	//-							 Actions(s)	        
@@ -30,23 +32,15 @@ public class AuthenticationController extends Controller {
      *
      * @return redirect on the verify service
      */
-    public static Result auth() {
+    public static Result auth() throws MalformedURLException, URISyntaxException {
 
-        // url are defined in Application.conf
-        String providerUrl = Play.application().configuration().getString("openID.provider.url");
-        String returnToUrl = Play.application().configuration().getString("openID.redirect.url");
+        // Generate a token
+        String token = generateToken();
 
-        // We construct the OpenID map
-        Map<String, String> attributes = new HashMap<>();
-        attributes.put("Email", "http://schema.openid.net/contact/email");
-        attributes.put("FirstName", "http://schema.openid.net/namePerson/first");
-        attributes.put("LastName", "http://schema.openid.net/namePerson/last");
-        attributes.put("Image", "http://schema.openid.net/media/image/48x48");
+        // Get the endpoint of the provider
+        provider.getEndpoint().get(Application.TIMEOUT_WS);
 
-        //We call the OpenID provider
-        F.Promise<String> redirectUrl = OpenID.redirectURL(providerUrl, returnToUrl, attributes);
-
-        return redirect( redirectUrl.get() );
+        return redirect( provider.authenticationUrl(token) );
     }
 
     /**
@@ -55,35 +49,30 @@ public class AuthenticationController extends Controller {
      * @return @return to welcome page or the charter agreement page
      */
     public static Result verify() {
+
         // We get the OpenID info of the user
-        F.Promise<OpenID.UserInfo> userInfoPromise = OpenID.verifiedId();
+        // We retrieve the user information
+        JsonNode tokenInfo = provider.getTokenInfo( request() ).get( Application.TIMEOUT_WS );
+        String token = provider.getToken( tokenInfo );
 
-        return verify( userInfoPromise.get() );
-    }
+        JsonNode userInfo = provider.getUserInfo( tokenInfo ).get(Application.TIMEOUT_WS);
 
-
-    /**
-     *  get the user from the database or cache or create it if it does not exist
-     *  this method is outside verify() to simplify tests ( OpenID.verifiedId() is not easy to test)
-     *
-     * @param userInfo  userInfo given by the provider
-     * @return @return to welcome page or the charter agreement page
-     */
-    public static Result verify( OpenID.UserInfo userInfo ) {
         // If the user is not from the specified domain he can't connect
-        if ( !StringUtils.endsWith( userInfo.attributes.get("Email"), Play.application().configuration().getString("mail.filter")) ) {
+        if ( !StringUtils.endsWith( provider.getEmail(userInfo), Play.application().configuration().getString("mail.filter")) ) {
             return forbidden();
         }
 
         // We add the authenticated user to the session
-        session().put("email", userInfo.attributes.get("Email"));
+        session().put("email", provider.getEmail(userInfo));
 
         // We check if it's an existing user in base
         User user = Secured.getUser();
 
         // if not we create it
         if ( user == null ) {
-            user = new UserService().createNewUser(userInfo);
+            user = provider.getUser(userInfo);
+            user.charterAgree = false;
+            user.picture = "/assets/images/avatar-default.png";
         }
 
         if ( user.charterAgree  ) {
@@ -110,6 +99,16 @@ public class AuthenticationController extends Controller {
         session().clear();
 
         return redirect(routes.Application.welcome());
+    }
+
+    /**
+     * Method that generate a token
+     *
+     * @return a unique token
+     */
+    public static String generateToken() {
+        String uuid = java.util.UUID.randomUUID().toString();
+        return Crypto.sign(uuid);
     }
 
 }

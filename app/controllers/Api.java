@@ -18,7 +18,6 @@ import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
 import repository.WorkshopRepository;
-import services.UserService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
